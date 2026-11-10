@@ -54,21 +54,22 @@
 
 		<!-- right: backdrop + signal / service -->
 		<widget source="session.Event_Now" render="NGPoster" kind="backdrop" position="1140,134" size="740,416" delay="0" borderWidth="1" borderColor="posterBorder" zPosition="1"/>
-		<eLabel text="SNR" position="1140,560" size="70,32" font="Regular;24" foregroundColor="fgDim" backgroundColor="bg" transparent="1" valign="center"/>
+		<widget source="session.CurrentService" render="FixedLabel" text="IPTV" position="1140,556" size="300,72" font="Medium;52" foregroundColor="accent" backgroundColor="bg" transparent="1" valign="center" halign="left" noWrap="1"><convert type="NGStream">Only</convert></widget>
+		<widget source="session.FrontendStatus" render="FixedLabel" text="SNR" position="1140,560" size="70,32" font="Regular;24" foregroundColor="fgDim" backgroundColor="bg" transparent="1" valign="center"><convert type="NGStream"/></widget>
 		<ePixmap pixmap="NileGlass_FHD/ui/signal_wide_bg.png" position="1215,568" size="360,16" alphatest="blend"/>
 		<widget source="session.FrontendStatus" render="Progress" position="1215,568" size="360,16" pixmap="NileGlass_FHD/ui/signal_wide.png" transparent="1" zPosition="1">
-			<convert type="FrontendInfo">SNR</convert>
+			<convert type="FrontendInfo">SNR</convert><convert type="NGStream"/>
 		</widget>
 		<widget source="session.FrontendStatus" render="Label" position="1585,560" size="95,32" font="Regular;24" foregroundColor="green" backgroundColor="bg" transparent="1" halign="right" valign="center">
-			<convert type="FrontendInfo">SNR</convert>
+			<convert type="FrontendInfo">SNR</convert><convert type="NGStream"/>
 		</widget>
-		<eLabel text="AGC" position="1140,598" size="70,32" font="Regular;24" foregroundColor="fgDim" backgroundColor="bg" transparent="1" valign="center"/>
+		<widget source="session.FrontendStatus" render="FixedLabel" text="AGC" position="1140,598" size="70,32" font="Regular;24" foregroundColor="fgDim" backgroundColor="bg" transparent="1" valign="center"><convert type="NGStream"/></widget>
 		<ePixmap pixmap="NileGlass_FHD/ui/signal_wide_bg.png" position="1215,606" size="360,16" alphatest="blend"/>
 		<widget source="session.FrontendStatus" render="Progress" position="1215,606" size="360,16" pixmap="NileGlass_FHD/ui/signal_wide.png" transparent="1" zPosition="1">
-			<convert type="FrontendInfo">AGC</convert>
+			<convert type="FrontendInfo">AGC</convert><convert type="NGStream"/>
 		</widget>
 		<widget source="session.FrontendStatus" render="Label" position="1585,598" size="95,32" font="Regular;24" foregroundColor="green" backgroundColor="bg" transparent="1" halign="right" valign="center">
-			<convert type="FrontendInfo">AGC</convert>
+			<convert type="FrontendInfo">AGC</convert><convert type="NGStream"/>
 		</widget>
 		<widget source="session.CurrentService" render="Label" position="1690,560" size="190,32" font="Regular;24" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="right" valign="center" noWrap="1">
 			<convert type="PliExtraInfo">ResolutionString</convert>
@@ -77,7 +78,7 @@
 			<convert type="PliExtraInfo">VideoCodec</convert>
 		</widget>
 		<widget source="session.CurrentService" render="Label" position="1140,636" size="740,30" font="Regular;24" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="left" noWrap="1">
-			<convert type="PliExtraInfo">CryptoBar</convert>
+			<convert type="PliExtraInfo">CryptoBar</convert><convert type="NGStream"/>
 		</widget>
 		<widget source="session.CurrentService" render="Label" position="1140,666" size="740,30" font="Regular;22" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" noWrap="1">
 			<convert type="PliExtraInfo">CryptoNameCaid</convert>

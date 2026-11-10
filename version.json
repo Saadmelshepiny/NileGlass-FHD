@@ -1,12 +1,12 @@
 {
-  "version": "2.3.1",
-  "ipk": "https://raw.githubusercontent.com/Saadmelshepiny/NileGlass-FHD/main/releases/enigma2-plugin-skins-nileglass-fhd_2.3.1_all.ipk",
-  "sha256": "156d1cae966f7e768bf47bfb1ace5d6ae386563070ffb862fb2e046fc3b384b5",
-  "notes_ar": "وضع الرياضة بيتعرّف على الماتشات بشكل \"فريق - فريق\" (زي Manchester United - Aston Villa) فمبيظهرش بوستر غلط، والنجوم الفاضية بتختفي لو مفيش تقييم. مع كل اللي في 2.3.",
-  "notes_en": "Smart sport now recognises \"Team - Team\" matches; empty rating stars are hidden. Plus everything from 2.3.",
+  "version": "2.3.2",
+  "ipk": "https://raw.githubusercontent.com/Saadmelshepiny/NileGlass-FHD/main/releases/enigma2-plugin-skins-nileglass-fhd_2.3.2_all.ipk",
+  "sha256": "a16bebb67051c802203f36a51f440cb03546faf6236fd9c6b6585ab278696530",
+  "notes_ar": "قنوات وإذاعات الإنترنت بتظهر بعلامة IPTV، وبيختفي منها SNR وAGC والتشفير وSID. مع وضع الرياضة الذكي وكل اللي في 2.3.",
+  "notes_en": "Internet streams show an IPTV badge; SNR/AGC/crypto/SID are hidden for them. Plus smart sport and everything from 2.3.",
   "previous": {
-    "version": "2.3.0",
-    "ipk": "https://raw.githubusercontent.com/Saadmelshepiny/NileGlass-FHD/main/releases/enigma2-plugin-skins-nileglass-fhd_2.3.0_all.ipk",
-    "sha256": "e2f706a58326bbf630f3ce18eaed64094e8aaa363c43b849c8c056c41bf7421c"
+    "version": "2.3.1",
+    "ipk": "https://raw.githubusercontent.com/Saadmelshepiny/NileGlass-FHD/main/releases/enigma2-plugin-skins-nileglass-fhd_2.3.1_all.ipk",
+    "sha256": "156d1cae966f7e768bf47bfb1ace5d6ae386563070ffb862fb2e046fc3b384b5"
   }
 }
