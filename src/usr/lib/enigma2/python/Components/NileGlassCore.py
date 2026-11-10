@@ -4,6 +4,8 @@
 #
 #   * PosterService  : finds / downloads event posters (TMDB) off the UI thread
 #   * WeatherService : current weather from Open-Meteo (no API key needed)
+#   * TonightService : films / matches of tonight from the Saad EPG plugin
+#                      (/etc/enigma2/saadepg/tonight.json)
 #   * EpgTitleMap    : Arabic -> English titles from the SaadEPG guide, used
 #                      when TMDB does not know the Arabic EPG title
 #
@@ -78,6 +80,10 @@ longitude =
 units = C
 # Set to 0 to switch weather off
 enabled = 1
+
+[tonight]
+# File written by the Saad EPG plugin (films and matches of tonight)
+file = /etc/enigma2/saadepg/tonight.json
 
 [update]
 # Check GitHub once a day for a new version of the skin (1/0)
@@ -1086,6 +1092,195 @@ class EpgTitleMap:
 		log("epg titles: %d" % len(new))
 
 
+# ------------------------------------------------------------------ tonight
+GENERIC_TITLES = {"movie", "film", "arabic movie", "arabic film", "foreign movie", "english movie", "فيلم", "افلام",
+	"فيلم عربي", "فيلم اجنبي", "افلام عربي", "افلام اجنبي", "سهره", "سهرة"}
+_reLive = re.compile(r"\s*[-–|]\s*(?:live|مباشر|بث مباشر)\s*$", re.IGNORECASE)
+
+
+def serviceKey(sref):
+	"""Comparable key of a service reference: SID:TSID:ONID:NAMESPACE."""
+	parts = (sref or "").split(":")
+	if len(parts) < 7:
+		return ""
+	return ":".join((p.strip().upper().lstrip("0") or "0") for p in parts[3:7])
+
+
+def _plainNorm(s):
+	return PosterService._norm(s or "")
+
+
+_GENERIC = set()
+
+
+def normalizeTonight(data, now=None):
+	"""Clean the Saad EPG 'tonight' data: drop generic titles and finished
+	items, merge the same film / match found on several channels, prefer the
+	Arabic names, strip ' - LIVE'.  Returns (films, matches) sorted by start."""
+	now = now or time.time()
+	if not _GENERIC:
+		_GENERIC.update(_plainNorm(t) for t in GENERIC_TITLES)
+
+	def channels(item):
+		out = []
+		for c in item.get("channels") or []:
+			if isinstance(c, dict) and c.get("sref"):
+				out.append({"sref": c["sref"], "name": (c.get("name") or "").strip(), "picon": c.get("picon") or "", "key": serviceKey(c["sref"])})
+		return out
+
+	def num(v, default=0):
+		try:
+			return int(v)
+		except (TypeError, ValueError):
+			return default
+
+	films, index = [], {}
+	for f in (data.get("films") or [])[:200]:
+		if not isinstance(f, dict):
+			continue
+		title = _reLive.sub("", (f.get("title") or "").strip())
+		start, stop = num(f.get("start")), num(f.get("stop"))
+		if not title or _plainNorm(title) in _GENERIC or not start or (stop and stop < now):
+			continue
+		key = (("tmdb", num(f.get("tmdb_id"))) if num(f.get("tmdb_id")) else _plainNorm(title), start // 300)
+		chans = channels(f)
+		if key in index:
+			old = index[key]
+			seen = {c["key"] for c in old["channels"]}
+			old["channels"] += [c for c in chans if c["key"] not in seen]
+			old["fav"] = old["fav"] or bool(f.get("fav"))
+			if _reArabic.search(title) and not _reArabic.search(old["title"]):
+				old["title"] = title
+			continue
+		item = {"kind": "film", "id": str(f.get("id") or ""), "title": title, "en": (f.get("en") or "").strip(),
+			"year": num(f.get("year"), None), "tmdb_id": num(f.get("tmdb_id")), "rating": f.get("rating"),
+			"start": start, "stop": stop or start + 7200, "cat": (f.get("cat") or "").strip(),
+			"short": (f.get("short") or "").strip(), "desc": (f.get("desc") or f.get("short") or "").strip(),
+			"poster": f.get("poster") or "", "poster_url": f.get("poster_url") or "",
+			"channels": chans, "fav": bool(f.get("fav"))}
+		index[key] = item
+		films.append(item)
+
+	matches, index = [], {}
+	for m in (data.get("matches") or [])[:200]:
+		if not isinstance(m, dict):
+			continue
+		start, stop = num(m.get("start")), num(m.get("stop"))
+		if not start or (stop and stop < now):
+			continue
+		home, away = (m.get("home") or "").strip(), (m.get("away") or "").strip()
+		title = _reLive.sub("", (m.get("title") or "").strip())
+		comp = _reLive.sub("", (m.get("comp") or "").strip())
+		teams = frozenset(filter(None, (_plainNorm(m.get("home_en") or home), _plainNorm(m.get("away_en") or away))))
+		key = (start // 300, teams or _plainNorm(title))
+		chans = channels(m)
+		if key in index:
+			old = index[key]
+			seen = {c["key"] for c in old["channels"]}
+			old["channels"] += [c for c in chans if c["key"] not in seen]
+			old["fav"] = old["fav"] or bool(m.get("fav"))
+			if (_reArabic.search(home) or _reArabic.search(title)) and not (_reArabic.search(old["home"]) or _reArabic.search(old["title"])):
+				old.update(title=title, home=home, away=away, comp=comp or old["comp"])
+			continue
+		item = {"kind": "match", "id": str(m.get("id") or ""), "title": title, "comp": comp, "home": home, "away": away,
+			"start": start, "stop": stop or start + 7200, "score": m.get("score") or "", "first": bool(m.get("first")),
+			"live": bool(m.get("live_broadcast")), "channels": chans, "fav": bool(m.get("fav")),
+			"home_logo": m.get("home_logo") or "", "away_logo": m.get("away_logo") or "", "comp_logo": m.get("comp_logo") or ""}
+		index[key] = item
+		matches.append(item)
+	films.sort(key=lambda x: (x["start"], not x["fav"]))
+	matches.sort(key=lambda x: (x["start"], not x["fav"]))
+	return films, matches
+
+
+class TonightService:
+	"""Reads the tonight file of the Saad EPG plugin in a background thread,
+	only when it changed (checked at most once a minute)."""
+	CHECK_EVERY = 60
+
+	def __init__(self):
+		self.path = confGet("tonight", "file", "/etc/enigma2/saadepg/tonight.json") or "/etc/enigma2/saadepg/tonight.json"
+		self.films, self.matches, self.info = [], [], {}
+		self.mtime = 0
+		self.checked = 0
+		self.error = ""
+		self.busy = False
+		self.lock = threading.Lock()
+		self.listeners = []
+
+	def refresh(self, force=False):
+		"""Start a background check (never blocks)."""
+		if self.busy or (not force and time.time() - self.checked < self.CHECK_EVERY):
+			return
+		with self.lock:
+			if self.busy:
+				return
+			self.busy = True
+		threading.Thread(target=self._run, name="NileGlass-tonight", daemon=True).start()
+
+	def items(self, kind="film", now=None):
+		self.refresh()
+		now = now or time.time()
+		return [x for x in (self.films if kind == "film" else self.matches) if x["stop"] > now]
+
+	def soon(self, within=5400, now=None):
+		"""Next film or match starting within `within` seconds; favourites first."""
+		now = now or time.time()
+		cand = [x for x in self.items("film", now) + self.items("match", now) if now - 120 <= x["start"] <= now + within]
+		cand.sort(key=lambda x: (not x["fav"], x["start"]))
+		return cand[0] if cand else None
+
+	def forService(self, sref, now=None):
+		key = serviceKey(sref)
+		if not key:
+			return []
+		now = now or time.time()
+		return [x for x in self.items("film", now) + self.items("match", now) if any(c["key"] == key for c in x["channels"])]
+
+	def status(self):
+		return {"file": self.path, "found": self.mtime > 0, "films": len(self.films), "matches": len(self.matches),
+			"generated": self.info.get("generated") or 0, "state": self.info.get("status") or "", "error": self.error or self.info.get("error") or ""}
+
+	def addListener(self, cb):
+		if cb not in self.listeners:
+			self.listeners.append(cb)
+
+	def removeListener(self, cb):
+		if cb in self.listeners:
+			self.listeners.remove(cb)
+
+	def _run(self):
+		changed = False
+		try:
+			try:
+				mtime = os.stat(self.path).st_mtime
+			except OSError:
+				mtime = 0
+				if self.mtime:
+					self.films, self.matches, self.info, changed = [], [], {}, True
+				self.error = "no file"
+			if mtime and mtime != self.mtime:
+				with open(self.path, "r", encoding="utf-8") as f:
+					data = json.load(f)
+				if not isinstance(data, dict):
+					raise ValueError("bad file")
+				films, matches = normalizeTonight(data)
+				self.films, self.matches = films, matches
+				self.info = {k: data.get(k) for k in ("schema", "generated", "status", "error", "updated", "cloud")}
+				self.error = ""
+				changed = True
+			self.mtime = mtime
+		except Exception as err:
+			self.error = str(err)[:100]
+			log("tonight:", err)
+		finally:
+			self.checked = time.time()
+			self.busy = False
+		if changed:
+			for cb in list(self.listeners):
+				callInUiThread(cb)
+
+
 # ------------------------------------------------------------------ weather
 WMO_AR = {
 	0: "صافٍ", 1: "صافٍ غالبًا", 2: "غائم جزئيًا", 3: "غائم",
@@ -1206,4 +1401,5 @@ class WeatherService:
 
 posters = PosterService()
 epgTitles = EpgTitleMap()
+tonight = TonightService()
 weather = WeatherService()

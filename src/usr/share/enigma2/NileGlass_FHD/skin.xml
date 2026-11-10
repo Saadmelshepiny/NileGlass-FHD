@@ -417,6 +417,9 @@
 
 		<!-- coming programmes with posters -->
 		<eLabel text="البرامج القادمة" position="40,704" size="600,36" font="ArabicBold;26" foregroundColor="accent" backgroundColor="bg" transparent="1" halign="left"/>
+		<widget source="session.CurrentService" render="Label" position="660,704" size="1220,36" font="Regular;26" foregroundColor="gold" backgroundColor="bg" transparent="1" halign="right" valign="center" noWrap="1">
+			<convert type="NGTonight">Soon</convert>
+		</widget>
 		<widget source="session.CurrentService" render="NGPoster" eventIndex="1" position="75,742" size="150,225" delay="400" fallback="NileGlass_FHD/ui/noposter.png" borderWidth="1" borderColor="posterBorder" zPosition="2"/>
 		<widget source="session.CurrentService" render="NGEventList" items="1" start="0" position="40,970" size="220,32" font="Regular;21" timeColor="gold" foregroundColor="#d6dbe1" backgroundColor="bg" transparent="1" halign="center" noWrap="1"/>
 		<widget source="session.CurrentService" render="NGPoster" eventIndex="2" position="305,742" size="150,225" delay="400" fallback="NileGlass_FHD/ui/noposter.png" borderWidth="1" borderColor="posterBorder" zPosition="2"/>
@@ -1031,4 +1034,45 @@
 		</widget>
 		<widget source="session.CurrentService" render="NGPoster" position="60,600" size="160,240" delay="0" borderWidth="2" borderColor="posterBorder"/>
 	</screen>
+
+	<!-- Tonight: films and matches on your channels (file of the Saad EPG plugin) -->
+	<screen name="NileGlassTonight" position="0,0" size="1920,1080" backgroundColor="transparent" flags="wfNoBorder">
+		<panel name="NG_Frame"/>
+		<widget name="tab_films" position="60,140" size="520,50" font="Medium;32" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="center" valign="center" noWrap="1"/>
+		<widget name="tab_films_line" position="60,190" size="520,4" backgroundColor="accent" zPosition="1"/>
+		<widget name="tab_matches" position="620,140" size="520,50" font="Medium;32" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="center" valign="center" noWrap="1"/>
+		<widget name="tab_matches_line" position="620,190" size="520,4" backgroundColor="accent" zPosition="1"/>
+		<eLabel position="60,196" size="1100,1" backgroundColor="line"/>
+		<widget source="list" render="Listbox" position="60,206" size="1100,736" selectionPixmap="NileGlass_FHD/ui/sel_channel.png" scrollbarMode="showOnDemand" scrollbarWidth="6" scrollbarSliderForegroundColor="accent" backgroundColor="bg" foregroundColor="fg" foregroundColorSelected="white" transparent="1">
+			<convert type="TemplatedMultiContent">
+				{"template": [
+					MultiContentEntryText(pos=(14, 0), size=(106, 92), font=0, flags=RT_HALIGN_LEFT|RT_VALIGN_CENTER, text=0),
+					MultiContentEntryPixmapAlphaBlend(pos=(124, 16), size=(100, 60), png=4, flags=BT_SCALE|BT_KEEP_ASPECT_RATIO|BT_HALIGN_CENTER|BT_VALIGN_CENTER),
+					MultiContentEntryText(pos=(240, 6), size=(700, 46), font=1, flags=RT_HALIGN_LEFT|RT_VALIGN_CENTER, text=1),
+					MultiContentEntryText(pos=(240, 50), size=(830, 36), font=2, flags=RT_HALIGN_LEFT|RT_VALIGN_CENTER, text=2, color="#aab3be", color_sel="#ffffff"),
+					MultiContentEntryText(pos=(940, 8), size=(140, 42), font=2, flags=RT_HALIGN_RIGHT|RT_VALIGN_CENTER, text=3, color="#ffc850", color_sel="#ffe08a")
+				],
+				"fonts": [gFont("Medium", 34), gFont("Medium", 32), gFont("Regular", 26)],
+				"itemHeight": 92
+				}
+			</convert>
+		</widget>
+		<widget name="empty" position="60,206" size="1100,736" font="Regular;32" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="center" valign="center" zPosition="5"/>
+		<eLabel position="1180,140" size="1,800" backgroundColor="line"/>
+
+		<!-- details -->
+		<ePixmap pixmap="NileGlass_FHD/ui/noposter.png" position="1210,150" size="300,450" scale="1" zPosition="1"/>
+		<widget name="versus" position="1210,150" size="300,450" font="Medium;36" foregroundColor="fg" backgroundColor="bgCard" halign="center" valign="center" zPosition="2"/>
+		<widget name="poster" position="1210,150" size="300,450" scale="1" zPosition="3"/>
+		<ePixmap pixmap="NileGlass_FHD/ui/picon_bg.png" position="1530,150" size="222,134" alphatest="blend"/>
+		<widget name="picon" position="1531,151" size="220,132" scale="1" alphatest="blend" zPosition="1"/>
+		<widget name="badge" position="1530,292" size="320,40" font="Medium;28" foregroundColor="gold" backgroundColor="bg" transparent="1" noWrap="1"/>
+		<widget name="channel" position="1530,336" size="320,120" font="Regular;26" foregroundColor="fg" backgroundColor="bg" transparent="1"/>
+		<widget name="when" position="1530,460" size="320,80" font="Regular;26" foregroundColor="accent" backgroundColor="bg" transparent="1"/>
+		<widget name="title" position="1210,612" size="640,48" font="Medium;34" foregroundColor="fg" backgroundColor="bg" transparent="1" noWrap="1"/>
+		<widget name="info" position="1210,662" size="640,36" font="Regular;26" foregroundColor="gold" backgroundColor="bg" transparent="1" noWrap="1"/>
+		<widget name="desc" position="1210,704" size="640,200" font="Regular;26" foregroundColor="fgDim" backgroundColor="bg" transparent="1"/>
+		<widget name="status" position="1210,910" size="640,36" font="Regular;22" foregroundColor="fgMute" backgroundColor="bg" transparent="1" noWrap="1"/>
+	</screen>
+
 </skin>

@@ -1,14 +1,14 @@
-NileGlass FHD 1.5 - OpenBh skin (Python 3.14, 1920x1080)
+NileGlass FHD 1.6 - OpenBh skin (Python 3.14, 1920x1080)
 =========================================================
 
 التثبيت
 -------
-1) انسخ الملف enigma2-plugin-skins-nileglass-fhd_1.5.0_all.ipk إلى /tmp على الجهاز (FTP / WinSCP).
+1) انسخ الملف enigma2-plugin-skins-nileglass-fhd_1.6.0_all.ipk إلى /tmp على الجهاز (FTP / WinSCP).
 2) من التلنت أو الـ SSH:
-       opkg install /tmp/enigma2-plugin-skins-nileglass-fhd_1.5.0_all.ipk
+       opkg install /tmp/enigma2-plugin-skins-nileglass-fhd_1.6.0_all.ipk
 3) القائمة > الإعدادات > واجهة المستخدم > السكين  ثم اختر NileGlass_FHD وأعد تشغيل الواجهة.
 
-بديل بدون ipk:  tar -xzf NileGlass_FHD_1.5.0.tar.gz -C /  ثم أعد تشغيل الواجهة.
+بديل بدون ipk:  tar -xzf NileGlass_FHD_1.6.0.tar.gz -C /  ثم أعد تشغيل الواجهة.
 
 البوسترات
 ---------
@@ -22,6 +22,16 @@ NileGlass FHD 1.5 - OpenBh skin (Python 3.14, 1920x1080)
 الطقس
 -----
 Open-Meteo بدون مفتاح. المدينة الافتراضية الإسكندرية، غيّرها من شاشة الإعدادات.
+
+الجديد في 1.6
+-------------
+- شاشة «الليلة: أفلام وماتشات» (من الإضافات أو القائمة الزرقاء، ويمكن ربطها بزر من
+  إعدادات الأزرار السريعة). تقرأ ملف بلوجين Saad EPG:
+  /etc/enigma2/saadepg/tonight.json  (يتغير من nileglass.conf  [tonight] file)
+  OK/أخضر: تحويل للقناة   أحمر: تسجيل   أصفر: أفلام/ماتشات   أزرق: المفضلة فقط
+  Menu: اختيار قناة تانية لنفس الفيلم.
+- الإنفوبار الثاني: سطر «بعد قليل» بأقرب فيلم أو ماتش على قنواتك (المفضلة أولًا).
+- زر «اختبار» يعرض حالة ملف الليلة.
 
 الجديد في 1.5
 -------------

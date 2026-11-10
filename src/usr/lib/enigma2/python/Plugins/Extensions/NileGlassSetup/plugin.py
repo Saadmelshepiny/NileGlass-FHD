@@ -26,13 +26,13 @@ from Screens.Setup import Setup
 from Screens.Standby import TryQuitMainloop
 
 try:
-	from Components.NileGlassCore import CONF_FILE, MOUNTS, CITIES, RECENT_ERRORS, confGet, confBool, posters, weather, epgTitles, httpGet, callInUiThread, isLocalMount
+	from Components.NileGlassCore import CONF_FILE, MOUNTS, CITIES, RECENT_ERRORS, confGet, confBool, posters, weather, epgTitles, tonight, httpGet, callInUiThread, isLocalMount
 except Exception:  # skin files missing - keep the plugin loadable
 	CONF_FILE = "/etc/enigma2/nileglass.conf"
 	MOUNTS = ("/media/hdd", "/media/usb", "/media/mmc")
 	CITIES = {"alexandria": ("الإسكندرية", "Alexandria", 31.2001, 29.9187)}
 	RECENT_ERRORS = []
-	posters = weather = epgTitles = httpGet = None
+	posters = weather = epgTitles = tonight = httpGet = None
 
 	def confGet(section, key, default=""):
 		return default
@@ -388,6 +388,14 @@ class NileGlassSetup(Setup):
 			good = et.get("titles", 0) > 0
 			lines.append("%s  %s %d   %s %d" % (ok if good else bad, T("SaadEPG titles:", "أسماء SaadEPG:"), et.get("titles", 0),
 				T("found by them", "بوسترات بفضلها"), s.get("epg", 0)) + ("" if good else "  " + (et.get("error") or T("loading ...", "جارٍ التحميل ..."))))
+		tn = tonight.status() if tonight else {}
+		if tn:
+			if tn.get("found"):
+				gen = tn.get("generated")
+				lines.append("%s  %s %d   %s %d   %s %s" % (ok, T("Tonight file: films", "ملف الليلة: أفلام"), tn["films"], T("matches", "ماتشات"), tn["matches"],
+					T("updated", "تحديث"), time.strftime("%H:%M", time.localtime(gen)) if gen else "?"))
+			else:
+				lines.append("%s  %s %s" % (bad, T("Tonight file not found:", "ملف الليلة غير موجود:"), tn.get("file")))
 		w = weather.state if weather else {}
 		if w.get("updated"):
 			lines.append("%s  %s %s %s (%s)" % (ok, T("Weather:", "الطقس:"), w.get("city", ""), w.get("temp", ""), time.strftime("%H:%M", time.localtime(w["updated"]))))
@@ -556,6 +564,8 @@ def sessionstart(reason, session=None, **kwargs):
 		try:
 			if config.skin.primary_skin.value.startswith("NileGlass_FHD/"):
 				nightly = NightlyPrefetch(session)
+				if tonight is not None:
+					tonight.refresh(force=True)
 		except Exception as err:
 			print("[NileGlass] sessionstart:", err)
 
@@ -564,8 +574,19 @@ def main(session, **kwargs):
 	session.open(NileGlassSetup)
 
 
+def openTonight(session, **kwargs):
+	try:
+		from .tonight import NileGlassTonight
+		session.open(NileGlassTonight)
+	except Exception as err:
+		print("[NileGlass] tonight:", err)
+		session.open(MessageBox, str(err), MessageBox.TYPE_ERROR, timeout=8)
+
+
 def Plugins(**kwargs):
 	return [
 		PluginDescriptor(name="NileGlass FHD", description=T("Skin settings: look, posters, weather", "إعدادات السكين: المظهر والبوسترات والطقس"), where=PluginDescriptor.WHERE_PLUGINMENU, icon="plugin.png", fnc=main),
+		PluginDescriptor(name=T("Tonight: films and matches", "الليلة: أفلام وماتشات"), description=T("Films and matches of tonight on your channels (Saad EPG)", "أفلام وماتشات الليلة على قنواتك (Saad EPG)"), where=PluginDescriptor.WHERE_PLUGINMENU, icon="tonight.png", fnc=openTonight),
+		PluginDescriptor(name=T("Tonight: films and matches", "الليلة: أفلام وماتشات"), where=PluginDescriptor.WHERE_EXTENSIONSMENU, fnc=openTonight),
 		PluginDescriptor(where=PluginDescriptor.WHERE_SESSIONSTART, fnc=sessionstart),
 	]
