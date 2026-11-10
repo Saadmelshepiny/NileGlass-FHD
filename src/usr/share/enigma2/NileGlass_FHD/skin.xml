@@ -367,8 +367,7 @@
 			<convert type="EventName">Name</convert>
 		</widget>
 		<widget source="session.Event_Now" render="NGEventInfo" mode="card" fields="year,genres,director,country,cast,runtime,imdb" labelColor="#9aa3ae" position="430,194" size="680,262" font="Regular;30" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="left" delay="0"/>
-		<ePixmap pixmap="NileGlass_FHD/ui/stars_bg.png" position="430,458" size="200,36" alphatest="blend"/>
-		<widget source="session.Event_Now" render="NGStars" pixmap="NileGlass_FHD/ui/stars.png" position="430,458" size="200,36" transparent="1" zPosition="1"/>
+		<widget source="session.Event_Now" render="NGStars" backgroundPixmap="NileGlass_FHD/ui/stars_bg.png" pixmap="NileGlass_FHD/ui/stars.png" position="430,458" size="200,36" transparent="1" zPosition="1"/>
 		<widget source="session.Event_Now" render="NGEventInfo" fields="rating" position="642,456" size="300,40" font="Medium;28" foregroundColor="gold" backgroundColor="bg" transparent="1" halign="left" valign="center" delay="0"/>
 		<widget source="session.Event_Now" render="Label" position="430,502" size="100,40" font="Regular;28" foregroundColor="green" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1">
 			<convert type="EventTime">StartTime</convert>
@@ -480,8 +479,7 @@
 			<convert type="RemainingToText">InMinutes</convert>
 		</widget>
 		<widget source="ServiceEvent" render="NGEventInfo" position="1210,364" size="400,32" font="Regular;24" foregroundColor="gold" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" fields="year,genres"/>
-		<ePixmap pixmap="NileGlass_FHD/ui/stars_bg.png" position="1210,404" size="200,36" alphatest="blend"/>
-		<widget source="ServiceEvent" render="NGStars" pixmap="NileGlass_FHD/ui/stars.png" position="1210,404" size="200,36" transparent="1" zPosition="1"/>
+		<widget source="ServiceEvent" render="NGStars" backgroundPixmap="NileGlass_FHD/ui/stars_bg.png" pixmap="NileGlass_FHD/ui/stars.png" position="1210,404" size="200,36" transparent="1" zPosition="1"/>
 
 		<!-- description of the running event -->
 		<widget source="ServiceEvent" render="Label" position="1210,474" size="630,120" font="Regular;24" foregroundColor="#d6dbe1" backgroundColor="bg" transparent="1">
@@ -526,8 +524,7 @@
 			<convert type="ClockToText">InMinutes</convert>
 		</widget>
 		<widget source="Event" render="NGEventInfo" fields="year,genres" position="1210,426" size="360,36" font="Regular;24" foregroundColor="gold" backgroundColor="bg" transparent="1" halign="left" noWrap="1"/>
-		<ePixmap pixmap="NileGlass_FHD/ui/stars_bg.png" position="1210,470" size="200,36" alphatest="blend"/>
-		<widget source="Event" render="NGStars" pixmap="NileGlass_FHD/ui/stars.png" position="1210,470" size="200,36" transparent="1" zPosition="1"/>
+		<widget source="Event" render="NGStars" backgroundPixmap="NileGlass_FHD/ui/stars_bg.png" pixmap="NileGlass_FHD/ui/stars.png" position="1210,470" size="200,36" transparent="1" zPosition="1"/>
 		<widget source="Event" render="Label" position="1210,540" size="630,400" font="Regular;26" foregroundColor="#d6dbe1" backgroundColor="bg" transparent="1">
 			<convert type="EventName">FullDescription</convert>
 		</widget>
@@ -676,8 +673,7 @@
 		<widget source="Event" render="NGPoster" kind="backdrop" position="1060,146" size="780,439" delay="0" borderWidth="1" borderColor="posterBorder" zPosition="1"/>
 		<widget source="Event" render="NGPoster" position="1090,470" size="200,300" delay="0" borderWidth="2" borderColor="posterBorder" zPosition="3"/>
 		<widget source="Event" render="NGEventInfo" fields="type,year,genres" position="1310,600" size="530,40" font="Regular;28" foregroundColor="gold" backgroundColor="bg" transparent="1" halign="left" noWrap="1"/>
-		<ePixmap pixmap="NileGlass_FHD/ui/stars_bg.png" position="1310,650" size="200,36" alphatest="blend"/>
-		<widget source="Event" render="NGStars" pixmap="NileGlass_FHD/ui/stars.png" position="1310,650" size="200,36" transparent="1" zPosition="1"/>
+		<widget source="Event" render="NGStars" backgroundPixmap="NileGlass_FHD/ui/stars_bg.png" pixmap="NileGlass_FHD/ui/stars.png" position="1310,650" size="200,36" transparent="1" zPosition="1"/>
 		<widget source="Service" render="Picon" position="1620,790" size="220,132" alphatest="blend" zPosition="1">
 			<convert type="ServiceName">Reference</convert>
 		</widget>

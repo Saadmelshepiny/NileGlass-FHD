@@ -482,29 +482,75 @@ _reSport = re.compile(r"(?:\bvs\.?\b|\bv\b(?=\s+\S)|\s[x\u00d7\u2013-]\s.*\s(?:l
 	r"\u0628\u0637\u0648\u0644\u0629|\u0627\u0633\u062a\u0648\u062f\u064a\u0648 \u062a\u062d\u0644\u064a\u0644\u064a|\u0645\u0644\u062e\u0635|\u0623\u0647\u062f\u0627\u0641|\u0631\u064a\u0627\u0636\u0629)", re.I)
 
 
+# "Team A - Team B": two short sides and at least one side looks like a club
+_reVersus = re.compile(r"^\s*([^-\u2013:|]{2,32}?)\s+(?:-|\u2013|\u2014|x|\u00d7|v|vs\.?)\s+([^-\u2013:|]{2,32}?)\s*(?:\(.*\))?\s*$", re.I)
+_CLUB_WORDS = (
+	"united", "city", "fc", "cf", "afc", "sc", "real", "atletico", "athletic", "sporting", "inter", "milan", "juventus",
+	"arsenal", "chelsea", "liverpool", "tottenham", "everton", "villa", "newcastle", "brighton", "wolves", "fulham",
+	"brentford", "palace", "forest", "west ham", "leeds", "barcelona", "madrid", "sevilla", "valencia", "betis",
+	"bayern", "dortmund", "leverkusen", "leipzig", "psg", "paris", "marseille", "lyon", "monaco", "napoli", "roma",
+	"lazio", "atalanta", "ajax", "psv", "porto", "benfica", "celtic", "rangers", "galatasaray", "fenerbahce",
+	"al ahly", "zamalek", "pyramids", "hilal", "nassr", "ittihad", "wydad", "raja", "esperance",
+	"\u0627\u0644\u0623\u0647\u0644\u064a", "\u0627\u0644\u0632\u0645\u0627\u0644\u0643", "\u0628\u064a\u0631\u0627\u0645\u064a\u062f\u0632",
+	"\u0627\u0644\u0647\u0644\u0627\u0644", "\u0627\u0644\u0646\u0635\u0631", "\u0627\u0644\u0627\u062a\u062d\u0627\u062f",
+	"\u0627\u0644\u0645\u0635\u0631\u064a", "\u0627\u0644\u0625\u0633\u0645\u0627\u0639\u064a\u0644\u064a",
+	"\u0628\u0631\u0634\u0644\u0648\u0646\u0629", "\u0631\u064a\u0627\u0644 \u0645\u062f\u0631\u064a\u062f",
+	"\u0644\u064a\u0641\u0631\u0628\u0648\u0644", "\u0645\u0627\u0646\u0634\u0633\u062a\u0631", "\u062a\u0634\u064a\u0644\u0633\u064a",
+	"\u0623\u0631\u0633\u0646\u0627\u0644", "\u064a\u0648\u0641\u0646\u062a\u0648\u0633", "\u0628\u0627\u064a\u0631\u0646",
+	"\u0645\u0646\u062a\u062e\u0628")
+_reClub = re.compile(r"(?:^|[\s.'])(?:%s)(?:$|[\s.'])" % "|".join(re.escape(w) for w in _CLUB_WORDS), re.I)
+
+
 def isSportTitle(name):
 	"""True for an event name that looks like a match / sport programme."""
-	return bool(name and _reSport.search(name))
+	if not name:
+		return False
+	if _reSport.search(name):
+		return True
+	m = _reVersus.match(name)
+	if not m or _reNotTeam.search(m.group(1)) or _reNotTeam.search(m.group(2)):
+		return False
+	return bool(_reClub.search(m.group(1)) or _reClub.search(m.group(2)))
+
+
+# words that never appear in a team name but often in film titles
+_reNotTeam = re.compile(r"\b(?:the|and|of|part|chapter|movie|season|episode|ep|vol|returns)\b|\b(?:\d+|[ivx]+)$|\u0627\u0644\u062c\u0632\u0621|\u0627\u0644\u062d\u0644\u0642\u0629|\u0627\u0644\u0645\u0648\u0633\u0645", re.I)
 
 
 def isSportEvent(event, channelName=""):
 	"""Sport detection from the DVB genre (content nibble 4 = sports), the
-	event name and the channel name. Cheap: no I/O."""
+	event name and description and the channel name. Cheap: no I/O."""
+	if not event:
+		return False
 	try:
-		genre = event.getGenreData() if event else None
+		genre = event.getGenreData()
 		if genre and genre.getLevel1() == 4:
 			return True
 	except Exception:
 		pass
 	try:
-		name = event.getEventName() if event else ""
+		for g in event.getGenreDataList() or ():
+			if g and g[0] == 4:
+				return True
+	except Exception:
+		pass
+	try:
+		name = event.getEventName() or ""
 	except Exception:
 		name = ""
 	if isSportTitle(name):
 		return True
+	try:  # "Premier League", "Live football" ... in the short description
+		desc = (event.getShortDescription() or "")[:160]
+		if desc and desc.strip() != name.strip() and _reSport.search(desc) and not _reFilmHint.search(desc):
+			return True
+	except Exception:
+		pass
 	ch = (channelName or "").lower()
 	return bool(ch) and any(k in ch for k in ("sport", "\u0631\u064a\u0627\u0636", "ssc", "on time", "alkass", "\u0627\u0644\u0643\u0623\u0633"))
 
+
+_reFilmHint = re.compile(r"\b(?:film|movie|documentary|drama|series)\b|\u0641\u064a\u0644\u0645|\u0648\u062b\u0627\u0626\u0642\u064a|\u0645\u0633\u0644\u0633\u0644", re.I)
 
 
 class PosterService:
