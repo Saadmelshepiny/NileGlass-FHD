@@ -245,7 +245,7 @@
 		</widget>
 
 		<!-- poster of the running event (hidden when none) + prefetch of the next one -->
-		<widget source="session.Event_Now" render="NGPoster" position="50,580" size="160,240" delay="0" borderWidth="2" borderColor="posterBorder" zPosition="3"/>
+		<widget source="session.Event_Now" render="NGPoster" position="50,486" size="230,345" delay="0" borderWidth="2" borderColor="posterBorder" zPosition="3"/>
 		<widget source="session.Event_Next" render="NGPoster" position="0,0" size="1,1" prefetch="1" delay="1500"/>
 
 		<!-- now -->
@@ -370,7 +370,7 @@
 		<widget source="session.Event_Now" render="Label" position="430,132" size="680,60" font="Medium;40" foregroundColor="accent" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1">
 			<convert type="EventName">Name</convert>
 		</widget>
-		<widget source="session.Event_Now" render="NGEventInfo" mode="card" fields="year,genres,director,country,cast,runtime,imdb" labelColor="#9aa3ae" position="430,198" size="680,250" font="Regular;27" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="left" delay="0"/>
+		<widget source="session.Event_Now" render="NGEventInfo" mode="card" fields="year,genres,director,country,cast,runtime,imdb" labelColor="#9aa3ae" position="430,194" size="680,262" font="Regular;30" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="left" delay="0"/>
 		<ePixmap pixmap="NileGlass_FHD/ui/stars_bg.png" position="430,458" size="200,36" alphatest="blend"/>
 		<widget source="session.Event_Now" render="NGStars" pixmap="NileGlass_FHD/ui/stars.png" position="430,458" size="200,36" transparent="1" zPosition="1"/>
 		<widget source="session.Event_Now" render="NGEventInfo" fields="rating" position="642,456" size="300,40" font="Medium;28" foregroundColor="gold" backgroundColor="bg" transparent="1" halign="left" valign="center" delay="0"/>
@@ -386,7 +386,7 @@
 			<convert type="EventTime">EndTime</convert>
 			<convert type="ClockToText">Format:%H:%M</convert>
 		</widget>
-		<widget name="epg_description" position="430,552" size="680,128" font="Regular;26" foregroundColor="#d6dbe1" backgroundColor="bg" transparent="1"/>
+		<widget name="epg_description" position="430,548" size="680,140" font="Regular;29" foregroundColor="#d6dbe1" backgroundColor="bg" transparent="1"/>
 
 		<!-- right: backdrop + signal / service -->
 		<widget source="session.Event_Now" render="NGPoster" kind="backdrop" position="1140,134" size="740,416" delay="0" borderWidth="1" borderColor="posterBorder" zPosition="1"/>
@@ -426,21 +426,21 @@
 			<convert type="NGTonight">Soon</convert>
 		</widget>
 		<widget source="session.CurrentService" render="NGPoster" eventIndex="1" position="75,742" size="150,225" delay="400" fallback="NileGlass_FHD/ui/noposter.png" borderWidth="1" borderColor="posterBorder" zPosition="2"/>
-		<widget source="session.CurrentService" render="NGEventList" items="1" start="0" position="40,970" size="220,32" font="Regular;21" timeColor="gold" foregroundColor="#d6dbe1" backgroundColor="bg" transparent="1" halign="center" noWrap="1"/>
+		<widget source="session.CurrentService" render="NGEventList" items="1" start="0" position="40,970" size="220,34" font="Regular;24" timeColor="gold" foregroundColor="#d6dbe1" backgroundColor="bg" transparent="1" halign="center" noWrap="1"/>
 		<widget source="session.CurrentService" render="NGPoster" eventIndex="2" position="305,742" size="150,225" delay="400" fallback="NileGlass_FHD/ui/noposter.png" borderWidth="1" borderColor="posterBorder" zPosition="2"/>
-		<widget source="session.CurrentService" render="NGEventList" items="1" start="1" position="270,970" size="220,32" font="Regular;21" timeColor="gold" foregroundColor="#d6dbe1" backgroundColor="bg" transparent="1" halign="center" noWrap="1"/>
+		<widget source="session.CurrentService" render="NGEventList" items="1" start="1" position="270,970" size="220,34" font="Regular;24" timeColor="gold" foregroundColor="#d6dbe1" backgroundColor="bg" transparent="1" halign="center" noWrap="1"/>
 		<widget source="session.CurrentService" render="NGPoster" eventIndex="3" position="535,742" size="150,225" delay="400" fallback="NileGlass_FHD/ui/noposter.png" borderWidth="1" borderColor="posterBorder" zPosition="2"/>
-		<widget source="session.CurrentService" render="NGEventList" items="1" start="2" position="500,970" size="220,32" font="Regular;21" timeColor="gold" foregroundColor="#d6dbe1" backgroundColor="bg" transparent="1" halign="center" noWrap="1"/>
+		<widget source="session.CurrentService" render="NGEventList" items="1" start="2" position="500,970" size="220,34" font="Regular;24" timeColor="gold" foregroundColor="#d6dbe1" backgroundColor="bg" transparent="1" halign="center" noWrap="1"/>
 		<widget source="session.CurrentService" render="NGPoster" eventIndex="4" position="765,742" size="150,225" delay="400" fallback="NileGlass_FHD/ui/noposter.png" borderWidth="1" borderColor="posterBorder" zPosition="2"/>
-		<widget source="session.CurrentService" render="NGEventList" items="1" start="3" position="730,970" size="220,32" font="Regular;21" timeColor="gold" foregroundColor="#d6dbe1" backgroundColor="bg" transparent="1" halign="center" noWrap="1"/>
+		<widget source="session.CurrentService" render="NGEventList" items="1" start="3" position="730,970" size="220,34" font="Regular;24" timeColor="gold" foregroundColor="#d6dbe1" backgroundColor="bg" transparent="1" halign="center" noWrap="1"/>
 		<widget source="session.CurrentService" render="NGPoster" eventIndex="5" position="995,742" size="150,225" delay="400" fallback="NileGlass_FHD/ui/noposter.png" borderWidth="1" borderColor="posterBorder" zPosition="2"/>
-		<widget source="session.CurrentService" render="NGEventList" items="1" start="4" position="960,970" size="220,32" font="Regular;21" timeColor="gold" foregroundColor="#d6dbe1" backgroundColor="bg" transparent="1" halign="center" noWrap="1"/>
+		<widget source="session.CurrentService" render="NGEventList" items="1" start="4" position="960,970" size="220,34" font="Regular;24" timeColor="gold" foregroundColor="#d6dbe1" backgroundColor="bg" transparent="1" halign="center" noWrap="1"/>
 		<widget source="session.CurrentService" render="NGPoster" eventIndex="6" position="1225,742" size="150,225" delay="400" fallback="NileGlass_FHD/ui/noposter.png" borderWidth="1" borderColor="posterBorder" zPosition="2"/>
-		<widget source="session.CurrentService" render="NGEventList" items="1" start="5" position="1190,970" size="220,32" font="Regular;21" timeColor="gold" foregroundColor="#d6dbe1" backgroundColor="bg" transparent="1" halign="center" noWrap="1"/>
+		<widget source="session.CurrentService" render="NGEventList" items="1" start="5" position="1190,970" size="220,34" font="Regular;24" timeColor="gold" foregroundColor="#d6dbe1" backgroundColor="bg" transparent="1" halign="center" noWrap="1"/>
 		<widget source="session.CurrentService" render="NGPoster" eventIndex="7" position="1455,742" size="150,225" delay="400" fallback="NileGlass_FHD/ui/noposter.png" borderWidth="1" borderColor="posterBorder" zPosition="2"/>
-		<widget source="session.CurrentService" render="NGEventList" items="1" start="6" position="1420,970" size="220,32" font="Regular;21" timeColor="gold" foregroundColor="#d6dbe1" backgroundColor="bg" transparent="1" halign="center" noWrap="1"/>
+		<widget source="session.CurrentService" render="NGEventList" items="1" start="6" position="1420,970" size="220,34" font="Regular;24" timeColor="gold" foregroundColor="#d6dbe1" backgroundColor="bg" transparent="1" halign="center" noWrap="1"/>
 		<widget source="session.CurrentService" render="NGPoster" eventIndex="8" position="1685,742" size="150,225" delay="400" fallback="NileGlass_FHD/ui/noposter.png" borderWidth="1" borderColor="posterBorder" zPosition="2"/>
-		<widget source="session.CurrentService" render="NGEventList" items="1" start="7" position="1650,970" size="220,32" font="Regular;21" timeColor="gold" foregroundColor="#d6dbe1" backgroundColor="bg" transparent="1" halign="center" noWrap="1"/>
+		<widget source="session.CurrentService" render="NGEventList" items="1" start="7" position="1650,970" size="220,34" font="Regular;24" timeColor="gold" foregroundColor="#d6dbe1" backgroundColor="bg" transparent="1" halign="center" noWrap="1"/>
 		<!-- buttons -->
 		<ePixmap pixmap="NileGlass_FHD/buttons/green_pill_s.png" position="1360,1018" size="240,50" alphatest="blend"/>
 		<ePixmap pixmap="NileGlass_FHD/buttons/blue_pill_s.png" position="1640,1018" size="240,50" alphatest="blend"/>
@@ -1503,6 +1503,42 @@
 		<widget name="icon4" position="1613,526" size="150,150" alphatest="blend" scale="1" zPosition="1"/>
 		<widget name="temp4" position="1516,690" size="344,60" font="Medium;40" foregroundColor="fg" backgroundColor="bgCard" transparent="1" halign="center" valign="center" noWrap="1"/>
 		<widget name="desc4" position="1526,760" size="324,160" font="Regular;28" foregroundColor="fgDim" backgroundColor="bgCard" transparent="1" halign="center" valign="top"/>
+	</screen>
+	<screen name="NileGlassUpcoming" position="0,0" size="1920,1080" backgroundColor="transparent" flags="wfNoBorder">
+		<panel name="NG_Frame"/>
+		<widget name="channel" position="80,140" size="1000,46" font="Medium;30" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1"/>
+		<widget name="count" position="1440,140" size="400,46" font="Regular;28" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="right" valign="center" noWrap="1"/>
+		<widget name="sel0" position="134,190" size="262,431" backgroundColor="accent" zPosition="0"/>
+		<ePixmap pixmap="NileGlass_FHD/ui/noposter.png" position="140,196" size="250,375" scale="1" zPosition="1"/>
+		<widget name="poster0" position="140,196" size="250,375" scale="1" zPosition="2"/>
+		<widget name="time0" position="140,576" size="250,40" font="Medium;30" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="center" valign="center" noWrap="1" zPosition="3"/>
+		<widget name="sel1" position="412,190" size="262,431" backgroundColor="accent" zPosition="0"/>
+		<ePixmap pixmap="NileGlass_FHD/ui/noposter.png" position="418,196" size="250,375" scale="1" zPosition="1"/>
+		<widget name="poster1" position="418,196" size="250,375" scale="1" zPosition="2"/>
+		<widget name="time1" position="418,576" size="250,40" font="Medium;30" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="center" valign="center" noWrap="1" zPosition="3"/>
+		<widget name="sel2" position="690,190" size="262,431" backgroundColor="accent" zPosition="0"/>
+		<ePixmap pixmap="NileGlass_FHD/ui/noposter.png" position="696,196" size="250,375" scale="1" zPosition="1"/>
+		<widget name="poster2" position="696,196" size="250,375" scale="1" zPosition="2"/>
+		<widget name="time2" position="696,576" size="250,40" font="Medium;30" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="center" valign="center" noWrap="1" zPosition="3"/>
+		<widget name="sel3" position="968,190" size="262,431" backgroundColor="accent" zPosition="0"/>
+		<ePixmap pixmap="NileGlass_FHD/ui/noposter.png" position="974,196" size="250,375" scale="1" zPosition="1"/>
+		<widget name="poster3" position="974,196" size="250,375" scale="1" zPosition="2"/>
+		<widget name="time3" position="974,576" size="250,40" font="Medium;30" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="center" valign="center" noWrap="1" zPosition="3"/>
+		<widget name="sel4" position="1246,190" size="262,431" backgroundColor="accent" zPosition="0"/>
+		<ePixmap pixmap="NileGlass_FHD/ui/noposter.png" position="1252,196" size="250,375" scale="1" zPosition="1"/>
+		<widget name="poster4" position="1252,196" size="250,375" scale="1" zPosition="2"/>
+		<widget name="time4" position="1252,576" size="250,40" font="Medium;30" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="center" valign="center" noWrap="1" zPosition="3"/>
+		<widget name="sel5" position="1524,190" size="262,431" backgroundColor="accent" zPosition="0"/>
+		<ePixmap pixmap="NileGlass_FHD/ui/noposter.png" position="1530,196" size="250,375" scale="1" zPosition="1"/>
+		<widget name="poster5" position="1530,196" size="250,375" scale="1" zPosition="2"/>
+		<widget name="time5" position="1530,576" size="250,40" font="Medium;30" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="center" valign="center" noWrap="1" zPosition="3"/>
+		<eLabel position="80,632" size="1760,1" backgroundColor="line"/>
+		<widget name="title" position="80,640" size="1100,56" font="Medium;40" foregroundColor="accent" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1"/>
+		<widget name="when" position="80,698" size="1100,40" font="Regular;28" foregroundColor="gold" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1"/>
+		<widget name="info" position="80,740" size="1100,38" font="Regular;27" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1"/>
+		<widget name="desc" position="80,782" size="1100,166" font="Regular;28" foregroundColor="#d6dbe1" backgroundColor="bg" transparent="1" halign="left"/>
+		<eLabel position="1210,644" size="630,304" backgroundColor="bgCard" zPosition="-5"/>
+		<widget name="card" position="1230,656" size="590,280" font="Regular;27" foregroundColor="fg" backgroundColor="bgCard" transparent="1" halign="left"/>
 	</screen>
 	<!-- NG_POPUPS_END -->
 

@@ -54,7 +54,7 @@
 		<widget source="session.CurrentService" render="Picon" position="50,946" size="180,108" alphatest="blend" zPosition="1">
 			<convert type="ServiceName">Reference</convert>
 		</widget>
-		<widget source="session.Event_Now" render="NGPoster" position="50,650" size="160,240" delay="0" borderWidth="2" borderColor="posterBorder" zPosition="3" />
+		<widget source="session.Event_Now" render="NGPoster" position="50,536" size="230,345" delay="0" borderWidth="2" borderColor="posterBorder" zPosition="3" />
 		<widget source="session.Event_Next" render="NGPoster" position="0,0" size="1,1" prefetch="1" delay="1500" />
 		<widget source="session.Event_Now" render="Label" position="260,946" size="104,52" font="Regular;36" foregroundColor="fg" backgroundColor="bgDeep" transparent="1" valign="center" noWrap="1">
 			<convert type="EventTime">StartTime</convert>

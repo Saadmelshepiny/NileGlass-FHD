@@ -35,7 +35,7 @@
 		<widget source="session.Event_Now" render="Label" position="430,132" size="680,60" font="Medium;40" foregroundColor="accent" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1">
 			<convert type="EventName">Name</convert>
 		</widget>
-		<widget source="session.Event_Now" render="NGEventInfo" mode="card" fields="year,genres,director,country,cast,runtime,imdb" labelColor="#9aa3ae" position="430,198" size="680,250" font="Regular;27" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="left" delay="0"/>
+		<widget source="session.Event_Now" render="NGEventInfo" mode="card" fields="year,genres,director,country,cast,runtime,imdb" labelColor="#9aa3ae" position="430,194" size="680,262" font="Regular;30" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="left" delay="0"/>
 		<ePixmap pixmap="NileGlass_FHD/ui/stars_bg.png" position="430,458" size="200,36" alphatest="blend"/>
 		<widget source="session.Event_Now" render="NGStars" pixmap="NileGlass_FHD/ui/stars.png" position="430,458" size="200,36" transparent="1" zPosition="1"/>
 		<widget source="session.Event_Now" render="NGEventInfo" fields="rating" position="642,456" size="300,40" font="Medium;28" foregroundColor="gold" backgroundColor="bg" transparent="1" halign="left" valign="center" delay="0"/>
@@ -51,7 +51,7 @@
 			<convert type="EventTime">EndTime</convert>
 			<convert type="ClockToText">Format:%H:%M</convert>
 		</widget>
-		<widget name="epg_description" position="430,552" size="680,128" font="Regular;26" foregroundColor="#d6dbe1" backgroundColor="bg" transparent="1"/>
+		<widget name="epg_description" position="430,548" size="680,140" font="Regular;29" foregroundColor="#d6dbe1" backgroundColor="bg" transparent="1"/>
 
 		<!-- right: backdrop + signal / service -->
 		<widget source="session.Event_Now" render="NGPoster" kind="backdrop" position="1140,134" size="740,416" delay="0" borderWidth="1" borderColor="posterBorder" zPosition="1"/>

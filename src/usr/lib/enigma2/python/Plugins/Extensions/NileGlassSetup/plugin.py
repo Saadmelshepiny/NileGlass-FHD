@@ -120,6 +120,9 @@ translate = {translate}
 channels = {channels}
 sib = {sib}
 menu_backdrop = {menu_backdrop}
+opaque_screens = {opaque_screens}
+text_finish = {text_finish}
+ok_upcoming = {ok_upcoming}
 """
 
 
@@ -218,6 +221,10 @@ class NileGlassSetup(Setup):
 		self.sib = NoSave(ConfigSelection(default=style.get("sib", "cinema"), choices=[
 			("cinema", T("Cinema (posters row)", "سينما (صف بوسترات)")), ("classic", T("Classic (programme list)", "كلاسيك (قائمة برامج)"))]))
 		self.menuBackdrop = NoSave(ConfigYesNo(default=bool(style.get("menu_backdrop", True))))
+		self.okUpcoming = NoSave(ConfigYesNo(default=bool(style.get("ok_upcoming", True))))
+		self.opaque = NoSave(ConfigYesNo(default=bool(style.get("opaque_screens", False))))
+		self.finish = NoSave(ConfigSelection(default=style.get("text_finish", "normal"), choices=[
+			("normal", T("Normal", "عادي")), ("glossy", T("Glossy (bright + shadow)", "لامع (أوضح + ظل)")), ("matte", T("Matte (soft)", "مطفي (هادي)"))]))
 		self.omdbKey = NoSave(ConfigText(default=confGet("tmdb", "omdb_key", ""), fixed_size=False, visible_width=30))
 		# the image's own settings, shown here for convenience
 		try:
@@ -295,10 +302,12 @@ class NileGlassSetup(Setup):
 			(i + T("Event picture behind menus", "صورة البرنامج ورا القوائم"), self.menuBackdrop, T("The backdrop of the running programme behind the main menu and settings.", "خلفية البرنامج الشغال ورا القائمة الرئيسية والإعدادات.")),
 			(i + T("Infobar", "شكل الإنفوبار"), self.infobar, T("Full shows signal and service details, compact only the programmes.", "الكامل يعرض الإشارة وتفاصيل القناة، والمختصر البرامج فقط.")),
 			(i + T("Accent colour", "لون التمييز"), self.accent, T("Colour of selection bars, progress bars and highlights.", "لون شريط التحديد وأشرطة التقدم والعناوين.")),
+			(i + T("Solid menus (no TV behind)", "قوائم معتمة تمامًا (بدون صورة القناة)"), self.opaque, T("Menus and plugin screens get a solid background; the infobar stays glassy.", "القوائم وشاشات الإضافات خلفيتها معتمة تمامًا، والإنفوبار يفضل شفاف.")),
 			(i + T("Background transparency", "شفافية الخلفية"), self.transparency, T("How much of the picture shows through the bars and panels.", "مدى ظهور الصورة من خلف الإنفوبار والقوائم.")),
 			(i + T("Font", "الخط"), self.font, T("Font used for all text.", "الخط المستخدم في كل النصوص.")),
 			(i + T("Text size", "حجم الخط"), self.fontSize, T("Size of all text.", "حجم كل النصوص في السكين.")),
 			(i + T("Bold titles", "عناوين عريضة"), self.boldTitles, T("Titles and channel names in the bold version of the font.", "العناوين وأسماء القنوات بالخط العريض.")),
+			(i + T("Text finish", "شكل الخط (لامع / مطفي)"), self.finish, T("Glossy makes text brighter with a soft shadow, matte makes it calmer.", "اللامع أوضح وبظل خفيف، والمطفي أهدى للعين.")),
 			(i + T("Text colour", "لون النص"), self.textColor, T("Colour of the normal text everywhere.", "لون الكتابة العادية في كل الشاشات.")),
 			(i + T("Infobar text size", "حجم خط الإنفوبار"), self.infobarSize, T("Extra size step for the infobar only.", "حجم إضافي لكتابة الإنفوبار فقط.")),
 			(i + T("Outline infobar text", "إطار حول كتابة الإنفوبار"), self.outline, T("A thin dark outline makes the infobar text readable over bright pictures.", "إطار أسود رفيع يوضّح الكتابة فوق الصور الفاتحة.")),
@@ -324,6 +333,7 @@ class NileGlassSetup(Setup):
 			items += [
 				(T("— Infobar —", "— الإنفوبار —"),),
 				(i + T("Infobar stays for", "مدة بقاء الإنفوبار"), self.ibTimeout, T("'No timeout' keeps it on screen until you press EXIT.", "«بدون مهلة» يخليه ظاهر لحد ما تضغط EXIT.")),
+				(i + T("OK on the second infobar: coming up", "OK في الإنفوبار الثاني يفتح البرامج القادمة"), self.okUpcoming, T("Browse the next programmes with big posters and read their EPG (left/right).", "تتنقل بين البرامج الجاية ببوسترات كبيرة وتقرأ تفاصيلها (يمين/شمال).")),
 				(i + T("Second infobar (OK twice)", "الإنفوبار الثاني (OK مرتين)"), self.sibTimeout, T("How long the second infobar stays, or what OK opens instead.", "مدة بقاء الإنفوبار الثاني، أو اللي يفتح بدله.")),
 			]
 		items += [
@@ -346,7 +356,7 @@ class NileGlassSetup(Setup):
 	def updatePreview(self):
 		if not Style or "preview_accent" not in self:
 			return
-		key = (self.accent.value, self.transparency.value, self.font.value, self.fontSize.value, self.infobarSize.value, self.textColor.value,
+		key = (self.accent.value, self.transparency.value, self.font.value, self.fontSize.value, self.infobarSize.value, self.textColor.value, self.finish.value,
 			self.boldTitles.value, self.outline.value, self.direction.value)
 		if key == self.previewKey or not self["preview_accent"].instance:
 			return
@@ -369,7 +379,7 @@ class NileGlassSetup(Setup):
 				return name
 			regular, medium = alias("Regular"), alias("Medium")
 			ibRegular, ibMedium = alias("Regular", ib), alias("Medium", ib)
-			fg, dim = (int(x, 16) for x in Style.TEXT_COLORS[self.textColor.value])
+			fg, dim = (int(Style._finish(x, {"text_finish": self.finish.value}), 16) for x in Style.TEXT_COLORS[self.textColor.value])
 			accent = int(Style.ACCENTS[self.accent.value][0], 16)
 			rtl = Style.isRtl({"direction": self.direction.value}, config.osd.language.value)
 			for name, font, pt, color, align in (
@@ -430,6 +440,9 @@ class NileGlassSetup(Setup):
 			"channels": self.channels.value,
 			"sib": self.sib.value,
 			"menu_backdrop": 1 if self.menuBackdrop.value else 0,
+			"opaque_screens": 1 if self.opaque.value else 0,
+			"text_finish": self.finish.value,
+			"ok_upcoming": 1 if self.okUpcoming.value else 0,
 			"omdb_key": self.omdbKey.value.strip(),
 		}
 
@@ -450,7 +463,9 @@ class NileGlassSetup(Setup):
 				f.write(TEMPLATE.format(**self.settingsValues()))
 			os.replace(tmp, CONF_FILE)
 			lookNew = Style.readStyle() if Style else {}
-			lookChanged = any(lookOld.get(k) != lookNew.get(k) for k in lookNew if k != "translate") or (lookOld.get("translate") and not lookNew.get("translate"))
+			lookChanged = any(lookOld.get(k) != lookNew.get(k) for k in lookNew if k not in ("translate", "ok_upcoming"))
+			global OK_UPCOMING
+			OK_UPCOMING = bool(lookNew.get("ok_upcoming", True)) or (lookOld.get("translate") and not lookNew.get("translate"))
 			if Style and lookChanged:
 				print("[NileGlass] style applied:", Style.apply())
 		except Exception as err:
@@ -728,6 +743,43 @@ def installTranslations():
 		print("[NileGlass] translations:", err)
 
 
+OK_UPCOMING = True
+
+
+def patchSecondInfoBar():
+	"""OK while the second infobar is shown opens the 'coming up' browser."""
+	global OK_UPCOMING
+	try:
+		from Screens import InfoBarGenerics as IBG
+		cls = IBG.InfoBarShowHide
+		if getattr(cls, "_ngPatched", False):
+			return
+		OK_UPCOMING = bool(Style.readStyle().get("ok_upcoming", True)) if Style else True
+		original = cls.toggleShow
+
+		def toggleShow(self):
+			try:
+				sib = getattr(self, "secondInfoBarScreen", None)
+				if OK_UPCOMING and sib is not None and sib.shown and IBG.isStandardInfoBar(self):
+					sib.hide()
+					self.secondInfoBarWasShown = False
+					from .upcoming import NileGlassUpcoming
+					self.session.open(NileGlassUpcoming)
+					return
+			except Exception as err:
+				print("[NileGlass] coming up:", err)
+			return original(self)
+		cls.toggleShow = toggleShow
+		cls._ngPatched = True
+	except Exception as err:
+		print("[NileGlass] patch second infobar:", err)
+
+
+def openUpcoming(session, **kwargs):
+	from .upcoming import NileGlassUpcoming
+	session.open(NileGlassUpcoming)
+
+
 def sessionstart(reason, session=None, **kwargs):
 	global nightly
 	if reason == 0 and nightly is None:
@@ -737,6 +789,7 @@ def sessionstart(reason, session=None, **kwargs):
 				if tonight is not None:
 					tonight.refresh(force=True)
 				installTranslations()
+				patchSecondInfoBar()
 		except Exception as err:
 			print("[NileGlass] sessionstart:", err)
 
@@ -769,5 +822,6 @@ def Plugins(**kwargs):
 		PluginDescriptor(name=T("Tonight: films and matches", "الليلة: أفلام وماتشات"), description=T("Films and matches of tonight on your channels (Saad EPG)", "أفلام وماتشات الليلة على قنواتك (Saad EPG)"), where=PluginDescriptor.WHERE_PLUGINMENU, icon="tonight.png", fnc=openTonight),
 		PluginDescriptor(name=T("Tonight: films and matches", "الليلة: أفلام وماتشات"), where=PluginDescriptor.WHERE_EXTENSIONSMENU, fnc=openTonight),
 		PluginDescriptor(name=T("Weather (5 days)", "الطقس (5 أيام)"), where=PluginDescriptor.WHERE_EXTENSIONSMENU, fnc=openWeather),
+		PluginDescriptor(name=T("Coming up (posters)", "البرامج القادمة (بوسترات)"), where=PluginDescriptor.WHERE_EXTENSIONSMENU, fnc=openUpcoming),
 		PluginDescriptor(where=PluginDescriptor.WHERE_SESSIONSTART, fnc=sessionstart),
 	]

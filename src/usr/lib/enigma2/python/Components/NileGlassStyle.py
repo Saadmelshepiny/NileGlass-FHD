@@ -159,7 +159,8 @@ TEXT_COLOR_NAMES_AR = {"white": "أبيض", "pure": "أبيض ناصع", "cream"
 DIRECTIONS = ("auto", "rtl", "ltr")
 DEFAULTS = {"accent": "blue", "transparency": "20", "font": "ubuntu", "font_size": "100", "infobar": "full",
 	"infobar_size": "100", "text_color": "white", "bold_titles": "1", "outline": "0", "direction": "auto", "translate": "1",
-	"channels": "posters", "sib": "cinema", "menu_backdrop": "1"}
+	"channels": "posters", "sib": "cinema", "menu_backdrop": "1", "opaque_screens": "0", "text_finish": "normal", "ok_upcoming": "1"}
+TEXT_FINISHES = ("normal", "glossy", "matte")
 LAYOUT_FILES = {("channels", "simple"): "channels_simple.xml", ("sib", "classic"): "sib_classic.xml", ("infobar", "compact"): "infobar_compact.xml"}
 # ready-made looks: (accent, transparency, font, text colour)
 PRESETS = {
@@ -212,7 +213,9 @@ def readStyle(confFile=CONF_FILE):
 		style["channels"] = "posters"
 	if style["sib"] not in ("cinema", "classic"):
 		style["sib"] = "cinema"
-	for k in ("bold_titles", "outline", "translate", "menu_backdrop"):
+	if style["text_finish"] not in TEXT_FINISHES:
+		style["text_finish"] = "normal"
+	for k in ("bold_titles", "outline", "translate", "menu_backdrop", "opaque_screens", "ok_upcoming"):
 		style[k] = str(style[k]).strip().lower() in ("1", "yes", "true", "on")
 	return style
 
@@ -331,7 +334,12 @@ def _flipTemplate(text, width, rtl):
 	return _reEntry.sub(fix, text)
 
 
-def transformScreen(scr, ibFactor=1.0, outline=False, rtl=None):
+def _mix(hex6, target, amount):
+	c = [int(hex6[i:i + 2], 16) for i in (0, 2, 4)]
+	return "".join("%02x" % int(round(v + (target - v) * amount)) for v in c)
+
+
+def transformScreen(scr, ibFactor=1.0, outline=False, rtl=None, shadow=False):
 	"""Change a copied <screen> element in place. Returns True if anything changed."""
 	changed = False
 	name = scr.get("name", "")
@@ -345,6 +353,10 @@ def transformScreen(scr, ibFactor=1.0, outline=False, rtl=None):
 				el.set("borderWidth", "2")
 				el.set("borderColor", "#000000")
 				changed = True
+		if shadow and _isTextWidget(el) and not el.get("shadowColor") and not el.get("borderWidth"):
+			el.set("shadowColor", "#50000000")  # "glossy" text: a soft drop shadow gives depth
+			el.set("shadowOffset", "2,2")
+			changed = True
 		if rtl is None or name in NO_DIRECTION:
 			continue
 		if el.tag == "convert" and el.get("type") == "TemplatedMultiContent" and el.text:
@@ -417,19 +429,28 @@ def _transformedScreens(style, skinDir, language=None):
 		if replaced:
 			scr = layouts[name]
 		done.add(name)
-		changed = transformScreen(scr, ibFactor, outline, rtl)
+		changed = transformScreen(scr, ibFactor, outline, rtl, style.get("text_finish") == "glossy")
 		if not style.get("menu_backdrop", True):
 			changed = _dropMenuBackdrops(scr) or changed
 		if changed or replaced:
 			out.append("\t" + ET.tostring(scr, encoding="unicode").strip())
 	for name, scr in layouts.items():  # layout screens that skin.xml does not have
 		if name not in done:
-			transformScreen(scr, ibFactor, outline, rtl)
+			transformScreen(scr, ibFactor, outline, rtl, style.get("text_finish") == "glossy")
 			out.append("\t" + ET.tostring(scr, encoding="unicode").strip())
 	return "\n".join(out) + ("\n" if out else "")
 
 
 fontSet_ = fontSet
+
+
+def _finish(hex6, style):
+	f = style.get("text_finish", "normal")
+	if f == "glossy":
+		return _mix(hex6, 255, 0.45)  # brighter
+	if f == "matte":
+		return _mix(hex6, 0x70, 0.22)  # softer, less contrast
+	return hex6
 
 
 def buildXml(style, skinDir=SKIN_DIR, language=None):
@@ -438,6 +459,8 @@ def buildXml(style, skinDir=SKIN_DIR, language=None):
 	bgA = _alpha(t * 0.5)        # main panels  (20% -> 10% transparent)
 	deepA = _alpha(t * 0.35)
 	cardA = _alpha(min(60, t * 0.5 + 9))
+	if style.get("opaque_screens"):  # menus and plugin screens fully solid: no TV picture behind them
+		bgA = cardA = "00"
 	fonts = []
 	fontSet = dict(fontSet_(style["font"]))
 	if not style.get("bold_titles", True):
@@ -471,7 +494,7 @@ def buildXml(style, skinDir=SKIN_DIR, language=None):
 	</parameters>
 {screens}</skin>
 """.format(accent=accent, dark=dark, line=line, bgA=bgA, deepA=deepA, cardA=cardA, fonts="\n".join(fonts),
-		fg=TEXT_COLORS[style["text_color"]][0], fgDim=TEXT_COLORS[style["text_color"]][1], screens=_transformedScreens(style, skinDir, language))
+		fg=_finish(TEXT_COLORS[style["text_color"]][0], style), fgDim=_finish(TEXT_COLORS[style["text_color"]][1], style), screens=_transformedScreens(style, skinDir, language))
 
 
 def apply(confFile=CONF_FILE, skinDir=SKIN_DIR, userXml=USER_XML):

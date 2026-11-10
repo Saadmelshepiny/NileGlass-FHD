@@ -1,7 +1,7 @@
 {
-  "version": "2.0.0",
-  "ipk": "https://raw.githubusercontent.com/Saadmelshepiny/NileGlass-FHD/main/releases/enigma2-plugin-skins-nileglass-fhd_2.0.0_all.ipk",
-  "sha256": "1864672437f8e250cb7a115af8f0c3d5aa21ecf245e367bd23cb9d03c2b725b3",
-  "notes_ar": "شاشات جديدة، أشكال لقائمة القنوات والإنفوبار الثاني، ستايلات جاهزة، صورة البرنامج ورا القوائم، تقييم IMDb، طقس 5 أيام.",
-  "notes_en": "More screens, channel list and second infobar styles, presets, event backdrop behind menus, IMDb ratings, 5-day weather."
+  "version": "2.1.0",
+  "ipk": "https://raw.githubusercontent.com/Saadmelshepiny/NileGlass-FHD/main/releases/enigma2-plugin-skins-nileglass-fhd_2.1.0_all.ipk",
+  "sha256": "7533060c0ffc96403047e57b77867afec4c5a7f2ef931b4df87a0b3382ccc567",
+  "notes_ar": "قوائم معتمة، خط لامع أو مطفي، بوستر أكبر، تصفح البرامج القادمة ببوسترات كبيرة من الإنفوبار الثاني.",
+  "notes_en": "Solid menus, glossy/matte text, bigger poster, browse coming programmes with big posters."
 }
