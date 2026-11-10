@@ -1,14 +1,14 @@
-NileGlass FHD 2.2 - OpenBh skin (Python 3.14, 1920x1080)
+NileGlass FHD 2.2.1 - OpenBh skin (Python 3.14, 1920x1080)
 =========================================================
 
 التثبيت
 -------
-1) انسخ الملف enigma2-plugin-skins-nileglass-fhd_2.2.0_all.ipk إلى /tmp على الجهاز (FTP / WinSCP).
+1) انسخ الملف enigma2-plugin-skins-nileglass-fhd_2.2.1_all.ipk إلى /tmp على الجهاز (FTP / WinSCP).
 2) من التلنت أو الـ SSH:
-       opkg install /tmp/enigma2-plugin-skins-nileglass-fhd_2.2.0_all.ipk
+       opkg install /tmp/enigma2-plugin-skins-nileglass-fhd_2.2.1_all.ipk
 3) القائمة > الإعدادات > واجهة المستخدم > السكين  ثم اختر NileGlass_FHD وأعد تشغيل الواجهة.
 
-بديل بدون ipk:  tar -xzf NileGlass_FHD_2.2.0.tar.gz -C /  ثم أعد تشغيل الواجهة.
+بديل بدون ipk:  tar -xzf NileGlass_FHD_2.2.1.tar.gz -C /  ثم أعد تشغيل الواجهة.
 
 البوسترات
 ---------
@@ -34,6 +34,7 @@ Open-Meteo بدون مفتاح. المدينة الافتراضية الإسكن
 - معالج أول تشغيل (4 خطوات)، CH+/CH- للتنقل بين أقسام الإعدادات، INFO لشرح أي اختيار.
 - الإنفوبار: من غير رقم القناة، ومن غير كلمة ترميز الصوت.
 - شفافية 0% (معتم تمامًا).
+- مكتشف الإشارة بشكل منظم: الإعدادات يسار، وSNR وAGC بأشرطة كبيرة وdB وBER والقفل يمين.
 
 الجديد في 2.1
 -------------

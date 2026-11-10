@@ -1574,6 +1574,36 @@
 		<widget source="showings" render="Listbox" position="1240,688" size="600,308" backgroundColor="bgCard" foregroundColor="fg" foregroundColorSelected="white" backgroundColorSelected="bgSel" scrollbarMode="showOnDemand" scrollbarWidth="6" scrollbarSliderForegroundColor="accent" transparent="1"><convert type="TemplatedMultiContent">{"template": [MultiContentEntryText(pos=(14, 0), size=(250, 44), font=0, flags=RT_HALIGN_LEFT|RT_VALIGN_CENTER, text=0, color="#f2c94c", color_sel="#ffffff"), MultiContentEntryText(pos=(270, 0), size=(316, 44), font=0, flags=RT_HALIGN_LEFT|RT_VALIGN_CENTER, text=1)], "fonts": [gFont("Regular", 26)], "itemHeight": 44}</convert></widget>
 		<eLabel text="أعلى/أسفل: اختيار الميعاد     OK: تحويل     الأحمر: تسجيل" position="80,1010" size="1760,40" font="Regular;24" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center"/>
 	</screen>
+	<screen name="Satfinder" position="0,0" size="1920,1080" backgroundColor="transparent" flags="wfNoBorder">
+		<panel name="NG_Frame"/>
+		<widget name="config" position="80,146" size="1020,540" itemHeight="54" font="Regular;30" secondfont="Regular;30" backgroundColor="bg" foregroundColor="fg" foregroundColorSelected="white" backgroundColorSelected="bgSel" scrollbarMode="showOnDemand" scrollbarWidth="6" scrollbarSliderForegroundColor="accent" transparent="1"/>
+		<eLabel position="80,700" size="1020,1" backgroundColor="line"/>
+		<widget name="description" position="80,708" size="1020,90" font="Regular;26" foregroundColor="fgDim" backgroundColor="bg" transparent="1"/>
+		<widget name="introduction" position="80,800" size="1020,60" font="Regular;26" foregroundColor="gold" backgroundColor="bg" transparent="1"/>
+		<eLabel position="1130,146" size="710,794" backgroundColor="bgCard" zPosition="-5"/>
+		<eLabel text="قوة الإشارة" position="1160,160" size="650,44" font="ArabicBold;30" foregroundColor="accent" backgroundColor="bgCard" transparent="1" halign="left"/>
+		<eLabel text="SNR" position="1160,220" size="120,44" font="Medium;32" foregroundColor="fg" backgroundColor="bgCard" transparent="1" halign="left" valign="center"/>
+		<widget source="Frontend" render="Label" position="1640,220" size="180,44" font="Medium;38" foregroundColor="green" backgroundColor="bgCard" transparent="1" valign="center" noWrap="1" halign="right"><convert type="FrontendInfo">SNR</convert></widget>
+		<ePixmap pixmap="NileGlass_FHD/ui/signal_xl_bg.png" position="1160,276" size="660,24" alphatest="blend"/>
+		<widget source="Frontend" render="Progress" position="1160,276" size="660,24" pixmap="NileGlass_FHD/ui/signal_xl.png" transparent="1" zPosition="1"><convert type="FrontendInfo">SNR</convert></widget>
+		<eLabel text="AGC" position="1160,350" size="120,44" font="Medium;32" foregroundColor="fg" backgroundColor="bgCard" transparent="1" halign="left" valign="center"/>
+		<widget source="Frontend" render="Label" position="1640,350" size="180,44" font="Medium;38" foregroundColor="green" backgroundColor="bgCard" transparent="1" valign="center" noWrap="1" halign="right"><convert type="FrontendInfo">AGC</convert></widget>
+		<ePixmap pixmap="NileGlass_FHD/ui/signal_xl_bg.png" position="1160,406" size="660,24" alphatest="blend"/>
+		<widget source="Frontend" render="Progress" position="1160,406" size="660,24" pixmap="NileGlass_FHD/ui/signal_xl.png" transparent="1" zPosition="1"><convert type="FrontendInfo">AGC</convert></widget>
+		<eLabel text="SNR dB" position="1160,480" size="240,44" font="Regular;28" foregroundColor="fgDim" backgroundColor="bgCard" transparent="1" halign="left" valign="center"/>
+		<widget source="Frontend" render="Label" position="1400,480" size="420,44" font="Medium;34" foregroundColor="fg" backgroundColor="bgCard" transparent="1" valign="center" noWrap="1" halign="right"><convert type="FrontendInfo">SNRdB</convert></widget>
+		<eLabel text="BER" position="1160,532" size="240,44" font="Regular;28" foregroundColor="fgDim" backgroundColor="bgCard" transparent="1" halign="left" valign="center"/>
+		<widget source="Frontend" render="Label" position="1400,532" size="420,44" font="Medium;34" foregroundColor="fg" backgroundColor="bgCard" transparent="1" valign="center" noWrap="1" halign="right"><convert type="FrontendInfo">BER</convert></widget>
+		<eLabel text="القفل" position="1160,584" size="240,44" font="Regular;28" foregroundColor="fgDim" backgroundColor="bgCard" transparent="1" halign="left" valign="center"/>
+		<widget source="Frontend" render="Pixmap" pixmap="NileGlass_FHD/selections/selectioncross.png" position="1788,590" size="32,32" alphatest="blend" zPosition="1"><convert type="FrontendInfo">LOCK</convert><convert type="ConditionalShowHide"/></widget>
+		<eLabel position="1160,644" size="660,1" backgroundColor="line"/>
+		<eLabel text="القمر" position="1160,660" size="240,44" font="Regular;28" foregroundColor="fgDim" backgroundColor="bgCard" transparent="1" halign="left" valign="center" objectTypes="pos,StaticText"/>
+		<widget source="pos" render="Label" position="1400,660" size="420,44" font="Medium;30" foregroundColor="fg" backgroundColor="bgCard" transparent="1" halign="right" valign="center" noWrap="1" objectTypes="pos,StaticText"/>
+		<eLabel text="ONID" position="1160,710" size="240,44" font="Regular;28" foregroundColor="fgDim" backgroundColor="bgCard" transparent="1" halign="left" valign="center" objectTypes="onid,StaticText"/>
+		<widget source="onid" render="Label" position="1400,710" size="420,44" font="Medium;30" foregroundColor="fg" backgroundColor="bgCard" transparent="1" halign="right" valign="center" noWrap="1" objectTypes="onid,StaticText"/>
+		<eLabel text="TSID" position="1160,760" size="240,44" font="Regular;28" foregroundColor="fgDim" backgroundColor="bgCard" transparent="1" halign="left" valign="center" objectTypes="tsid,StaticText"/>
+		<widget source="tsid" render="Label" position="1400,760" size="420,44" font="Medium;30" foregroundColor="fg" backgroundColor="bgCard" transparent="1" halign="right" valign="center" noWrap="1" objectTypes="tsid,StaticText"/>
+	</screen>
 	<!-- NG_POPUPS_END -->
 
 </skin>
