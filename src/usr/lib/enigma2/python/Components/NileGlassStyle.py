@@ -54,6 +54,104 @@ for _key, _file, _rel in (("plex", "IBMPlex", 96), ("notosans", "NotoSans", 94),
 FONT_NAMES = {"ubuntu": "Ubuntu + Tajawal", "tajawal": "Tajawal", "almarai": "Almarai", "cairo": "Cairo", "kufi": "Noto Kufi",
 	"plex": "IBM Plex Arabic", "notosans": "Noto Sans Arabic", "vazir": "Vazirmatn", "amiri": "Amiri", "messiri": "El Messiri"}
 FONT_SIZES = (80, 90, 100, 110, 120, 130)
+SKINS_DIR = "/usr/share/enigma2"
+FONTS_DIR = "/usr/share/fonts"
+
+
+# ---------------------------------------------------------------- fonts of another skin
+# font = "skin:MX_HQ10" uses the fonts (files and scales) of that skin. The
+# files are copied once to /usr/share/fonts/NileGlass-From-<skin>-*.ttf, so
+# they keep working when the other skin is removed.
+def otherSkinFonts(skinsDir=SKINS_DIR, fontsDir=FONTS_DIR):
+	"""{skin name: {alias: (absolute file, scale, replacement)}} of installed skins."""
+	out = {}
+	try:
+		names = sorted(os.listdir(skinsDir))
+	except OSError:
+		return out
+	for name in names:
+		path = os.path.join(skinsDir, name, "skin.xml")
+		if name.startswith("NileGlass") or not os.path.isfile(path):
+			continue
+		try:
+			root = ET.parse(path).getroot()
+		except Exception:
+			continue
+		fonts = {}
+		for tag in root.findall("fonts"):
+			for f in tag.findall("font"):
+				fn, alias = f.get("filename"), f.get("name")
+				if not fn or not alias:
+					continue
+				for cand in (fn, os.path.join(skinsDir, name, fn), os.path.join(skinsDir, name, "fonts", fn), os.path.join(fontsDir, fn)):
+					if os.path.isfile(cand):
+						sc = f.get("scale") or "100"
+						fonts[alias] = (cand, int(sc) if sc.isdigit() else 100, bool(f.get("replacement")))
+						break
+		if "Regular" in fonts:
+			out[name] = fonts
+	return out
+
+
+def _copyFont(src, skin, alias, fontsDir=FONTS_DIR):
+	dst = os.path.join(fontsDir, "NileGlass-From-%s-%s%s" % (re.sub(r"[^A-Za-z0-9_]", "_", skin), alias, os.path.splitext(src)[1] or ".ttf"))
+	try:
+		if not os.path.isfile(dst) or os.path.getsize(dst) != os.path.getsize(src):
+			shutil.copyfile(src, dst + ".tmp")
+			os.replace(dst + ".tmp", dst)
+		return os.path.basename(dst)
+	except Exception as err:
+		print("[NileGlass] font copy failed:", err)
+		return None
+
+
+def fontSet(key, skinsDir=SKINS_DIR, fontsDir=FONTS_DIR, copy=True):
+	"""Font set for a key: a built-in one, or "skin:<name>" built from that skin."""
+	if not key.startswith("skin:"):
+		return FONT_SETS.get(key) or FONT_SETS["ubuntu"]
+	name = key[5:]
+	fonts = otherSkinFonts(skinsDir, fontsDir).get(name)
+	memo = os.path.join(fontsDir, "NileGlass-From-%s.json" % re.sub(r"[^A-Za-z0-9_]", "_", name))
+	if not fonts:  # skin removed: use the copies made earlier
+		try:
+			import json
+			with open(memo, "r") as f:
+				saved = {k: tuple(v) for k, v in json.load(f).items()}
+			if all(os.path.isfile(os.path.join(fontsDir, v[0])) for v in saved.values()) and "Regular" in saved:
+				return saved
+		except Exception:
+			pass
+		return FONT_SETS["ubuntu"]
+	files = {}
+	for alias in ("Regular", "Bold", "Medium", "Light", "Replacement", "Subtitlefont"):
+		if alias in fonts:
+			src, scale, _r = fonts[alias]
+			fn = _copyFont(src, name, alias, fontsDir) if copy else src
+			if fn:
+				files[alias] = (fn, scale)
+	if "Regular" not in files:
+		return FONT_SETS["ubuntu"]
+	reg = files["Regular"]
+	rep_ = files.get("Replacement") or reg
+	result = {"Regular": reg, "Medium": files.get("Medium") or files.get("Bold") or reg, "Light": files.get("Light") or reg,
+		"ArabicBold": rep_, "Replacement": rep_}
+	if "Subtitlefont" in files:  # used by subtitle plugins
+		result["Subtitlefont"] = files["Subtitlefont"]
+	if copy:
+		try:
+			import json
+			with open(memo, "w") as f:
+				json.dump(result, f)
+		except Exception:
+			pass
+	return result
+
+
+def fontChoices(skinsDir=SKINS_DIR):
+	out = list(FONT_NAMES.items())
+	for name in otherSkinFonts(skinsDir):
+		out.append(("skin:" + name, "خط سكين %s" % name))
+	return out
 INFOBAR_SIZES = (90, 100, 110, 120)
 # text colour -> (main text, dimmed text)
 TEXT_COLORS = {"white": ("eef1f4", "9aa3ae"), "pure": ("ffffff", "b4bcc6"), "cream": ("f3ead8", "b5ab98"), "grey": ("c9ced6", "8d949e")}
@@ -85,7 +183,7 @@ def readStyle(confFile=CONF_FILE):
 		style["transparency"] = 20
 	if style["infobar"] not in INFOBAR_LAYOUTS:
 		style["infobar"] = "full"
-	if style["font"] not in FONT_SETS:
+	if style["font"] not in FONT_SETS and not style["font"].startswith("skin:"):
 		style["font"] = DEFAULTS["font"]
 	try:
 		style["font_size"] = max(80, min(130, int(style["font_size"])))
@@ -286,6 +384,9 @@ def _transformedScreens(style, skinDir, language=None):
 	return "\n".join(out) + ("\n" if out else "")
 
 
+fontSet_ = fontSet
+
+
 def buildXml(style, skinDir=SKIN_DIR, language=None):
 	accent, dark, line = ACCENTS[style["accent"]]
 	t = style["transparency"]
@@ -293,7 +394,7 @@ def buildXml(style, skinDir=SKIN_DIR, language=None):
 	deepA = _alpha(t * 0.35)
 	cardA = _alpha(min(60, t * 0.5 + 9))
 	fonts = []
-	fontSet = dict(FONT_SETS[style["font"]])
+	fontSet = dict(fontSet_(style["font"]))
 	if not style.get("bold_titles", True):
 		fontSet["Medium"] = fontSet["Regular"]
 	for alias, (fname, rel) in fontSet.items():

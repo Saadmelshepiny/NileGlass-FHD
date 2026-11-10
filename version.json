@@ -1,7 +1,7 @@
 {
-  "version": "1.8.0",
-  "ipk": "https://raw.githubusercontent.com/Saadmelshepiny/NileGlass-FHD/main/releases/enigma2-plugin-skins-nileglass-fhd_1.8.0_all.ipk",
-  "sha256": "5b32841ff85ee0b07261f9fce1edc46b893133d31217b3ca2060de7173ebffc4",
-  "notes_ar": "أسرع، إنفوبار مظبوط بمعلومات أكتر، مدة بقاء الإنفوبار، حفظ بدون إعادة تشغيل، 4 بوسترات قادمة في قائمة القنوات، رقم الصوت، شاشة اختيار الصوت.",
-  "notes_en": "Faster, tidier infobar with more info, infobar timeouts, save without restart, 4 upcoming posters in the channel list, volume number, new audio track screen."
+  "version": "1.8.1",
+  "ipk": "https://raw.githubusercontent.com/Saadmelshepiny/NileGlass-FHD/main/releases/enigma2-plugin-skins-nileglass-fhd_1.8.1_all.ipk",
+  "sha256": "1749bc389bad503397f095c1dfb4f0feacdbb7fd1a77e0e96f6849082a9af3c9",
+  "notes_ar": "اختيار خط أي سكين متثبت (مثل MX_HQ10) بنفس المقاسات، ويفضل شغال حتى لو السكين اتشال.",
+  "notes_en": "Use the fonts of another installed skin (e.g. MX_HQ10), kept even if that skin is removed."
 }

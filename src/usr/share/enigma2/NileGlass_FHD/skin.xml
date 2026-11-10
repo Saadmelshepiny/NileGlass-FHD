@@ -51,6 +51,7 @@
 		<font filename="NileGlass-Light.ttf" name="Light" scale="100"/>
 		<font filename="NileGlass-ArabicBold.ttf" name="ArabicBold" scale="100"/>
 		<font filename="NileGlass-Arabic.ttf" name="Replacement" scale="108" replacement="1"/>
+		<font filename="NileGlass-Regular.ttf" name="Subtitlefont" scale="100"/>
 		<font filename="andale.ttf" name="Console" scale="100"/>
 		<font filename="andale.ttf" name="Fixed" scale="100"/>
 		<alias name="Body" font="Regular" size="30" height="42"/>

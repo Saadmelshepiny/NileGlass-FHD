@@ -184,7 +184,9 @@ class NileGlassSetup(Setup):
 		if Style:
 			style = Style.readStyle()
 			accents = [(k, Style.ACCENT_NAMES_AR[k] if AR else k.capitalize()) for k in Style.ACCENTS]
-			fontsets = [(k, v) for k, v in Style.FONT_NAMES.items()]
+			fontsets = Style.fontChoices()
+			if style["font"] not in [k for k, v in fontsets]:
+				fontsets.append((style["font"], style["font"].replace("skin:", "")))
 		else:
 			style = {"accent": "blue", "transparency": 20, "font": "ubuntu", "font_size": 100, "infobar": "full", "infobar_size": 100, "text_color": "white",
 				"bold_titles": True, "outline": False, "direction": "auto", "translate": True}
@@ -331,14 +333,14 @@ class NileGlassSetup(Setup):
 			glass = os.path.join(SKIN_DIR, "variants", "glass", self.transparency.value, "ui", "ib_top_right.png")
 			if os.path.isfile(glass):
 				self["preview_glass"].instance.setPixmapFromFile(glass)
-			fontSet = Style.FONT_SETS[self.font.value]
+			fontSet = Style.fontSet(self.font.value, copy=False)
 			size = int(self.fontSize.value)
 			ib = int(self.infobarSize.value)
 
 			def alias(kind, extra=100):
 				fname, rel = fontSet[kind if (kind != "Medium" or self.boldTitles.value) else "Regular"]
 				name = "NGPv_%s_%s_%d_%d" % (self.font.value, kind, size, extra)
-				addFont(os.path.join(FONT_DIR, fname), name, int(rel * size * extra / 10000), False, 0)
+				addFont(fname if fname.startswith("/") else os.path.join(FONT_DIR, fname), name, int(rel * size * extra / 10000), False, 0)
 				return name
 			regular, medium = alias("Regular"), alias("Medium")
 			ibRegular, ibMedium = alias("Regular", ib), alias("Medium", ib)
