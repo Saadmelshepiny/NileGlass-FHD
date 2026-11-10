@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- compact infobar: copied into the style file when chosen in the settings -->
+<skin>
+	<screen name="InfoBar" position="0,0" size="1920,1080" backgroundColor="transparent" flags="wfNoBorder">
+		<ePixmap pixmap="NileGlass_FHD/ui/ib_top_left.png" position="15,906" size="1090,54" alphatest="blend" zPosition="-5" />
+		<ePixmap pixmap="NileGlass_FHD/ui/ib_top_right.png" position="1130,906" size="775,54" alphatest="blend" zPosition="-5" />
+		<ePixmap pixmap="NileGlass_FHD/ui/ib_main_compact.png" position="15,960" size="1890,120" alphatest="blend" zPosition="-5" />
+		<widget source="session.CurrentService" render="ChannelNumber" position="26,906" size="96,54" font="Regular;34" foregroundColor="accent" backgroundColor="bgDeep" transparent="1" halign="center" valign="center" />
+		<widget source="session.CurrentService" render="Label" position="126,906" size="400,54" font="Medium;32" foregroundColor="fg" backgroundColor="bgDeep" transparent="1" halign="left" valign="center" noWrap="1">
+			<convert type="ServiceName">Name</convert>
+		</widget>
+		<ePixmap pixmap="NileGlass_FHD/icons/ib_txt_off.png" position="540,913" size="58,40" alphatest="blend" />
+		<widget source="session.CurrentService" render="Pixmap" pixmap="NileGlass_FHD/icons/ib_txt_on.png" position="540,913" size="58,40" alphatest="blend" zPosition="1">
+			<convert type="ServiceInfo">HasTelext</convert>
+			<convert type="ConditionalShowHide" />
+		</widget>
+		<ePixmap pixmap="NileGlass_FHD/icons/ib_sub_off.png" position="606,913" size="58,40" alphatest="blend" />
+		<widget source="session.CurrentService" render="Pixmap" pixmap="NileGlass_FHD/icons/ib_sub_on.png" position="606,913" size="58,40" alphatest="blend" zPosition="1">
+			<convert type="ServiceInfo">SubtitlesAvailable</convert>
+			<convert type="ConditionalShowHide" />
+		</widget>
+		<ePixmap pixmap="NileGlass_FHD/icons/ib_dolby_off.png" position="672,913" size="120,40" alphatest="blend" />
+		<widget source="session.CurrentService" render="Pixmap" pixmap="NileGlass_FHD/icons/ib_dolby_on.png" position="672,913" size="120,40" alphatest="blend" zPosition="1">
+			<convert type="ServiceInfo">IsMultichannel</convert>
+			<convert type="ConditionalShowHide" />
+		</widget>
+		<ePixmap pixmap="NileGlass_FHD/icons/ib_wide_off.png" position="800,913" size="64,40" alphatest="blend" />
+		<widget source="session.CurrentService" render="Pixmap" pixmap="NileGlass_FHD/icons/ib_wide_on.png" position="800,913" size="64,40" alphatest="blend" zPosition="1">
+			<convert type="ServiceInfo">IsWidescreen</convert>
+			<convert type="ConditionalShowHide" />
+		</widget>
+		<ePixmap pixmap="NileGlass_FHD/icons/ib_hd_off.png" position="872,913" size="64,40" alphatest="blend" />
+		<widget source="session.CurrentService" render="Pixmap" pixmap="NileGlass_FHD/icons/ib_hd_on.png" position="872,913" size="64,40" alphatest="blend" zPosition="1">
+			<convert type="ServiceInfo">IsHD</convert>
+			<convert type="ConditionalShowHide" />
+		</widget>
+		<widget source="session.CurrentService" render="Pixmap" pixmap="NileGlass_FHD/icons/ib_uhd_on.png" position="872,913" size="64,40" alphatest="blend" zPosition="2">
+			<convert type="ServiceInfo">Is4K</convert>
+			<convert type="ConditionalShowHide" />
+		</widget>
+		<widget source="session.RecordState" render="Pixmap" pixmap="NileGlass_FHD/icons/ib_rec_on.png" position="944,913" size="96,40" alphatest="blend" zPosition="2">
+			<convert type="ConditionalShowHide">Blink</convert>
+		</widget>
+		<widget source="global.CurrentTime" render="NGWeatherIcon" position="1392,908" size="50,50" alphatest="blend" zPosition="1" />
+		<widget source="global.CurrentTime" render="Label" position="1448,906" size="96,54" font="Regular;26" foregroundColor="fg" backgroundColor="bgDeep" transparent="1" halign="center" valign="center" noWrap="1">
+			<convert type="NGWeather">temp</convert>
+		</widget>
+		<widget source="global.CurrentTime" render="Label" position="1548,906" size="190,54" font="Regular;26" foregroundColor="gold" backgroundColor="bgDeep" transparent="1" halign="center" valign="center" noWrap="1">
+			<convert type="ClockToText">Format:%d %b %Y</convert>
+		</widget>
+		<widget source="global.CurrentTime" render="Label" position="1742,900" size="150,62" font="Regular;50" foregroundColor="fg" backgroundColor="bgDeep" transparent="1" halign="right" valign="center" noWrap="1">
+			<convert type="ClockToText">Format:%H:%M</convert>
+		</widget>
+		<widget source="session.CurrentService" render="Picon" position="50,966" size="180,108" alphatest="blend" zPosition="1">
+			<convert type="ServiceName">Reference</convert>
+		</widget>
+		<widget source="session.Event_Now" render="NGPoster" position="50,650" size="160,240" delay="0" borderWidth="2" borderColor="posterBorder" zPosition="3" />
+		<widget source="session.Event_Next" render="NGPoster" position="0,0" size="1,1" prefetch="1" delay="1500" />
+		<widget source="session.Event_Now" render="Label" position="260,966" size="104,52" font="Regular;36" foregroundColor="fg" backgroundColor="bgDeep" transparent="1" valign="center" noWrap="1">
+			<convert type="EventTime">StartTime</convert>
+			<convert type="ClockToText">Format:%H:%M</convert>
+		</widget>
+		<eLabel text="-" position="364,966" size="26,52" font="Regular;36" foregroundColor="fgDim" backgroundColor="bgDeep" transparent="1" halign="center" valign="center" />
+		<widget source="session.Event_Now" render="Label" position="392,966" size="1200,52" font="Regular;36" foregroundColor="accent" backgroundColor="bgDeep" transparent="1" halign="left" valign="center" noWrap="1">
+			<convert type="EventName">Name</convert>
+		</widget>
+		<widget source="session.Event_Now" render="Label" position="1600,966" size="280,52" font="Regular;34" foregroundColor="fg" backgroundColor="bgDeep" transparent="1" halign="right" valign="center" noWrap="1">
+			<convert type="EventTime">Remaining</convert>
+			<convert type="RemainingToText">InMinutes</convert>
+		</widget>
+		<eLabel position="260,1024" size="1620,6" backgroundColor="bgBar" zPosition="0" />
+		<widget source="session.Event_Now" render="Progress" position="260,1024" size="1620,6" pixmap="NileGlass_FHD/ui/progress_compact.png" transparent="1" zPosition="1">
+			<convert type="EventTime">Progress</convert>
+		</widget>
+		<widget source="session.Event_Next" render="Label" position="260,1032" size="104,44" font="Regular;30" foregroundColor="fgDim" backgroundColor="bgDeep" transparent="1" valign="center" noWrap="1">
+			<convert type="EventTime">StartTime</convert>
+			<convert type="ClockToText">Format:%H:%M</convert>
+		</widget>
+		<eLabel text="-" position="364,1032" size="26,44" font="Regular;30" foregroundColor="fgMute" backgroundColor="bgDeep" transparent="1" halign="center" valign="center" />
+		<widget source="session.Event_Next" render="Label" position="392,1032" size="1200,44" font="Regular;30" foregroundColor="fgDim" backgroundColor="bgDeep" transparent="1" halign="left" valign="center" noWrap="1">
+			<convert type="EventName">Name</convert>
+		</widget>
+		<widget source="session.Event_Next" render="Label" position="1600,1032" size="280,44" font="Regular;30" foregroundColor="fgDim" backgroundColor="bgDeep" transparent="1" halign="right" valign="center" noWrap="1">
+			<convert type="EventTime">Duration</convert>
+			<convert type="ClockToText">InMinutes</convert>
+		</widget>
+	</screen>
+</skin>
