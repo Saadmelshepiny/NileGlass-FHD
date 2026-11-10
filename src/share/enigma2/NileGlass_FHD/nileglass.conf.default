@@ -1,0 +1,40 @@
+# NileGlass FHD skin settings
+# Restart the GUI after changing this file.
+
+[tmdb]
+# Free key from https://www.themoviedb.org/settings/api
+# Either the short "API Key (v3 auth)" or the long "API Read Access Token" works.
+api_key =
+# Language used for the TMDB search (ar, en, fr, de, tr ...)
+language = ar
+# Set to 0 to switch off poster downloading completely
+enabled = 1
+
+[posters]
+# Where downloaded posters are kept. "auto" = first writable /media/hdd,
+# /media/usb, /media/mmc ... and /tmp as last resort (RAM, cleared on reboot).
+cache_dir = auto
+# Maximum number of posters kept in the cache
+max_files = 600
+
+[weather]
+# City from the built-in list (alexandria, cairo, giza, riyadh, dubai ...),
+# or "custom" to use the name / coordinates below.
+city_id = alexandria
+city = Alexandria
+latitude =
+longitude =
+# C or F
+units = C
+# Set to 0 to switch weather off
+enabled = 1
+
+[style]
+# blue, gold, green, red, purple, orange, cyan
+accent = blue
+# background transparency in percent: 10, 20, 30, 40, 50
+transparency = 20
+# ubuntu, tajawal, almarai, cairo, kufi
+font = ubuntu
+# text size in percent: 90, 100, 110, 120
+font_size = 100

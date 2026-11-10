@@ -1,0 +1,7 @@
+{
+  "version": "1.4.0",
+  "ipk": "https://raw.githubusercontent.com/Saadmelshepiny/NileGlass-FHD/main/releases/enigma2-plugin-skins-nileglass-fhd_1.4.0_all.ipk",
+  "sha256": "a25e9cf8298dbf5ce33dd9cfd5de3ea2e186ed12e03b43d1b86873fe816b88dc",
+  "notes_ar": "تحديث تلقائي من GitHub، إنفوبار ثاني بكارت الفيلم وبوسترات البرامج القادمة، فحص واختبار، نسخ احتياطي، شكل مختصر للإنفوبار.",
+  "notes_en": "Online updates, film-card second infobar with upcoming posters, diagnostics, backup/restore, compact infobar."
+}
