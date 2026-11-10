@@ -71,6 +71,11 @@ prefetch_hour = 4
 # found on TMDB (downloaded once a day, about 0.8 MB)
 epg_titles = 1
 epg_titles_url = https://raw.githubusercontent.com/Saadmelshepiny/saadepg-data/epg
+# Download the posters of the channels around the selected one in the
+# channel list, so they are ready when you move to them
+neighbours = 1
+# No film posters for matches / sport (TMDB has none and would guess wrong)
+smart_sport = 1
 
 [weather]
 # City from the built-in list (alexandria, cairo, giza, riyadh, dubai ...),
@@ -259,8 +264,47 @@ def callInUiThread(fnc, *args):
 _sslContext = None
 
 
+# ---------------------------------------------------------------- circuit breaker
+# A server that failed 3 times in a row is left alone for 10 minutes: no
+# waiting on timeouts while the internet or that service is down.
+_breaker = {}
+BREAK_AFTER = 3
+BREAK_FOR = 600
+
+
+def _host(url):
+	try:
+		return url.split("/")[2].lower()
+	except IndexError:
+		return url
+
+
+def hostBlocked(url):
+	b = _breaker.get(_host(url))
+	return bool(b and b[1] > time.time())
+
+
 def httpGet(url, headers=None, timeout=8, maxBytes=3 * 1024 * 1024):
 	"""Small, safe HTTP GET returning bytes (or raises)."""
+	host = _host(url)
+	b = _breaker.get(host)
+	if b and b[1] > time.time():
+		raise IOError("%s paused after errors (circuit breaker)" % host)
+	try:
+		data = _httpGet(url, headers, timeout, maxBytes)
+	except Exception as err:
+		code = getattr(err, "code", None)
+		if code is None or code >= 500 or code == 429:  # network / server trouble, not "not found"
+			fails = (b[0] if b else 0) + 1
+			_breaker[host] = (fails, time.time() + BREAK_FOR if fails >= BREAK_AFTER else 0)
+			if fails >= BREAK_AFTER:
+				log("%s: %d errors, paused for %d min" % (host, fails, BREAK_FOR // 60))
+		raise
+	_breaker.pop(host, None)
+	return data
+
+
+def _httpGet(url, headers=None, timeout=8, maxBytes=3 * 1024 * 1024):
 	global _sslContext
 	hdrs = {"User-Agent": USER_AGENT, "Accept": "*/*"}
 	if headers:
@@ -430,6 +474,39 @@ def formatCard(meta, fields=("year", "genres", "director", "country", "cast"), a
 	return "\n".join(lines)
 
 
+# -- sport detection (context-aware posters) --------------------------------
+_reSport = re.compile(r"(?:\bvs\.?\b|\bv\b(?=\s+\S)|\s[x\u00d7\u2013-]\s.*\s(?:live|\u0645\u0628\u0627\u0634\u0631)|\u0636\u062f\s|"
+	r"\b(?:league|liga|premier|champions|cup|serie a|bundesliga|laliga|uefa|fifa|caf|nba|nfl|ufc|wwe|grand prix|formula 1|f1|"
+	r"motogp|tennis|atp|wta|football|soccer|derby|highlights)\b|"
+	r"\u0645\u0628\u0627\u0631\u0627\u0629|\u0627\u0644\u062f\u0648\u0631\u064a|\u062f\u0648\u0631\u064a\s|\u0643\u0623\u0633|"
+	r"\u0628\u0637\u0648\u0644\u0629|\u0627\u0633\u062a\u0648\u062f\u064a\u0648 \u062a\u062d\u0644\u064a\u0644\u064a|\u0645\u0644\u062e\u0635|\u0623\u0647\u062f\u0627\u0641|\u0631\u064a\u0627\u0636\u0629)", re.I)
+
+
+def isSportTitle(name):
+	"""True for an event name that looks like a match / sport programme."""
+	return bool(name and _reSport.search(name))
+
+
+def isSportEvent(event, channelName=""):
+	"""Sport detection from the DVB genre (content nibble 4 = sports), the
+	event name and the channel name. Cheap: no I/O."""
+	try:
+		genre = event.getGenreData() if event else None
+		if genre and genre.getLevel1() == 4:
+			return True
+	except Exception:
+		pass
+	try:
+		name = event.getEventName() if event else ""
+	except Exception:
+		name = ""
+	if isSportTitle(name):
+		return True
+	ch = (channelName or "").lower()
+	return bool(ch) and any(k in ch for k in ("sport", "\u0631\u064a\u0627\u0636", "ssc", "on time", "alkass", "\u0627\u0644\u0643\u0623\u0633"))
+
+
+
 class PosterService:
 	"""Posters, backdrops and TMDB metadata for EPG events.
 
@@ -450,6 +527,7 @@ class PosterService:
 			self.maxFiles = 600
 		self.quality = "w500" if confGet("posters", "quality", "w342") == "w500" else "w342"
 		self.prefetchQueue = deque(maxlen=600)
+		self.skipSport = confBool("posters", "smart_sport", True)
 		self.stats = {"downloads": 0, "notfound": 0, "errors": 0, "prefetched": 0, "epg": 0}
 		self.cacheDir = None     # .../NileGlass/poster
 		self.backdropDir = None  # .../NileGlass/backdrop
@@ -500,17 +578,31 @@ class PosterService:
 				else:
 					del self.callbacks[key]
 
-	def prefetch(self, eventNames):
+	def prefetch(self, eventNames, urgent=False):
 		"""Queue posters for later, used by the daily bouquet download.
-		Handled only when nothing else is waiting. Returns the number queued."""
+		Handled only when nothing else is waiting. urgent=True puts them at
+		the head of the queue (channels next to the selected one).
+		Returns the number queued."""
 		n = 0
 		seen = set()
+		titles = []
 		for name in eventNames:
+			if self.skipSport and isSportTitle(name):
+				continue
 			title = cleanTitle(name)
 			if title and title not in seen:
 				seen.add(title)
-				self.prefetchQueue.append(title)
-				n += 1
+				titles.append(title)
+		if urgent:
+			for title in reversed(titles):
+				try:
+					self.prefetchQueue.remove(title)
+				except ValueError:
+					pass
+				self.prefetchQueue.appendleft(title)
+		else:
+			self.prefetchQueue.extend(titles)
+		n = len(titles)
 		if n:
 			self._start()
 			try:
@@ -672,8 +764,14 @@ class PosterService:
 	def _warm(path):
 		try:
 			with open(path, "rb") as f:  # wake the disk + fill the page cache
-				f.read()
-			os.utime(path, None)       # LRU for the cache cleaner
+				data = f.read()
+			# empty or cut files (other plugins, full disk ...) are never shown
+			if len(data) < 1024 or not (data[:2] == b"\xff\xd8" or data[:4] == b"\x89PNG"):
+				return None
+			try:
+				os.utime(path, None)   # LRU for the cache cleaner
+			except OSError:
+				pass
 			return path
 		except Exception:
 			return None
@@ -992,7 +1090,8 @@ class PosterService:
 	@staticmethod
 	def _saveImage(url, path, maxBytes):
 		img = httpGet(url, timeout=10, maxBytes=maxBytes)
-		if not img.startswith(b"\xff\xd8"):
+		# only complete JPEG/PNG files reach the screen (a broken image can crash the GUI)
+		if len(img) < 1024 or not (img.startswith(b"\xff\xd8") and img.rstrip(b"\x00").endswith(b"\xff\xd9") or img.startswith(b"\x89PNG") and b"IEND" in img[-32:]):
 			return None
 		tmp = path + ".part"
 		with open(tmp, "wb") as f:
@@ -1506,6 +1605,7 @@ def reloadSettings():
 		pass
 	p.negative = {}  # a new key or language may find what failed before
 	epgTitles.enabled = confBool("posters", "epg_titles", True)
+	p.skipSport = confBool("posters", "smart_sport", True)
 	tonight.path = confGet("tonight", "file", tonight.path) or tonight.path
 	tonight.mtime = 0
 	tonight.refresh(force=True)

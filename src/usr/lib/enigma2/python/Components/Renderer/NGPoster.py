@@ -14,6 +14,9 @@
 #   eventIndex="2"  with session.CurrentService / ServiceEvent: poster of the
 #                   2nd coming programme (taken from the in-memory EPG cache)
 #   fallback="NileGlass_FHD/ui/noposter.png"  shown instead of hiding
+#   sport="show"    keep looking for a poster during matches / sport (by
+#                   default sport events get no film poster: TMDB has none
+#                   and would guess a wrong film; setting "smart_sport")
 #
 # The widget hides itself when no poster is available, so the layout stays
 # clean.  Disk and network work is done by Components.NileGlassCore in
@@ -22,10 +25,10 @@
 import os
 from time import time
 
-from enigma import eEPGCache, eServiceReference, ePixmap, eTimer, BT_SCALE, BT_KEEP_ASPECT_RATIO, BT_HALIGN_CENTER, BT_VALIGN_CENTER
+from enigma import eEPGCache, eServiceCenter, eServiceReference, ePixmap, eTimer, BT_SCALE, BT_KEEP_ASPECT_RATIO, BT_HALIGN_CENTER, BT_VALIGN_CENTER
 
 from Components.Renderer.Renderer import Renderer
-from Components.NileGlassCore import posters
+from Components.NileGlassCore import posters, isSportEvent, isSportTitle
 from Tools.Directories import SCOPE_CURRENT_SKIN, resolveFilename
 
 
@@ -39,6 +42,7 @@ class NGPoster(Renderer):
 		self.kind = "poster"
 		self.eventIndex = 0
 		self.fallback = None
+		self.sportAware = True
 		self.wantedName = None     # raw event name we want to show
 		self.wantedTitle = None    # cleaned title we asked the service for
 		self.shownPath = None
@@ -63,6 +67,8 @@ class NGPoster(Renderer):
 			elif attrib == "fallback":
 				path = resolveFilename(SCOPE_CURRENT_SKIN, value)
 				self.fallback = path if path and os.path.isfile(path) else None
+			elif attrib == "sport":
+				self.sportAware = value.lower() != "show"
 			elif attrib == "prefetch":
 				self.prefetch = value.lower() in ("1", "true", "yes")
 			else:
@@ -98,13 +104,29 @@ class NGPoster(Renderer):
 		i = self.eventIndex - 1
 		return (events[i][1] or "") if 0 <= i < len(events) else ""
 
+	def channelName(self):
+		try:
+			src = self.source
+			ref = getattr(src, "serviceref", None) or getattr(src, "service", None)
+			if not isinstance(ref, eServiceReference):
+				import NavigationInstance
+				ref = NavigationInstance.instance.getCurrentlyPlayingServiceReference()
+			info = ref and eServiceCenter.getInstance().info(ref)
+			return info and info.getName(ref) or ""
+		except Exception:
+			return ""
+
 	def eventName(self):
 		src = self.source
+		sport = self.sportAware and posters.skipSport
 		if self.eventIndex:
-			return self.upcomingName()
+			name = self.upcomingName()
+			return "" if sport and isSportTitle(name) else name
 		try:
 			if hasattr(src, "event"):
 				event = src.event
+				if sport and event and isSportEvent(event, self.channelName()):
+					return ""
 				return event and event.getEventName() or ""
 			# Sources without EPG (media player / recordings / IPTV): use the
 			# title of what is playing.

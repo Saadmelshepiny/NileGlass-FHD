@@ -1,12 +1,12 @@
 {
-  "version": "2.2.1",
-  "ipk": "https://raw.githubusercontent.com/Saadmelshepiny/NileGlass-FHD/main/releases/enigma2-plugin-skins-nileglass-fhd_2.2.1_all.ipk",
-  "sha256": "4d28aecce29203e2036064abee657aec357b40e31a68eadf71ac2f24e88b085c",
-  "notes_ar": "مكتشف الإشارة بشكل منظم وأصغر، مع كل اللي في 2.2 (صفحة الفيلم، الوضع الخفيف، وضع الأمان...).",
-  "notes_en": "Tidy satellite finder, plus everything from 2.2.",
+  "version": "2.3.0",
+  "ipk": "https://raw.githubusercontent.com/Saadmelshepiny/NileGlass-FHD/main/releases/enigma2-plugin-skins-nileglass-fhd_2.3.0_all.ipk",
+  "sha256": "e2f706a58326bbf630f3ce18eaed64094e8aaa363c43b849c8c056c41bf7421c",
+  "notes_ar": "قائمة قنوات 14 سطر، تجهيز بوسترات القنوات المجاورة، وضع الرياضة الذكي، حماية من النت البطيء، فحص سلامة الصور، وشاشات OScam/NCam.",
+  "notes_en": "14-row channel list, neighbour poster prefetch, smart sport mode, circuit breaker for slow servers, image integrity checks, OScam/NCam info screens.",
   "previous": {
-    "version": "2.2.0",
-    "ipk": "https://raw.githubusercontent.com/Saadmelshepiny/NileGlass-FHD/main/releases/enigma2-plugin-skins-nileglass-fhd_2.2.0_all.ipk",
-    "sha256": "1cbf990be25f27652e0ed4df32bafd71a80e6f05c5368f0327e3ad70d43640c7"
+    "version": "2.2.1",
+    "ipk": "https://raw.githubusercontent.com/Saadmelshepiny/NileGlass-FHD/main/releases/enigma2-plugin-skins-nileglass-fhd_2.2.1_all.ipk",
+    "sha256": "4d28aecce29203e2036064abee657aec357b40e31a68eadf71ac2f24e88b085c"
   }
 }

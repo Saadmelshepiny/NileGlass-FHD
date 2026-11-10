@@ -452,7 +452,7 @@
 	     =================================================================== -->
 	<screen name="ChannelSelection" position="0,0" size="1920,1080" backgroundColor="transparent" flags="wfNoBorder">
 		<panel name="NG_Frame"/>
-		<widget name="list" position="60,140" size="1100,792" itemHeight="72" serviceItemHeight="72" selectionPixmap="NileGlass_FHD/ui/sel_channel.png" backgroundColor="bg" foregroundColor="fg" foregroundColorSelected="white" backgroundColorSelected="bgSel" foregroundColorServiceNotAvail="fgMute" colorServiceDescription="fgDim" colorServiceDescriptionSelected="#d6dbe1" colorEventProgressbar="accent" colorEventProgressbarSelected="white" colorEventProgressbarBorder="#505660" colorEventProgressbarBorderSelected="white" foregroundColorMarked="gold" foregroundColorMarkedSelected="gold" backgroundColorMarked="#2a3a2a" backgroundColorMarkedSelected="#3a5a2a" colorServiceRecorded="red" serviceNumberFont="Regular;30" serviceNameFont="Regular;32" serviceInfoFont="Regular;26" serviceRemainingInfoFont="Regular;24" progressBarWidth="60" progressbarHeight="8" progressbarBorderWidth="1" fieldMargins="16" sidesMargin="14" piconMargin="10" itemsDistances="12" markerLine="1" markerLineColor="#505660" scrollbarMode="showOnDemand" scrollbarWidth="6" scrollbarSliderForegroundColor="accent" scrollbarSliderBorderWidth="0" transparent="1"/>
+		<widget name="list" position="60,140" size="1100,784" itemHeight="56" serviceItemHeight="56" selectionPixmap="NileGlass_FHD/ui/sel_channel56.png" backgroundColor="bg" foregroundColor="fg" foregroundColorSelected="white" backgroundColorSelected="bgSel" foregroundColorServiceNotAvail="fgMute" colorServiceDescription="fgDim" colorServiceDescriptionSelected="#d6dbe1" colorEventProgressbar="accent" colorEventProgressbarSelected="white" colorEventProgressbarBorder="#505660" colorEventProgressbarBorderSelected="white" foregroundColorMarked="gold" foregroundColorMarkedSelected="gold" backgroundColorMarked="#2a3a2a" backgroundColorMarkedSelected="#3a5a2a" colorServiceRecorded="red" serviceNumberFont="Regular;26" serviceNameFont="Regular;28" serviceInfoFont="Regular;23" serviceRemainingInfoFont="Regular;21" progressBarWidth="60" progressbarHeight="6" progressbarBorderWidth="1" fieldMargins="16" sidesMargin="14" piconMargin="10" itemsDistances="12" markerLine="1" markerLineColor="#505660" scrollbarMode="showOnDemand" scrollbarWidth="6" scrollbarSliderForegroundColor="accent" scrollbarSliderBorderWidth="0" transparent="1"/>
 		<eLabel position="1180,140" size="1,800" backgroundColor="line"/>
 
 		<!-- selected channel: running event -->
@@ -1603,6 +1603,18 @@
 		<widget source="onid" render="Label" position="1400,710" size="420,44" font="Medium;30" foregroundColor="fg" backgroundColor="bgCard" transparent="1" halign="right" valign="center" noWrap="1" objectTypes="onid,StaticText"/>
 		<eLabel text="TSID" position="1160,760" size="240,44" font="Regular;28" foregroundColor="fgDim" backgroundColor="bgCard" transparent="1" halign="left" valign="center" objectTypes="tsid,StaticText"/>
 		<widget source="tsid" render="Label" position="1400,760" size="420,44" font="Medium;30" foregroundColor="fg" backgroundColor="bgCard" transparent="1" halign="right" valign="center" noWrap="1" objectTypes="tsid,StaticText"/>
+	</screen>
+	<screen name="OscamInfoMenu" position="0,0" size="1920,1080" backgroundColor="transparent" flags="wfNoBorder">
+		<panel name="NG_Frame"/>
+		<widget name="mainmenu" position="80,150" size="1760,780" backgroundColor="bg" foregroundColor="fg" foregroundColorSelected="white" backgroundColorSelected="bgSel" scrollbarMode="showOnDemand" scrollbarWidth="6" scrollbarSliderForegroundColor="accent" transparent="1"/>
+	</screen>
+	<screen name="oscECMInfo" position="0,0" size="1920,1080" backgroundColor="transparent" flags="wfNoBorder">
+		<panel name="NG_Frame"/>
+		<widget name="output" position="80,150" size="1760,780" backgroundColor="bg" foregroundColor="fg" foregroundColorSelected="white" backgroundColorSelected="bgSel" scrollbarMode="showOnDemand" scrollbarWidth="6" scrollbarSliderForegroundColor="accent" transparent="1"/>
+	</screen>
+	<screen name="oscInfo" position="0,0" size="1920,1080" backgroundColor="transparent" flags="wfNoBorder">
+		<panel name="NG_Frame"/>
+		<widget name="output" position="80,150" size="1760,790" backgroundColor="bg" foregroundColor="fg" foregroundColorSelected="white" backgroundColorSelected="bgSel" scrollbarMode="showOnDemand" scrollbarWidth="6" scrollbarSliderForegroundColor="accent" transparent="1"/>
 	</screen>
 	<!-- NG_POPUPS_END -->
 
