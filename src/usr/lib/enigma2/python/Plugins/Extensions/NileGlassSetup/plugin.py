@@ -123,6 +123,7 @@ menu_backdrop = {menu_backdrop}
 opaque_screens = {opaque_screens}
 text_finish = {text_finish}
 ok_upcoming = {ok_upcoming}
+lite = {lite}
 """
 
 
@@ -221,6 +222,7 @@ class NileGlassSetup(Setup):
 		self.sib = NoSave(ConfigSelection(default=style.get("sib", "cinema"), choices=[
 			("cinema", T("Cinema (posters row)", "سينما (صف بوسترات)")), ("classic", T("Classic (programme list)", "كلاسيك (قائمة برامج)"))]))
 		self.menuBackdrop = NoSave(ConfigYesNo(default=bool(style.get("menu_backdrop", True))))
+		self.lite = NoSave(ConfigYesNo(default=bool(style.get("lite", False))))
 		self.okUpcoming = NoSave(ConfigYesNo(default=bool(style.get("ok_upcoming", True))))
 		self.opaque = NoSave(ConfigYesNo(default=bool(style.get("opaque_screens", False))))
 		self.finish = NoSave(ConfigSelection(default=style.get("text_finish", "normal"), choices=[
@@ -282,7 +284,25 @@ class NileGlassSetup(Setup):
 		self.previewKey = None
 		self.diagRunning = False
 		self.onLayoutFinish.append(self.updatePreview)
+		from Components.ActionMap import ActionMap
+		self["ngHelp"] = ActionMap(["InfoActions"], {"info": self.optionHelp}, -2)
+		self["ngSections"] = ActionMap(["ChannelSelectBaseActions"], {"nextBouquet": lambda: self.jumpSection(1), "prevBouquet": lambda: self.jumpSection(-1)}, -2)
 		self.setTitle(T("NileGlass FHD settings", "إعدادات سكين NileGlass"))
+
+	def optionHelp(self):
+		cur = self["config"].getCurrent()
+		if cur and len(cur) > 2 and cur[2]:
+			self.session.open(MessageBox, "%s\n\n%s\n\n%s" % (cur[0].strip(), cur[2], T("The preview on the right shows look changes before saving.", "المعاينة على اليمين بتوريك تغييرات الشكل قبل الحفظ.")), MessageBox.TYPE_INFO)
+
+	def jumpSection(self, step):
+		"""CH+/CH-: jump to the next / previous section of the settings."""
+		lst = self["config"].list
+		heads = [n for n, x in enumerate(lst) if len(x) < 2]
+		cur = self["config"].getCurrentIndex()
+		targets = [n for n in heads if (n > cur if step > 0 else n < cur - 1)]
+		if targets:
+			n = targets[0] if step > 0 else targets[-1]
+			self["config"].setCurrentIndex(min(n + 1, len(lst) - 1))
 
 	def changedEntry(self):
 		if Style and self["config"].getCurrent() and len(self["config"].getCurrent()) > 1 and self["config"].getCurrent()[1] is self.preset and self.preset.value in Style.PRESETS:
@@ -296,6 +316,7 @@ class NileGlassSetup(Setup):
 		i = "   "
 		items = [
 			(T("— Look —", "— المظهر —"),),
+			(i + T("Lite mode (fastest)", "الوضع الخفيف (أقصى سرعة)"), self.lite, T("Turns off the heavy parts: poster rows, pictures behind menus, text shadows.", "يقفل الحاجات التقيلة: صفوف البوسترات، الصور ورا القوائم، ظل الخط.")),
 			(i + T("Ready-made style", "ستايل جاهز"), self.preset, T("Sets colour, transparency, font and text colour in one go.", "يغيّر اللون والشفافية والخط ولون النص مرة واحدة.")),
 			(i + T("Channel list", "شكل قائمة القنوات"), self.channels, ""),
 			(i + T("Second infobar", "شكل الإنفوبار الثاني"), self.sib, ""),
@@ -443,6 +464,7 @@ class NileGlassSetup(Setup):
 			"opaque_screens": 1 if self.opaque.value else 0,
 			"text_finish": self.finish.value,
 			"ok_upcoming": 1 if self.okUpcoming.value else 0,
+			"lite": 1 if self.lite.value else 0,
 			"omdb_key": self.omdbKey.value.strip(),
 		}
 
@@ -568,6 +590,8 @@ class NileGlassSetup(Setup):
 			(T("Backup settings", "نسخة احتياطية للإعدادات"), "backup"),
 			(T("Restore settings", "استرجاع الإعدادات"), "restore"),
 			(T("Clear posters and details", "مسح البوسترات والتفاصيل"), "clear"),
+			(T("Go back to the previous version", "الرجوع للنسخة السابقة"), "rollback"),
+			(T("Run the first-start wizard again", "تشغيل معالج البداية مرة تانية"), "wizard"),
 		]
 		self.session.openWithCallback(self.toolChosen, ChoiceBox, title=T("Tools", "أدوات"), list=items)
 
@@ -577,6 +601,10 @@ class NileGlassSetup(Setup):
 		action = choice[1]
 		if action == "update":
 			checkForUpdate(self.session, quiet=False)
+		elif action == "rollback":
+			checkForUpdate(self.session, quiet=False, previous=True)
+		elif action == "wizard":
+			startWizard(self.session)
 		elif action == "prefetch":
 			n = posters.prefetch(collectBouquetTitles()) if posters else 0
 			self.session.open(MessageBox, T("%d programmes queued. Posters are downloaded in the background.", "تمت إضافة %d برنامج. البوسترات تُحمّل في الخلفية.") % n, MessageBox.TYPE_INFO, timeout=6)
@@ -618,7 +646,7 @@ class NileGlassSetup(Setup):
 
 
 # --------------------------------------------------------------------- updates
-def checkForUpdate(session, quiet=False):
+def checkForUpdate(session, quiet=False, previous=False):
 	"""quiet=True: only a small popup when something new exists (daily check)."""
 	if updater is None:
 		return
@@ -627,6 +655,14 @@ def checkForUpdate(session, quiet=False):
 		if error or not info:
 			if not quiet:
 				session.open(MessageBox, T("Could not check for updates:", "تعذّر التحقق من التحديثات:") + "\n%s" % error, MessageBox.TYPE_ERROR, timeout=10)
+			return
+		if previous:
+			prev = info.get("previous") or {}
+			if not prev.get("ipk"):
+				session.open(MessageBox, T("No previous version is available.", "مفيش نسخة سابقة متاحة."), MessageBox.TYPE_INFO, timeout=6)
+				return
+			session.openWithCallback(lambda yes: yes and startDownload(prev), MessageBox,
+				T("Install the previous version %s (installed %s)?", "تثبيت النسخة السابقة %s (المثبت %s)؟") % (prev.get("version"), updater.installedVersion()), MessageBox.TYPE_YESNO)
 			return
 		if not updater.isNewer(info["version"]):
 			if not quiet:
@@ -786,6 +822,18 @@ def patchSecondInfoBar():
 		print("[NileGlass] patch second infobar:", err)
 
 
+def openFilm(session, **kwargs):
+	"""Film page of the programme running now."""
+	try:
+		from enigma import eEPGCache
+		ref = session.nav.getCurrentlyPlayingServiceReference()
+		ev = eEPGCache.getInstance().lookupEventTime(ref, -1) if ref else None
+		from .film import NileGlassFilm
+		session.open(NileGlassFilm, ev.getEventName() if ev else "", ref)
+	except Exception as err:
+		print("[NileGlass] film page:", err)
+
+
 def openUpcoming(session, **kwargs):
 	from .upcoming import NileGlassUpcoming
 	session.open(NileGlassUpcoming)
@@ -801,12 +849,22 @@ def sessionstart(reason, session=None, **kwargs):
 					tonight.refresh(force=True)
 				installTranslations()
 				patchSecondInfoBar()
+				try:
+					from .startup import startupChecks
+					startupChecks(session)
+				except Exception as err:
+					print("[NileGlass] startup checks:", err)
 		except Exception as err:
 			print("[NileGlass] sessionstart:", err)
 
 
 def main(session, **kwargs):
 	session.open(NileGlassSetup)
+
+
+def startWizard(session):
+	from .startup import startWizard as run
+	run(session)
 
 
 def openWeather(session, **kwargs):
@@ -834,5 +892,6 @@ def Plugins(**kwargs):
 		PluginDescriptor(name=T("Tonight: films and matches", "الليلة: أفلام وماتشات"), where=PluginDescriptor.WHERE_EXTENSIONSMENU, fnc=openTonight),
 		PluginDescriptor(name=T("Weather (5 days)", "الطقس (5 أيام)"), where=PluginDescriptor.WHERE_EXTENSIONSMENU, fnc=openWeather),
 		PluginDescriptor(name=T("Coming up (posters)", "البرامج القادمة (بوسترات)"), where=PluginDescriptor.WHERE_EXTENSIONSMENU, fnc=openUpcoming),
+		PluginDescriptor(name=T("Film page (now)", "صفحة الفيلم (الشغال دلوقتي)"), where=PluginDescriptor.WHERE_EXTENSIONSMENU, fnc=openFilm),
 		PluginDescriptor(where=PluginDescriptor.WHERE_SESSIONSTART, fnc=sessionstart),
 	]

@@ -5,8 +5,7 @@
 		<ePixmap pixmap="NileGlass_FHD/ui/ib_top_left.png" position="15,886" size="1090,54" alphatest="blend" zPosition="-5" />
 		<ePixmap pixmap="NileGlass_FHD/ui/ib_top_right.png" position="1130,886" size="775,54" alphatest="blend" zPosition="-5" />
 		<ePixmap pixmap="NileGlass_FHD/ui/ib_main_compact.png" position="15,940" size="1890,120" alphatest="blend" zPosition="-5" />
-		<widget source="session.CurrentService" render="ChannelNumber" position="26,886" size="96,54" font="Medium;32" foregroundColor="accent" backgroundColor="bgDeep" transparent="1" halign="center" valign="center" />
-		<widget source="session.CurrentService" render="Label" position="126,886" size="400,54" font="Medium;32" foregroundColor="fg" backgroundColor="bgDeep" transparent="1" halign="left" valign="center" noWrap="1">
+		<widget source="session.CurrentService" render="Label" position="30,886" size="496,54" font="Medium;32" foregroundColor="fg" backgroundColor="bgDeep" transparent="1" halign="left" valign="center" noWrap="1">
 			<convert type="ServiceName">Name</convert>
 		</widget>
 		<ePixmap pixmap="NileGlass_FHD/icons/ib_txt_off.png" position="540,893" size="58,40" alphatest="blend" />

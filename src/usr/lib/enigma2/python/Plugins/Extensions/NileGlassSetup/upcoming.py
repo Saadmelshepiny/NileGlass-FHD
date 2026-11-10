@@ -35,11 +35,11 @@ class NileGlassUpcoming(Screen):
 		for n in ("title", "when", "info", "card", "desc", "channel", "count"):
 			self[n] = Label("")
 		self["key_red"] = StaticText("تسجيل")
-		self["key_green"] = StaticText("")
 		self["key_yellow"] = StaticText("")
 		self["key_blue"] = StaticText("")
-		self["actions"] = ActionMap(["OkCancelActions", "DirectionActions", "ColorActions"], {
-			"ok": self.close, "cancel": self.close, "left": self.left, "right": self.right,
+		self["key_green"] = StaticText("صفحة الفيلم")
+		self["actions"] = ActionMap(["OkCancelActions", "DirectionActions", "ColorActions", "InfoActions"], {
+			"ok": self.film, "green": self.film, "info": self.film, "cancel": self.close, "left": self.left, "right": self.right,
 			"up": self.left, "down": self.right, "red": self.record}, -1)
 		self.onLayoutFinish.append(self.load)
 		self.onClose.append(self.cleanup)
@@ -138,6 +138,12 @@ class NileGlassUpcoming(Screen):
 			return
 		self["info"].setText(formatInfo(meta, ("year", "genres", "rating")))
 		self["card"].setText(formatCard(meta, ("director", "cast", "country", "runtime", "imdb"), True, "\\c009aa3ae", "\\c00eef1f4"))
+
+	def film(self):
+		if self.events:
+			from .film import NileGlassFilm
+			ev = self.events[self.index]
+			self.session.open(NileGlassFilm, ev[3], self.ref, ev[1])
 
 	# ---------------------------------------------------------------- record
 	def record(self):

@@ -159,7 +159,7 @@ TEXT_COLOR_NAMES_AR = {"white": "أبيض", "pure": "أبيض ناصع", "cream"
 DIRECTIONS = ("auto", "rtl", "ltr")
 DEFAULTS = {"accent": "blue", "transparency": "20", "font": "ubuntu", "font_size": "100", "infobar": "full",
 	"infobar_size": "100", "text_color": "white", "bold_titles": "1", "outline": "0", "direction": "auto", "translate": "1",
-	"channels": "posters", "sib": "cinema", "menu_backdrop": "1", "opaque_screens": "0", "text_finish": "normal", "ok_upcoming": "1"}
+	"channels": "posters", "sib": "cinema", "menu_backdrop": "1", "opaque_screens": "0", "text_finish": "normal", "ok_upcoming": "1", "lite": "0"}
 TEXT_FINISHES = ("normal", "glossy", "matte")
 LAYOUT_FILES = {("channels", "simple"): "channels_simple.xml", ("sib", "classic"): "sib_classic.xml", ("infobar", "compact"): "infobar_compact.xml"}
 # ready-made looks: (accent, transparency, font, text colour)
@@ -215,7 +215,7 @@ def readStyle(confFile=CONF_FILE):
 		style["sib"] = "cinema"
 	if style["text_finish"] not in TEXT_FINISHES:
 		style["text_finish"] = "normal"
-	for k in ("bold_titles", "outline", "translate", "menu_backdrop", "opaque_screens", "ok_upcoming"):
+	for k in ("bold_titles", "outline", "translate", "menu_backdrop", "opaque_screens", "ok_upcoming", "lite"):
 		style[k] = str(style[k]).strip().lower() in ("1", "yes", "true", "on")
 	return style
 
@@ -429,9 +429,16 @@ def _transformedScreens(style, skinDir, language=None):
 		if replaced:
 			scr = layouts[name]
 		done.add(name)
-		changed = transformScreen(scr, ibFactor, outline, rtl, style.get("text_finish") == "glossy")
-		if not style.get("menu_backdrop", True):
+		lite = bool(style.get("lite"))
+		changed = transformScreen(scr, ibFactor, outline, rtl, style.get("text_finish") == "glossy" and not lite)
+		if lite or not style.get("menu_backdrop", True):
 			changed = _dropMenuBackdrops(scr) or changed
+		if lite:  # lite mode: no rows of posters (the heaviest part while zapping)
+			for parent in list(scr.iter()):
+				for el in list(parent):
+					if el.tag == "widget" and el.get("render") == "NGPoster" and el.get("eventIndex"):
+						parent.remove(el)
+						changed = True
 		if changed or replaced:
 			out.append("\t" + ET.tostring(scr, encoding="unicode").strip())
 	for name, scr in layouts.items():  # layout screens that skin.xml does not have
@@ -497,15 +504,66 @@ def buildXml(style, skinDir=SKIN_DIR, language=None):
 		fg=_finish(TEXT_COLORS[style["text_color"]][0], style), fgDim=_finish(TEXT_COLORS[style["text_color"]][1], style), screens=_transformedScreens(style, skinDir, language))
 
 
+def _xmlProblems(xml, skinDir=SKIN_DIR, fontsDir=FONTS_DIR):
+	"""Things in a style file that would stop enigma2 from starting."""
+	try:
+		root = ET.fromstring(xml)
+	except Exception as err:
+		return ["xml: %s" % err]
+	out = []
+	for f in root.iter("font"):
+		fn = f.get("filename") or ""
+		if not any(os.path.isfile(p) for p in (fn, os.path.join(fontsDir, fn), os.path.join(skinDir, fn), os.path.join(skinDir, "fonts", fn))):
+			out.append("font file missing: %s" % fn)
+	return out
+
+
+def safeXml(style, skinDir=SKIN_DIR, language=None):
+	"""Safe mode: never write a style file that could keep the GUI from starting.
+	Problems -> the same style with the default font, then the plain default."""
+	xml = buildXml(style, skinDir, language)
+	problems = _xmlProblems(xml, skinDir)
+	if problems:
+		print("[NileGlass] safe mode:", "; ".join(problems))
+		style = dict(style, font="ubuntu")
+		xml = buildXml(style, skinDir, language)
+		if _xmlProblems(xml, skinDir):
+			style = readStyle("/nonexistent")
+			xml = buildXml(style, skinDir, language)
+	return xml
+
+
+def checkInstalled(userXml=USER_XML, skinDir=SKIN_DIR):
+	"""At start-up: is the active style file still safe (fonts deleted ...)?
+	Returns a problem text, '' when fine. The file is repaired for the next start."""
+	try:
+		with open(userXml, "r", encoding="utf-8") as f:
+			problems = _xmlProblems(f.read(), skinDir)
+	except OSError:
+		return ""
+	if problems:
+		try:
+			apply(skinDir=skinDir, userXml=userXml)
+		except Exception as err:
+			try:
+				os.remove(userXml)  # last resort: the plain skin always starts
+			except OSError:
+				pass
+			print("[NileGlass] safe mode removed the style file:", err)
+		return "; ".join(problems)
+	return ""
+
+
 def apply(confFile=CONF_FILE, skinDir=SKIN_DIR, userXml=USER_XML):
 	"""Apply the style from the config file. Returns a short report string."""
 	style = readStyle(confFile)
 	copied = _copyTree(os.path.join(skinDir, "variants", "accent", style["accent"]), skinDir)
 	copied += _copyTree(os.path.join(skinDir, "variants", "glass", str(style["transparency"] or 10)), skinDir)
 	os.makedirs(os.path.dirname(userXml), exist_ok=True)
+	xml = safeXml(style, skinDir)
 	tmp = userXml + ".tmp"
 	with open(tmp, "w", encoding="utf-8") as f:
-		f.write(buildXml(style, skinDir))
+		f.write(xml)
 	os.replace(tmp, userXml)
 	return "accent=%s transparency=%s font=%s size=%s infobar=%s/%s colour=%s rtl=%s (%d pixmaps)" % (style["accent"], style["transparency"], style["font"], style["font_size"],
 		style["infobar"], style["infobar_size"], style["text_color"], isRtl(style), copied)

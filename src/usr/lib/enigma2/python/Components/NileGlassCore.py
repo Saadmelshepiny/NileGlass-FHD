@@ -438,7 +438,7 @@ class PosterService:
 	downloaded when a screen actually shows one."""
 	NEGATIVE_TTL = 12 * 3600      # don't ask TMDB again for an unknown title for 12h
 	REINDEX_EVERY = 15 * 60       # rescan foreign poster folders every 15 min
-	KINDS = ("poster", "backdrop", "meta", "details")
+	KINDS = ("poster", "backdrop", "meta", "details", "thumb")
 
 	def __init__(self):
 		self.enabled = confBool("tmdb", "enabled", True)
@@ -580,6 +580,10 @@ class PosterService:
 					self.maxFiles = min(self.maxFiles, 120)  # RAM disk: keep it small
 				base = os.path.dirname(c.rstrip("/"))
 				self.backdropDir = os.path.join(base, "backdrop")
+				self.thumbDir = os.path.join(base, "thumb")
+				self.peopleDir = os.path.join(base, "people")
+				os.makedirs(self.thumbDir, exist_ok=True)
+				os.makedirs(self.peopleDir, exist_ok=True)
 				self.metaDir = os.path.join(base, "meta")
 				os.makedirs(self.backdropDir, exist_ok=True)
 				os.makedirs(self.metaDir, exist_ok=True)
@@ -674,7 +678,20 @@ class PosterService:
 		except Exception:
 			return None
 
+	def _thumbPath(self, title):
+		d = getattr(self, "thumbDir", None)
+		p = d and os.path.join(d, fileNameFor(title))
+		return p if p and os.path.isfile(p) else None
+
 	def _local(self, kind, title):
+		if kind == "thumb":  # small poster for lists: 4x faster to decode
+			p = self._thumbPath(title)
+			if p:
+				return True, self._warm(p)
+			meta = self._loadMeta(title)
+			if meta is not None and not meta.get("poster"):
+				return True, None
+			return False, None
 		"""(found, value). found=False means a download could help."""
 		if kind == "poster":
 			p = self._posterPath(title)
@@ -718,7 +735,7 @@ class PosterService:
 				if not self._canDownload(title):
 					self._deliver(kind, title, value if kind == "details" else None)
 					continue
-				need = {kind} & {"backdrop", "details"}
+				need = {kind} & {"backdrop", "details", "thumb"}
 				with self.lock:
 					if title in self.netPending:
 						self.netPending[title] |= need
@@ -783,6 +800,8 @@ class PosterService:
 					needs = set(self.netPending.get(title) or ())
 				if meta and "details" in needs and "details" not in meta:
 					meta = self._details(title, meta)
+				if meta and "thumb" in needs and meta.get("poster") and not self._thumbPath(title):
+					self._saveImage("https://image.tmdb.org/t/p/w185" + quote(meta["poster"]), os.path.join(self.thumbDir, fileNameFor(title)), 300 * 1024)
 				if meta and "backdrop" in needs and meta.get("backdrop") and not self._backdropPath(title):
 					self._saveImage("https://image.tmdb.org/t/p/w1280" + quote(meta["backdrop"]), os.path.join(self.backdropDir, fileNameFor(title)), 3 * 1024 * 1024)
 				if downloads and downloads % 25 == 0:
@@ -799,6 +818,7 @@ class PosterService:
 			self._deliver("meta", title, meta)
 			self._deliver("details", title, meta)
 			self._deliver("backdrop", title, self._backdropPath(title))
+			self._deliver("thumb", title, self._thumbPath(title))
 			if self.prefetchQueue:
 				time.sleep(0.3)  # be gentle with TMDB during bulk downloads
 
@@ -937,13 +957,15 @@ class PosterService:
 		if not directors:
 			directors = [c.get("name") for c in d.get("created_by") or []]
 		cast = [c.get("name") for c in (credits.get("cast") or [])[:4] if c.get("name")]
+		people = [(c.get("name"), c.get("character") or "", c.get("profile_path") or "") for c in (credits.get("cast") or [])[:6] if c.get("name")]
 		countries = [c.get("name") for c in d.get("production_countries") or [] if c.get("name")]
 		if not countries:
 			countries = d.get("origin_country") or []
 		runtime = d.get("runtime") or ((d.get("episode_run_time") or [0]) or [0])[0]
 		meta = dict(meta)
 		meta["details"] = {"director": "، ".join([x for x in directors if x][:2]), "cast": cast, "country": "، ".join(countries[:2]),
-			"runtime": runtime or 0, "seasons": d.get("number_of_seasons") or 0}
+			"runtime": runtime or 0, "seasons": d.get("number_of_seasons") or 0, "people": people,
+			"original": d.get("original_title") or d.get("original_name") or ""}
 		imdbId = (d.get("external_ids") or {}).get("imdb_id") or d.get("imdb_id")
 		omdbKey = confGet("tmdb", "omdb_key", "")
 		if imdbId and omdbKey:  # IMDb rating + awards from OMDb (free key)
@@ -993,7 +1015,19 @@ class PosterService:
 		except Exception as err:
 			log("cache trim error:", err)
 
+	def personImage(self, profilePath):
+		"""Blocking (worker threads only): local file of an actor photo."""
+		if not profilePath or not getattr(self, "peopleDir", None):
+			return None
+		p = os.path.join(self.peopleDir, profilePath.strip("/").replace("/", "_"))
+		if os.path.isfile(p):
+			return p
+		return self._saveImage("https://image.tmdb.org/t/p/w185" + quote(profilePath), p, 300 * 1024)
+
 	def _trimCache(self):
+		if getattr(self, "thumbDir", None):
+			self._trimDir(self.thumbDir, self.maxFiles, ".jpg")
+			self._trimDir(self.peopleDir, 300, ".jpg")
 		self._trimDir(self.cacheDir, self.maxFiles, ".jpg")
 		self._trimDir(self.backdropDir, max(30, self.maxFiles // 3), ".jpg")
 		self._trimDir(self.metaDir, self.maxFiles * 3, ".json")

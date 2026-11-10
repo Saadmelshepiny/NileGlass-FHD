@@ -99,6 +99,7 @@ class NileGlassTonight(Screen):
 		self["key_green"] = StaticText("تحويل")
 		self["key_yellow"] = StaticText("")
 		self["key_blue"] = StaticText("")
+		self["filmActions"] = ActionMap(["InfoActions"], {"info": self.film}, -1)
 		self["actions"] = ActionMap(["OkCancelActions", "ColorActions", "DirectionActions", "MenuActions"], {
 			"ok": self.zap, "cancel": self.close,
 			"red": self.record, "green": self.zap, "yellow": self.toggleKind, "blue": self.toggleFav,
@@ -320,6 +321,12 @@ class NileGlassTonight(Screen):
 		self.loadPicons()  # items added meanwhile
 
 	# ---------------------------------------------------------------- actions
+	def film(self):
+		x = self.current()
+		if x and x["kind"] == "film":
+			from .film import NileGlassFilm
+			self.session.open(NileGlassFilm, x.get("en") if x.get("tmdb_id") and x.get("en") else x["title"])
+
 	def chooseChannel(self):
 		x = self.current()
 		if not x or len(x["channels"]) < 2:

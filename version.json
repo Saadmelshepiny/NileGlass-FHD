@@ -1,7 +1,12 @@
 {
-  "version": "2.1.2",
-  "ipk": "https://raw.githubusercontent.com/Saadmelshepiny/NileGlass-FHD/main/releases/enigma2-plugin-skins-nileglass-fhd_2.1.2_all.ipk",
-  "sha256": "b2d21fc8f7ef2b95d5a03efe3e9da0dbef8be9cf9db9a62dcd671443fa35c100",
-  "notes_ar": "شفافية 0% (معتم تمامًا)، وإعادة تشغيل تلقائية بعد التحديث (من التحديث الجاي).",
-  "notes_en": "0% transparency (solid), automatic GUI restart after updates (from the next update on)."
+  "version": "2.2.0",
+  "ipk": "https://raw.githubusercontent.com/Saadmelshepiny/NileGlass-FHD/main/releases/enigma2-plugin-skins-nileglass-fhd_2.2.0_all.ipk",
+  "sha256": "1cbf990be25f27652e0ed4df32bafd71a80e6f05c5368f0327e3ad70d43640c7",
+  "notes_ar": "صفحة الفيلم الكاملة، بوسترات أسرع، وضع خفيف، وضع الأمان، مراقبة الأعطال، الرجوع للنسخة السابقة، معالج البداية، إنفوبار أنظف.",
+  "notes_en": "Full film page, faster list posters, lite mode, safe mode, crash watch, rollback, first-start wizard, cleaner infobar.",
+  "previous": {
+    "version": "2.1.2",
+    "ipk": "https://raw.githubusercontent.com/Saadmelshepiny/NileGlass-FHD/main/releases/enigma2-plugin-skins-nileglass-fhd_2.1.2_all.ipk",
+    "sha256": "b2d21fc8f7ef2b95d5a03efe3e9da0dbef8be9cf9db9a62dcd671443fa35c100"
+  }
 }

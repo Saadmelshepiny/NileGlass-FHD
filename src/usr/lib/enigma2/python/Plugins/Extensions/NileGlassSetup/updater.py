@@ -85,4 +85,4 @@ def downloadAsync(info, callback):
 
 
 def installCommand(path):
-	return "rm -f %s; opkg install --force-reinstall %s && rm -f %s && touch %s" % (DONE_MARK, path, path, DONE_MARK)
+	return "rm -f %s; opkg install --force-reinstall --force-downgrade %s && rm -f %s && touch %s" % (DONE_MARK, path, path, DONE_MARK)

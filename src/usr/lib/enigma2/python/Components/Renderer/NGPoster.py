@@ -54,7 +54,7 @@ class NGPoster(Renderer):
 				except ValueError:
 					pass
 			elif attrib == "kind":
-				self.kind = "backdrop" if value == "backdrop" else "poster"
+				self.kind = value if value in ("backdrop", "thumb") else "poster"
 			elif attrib == "eventIndex":
 				try:
 					self.eventIndex = max(0, int(value))
