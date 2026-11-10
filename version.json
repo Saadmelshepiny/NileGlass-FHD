@@ -1,7 +1,7 @@
 {
-  "version": "1.6.0",
-  "ipk": "https://raw.githubusercontent.com/Saadmelshepiny/NileGlass-FHD/main/releases/enigma2-plugin-skins-nileglass-fhd_1.6.0_all.ipk",
-  "sha256": "222f16664a8dd06ceea34c5da2277aeb7290bd64e0ba16420a7de61f6d874d25",
+  "version": "1.6.1",
+  "ipk": "https://raw.githubusercontent.com/Saadmelshepiny/NileGlass-FHD/main/releases/enigma2-plugin-skins-nileglass-fhd_1.6.1_all.ipk",
+  "sha256": "b23f1e364914235bf9e658bf67d8a01d164548d27e4d481bb1a97e11d3e543bb",
   "notes_ar": "شاشة «الليلة: أفلام وماتشات» من ملف بلوجين Saad EPG، وسطر «بعد قليل» في الإنفوبار الثاني.",
   "notes_en": "New 'Tonight' screen (films and matches from the Saad EPG plugin) and a 'coming up' line in the second infobar."
 }

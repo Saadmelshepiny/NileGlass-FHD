@@ -1142,10 +1142,17 @@ def normalizeTonight(data, now=None):
 		start, stop = num(f.get("start")), num(f.get("stop"))
 		if not title or _plainNorm(title) in _GENERIC or not start or (stop and stop < now):
 			continue
-		key = (("tmdb", num(f.get("tmdb_id"))) if num(f.get("tmdb_id")) else _plainNorm(title), start // 300)
+		keys = [(_plainNorm(title), start // 300)]
+		if num(f.get("tmdb_id")):
+			keys.insert(0, (("tmdb", num(f.get("tmdb_id"))), start // 300))
 		chans = channels(f)
-		if key in index:
-			old = index[key]
+		old = next((index[k] for k in keys if k in index), None)
+		if old is not None:
+			for k in keys:
+				index.setdefault(k, old)
+			if not old["tmdb_id"] and num(f.get("tmdb_id")):  # the TMDB entry has the better data
+				old.update(tmdb_id=num(f.get("tmdb_id")), en=(f.get("en") or "").strip(), year=num(f.get("year"), None), rating=f.get("rating"),
+					poster=f.get("poster") or old["poster"], poster_url=f.get("poster_url") or old["poster_url"])
 			seen = {c["key"] for c in old["channels"]}
 			old["channels"] += [c for c in chans if c["key"] not in seen]
 			old["fav"] = old["fav"] or bool(f.get("fav"))
@@ -1158,7 +1165,8 @@ def normalizeTonight(data, now=None):
 			"short": (f.get("short") or "").strip(), "desc": (f.get("desc") or f.get("short") or "").strip(),
 			"poster": f.get("poster") or "", "poster_url": f.get("poster_url") or "",
 			"channels": chans, "fav": bool(f.get("fav"))}
-		index[key] = item
+		for k in keys:
+			index[k] = item
 		films.append(item)
 
 	matches, index = [], {}
