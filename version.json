@@ -1,7 +1,7 @@
 {
-  "version": "2.1.0",
-  "ipk": "https://raw.githubusercontent.com/Saadmelshepiny/NileGlass-FHD/main/releases/enigma2-plugin-skins-nileglass-fhd_2.1.0_all.ipk",
-  "sha256": "7533060c0ffc96403047e57b77867afec4c5a7f2ef931b4df87a0b3382ccc567",
-  "notes_ar": "قوائم معتمة، خط لامع أو مطفي، بوستر أكبر، تصفح البرامج القادمة ببوسترات كبيرة من الإنفوبار الثاني.",
-  "notes_en": "Solid menus, glossy/matte text, bigger poster, browse coming programmes with big posters."
+  "version": "2.1.1",
+  "ipk": "https://raw.githubusercontent.com/Saadmelshepiny/NileGlass-FHD/main/releases/enigma2-plugin-skins-nileglass-fhd_2.1.1_all.ipk",
+  "sha256": "3b7afb4f476fc15720d533e54241c6e58a383b8303de79c09bd1a54c9f60d0ca",
+  "notes_ar": "قوائم معتمة، خط لامع أو مطفي، بوستر أكبر، تصفح البرامج القادمة ببوسترات كبيرة. وفحص التحديثات بقى يشوف آخر نسخة على طول.",
+  "notes_en": "Solid menus, glossy/matte text, bigger poster, coming-up browser; update check no longer served from cache."
 }

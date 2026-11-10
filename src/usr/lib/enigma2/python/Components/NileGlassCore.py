@@ -35,6 +35,7 @@ import unicodedata
 from collections import deque
 from configparser import ConfigParser
 from urllib.parse import quote, urlencode
+from urllib.error import URLError
 from urllib.request import Request, urlopen
 
 CONF_FILE = "/etc/enigma2/nileglass.conf"
@@ -266,7 +267,12 @@ def httpGet(url, headers=None, timeout=8, maxBytes=3 * 1024 * 1024):
 		hdrs.update(headers)
 	req = Request(url, headers=hdrs)
 	try:
-		resp = urlopen(req, timeout=timeout, context=_sslContext)
+		try:
+			resp = urlopen(req, timeout=timeout, context=_sslContext)
+		except URLError as err:  # urllib wraps TLS errors
+			if isinstance(getattr(err, "reason", None), ssl.SSLError):
+				raise err.reason
+			raise
 	except ssl.SSLError as err:
 		# Some images ship without an up-to-date CA bundle. The data fetched
 		# here is public (posters, weather), so fall back to an unverified

@@ -13,6 +13,7 @@ import hashlib
 import json
 import os
 import threading
+import time
 
 REPO = "Saadmelshepiny/NileGlass-FHD"
 VERSION_URL = "https://raw.githubusercontent.com/%s/main/version.json" % REPO
@@ -53,7 +54,8 @@ def checkAsync(callback):
 	def run():
 		try:
 			from Components.NileGlassCore import httpGet
-			info = json.loads(httpGet(VERSION_URL, timeout=8, maxBytes=64 * 1024).decode("utf-8"))
+			# the query string bypasses the GitHub CDN cache (it can serve an old file for minutes)
+			info = json.loads(httpGet("%s?t=%d" % (VERSION_URL, int(time.time())), timeout=8, maxBytes=64 * 1024).decode("utf-8"))
 			if not info.get("version") or not str(info.get("ipk", "")).startswith("https://"):
 				raise ValueError("bad version.json")
 			_ui(callback, info, None)
