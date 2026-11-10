@@ -1,14 +1,14 @@
-NileGlass FHD 1.6.2 - OpenBh skin (Python 3.14, 1920x1080)
+NileGlass FHD 1.7 - OpenBh skin (Python 3.14, 1920x1080)
 =========================================================
 
 التثبيت
 -------
-1) انسخ الملف enigma2-plugin-skins-nileglass-fhd_1.6.2_all.ipk إلى /tmp على الجهاز (FTP / WinSCP).
+1) انسخ الملف enigma2-plugin-skins-nileglass-fhd_1.7.0_all.ipk إلى /tmp على الجهاز (FTP / WinSCP).
 2) من التلنت أو الـ SSH:
-       opkg install /tmp/enigma2-plugin-skins-nileglass-fhd_1.6.2_all.ipk
+       opkg install /tmp/enigma2-plugin-skins-nileglass-fhd_1.7.0_all.ipk
 3) القائمة > الإعدادات > واجهة المستخدم > السكين  ثم اختر NileGlass_FHD وأعد تشغيل الواجهة.
 
-بديل بدون ipk:  tar -xzf NileGlass_FHD_1.6.2.tar.gz -C /  ثم أعد تشغيل الواجهة.
+بديل بدون ipk:  tar -xzf NileGlass_FHD_1.7.0.tar.gz -C /  ثم أعد تشغيل الواجهة.
 
 البوسترات
 ---------
@@ -22,6 +22,21 @@ NileGlass FHD 1.6.2 - OpenBh skin (Python 3.14, 1920x1080)
 الطقس
 -----
 Open-Meteo بدون مفتاح. المدينة الافتراضية الإسكندرية، غيّرها من شاشة الإعدادات.
+
+الجديد في 1.7
+-------------
+- قائمة القنوات: وصف البرنامج الحالي مكان البيكون الكبير، وبوسترين للبرنامجين الجايين.
+- شاشات OpenBh المنبثقة أكبر وبنفس شكل السكين: Extra Settings (طويلة)، Addons Manager،
+  Script Panel (الوصف كامل)، التثبيت والإلغاء، الإحصائيات، الإعدادات، رسائل التأكيد والاختيار.
+- اللوحة الزرقاء: حالة فك التشفير، الشفرة (CAID واسمها)، المصدر، البروتوكول، Hops، وقت ECM،
+  شريط الشفرات، والإيمو الشغال. بعد تغيير الإيمو تظهر «بانتظار فك التشفير» لحد ما يشتغل.
+- الصوت: النسبة المئوية جنب الشريط. الطبق: شريط أعلى الشاشة وقت حركة الموتور (من/إلى/الوقت).
+- خطوط جديدة: IBM Plex Arabic، Noto Sans Arabic، Vazirmatn، Amiri، El Messiri.
+- حجم الخط من 80% لـ 130%، حجم منفصل للإنفوبار، لون النص، عناوين عريضة، إطار للكتابة.
+- معاينة كبيرة في الإعدادات تتغير مع كل اختيار.
+- اتجاه الكتابة في القوائم: تلقائي حسب لغة الجهاز، أو يمين/شمال دائمًا.
+- ترجمة عربية لعناصر قوائم OpenBh غير المترجمة في الصورة (يمكن إيقافها).
+- أيقونات لقوائم OpenBh الناقصة.
 
 الجديد في 1.6
 -------------
@@ -65,5 +80,6 @@ Open-Meteo بدون مفتاح. المدينة الافتراضية الإسكن
    opkg remove enigma2-plugin-skins-nileglass-fhd
 (اختر سكين آخر أولًا)
 
-Licences: Ubuntu font (Ubuntu Font Licence 1.0), Tajawal (SIL OFL 1.1, modified:
+Licences: Ubuntu font (Ubuntu Font Licence 1.0); IBM Plex Sans Arabic, Noto Sans Arabic, Vazirmatn,
+Amiri, El Messiri, Almarai, Cairo, Noto Kufi (SIL OFL 1.1, renamed NileGlass ...); Tajawal (SIL OFL 1.1, modified:
 added Arabic isolated presentation forms, renamed NileGlass Arabic). See licenses/.

@@ -11,6 +11,7 @@
 #   start="0"          skip this many further events (e.g. start="2" items="1")
 #   timeColor="..."    colour of the start time
 #   showDuration="1"   append the duration in minutes
+#   timeBreak="1"      time on its own line above the title (narrow captions)
 #
 # Data comes from enigma2's in-memory EPG cache (C++), so it is instant and
 # needs no disk or network access.
@@ -35,6 +36,7 @@ class NGEventList(Renderer, VariableText):
 		self.items = 6
 		self.skipNow = True
 		self.start = 0
+		self.timeBreak = False
 		self.showDuration = False
 		self.timeColor = ""
 		self.textColor = ""
@@ -45,6 +47,8 @@ class NGEventList(Renderer, VariableText):
 		for attrib, value in self.skinAttributes:
 			if attrib == "items":
 				self.items = max(1, int(value))
+			elif attrib == "timeBreak":
+				self.timeBreak = value == "1"
 			elif attrib == "start":
 				self.start = max(0, int(value))
 			elif attrib == "skipNow":
@@ -92,7 +96,7 @@ class NGEventList(Renderer, VariableText):
 		for begin, duration, title in events[self.start:self.start + self.items]:
 			if not title:
 				continue
-			line = "%s%s  %s%s" % (self.timeColor, strftime("%H:%M", localtime(begin)), self.textColor, title.strip())
+			line = "%s%s%s%s%s" % (self.timeColor, strftime("%H:%M", localtime(begin)), "\n" if self.timeBreak else "  ", self.textColor, title.strip())
 			if self.showDuration and duration:
 				line += "  (%d')" % (duration // 60)
 			lines.append(line)

@@ -13,7 +13,7 @@ import shutil
 import threading
 import time
 
-from enigma import addFont, eEPGCache, eServiceCenter, eServiceReference, eTimer, gFont
+from enigma import addFont, eEPGCache, eLabel, eServiceCenter, eServiceReference, eTimer, gFont, gRGB
 
 from Components.config import config, ConfigSelection, ConfigSelectionNumber, ConfigText, ConfigYesNo, NoSave
 from Components.Label import Label
@@ -110,6 +110,12 @@ accent = {accent}
 transparency = {transparency}
 font = {font}
 font_size = {font_size}
+infobar_size = {infobar_size}
+text_color = {text_color}
+bold_titles = {bold_titles}
+outline = {outline}
+direction = {direction}
+translate = {translate}
 """
 
 
@@ -180,7 +186,8 @@ class NileGlassSetup(Setup):
 			accents = [(k, Style.ACCENT_NAMES_AR[k] if AR else k.capitalize()) for k in Style.ACCENTS]
 			fontsets = [(k, v) for k, v in Style.FONT_NAMES.items()]
 		else:
-			style = {"accent": "blue", "transparency": 20, "font": "ubuntu", "font_size": 100, "infobar": "full"}
+			style = {"accent": "blue", "transparency": 20, "font": "ubuntu", "font_size": 100, "infobar": "full", "infobar_size": 100, "text_color": "white",
+				"bold_titles": True, "outline": False, "direction": "auto", "translate": True}
 			accents, fontsets = [("blue", "blue")], [("ubuntu", "Ubuntu")]
 		self.infobar = NoSave(ConfigSelection(default=style.get("infobar", "full"), choices=[("full", T("Full (signal + details)", "كامل (الإشارة والتفاصيل)")), ("compact", T("Compact", "مختصر"))]))
 		self.accent = NoSave(ConfigSelection(default=style["accent"], choices=accents))
@@ -188,8 +195,16 @@ class NileGlassSetup(Setup):
 			("10", T("10% (almost solid)", "10% (شبه معتم)")), ("20", T("20% (default)", "20% (الافتراضي)")),
 			("30", "30%"), ("40", "40%"), ("50", T("50% (very clear)", "50% (شفاف جدًا)"))]))
 		self.font = NoSave(ConfigSelection(default=style["font"], choices=fontsets))
-		self.fontSize = NoSave(ConfigSelection(default=str(style["font_size"]) if str(style["font_size"]) in ("90", "100", "110", "120") else "100", choices=[
-			("90", T("Small", "صغير")), ("100", T("Normal", "عادي")), ("110", T("Large", "كبير")), ("120", T("Very large", "كبير جدًا"))]))
+		sizes = [("80", T("Very small", "صغير جدًا")), ("90", T("Small", "صغير")), ("100", T("Normal", "عادي")), ("110", T("Large", "كبير")), ("120", T("Very large", "كبير جدًا")), ("130", T("Huge", "ضخم"))]
+		self.fontSize = NoSave(ConfigSelection(default=str(style["font_size"]) if str(style["font_size"]) in dict(sizes) else "100", choices=sizes))
+		self.infobarSize = NoSave(ConfigSelection(default=str(style.get("infobar_size", 100)) if str(style.get("infobar_size", 100)) in ("90", "100", "110", "120") else "100", choices=sizes[1:5]))
+		colors = [(k, (Style.TEXT_COLOR_NAMES_AR[k] if AR else k.capitalize())) for k in Style.TEXT_COLORS] if Style else [("white", "white")]
+		self.textColor = NoSave(ConfigSelection(default=style.get("text_color", "white"), choices=colors))
+		self.boldTitles = NoSave(ConfigYesNo(default=bool(style.get("bold_titles", True))))
+		self.outline = NoSave(ConfigYesNo(default=bool(style.get("outline", False))))
+		self.direction = NoSave(ConfigSelection(default=style.get("direction", "auto"), choices=[
+			("auto", T("Automatic (by menu language)", "تلقائي (حسب لغة الجهاز)")), ("rtl", T("Always right", "يمين دائمًا")), ("ltr", T("Always left", "شمال دائمًا"))]))
+		self.translate = NoSave(ConfigYesNo(default=bool(style.get("translate", True))))
 		# --- posters
 		self.posters = NoSave(ConfigYesNo(default=confBool("tmdb", "enabled", True)))
 		self.apiKey = NoSave(ConfigText(default=confGet("tmdb", "api_key", ""), fixed_size=False, visible_width=48))
@@ -230,6 +245,13 @@ class NileGlassSetup(Setup):
 		self["preview_glass"] = Pixmap()
 		self["preview_font"] = Label(T("Font sample  123  نموذج للخط", "نموذج للخط  123  Font sample"))
 		self["preview_title"] = Label(T("Preview", "معاينة"))
+		self["pv_ib_time"] = Label("22:30")
+		self["pv_ib_title"] = Label(T("Tonight's film", "فيلم السهرة"))
+		self["pv_head"] = Label(T("Main menu  القائمة", "القائمة الرئيسية  Menu"))
+		self["pv_row"] = Label(T("Settings  الإعدادات", "الإعدادات  Settings"))
+		self["pv_row2"] = Label(T("Timers  المؤقتات", "المؤقتات  Timers"))
+		self["pv_desc"] = Label(T("A war drama set after 1967, about an officer who leads a special mission. 0123456789",
+			"دراما حربية تدور أحداثها بعد 1967 عن ضابط يقود مهمة خاصة. Drama 0123456789"))
 		self.previewKey = None
 		self.diagRunning = False
 		self.onLayoutFinish.append(self.updatePreview)
@@ -244,6 +266,12 @@ class NileGlassSetup(Setup):
 			(i + T("Background transparency", "شفافية الخلفية"), self.transparency, T("How much of the picture shows through the bars and panels.", "مدى ظهور الصورة من خلف الإنفوبار والقوائم.")),
 			(i + T("Font", "الخط"), self.font, T("Font used for all text.", "الخط المستخدم في كل النصوص.")),
 			(i + T("Text size", "حجم الخط"), self.fontSize, T("Size of all text.", "حجم كل النصوص في السكين.")),
+			(i + T("Bold titles", "عناوين عريضة"), self.boldTitles, T("Titles and channel names in the bold version of the font.", "العناوين وأسماء القنوات بالخط العريض.")),
+			(i + T("Text colour", "لون النص"), self.textColor, T("Colour of the normal text everywhere.", "لون الكتابة العادية في كل الشاشات.")),
+			(i + T("Infobar text size", "حجم خط الإنفوبار"), self.infobarSize, T("Extra size step for the infobar only.", "حجم إضافي لكتابة الإنفوبار فقط.")),
+			(i + T("Outline infobar text", "إطار حول كتابة الإنفوبار"), self.outline, T("A thin dark outline makes the infobar text readable over bright pictures.", "إطار أسود رفيع يوضّح الكتابة فوق الصور الفاتحة.")),
+			(i + T("Text direction", "اتجاه الكتابة"), self.direction, T("Puts Arabic, English and mixed text of lists and menus on one side.", "يخلي الكتابة العربي والإنجليزي والمخلوطة في القوائم على ناحية واحدة.")),
+			(i + T("Translate untranslated menus", "ترجمة القوائم غير المترجمة"), self.translate, T("Arabic for OpenBh menu items the image leaves in English (GUI restart).", "ترجمة عربية لعناصر قوائم OpenBh اللي الصورة سايباها إنجليزي (بعد إعادة التشغيل).")),
 			(T("— Posters —", "— البوسترات —"),),
 			(i + T("Show event posters", "عرض بوسترات البرامج"), self.posters, T("Posters, year, genre and rating of films and programmes.", "البوستر والسنة والنوع والتقييم للأفلام والبرامج.")),
 		]
@@ -279,7 +307,8 @@ class NileGlassSetup(Setup):
 	def updatePreview(self):
 		if not Style or "preview_accent" not in self:
 			return
-		key = (self.accent.value, self.transparency.value, self.font.value, self.fontSize.value)
+		key = (self.accent.value, self.transparency.value, self.font.value, self.fontSize.value, self.infobarSize.value, self.textColor.value,
+			self.boldTitles.value, self.outline.value, self.direction.value)
 		if key == self.previewKey or not self["preview_accent"].instance:
 			return
 		self.previewKey = key
@@ -290,11 +319,38 @@ class NileGlassSetup(Setup):
 			glass = os.path.join(SKIN_DIR, "variants", "glass", self.transparency.value, "ui", "ib_top_right.png")
 			if os.path.isfile(glass):
 				self["preview_glass"].instance.setPixmapFromFile(glass)
-			fname, rel = Style.FONT_SETS[self.font.value]["Regular"]
-			alias = "NGPreview_%s_%s" % (self.font.value, self.fontSize.value)
-			addFont(os.path.join(FONT_DIR, fname), alias, int(rel * int(self.fontSize.value) / 100), False, 0)
-			self["preview_font"].instance.setFont(gFont(alias, 34))
-			self["preview_font"].setText(self["preview_font"].getText())
+			fontSet = Style.FONT_SETS[self.font.value]
+			size = int(self.fontSize.value)
+			ib = int(self.infobarSize.value)
+
+			def alias(kind, extra=100):
+				fname, rel = fontSet[kind if (kind != "Medium" or self.boldTitles.value) else "Regular"]
+				name = "NGPv_%s_%s_%d_%d" % (self.font.value, kind, size, extra)
+				addFont(os.path.join(FONT_DIR, fname), name, int(rel * size * extra / 10000), False, 0)
+				return name
+			regular, medium = alias("Regular"), alias("Medium")
+			ibRegular, ibMedium = alias("Regular", ib), alias("Medium", ib)
+			fg, dim = (int(x, 16) for x in Style.TEXT_COLORS[self.textColor.value])
+			accent = int(Style.ACCENTS[self.accent.value][0], 16)
+			rtl = Style.isRtl({"direction": self.direction.value}, config.osd.language.value)
+			for name, font, pt, color, align in (
+					("preview_font", regular, 32, fg, None), ("pv_head", medium, 36, fg, rtl), ("pv_row", regular, 32, 0xffffff, rtl),
+					("pv_row2", regular, 32, fg, rtl), ("pv_desc", regular, 26, dim, rtl), ("pv_ib_time", ibRegular, 30, fg, None),
+					("pv_ib_title", ibMedium, 32, accent, None)):
+				inst = self[name].instance
+				if not inst:
+					continue
+				inst.setFont(gFont(font, pt))
+				inst.setForegroundColor(gRGB(color))
+				if align is not None:
+					inst.setHAlign(eLabel.alignRight if align else eLabel.alignLeft)
+				if name.startswith("pv_ib"):
+					try:
+						inst.setBorderWidth(2 if self.outline.value else 0)
+						inst.setBorderColor(gRGB(0))
+					except Exception:
+						pass
+				self[name].setText(self[name].getText())  # repaint
 		except Exception as err:
 			print("[NileGlass] preview:", err)
 
@@ -326,6 +382,12 @@ class NileGlassSetup(Setup):
 			"transparency": self.transparency.value,
 			"font": self.font.value,
 			"font_size": self.fontSize.value,
+			"infobar_size": self.infobarSize.value,
+			"text_color": self.textColor.value,
+			"bold_titles": 1 if self.boldTitles.value else 0,
+			"outline": 1 if self.outline.value else 0,
+			"direction": self.direction.value,
+			"translate": 1 if self.translate.value else 0,
 		}
 
 	def keySave(self):
@@ -558,6 +620,47 @@ class NightlyPrefetch:
 nightly = None
 
 
+# ---------------------------------------------------------------- translations
+# Arabic for OpenBh strings the image leaves untranslated. Added as a gettext
+# *fallback*, so it is only asked for texts the image's own catalogue lacks.
+_trCatalog = None
+
+
+def installTranslations():
+	global _trCatalog
+	try:
+		if not (Style and Style.readStyle().get("translate", True)):
+			return
+		if not config.osd.language.value.lower().startswith("ar"):
+			return
+		import gettext
+		import json
+		from Components.Language import language
+		if _trCatalog is None:
+			with open(os.path.join(SKIN_DIR, "translations", "ar.json"), "r", encoding="utf-8") as f:
+				table = json.load(f)
+
+			class NGCatalog(gettext.NullTranslations):
+				def gettext(self, message):
+					if message in table:
+						return table[message]
+					return self._fallback.gettext(message) if self._fallback else message
+			_trCatalog = NGCatalog()
+			language.addCallback(installTranslations)  # a new catalogue after a language change
+		cat = getattr(language, "catalog", None)
+		if cat is None:
+			return
+		node = cat
+		while getattr(node, "_fallback", None) is not None:  # already in the chain?
+			if node._fallback is _trCatalog:
+				return
+			node = node._fallback
+		cat.add_fallback(_trCatalog)
+		print("[NileGlass] Arabic menu translations added")
+	except Exception as err:
+		print("[NileGlass] translations:", err)
+
+
 def sessionstart(reason, session=None, **kwargs):
 	global nightly
 	if reason == 0 and nightly is None:
@@ -566,6 +669,7 @@ def sessionstart(reason, session=None, **kwargs):
 				nightly = NightlyPrefetch(session)
 				if tonight is not None:
 					tonight.refresh(force=True)
+				installTranslations()
 		except Exception as err:
 			print("[NileGlass] sessionstart:", err)
 
