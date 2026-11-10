@@ -299,7 +299,7 @@ class NileGlassSetup(Setup):
 			print("[NileGlass] preview:", err)
 
 	# ----------------------------------------------------------------- save
-	def values(self):
+	def settingsValues(self):
 		custom = self.cityId.value == "custom"
 		cityText = self.city.value.strip() or "Alexandria"
 		keepCoords = custom and cityText == confGet("weather", "city", "") and confGet("weather", "city_id", "") == "custom"
@@ -332,7 +332,7 @@ class NileGlassSetup(Setup):
 		try:
 			tmp = CONF_FILE + ".tmp"
 			with open(tmp, "w", encoding="utf-8") as f:
-				f.write(TEMPLATE.format(**self.values()))
+				f.write(TEMPLATE.format(**self.settingsValues()))
 			os.replace(tmp, CONF_FILE)
 			if Style:
 				print("[NileGlass] style applied:", Style.apply())
@@ -441,7 +441,7 @@ class NileGlassSetup(Setup):
 			try:
 				os.makedirs(os.path.dirname(dst), exist_ok=True)
 				with open(dst, "w", encoding="utf-8") as f:
-					f.write(TEMPLATE.format(**self.values()))
+					f.write(TEMPLATE.format(**self.settingsValues()))
 				self.session.open(MessageBox, T("Settings saved to:", "تم حفظ الإعدادات في:") + "\n" + dst, MessageBox.TYPE_INFO, timeout=8)
 			except Exception as err:
 				self.session.open(MessageBox, str(err), MessageBox.TYPE_ERROR)
