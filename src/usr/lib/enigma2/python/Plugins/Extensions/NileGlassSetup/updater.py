@@ -19,6 +19,7 @@ REPO = "Saadmelshepiny/NileGlass-FHD"
 VERSION_URL = "https://raw.githubusercontent.com/%s/main/version.json" % REPO
 VERSION_FILE = "/usr/share/enigma2/NileGlass_FHD/version.txt"
 DOWNLOAD = "/tmp/nileglass_update.ipk"
+DONE_MARK = "/tmp/.nileglass_updated"
 
 
 def installedVersion():
@@ -84,4 +85,4 @@ def downloadAsync(info, callback):
 
 
 def installCommand(path):
-	return "opkg install --force-reinstall %s && rm -f %s" % (path, path)
+	return "rm -f %s; opkg install --force-reinstall %s && rm -f %s && touch %s" % (DONE_MARK, path, path, DONE_MARK)

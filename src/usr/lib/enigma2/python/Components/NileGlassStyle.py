@@ -33,7 +33,7 @@ ACCENTS = {
 	"cyan": ("1ebed2", "0f6e7c", "78d6e4"),
 }
 ACCENT_NAMES_AR = {"blue": "أزرق", "gold": "ذهبي", "green": "أخضر", "red": "أحمر", "purple": "بنفسجي", "orange": "برتقالي", "cyan": "سماوي"}
-TRANSPARENCY = (10, 20, 30, 40, 50)
+TRANSPARENCY = (0, 10, 20, 30, 40, 50)  # 0 = solid, nothing of the picture behind menus
 # font set -> {alias: (file, relative scale)}
 FONT_SETS = {
 	"ubuntu": {"Regular": ("NileGlass-Regular.ttf", 100), "Medium": ("NileGlass-Medium.ttf", 100), "Light": ("NileGlass-Light.ttf", 100),
@@ -459,7 +459,7 @@ def buildXml(style, skinDir=SKIN_DIR, language=None):
 	bgA = _alpha(t * 0.5)        # main panels  (20% -> 10% transparent)
 	deepA = _alpha(t * 0.35)
 	cardA = _alpha(min(60, t * 0.5 + 9))
-	if style.get("opaque_screens"):  # menus and plugin screens fully solid: no TV picture behind them
+	if style.get("opaque_screens") or not t:  # menus and plugin screens fully solid: no TV picture behind them
 		bgA = cardA = "00"
 	fonts = []
 	fontSet = dict(fontSet_(style["font"]))
@@ -501,7 +501,7 @@ def apply(confFile=CONF_FILE, skinDir=SKIN_DIR, userXml=USER_XML):
 	"""Apply the style from the config file. Returns a short report string."""
 	style = readStyle(confFile)
 	copied = _copyTree(os.path.join(skinDir, "variants", "accent", style["accent"]), skinDir)
-	copied += _copyTree(os.path.join(skinDir, "variants", "glass", str(style["transparency"])), skinDir)
+	copied += _copyTree(os.path.join(skinDir, "variants", "glass", str(style["transparency"] or 10)), skinDir)
 	os.makedirs(os.path.dirname(userXml), exist_ok=True)
 	tmp = userXml + ".tmp"
 	with open(tmp, "w", encoding="utf-8") as f:

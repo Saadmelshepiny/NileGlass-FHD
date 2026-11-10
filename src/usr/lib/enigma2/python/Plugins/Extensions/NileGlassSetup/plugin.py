@@ -201,7 +201,7 @@ class NileGlassSetup(Setup):
 		self.infobar = NoSave(ConfigSelection(default=style.get("infobar", "full"), choices=[("full", T("Full (signal + details)", "كامل (الإشارة والتفاصيل)")), ("compact", T("Compact", "مختصر"))]))
 		self.accent = NoSave(ConfigSelection(default=style["accent"], choices=accents))
 		self.transparency = NoSave(ConfigSelection(default=str(style["transparency"]), choices=[
-			("10", T("10% (almost solid)", "10% (شبه معتم)")), ("20", T("20% (default)", "20% (الافتراضي)")),
+			("0", T("0% (solid - nothing behind)", "0% (معتم تمامًا - بدون أي خيالات)")), ("10", T("10% (almost solid)", "10% (شبه معتم)")), ("20", T("20% (default)", "20% (الافتراضي)")),
 			("30", "30%"), ("40", "40%"), ("50", T("50% (very clear)", "50% (شفاف جدًا)"))]))
 		self.font = NoSave(ConfigSelection(default=style["font"], choices=fontsets))
 		sizes = [("80", T("Very small", "صغير جدًا")), ("90", T("Small", "صغير")), ("100", T("Normal", "عادي")), ("110", T("Large", "كبير")), ("120", T("Very large", "كبير جدًا")), ("130", T("Huge", "ضخم"))]
@@ -654,11 +654,22 @@ def checkForUpdate(session, quiet=False):
 		if error or not path:
 			session.open(MessageBox, T("Download failed:", "فشل التحميل:") + "\n%s" % error, MessageBox.TYPE_ERROR)
 			return
-		session.openWithCallback(installed, Console, title=T("Installing NileGlass update", "تثبيت تحديث NileGlass"), cmdlist=[updater.installCommand(path)], closeOnSuccess=True)
+		session.open(Console, title=T("Installing NileGlass update", "تثبيت تحديث NileGlass"), cmdlist=[updater.installCommand(path)],
+			finishedCallback=installed, closeOnSuccess=True)
 
 	def installed(*args):
-		session.openWithCallback(lambda yes: yes and session.open(TryQuitMainloop, 3), MessageBox,
-			T("Update installed. Restart the GUI now?", "تم تثبيت التحديث. إعادة تشغيل الواجهة الآن؟"), MessageBox.TYPE_YESNO)
+		if not os.path.isfile(updater.DONE_MARK):
+			session.open(MessageBox, T("The update could not be installed. See the console text.", "تعذّر تثبيت التحديث. راجع النص في شاشة التثبيت."), MessageBox.TYPE_ERROR)
+			return
+		try:
+			os.remove(updater.DONE_MARK)
+		except OSError:
+			pass
+		session.open(MessageBox, T("Update installed. The GUI restarts now ...", "تم تثبيت التحديث. جارٍ إعادة تشغيل الواجهة ..."), MessageBox.TYPE_INFO, timeout=3)
+		restartTimer.callback.append(lambda: session.open(TryQuitMainloop, 3))
+		restartTimer.start(3000, True)
+
+	restartTimer = eTimer()
 
 	updater.checkAsync(gotInfo)
 
