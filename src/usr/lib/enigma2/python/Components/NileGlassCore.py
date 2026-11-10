@@ -1327,6 +1327,19 @@ class WeatherService:
 		self.units = confGet("weather", "units", "C").upper()[:1]
 		self.state = {}
 		self.started = False
+		self.wake = threading.Event()
+		self.relocate = False
+
+	def reload(self):
+		"""New city / units / on-off from the settings: refresh now, no restart."""
+		self.enabled = confBool("weather", "enabled", True)
+		self.units = confGet("weather", "units", "C").upper()[:1]
+		if not self.enabled:
+			self.state = {}
+			return
+		self.relocate = True
+		self.wake.set()
+		self._start()
 
 	def get(self, key, default=""):
 		self._start()
@@ -1367,6 +1380,11 @@ class WeatherService:
 		while True:
 			delay = self.UPDATE_EVERY
 			try:
+				if self.relocate:
+					self.relocate = False
+					location = None
+				if not self.enabled:
+					raise ValueError("switched off")
 				if location is None:
 					location = self._location()
 				lat, lon, city = location
@@ -1402,9 +1420,36 @@ class WeatherService:
 				except Exception:
 					pass
 			except Exception as err:
-				log("weather error:", err)
+				if self.enabled:
+					log("weather error:", err)
 				delay = self.RETRY_AFTER
-			time.sleep(delay)
+			self.wake.wait(delay)
+			self.wake.clear()
+
+
+def reloadSettings():
+	"""Re-read nileglass.conf and apply what can change while running
+	(posters, weather, EPG titles, tonight file). Returns True when a GUI
+	restart is still needed (poster folder changed)."""
+	global CONFIG
+	oldCache = confGet("posters", "cache_dir", "auto")
+	CONFIG = loadConfig()
+	p = posters
+	p.enabled = confBool("tmdb", "enabled", True)
+	p.apiKey = confGet("tmdb", "api_key", "")
+	p.language = confGet("tmdb", "language", "ar")
+	p.quality = "w500" if confGet("posters", "quality", "w342") == "w500" else "w342"
+	try:
+		p.maxFiles = max(50, int(confGet("posters", "max_files", "600")))
+	except ValueError:
+		pass
+	p.negative = {}  # a new key or language may find what failed before
+	epgTitles.enabled = confBool("posters", "epg_titles", True)
+	tonight.path = confGet("tonight", "file", tonight.path) or tonight.path
+	tonight.mtime = 0
+	tonight.refresh(force=True)
+	weather.reload()
+	return confGet("posters", "cache_dir", "auto") != oldCache
 
 
 posters = PosterService()

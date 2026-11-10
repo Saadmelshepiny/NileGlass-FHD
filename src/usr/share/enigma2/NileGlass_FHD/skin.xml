@@ -174,154 +174,158 @@
 	     InfoBar  (glass bar in the style of the reference picture)
 	     =================================================================== -->
 	<screen name="InfoBar" position="0,0" size="1920,1080" backgroundColor="transparent" flags="wfNoBorder">
-		<!-- glass: top strip (number + name + icons | weather + date + clock) and the main bar on the bottom edge -->
-		<ePixmap pixmap="NileGlass_FHD/ui/ib_top_left.png" position="15,856" size="1090,54" alphatest="blend" zPosition="-5"/>
-		<ePixmap pixmap="NileGlass_FHD/ui/ib_top_right.png" position="1130,856" size="775,54" alphatest="blend" zPosition="-5"/>
-		<ePixmap pixmap="NileGlass_FHD/ui/ib_main.png" position="15,910" size="1890,170" alphatest="blend" zPosition="-5"/>
+		<!-- glass: top strip and main bar, 20 px above the screen edge (TV overscan) -->
+		<ePixmap pixmap="NileGlass_FHD/ui/ib_top_left.png" position="15,836" size="1090,54" alphatest="blend" zPosition="-5"/>
+		<ePixmap pixmap="NileGlass_FHD/ui/ib_top_right.png" position="1130,836" size="775,54" alphatest="blend" zPosition="-5"/>
+		<ePixmap pixmap="NileGlass_FHD/ui/ib_main.png" position="15,890" size="1890,170" alphatest="blend" zPosition="-5"/>
 
-		<!-- channel number + channel name above the picon -->
-		<widget source="session.CurrentService" render="ChannelNumber" position="26,856" size="96,54" font="Regular;34" foregroundColor="accent" backgroundColor="bgDeep" transparent="1" halign="center" valign="center"/>
-		<widget source="session.CurrentService" render="Label" position="126,856" size="400,54" font="Medium;32" foregroundColor="fg" backgroundColor="bgDeep" transparent="1" halign="left" valign="center" noWrap="1">
+		<!-- channel number + name -->
+		<widget source="session.CurrentService" render="ChannelNumber" position="26,836" size="96,54" font="Medium;32" foregroundColor="accent" backgroundColor="bgDeep" transparent="1" halign="center" valign="center"/>
+		<widget source="session.CurrentService" render="Label" position="126,836" size="400,54" font="Medium;32" foregroundColor="fg" backgroundColor="bgDeep" transparent="1" valign="center" noWrap="1" halign="left">
 			<convert type="ServiceName">Name</convert>
 		</widget>
-
 		<!-- status icons: dim version always visible, bright one when active -->
-		<ePixmap pixmap="NileGlass_FHD/icons/ib_txt_off.png" position="540,863" size="58,40" alphatest="blend"/>
-		<widget source="session.CurrentService" render="Pixmap" pixmap="NileGlass_FHD/icons/ib_txt_on.png" position="540,863" size="58,40" alphatest="blend" zPosition="1">
+		<ePixmap pixmap="NileGlass_FHD/icons/ib_txt_off.png" position="540,843" size="58,40" alphatest="blend"/>
+		<widget source="session.CurrentService" render="Pixmap" pixmap="NileGlass_FHD/icons/ib_txt_on.png" position="540,843" size="58,40" alphatest="blend" zPosition="1">
 			<convert type="ServiceInfo">HasTelext</convert>
 			<convert type="ConditionalShowHide"/>
 		</widget>
-		<ePixmap pixmap="NileGlass_FHD/icons/ib_sub_off.png" position="606,863" size="58,40" alphatest="blend"/>
-		<widget source="session.CurrentService" render="Pixmap" pixmap="NileGlass_FHD/icons/ib_sub_on.png" position="606,863" size="58,40" alphatest="blend" zPosition="1">
+		<ePixmap pixmap="NileGlass_FHD/icons/ib_sub_off.png" position="606,843" size="58,40" alphatest="blend"/>
+		<widget source="session.CurrentService" render="Pixmap" pixmap="NileGlass_FHD/icons/ib_sub_on.png" position="606,843" size="58,40" alphatest="blend" zPosition="1">
 			<convert type="ServiceInfo">SubtitlesAvailable</convert>
 			<convert type="ConditionalShowHide"/>
 		</widget>
-		<ePixmap pixmap="NileGlass_FHD/icons/ib_dolby_off.png" position="672,863" size="120,40" alphatest="blend"/>
-		<widget source="session.CurrentService" render="Pixmap" pixmap="NileGlass_FHD/icons/ib_dolby_on.png" position="672,863" size="120,40" alphatest="blend" zPosition="1">
+		<ePixmap pixmap="NileGlass_FHD/icons/ib_dolby_off.png" position="672,843" size="120,40" alphatest="blend"/>
+		<widget source="session.CurrentService" render="Pixmap" pixmap="NileGlass_FHD/icons/ib_dolby_on.png" position="672,843" size="120,40" alphatest="blend" zPosition="1">
 			<convert type="ServiceInfo">IsMultichannel</convert>
 			<convert type="ConditionalShowHide"/>
 		</widget>
-		<ePixmap pixmap="NileGlass_FHD/icons/ib_wide_off.png" position="800,863" size="64,40" alphatest="blend"/>
-		<widget source="session.CurrentService" render="Pixmap" pixmap="NileGlass_FHD/icons/ib_wide_on.png" position="800,863" size="64,40" alphatest="blend" zPosition="1">
+		<ePixmap pixmap="NileGlass_FHD/icons/ib_wide_off.png" position="800,843" size="64,40" alphatest="blend"/>
+		<widget source="session.CurrentService" render="Pixmap" pixmap="NileGlass_FHD/icons/ib_wide_on.png" position="800,843" size="64,40" alphatest="blend" zPosition="1">
 			<convert type="ServiceInfo">IsWidescreen</convert>
 			<convert type="ConditionalShowHide"/>
 		</widget>
-		<ePixmap pixmap="NileGlass_FHD/icons/ib_hd_off.png" position="872,863" size="64,40" alphatest="blend"/>
-		<widget source="session.CurrentService" render="Pixmap" pixmap="NileGlass_FHD/icons/ib_hd_on.png" position="872,863" size="64,40" alphatest="blend" zPosition="1">
+		<ePixmap pixmap="NileGlass_FHD/icons/ib_hd_off.png" position="872,843" size="64,40" alphatest="blend"/>
+		<widget source="session.CurrentService" render="Pixmap" pixmap="NileGlass_FHD/icons/ib_hd_on.png" position="872,843" size="64,40" alphatest="blend" zPosition="1">
 			<convert type="ServiceInfo">IsHD</convert>
 			<convert type="ConditionalShowHide"/>
 		</widget>
-		<widget source="session.CurrentService" render="Pixmap" pixmap="NileGlass_FHD/icons/ib_uhd_on.png" position="872,863" size="64,40" alphatest="blend" zPosition="2">
+		<widget source="session.CurrentService" render="Pixmap" pixmap="NileGlass_FHD/icons/ib_uhd_on.png" position="872,843" size="64,40" alphatest="blend" zPosition="2">
 			<convert type="ServiceInfo">Is4K</convert>
 			<convert type="ConditionalShowHide"/>
 		</widget>
-		<widget source="session.RecordState" render="Pixmap" pixmap="NileGlass_FHD/icons/ib_rec_on.png" position="944,863" size="96,40" alphatest="blend" zPosition="2">
+		<widget source="session.RecordState" render="Pixmap" pixmap="NileGlass_FHD/icons/ib_rec_on.png" position="944,843" size="96,40" alphatest="blend" zPosition="2">
 			<convert type="ConditionalShowHide">Blink</convert>
 		</widget>
 
 		<!-- weather / date / clock -->
-		<widget source="global.CurrentTime" render="NGWeatherIcon" position="1392,858" size="50,50" alphatest="blend" zPosition="1"/>
-		<widget source="global.CurrentTime" render="Label" position="1448,856" size="96,54" font="Regular;26" foregroundColor="fg" backgroundColor="bgDeep" transparent="1" halign="center" valign="center" noWrap="1">
+		<widget source="global.CurrentTime" render="NGWeatherIcon" position="1386,838" size="50,50" alphatest="blend" zPosition="1"/>
+		<widget source="global.CurrentTime" render="Label" position="1440,836" size="96,54" font="Regular;26" foregroundColor="fg" backgroundColor="bgDeep" transparent="1" valign="center" noWrap="1" halign="center">
 			<convert type="NGWeather">temp</convert>
 		</widget>
-		<widget source="global.CurrentTime" render="Label" position="1548,856" size="190,54" font="Regular;26" foregroundColor="gold" backgroundColor="bgDeep" transparent="1" halign="center" valign="center" noWrap="1">
-			<convert type="ClockToText">Format:%d %b %Y</convert>
+		<widget source="global.CurrentTime" render="Label" position="1536,836" size="196,54" font="Regular;24" foregroundColor="gold" backgroundColor="bgDeep" transparent="1" valign="center" noWrap="1" halign="center">
+			<convert type="ClockToText">Format:%a %d %b</convert>
 		</widget>
-		<widget source="global.CurrentTime" render="Label" position="1742,850" size="150,62" font="Regular;50" foregroundColor="fg" backgroundColor="bgDeep" transparent="1" halign="right" valign="center" noWrap="1">
+		<widget source="global.CurrentTime" render="Label" position="1736,836" size="152,54" font="Medium;40" foregroundColor="fg" backgroundColor="bgDeep" transparent="1" valign="center" noWrap="1" halign="right">
 			<convert type="ClockToText">Format:%H:%M</convert>
 		</widget>
 
-		<!-- picon with glossy frame -->
-		<ePixmap pixmap="NileGlass_FHD/ui/picon_bg.png" position="50,916" size="222,134" alphatest="blend" zPosition="0"/>
-		<widget source="session.CurrentService" render="Picon" position="51,917" size="220,132" alphatest="blend" zPosition="1">
+		<!-- picon -->
+		<ePixmap pixmap="NileGlass_FHD/ui/picon_bg.png" position="50,898" size="222,134" alphatest="blend" zPosition="0"/>
+		<widget source="session.CurrentService" render="Picon" position="51,899" size="220,132" alphatest="blend" zPosition="1">
 			<convert type="ServiceName">Reference</convert>
 		</widget>
-		<ePixmap pixmap="NileGlass_FHD/ui/picon_gloss.png" position="50,916" size="222,134" alphatest="blend" zPosition="2"/>
-
-		<!-- poster of the running event (hidden when none) -->
-		<widget source="session.Event_Now" render="NGPoster" position="50,600" size="160,240" delay="0" borderWidth="2" borderColor="posterBorder" zPosition="3"/>
-		<widget source="session.Event_Next" render="NGPoster" position="0,0" size="1,1" prefetch="1" delay="1500"/>
-
-		<!-- tuners + delivery system -->
-		<widget source="session.FrontendInfo" render="Label" position="56,1050" size="120,30" font="Regular;22" foregroundColor="fgDim" backgroundColor="bgDeep" transparent="1" noWrap="1">
+		<ePixmap pixmap="NileGlass_FHD/ui/picon_gloss.png" position="50,898" size="222,134" alphatest="blend" zPosition="2"/>
+		<widget source="session.FrontendInfo" render="Label" position="54,1033" size="120,26" font="Regular;20" foregroundColor="fgDim" backgroundColor="bgDeep" transparent="1" valign="center" noWrap="1">
 			<convert type="FrontendInfo">STRING,4</convert>
 		</widget>
-		<widget source="session.CurrentService" render="Label" position="176,1050" size="100,30" font="Regular;22" foregroundColor="green" backgroundColor="bgDeep" transparent="1" halign="right" noWrap="1">
+		<widget source="session.CurrentService" render="Label" position="174,1033" size="98,26" font="Regular;20" foregroundColor="green" backgroundColor="bgDeep" transparent="1" valign="center" noWrap="1" halign="right">
 			<convert type="PliExtraInfo">TunerSystem</convert>
 		</widget>
 
+		<!-- poster of the running event (hidden when none) + prefetch of the next one -->
+		<widget source="session.Event_Now" render="NGPoster" position="50,580" size="160,240" delay="0" borderWidth="2" borderColor="posterBorder" zPosition="3"/>
+		<widget source="session.Event_Next" render="NGPoster" position="0,0" size="1,1" prefetch="1" delay="1500"/>
+
 		<!-- now -->
-		<widget source="session.Event_Now" render="Label" position="310,922" size="104,52" font="Regular;36" foregroundColor="fg" backgroundColor="bgDeep" transparent="1" valign="center" noWrap="1">
+		<widget source="session.Event_Now" render="Label" position="300,896" size="100,50" font="Regular;34" foregroundColor="fg" backgroundColor="bgDeep" transparent="1" valign="center" noWrap="1">
 			<convert type="EventTime">StartTime</convert>
 			<convert type="ClockToText">Format:%H:%M</convert>
 		</widget>
-		<eLabel text="-" position="414,922" size="26,52" font="Regular;36" foregroundColor="fgDim" backgroundColor="bgDeep" transparent="1" halign="center" valign="center"/>
-		<widget source="session.Event_Now" render="Label" position="446,922" size="770,52" font="Regular;36" foregroundColor="accent" backgroundColor="bgDeep" transparent="1" halign="left" valign="center" noWrap="1">
+		<eLabel text="-" position="402,896" size="24,50" font="Regular;34" foregroundColor="fgDim" backgroundColor="bgDeep" transparent="1" halign="center" valign="center"/>
+		<widget source="session.Event_Now" render="Label" position="430,896" size="760,50" font="Medium;34" foregroundColor="accent" backgroundColor="bgDeep" transparent="1" valign="center" noWrap="1" halign="left">
 			<convert type="EventName">Name</convert>
 		</widget>
-		<widget source="session.Event_Now" render="Label" position="1220,922" size="150,52" font="Regular;34" foregroundColor="fg" backgroundColor="bgDeep" transparent="1" halign="right" valign="center" noWrap="1">
+		<widget source="session.Event_Now" render="Label" position="1196,896" size="176,50" font="Regular;28" foregroundColor="fg" backgroundColor="bgDeep" transparent="1" valign="center" noWrap="1" halign="right">
 			<convert type="EventTime">Remaining</convert>
 			<convert type="RemainingToText">InMinutes</convert>
 		</widget>
-		<eLabel position="310,982" size="1060,6" backgroundColor="bgBar" zPosition="0"/>
-		<widget source="session.Event_Now" render="Progress" position="310,982" size="1060,6" pixmap="NileGlass_FHD/ui/progress.png" transparent="1" zPosition="1">
+		<eLabel position="300,952" size="1072,6" backgroundColor="bgBar" zPosition="0"/>
+		<widget source="session.Event_Now" render="Progress" position="300,952" size="1072,6" pixmap="NileGlass_FHD/ui/progress.png" transparent="1" zPosition="1">
 			<convert type="EventTime">Progress</convert>
 		</widget>
 
 		<!-- next -->
-		<widget source="session.Event_Next" render="Label" position="310,996" size="104,50" font="Regular;34" foregroundColor="fgDim" backgroundColor="bgDeep" transparent="1" valign="center" noWrap="1">
+		<widget source="session.Event_Next" render="Label" position="300,964" size="100,44" font="Regular;30" foregroundColor="fgDim" backgroundColor="bgDeep" transparent="1" valign="center" noWrap="1">
 			<convert type="EventTime">StartTime</convert>
 			<convert type="ClockToText">Format:%H:%M</convert>
 		</widget>
-		<eLabel text="-" position="414,996" size="26,50" font="Regular;34" foregroundColor="fgMute" backgroundColor="bgDeep" transparent="1" halign="center" valign="center"/>
-		<widget source="session.Event_Next" render="Label" position="446,996" size="770,50" font="Regular;34" foregroundColor="fgDim" backgroundColor="bgDeep" transparent="1" halign="left" valign="center" noWrap="1">
+		<eLabel text="-" position="402,964" size="24,44" font="Regular;30" foregroundColor="fgMute" backgroundColor="bgDeep" transparent="1" halign="center" valign="center"/>
+		<widget source="session.Event_Next" render="Label" position="430,964" size="760,44" font="Regular;30" foregroundColor="fgDim" backgroundColor="bgDeep" transparent="1" valign="center" noWrap="1" halign="left">
 			<convert type="EventName">Name</convert>
 		</widget>
-		<widget source="session.Event_Next" render="Label" position="1220,996" size="150,50" font="Regular;32" foregroundColor="fgDim" backgroundColor="bgDeep" transparent="1" halign="right" valign="center" noWrap="1">
+		<widget source="session.Event_Next" render="Label" position="1196,964" size="176,44" font="Regular;26" foregroundColor="fgDim" backgroundColor="bgDeep" transparent="1" valign="center" noWrap="1" halign="right">
 			<convert type="EventTime">Duration</convert>
 			<convert type="ClockToText">InMinutes</convert>
 		</widget>
 
-		<!-- service line -->
-		<widget source="session.CurrentService" render="Label" position="290,1048" size="200,30" font="Regular;22" foregroundColor="fg" backgroundColor="bgDeep" transparent="1" noWrap="1">
+		<!-- service details -->
+		<eLabel position="300,1012" size="1072,1" backgroundColor="line"/>
+		<widget source="session.CurrentService" render="Label" position="300,1018" size="196,34" font="Regular;22" foregroundColor="fg" backgroundColor="bgDeep" transparent="1" valign="center" noWrap="1">
 			<convert type="PliExtraInfo">ResolutionString</convert>
 		</widget>
-		<eLabel text="CA:" position="500,1048" size="50,30" font="Regular;22" foregroundColor="orange" backgroundColor="bgDeep" transparent="1"/>
-		<widget source="session.CurrentService" render="Label" position="550,1048" size="300,30" font="Regular;22" foregroundColor="fg" backgroundColor="bgDeep" transparent="1" noWrap="1">
+		<widget source="session.CurrentService" render="Label" position="500,1018" size="150,34" font="Regular;22" foregroundColor="orange" backgroundColor="bgDeep" transparent="1" valign="center" noWrap="1">
+			<convert type="PliExtraInfo">VideoCodec</convert>
+		</widget>
+		<widget source="session.CurrentService" render="Label" position="654,1018" size="150,34" font="Regular;22" foregroundColor="gold" backgroundColor="bgDeep" transparent="1" valign="center" noWrap="1">
+			<convert type="ServiceInfo">AudioCodec</convert>
+		</widget>
+		<eLabel text="CA" position="810,1018" size="40,34" font="Regular;22" foregroundColor="orange" backgroundColor="bgDeep" transparent="1" valign="center"/>
+		<widget source="session.CurrentService" render="Label" position="852,1018" size="300,34" font="Regular;22" foregroundColor="fg" backgroundColor="bgDeep" transparent="1" valign="center" noWrap="1">
 			<convert type="PliExtraInfo">CryptoNameCaid</convert>
 		</widget>
-		<eLabel text="SID:" position="860,1048" size="60,30" font="Regular;22" foregroundColor="accent" backgroundColor="bgDeep" transparent="1"/>
-		<widget source="session.CurrentService" render="Label" position="920,1048" size="110,30" font="Regular;22" foregroundColor="fg" backgroundColor="bgDeep" transparent="1" noWrap="1">
+		<eLabel text="SID" position="1156,1018" size="50,34" font="Regular;22" foregroundColor="accent" backgroundColor="bgDeep" transparent="1" valign="center"/>
+		<widget source="session.CurrentService" render="Label" position="1208,1018" size="164,34" font="Regular;22" foregroundColor="fg" backgroundColor="bgDeep" transparent="1" valign="center" noWrap="1">
 			<convert type="ServiceInfo">Sid</convert>
-		</widget>
-		<widget source="session.CurrentService" render="Label" position="1040,1048" size="330,30" font="Regular;22" foregroundColor="orange" backgroundColor="bgDeep" transparent="1" noWrap="1">
-			<convert type="PliExtraInfo">VideoCodec</convert>
 		</widget>
 
 		<!-- signal panel -->
-		<eLabel text="SNR" position="1452,926" size="60,30" font="Regular;22" foregroundColor="fg" backgroundColor="bgDeep" transparent="1" valign="center"/>
-		<ePixmap pixmap="NileGlass_FHD/ui/signal_bg.png" position="1514,933" size="220,16" alphatest="blend"/>
-		<widget source="session.FrontendStatus" render="Progress" position="1514,933" size="220,16" pixmap="NileGlass_FHD/ui/signal.png" transparent="1" zPosition="1">
+		<eLabel text="SNR" position="1426,898" size="60,32" font="Regular;22" foregroundColor="fg" backgroundColor="bgDeep" transparent="1" valign="center"/>
+		<ePixmap pixmap="NileGlass_FHD/ui/signal_bg.png" position="1488,906" size="220,16" alphatest="blend"/>
+		<widget source="session.FrontendStatus" render="Progress" position="1488,906" size="220,16" pixmap="NileGlass_FHD/ui/signal.png" transparent="1" zPosition="1">
 			<convert type="FrontendInfo">SNR</convert>
 		</widget>
-		<widget source="session.FrontendStatus" render="Label" position="1740,926" size="100,30" font="Regular;22" foregroundColor="green" backgroundColor="bgDeep" transparent="1" halign="right" valign="center">
+		<widget source="session.FrontendStatus" render="Label" position="1712,898" size="74,32" font="Regular;22" foregroundColor="green" backgroundColor="bgDeep" transparent="1" halign="right" valign="center" noWrap="1">
 			<convert type="FrontendInfo">SNR</convert>
 		</widget>
-		<eLabel text="AGC" position="1452,970" size="60,30" font="Regular;22" foregroundColor="fg" backgroundColor="bgDeep" transparent="1" valign="center"/>
-		<ePixmap pixmap="NileGlass_FHD/ui/signal_bg.png" position="1514,977" size="220,16" alphatest="blend"/>
-		<widget source="session.FrontendStatus" render="Progress" position="1514,977" size="220,16" pixmap="NileGlass_FHD/ui/signal.png" transparent="1" zPosition="1">
+		<widget source="session.FrontendStatus" render="Label" position="1788,898" size="100,32" font="Regular;22" foregroundColor="fgDim" backgroundColor="bgDeep" transparent="1" halign="right" valign="center" noWrap="1">
+			<convert type="FrontendInfo">SNRdB</convert>
+		</widget>
+		<eLabel text="AGC" position="1426,936" size="60,32" font="Regular;22" foregroundColor="fg" backgroundColor="bgDeep" transparent="1" valign="center"/>
+		<ePixmap pixmap="NileGlass_FHD/ui/signal_bg.png" position="1488,944" size="220,16" alphatest="blend"/>
+		<widget source="session.FrontendStatus" render="Progress" position="1488,944" size="220,16" pixmap="NileGlass_FHD/ui/signal.png" transparent="1" zPosition="1">
 			<convert type="FrontendInfo">AGC</convert>
 		</widget>
-		<widget source="session.FrontendStatus" render="Label" position="1740,970" size="100,30" font="Regular;22" foregroundColor="green" backgroundColor="bgDeep" transparent="1" halign="right" valign="center">
+		<widget source="session.FrontendStatus" render="Label" position="1712,936" size="74,32" font="Regular;22" foregroundColor="green" backgroundColor="bgDeep" transparent="1" halign="right" valign="center" noWrap="1">
 			<convert type="FrontendInfo">AGC</convert>
 		</widget>
-		<widget source="session.CurrentService" render="Label" position="1452,1008" size="440,30" font="Regular;22" foregroundColor="fg" backgroundColor="bgDeep" transparent="1" noWrap="1">
+		<widget source="session.CurrentService" render="Label" position="1426,974" size="462,32" font="Regular;22" foregroundColor="fg" backgroundColor="bgDeep" transparent="1" valign="center" noWrap="1">
 			<convert type="PliExtraInfo">CryptoBar</convert>
 		</widget>
-		<widget source="session.CurrentService" render="Label" position="1452,1042" size="300,32" font="Regular;22" foregroundColor="fg" backgroundColor="bgDeep" transparent="1" noWrap="1">
+		<widget source="session.CurrentService" render="Label" position="1426,1014" size="372,34" font="Regular;21" foregroundColor="fg" backgroundColor="bgDeep" transparent="1" valign="center" noWrap="1">
 			<convert type="PliExtraInfo">TransponderInfo</convert>
 		</widget>
-		<widget source="session.CurrentService" render="Label" position="1752,1042" size="140,32" font="Regular;22" foregroundColor="fgDim" backgroundColor="bgDeep" transparent="1" halign="right" noWrap="1">
+		<widget source="session.CurrentService" render="Label" position="1798,1014" size="90,34" font="Regular;21" foregroundColor="fgDim" backgroundColor="bgDeep" transparent="1" valign="center" noWrap="1" halign="right">
 			<convert type="ServiceOrbitalPosition">Short</convert>
 		</widget>
 	</screen>
@@ -456,44 +460,48 @@
 
 		<!-- selected channel: running event -->
 		<widget source="ServiceEvent" render="NGPoster" position="1630,150" size="210,315" delay="300" fallback="NileGlass_FHD/ui/noposter.png" borderWidth="2" borderColor="posterBorder" zPosition="3"/>
-		<widget source="ServiceEvent" render="Label" position="1210,146" size="400,44" font="Medium;30" foregroundColor="fgDim" backgroundColor="bg" transparent="1" noWrap="1">
+		<widget source="ServiceEvent" render="Label" position="1210,146" size="400,40" font="Medium;28" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1">
 			<convert type="ServiceName">Name</convert>
 		</widget>
-		<widget source="ServiceEvent" render="Label" position="1210,194" size="400,96" font="Medium;34" foregroundColor="accent" backgroundColor="bg" transparent="1" valign="top">
+		<widget source="ServiceEvent" render="Label" position="1210,190" size="400,80" font="Medium;30" foregroundColor="accent" backgroundColor="bg" transparent="1" halign="left" valign="top">
 			<convert type="EventName">Name</convert>
 		</widget>
-		<widget source="ServiceEvent" render="Label" position="1210,296" size="110,34" font="Regular;26" foregroundColor="fg" backgroundColor="bg" transparent="1" noWrap="1">
+		<widget source="ServiceEvent" render="Label" position="1210,276" size="120,32" font="Regular;26" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1">
 			<convert type="EventTime">StartTime</convert>
 			<convert type="ClockToText">Format:%H:%M</convert>
 		</widget>
-		<widget source="ServiceEvent" render="Label" position="1500,296" size="110,34" font="Regular;26" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="right" noWrap="1">
+		<widget source="ServiceEvent" render="Label" position="1490,276" size="120,32" font="Regular;26" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="right" valign="center" noWrap="1">
 			<convert type="EventTime">EndTime</convert>
 			<convert type="ClockToText">Format:%H:%M</convert>
 		</widget>
-		<eLabel position="1210,336" size="400,8" backgroundColor="bgBar"/>
-		<widget source="ServiceEvent" render="Progress" position="1210,336" size="400,8" pixmap="NileGlass_FHD/ui/progress_sib.png" transparent="1" zPosition="1">
+		<eLabel position="1210,314" size="400,8" backgroundColor="bgBar"/>
+		<widget source="ServiceEvent" render="Progress" position="1210,314" size="400,8" pixmap="NileGlass_FHD/ui/progress_sib.png" transparent="1" zPosition="1">
 			<convert type="EventTime">Progress</convert>
 		</widget>
-		<widget source="ServiceEvent" render="Label" position="1210,350" size="400,32" font="Regular;24" foregroundColor="fgDim" backgroundColor="bg" transparent="1" noWrap="1">
+		<widget source="ServiceEvent" render="Label" position="1210,328" size="400,32" font="Regular;24" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1">
 			<convert type="EventTime">Remaining</convert>
 			<convert type="RemainingToText">InMinutes</convert>
 		</widget>
-		<widget source="ServiceEvent" render="NGEventInfo" position="1210,388" size="400,34" font="Regular;24" foregroundColor="gold" backgroundColor="bg" transparent="1" halign="left" noWrap="1" fields="year,genres"/>
-		<ePixmap pixmap="NileGlass_FHD/ui/stars_bg.png" position="1210,428" size="200,36" alphatest="blend"/>
-		<widget source="ServiceEvent" render="NGStars" pixmap="NileGlass_FHD/ui/stars.png" position="1210,428" size="200,36" transparent="1" zPosition="1"/>
+		<widget source="ServiceEvent" render="NGEventInfo" position="1210,364" size="400,32" font="Regular;24" foregroundColor="gold" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" fields="year,genres"/>
+		<ePixmap pixmap="NileGlass_FHD/ui/stars_bg.png" position="1210,404" size="200,36" alphatest="blend"/>
+		<widget source="ServiceEvent" render="NGStars" pixmap="NileGlass_FHD/ui/stars.png" position="1210,404" size="200,36" transparent="1" zPosition="1"/>
 
 		<!-- description of the running event -->
-		<widget source="ServiceEvent" render="Label" position="1210,480" size="630,186" font="Regular;26" foregroundColor="#d6dbe1" backgroundColor="bg" transparent="1">
+		<widget source="ServiceEvent" render="Label" position="1210,474" size="630,120" font="Regular;24" foregroundColor="#d6dbe1" backgroundColor="bg" transparent="1">
 			<convert type="EventName">FullDescription</convert>
 		</widget>
 
-		<!-- the next two events with posters -->
-		<eLabel position="1210,676" size="630,1" backgroundColor="line"/>
-		<eLabel text="البرامج القادمة" position="1210,684" size="630,36" font="ArabicBold;26" foregroundColor="accent" backgroundColor="bg" transparent="1"/>
-		<widget source="ServiceEvent" render="NGPoster" eventIndex="1" position="1210,726" size="140,210" delay="500" fallback="NileGlass_FHD/ui/noposter.png" borderWidth="1" borderColor="posterBorder" zPosition="2"/>
-		<widget source="ServiceEvent" render="NGEventList" items="1" start="0" timeBreak="1" position="1360,726" size="160,210" font="Regular;24" timeColor="gold" foregroundColor="#d6dbe1" backgroundColor="bg" transparent="1" valign="top"/>
-		<widget source="ServiceEvent" render="NGPoster" eventIndex="2" position="1530,726" size="140,210" delay="500" fallback="NileGlass_FHD/ui/noposter.png" borderWidth="1" borderColor="posterBorder" zPosition="2"/>
-		<widget source="ServiceEvent" render="NGEventList" items="1" start="1" timeBreak="1" position="1680,726" size="160,210" font="Regular;24" timeColor="gold" foregroundColor="#d6dbe1" backgroundColor="bg" transparent="1" valign="top"/>
+		<!-- the next four events with posters -->
+		<eLabel position="1210,600" size="630,1" backgroundColor="line"/>
+		<eLabel text="البرامج القادمة" position="1210,604" size="630,32" font="ArabicBold;24" foregroundColor="accent" backgroundColor="bg" transparent="1"/>
+		<widget source="ServiceEvent" render="NGPoster" eventIndex="1" position="1210,640" size="140,210" delay="500" fallback="NileGlass_FHD/ui/noposter.png" borderWidth="1" borderColor="posterBorder" zPosition="2"/>
+		<widget source="ServiceEvent" render="NGEventList" items="1" start="0" timeBreak="1" position="1205,854" size="150,86" font="Regular;21" timeColor="gold" foregroundColor="#d6dbe1" backgroundColor="bg" transparent="1" halign="center" valign="top"/>
+		<widget source="ServiceEvent" render="NGPoster" eventIndex="2" position="1373,640" size="140,210" delay="500" fallback="NileGlass_FHD/ui/noposter.png" borderWidth="1" borderColor="posterBorder" zPosition="2"/>
+		<widget source="ServiceEvent" render="NGEventList" items="1" start="1" timeBreak="1" position="1368,854" size="150,86" font="Regular;21" timeColor="gold" foregroundColor="#d6dbe1" backgroundColor="bg" transparent="1" halign="center" valign="top"/>
+		<widget source="ServiceEvent" render="NGPoster" eventIndex="3" position="1536,640" size="140,210" delay="500" fallback="NileGlass_FHD/ui/noposter.png" borderWidth="1" borderColor="posterBorder" zPosition="2"/>
+		<widget source="ServiceEvent" render="NGEventList" items="1" start="2" timeBreak="1" position="1531,854" size="150,86" font="Regular;21" timeColor="gold" foregroundColor="#d6dbe1" backgroundColor="bg" transparent="1" halign="center" valign="top"/>
+		<widget source="ServiceEvent" render="NGPoster" eventIndex="4" position="1699,640" size="140,210" delay="500" fallback="NileGlass_FHD/ui/noposter.png" borderWidth="1" borderColor="posterBorder" zPosition="2"/>
+		<widget source="ServiceEvent" render="NGEventList" items="1" start="3" timeBreak="1" position="1694,854" size="150,86" font="Regular;21" timeColor="gold" foregroundColor="#d6dbe1" backgroundColor="bg" transparent="1" halign="center" valign="top"/>
 	</screen>
 	<screen name="SlimChannelSelection" position="0,0" size="1920,1080" backgroundColor="transparent" flags="wfNoBorder">
 		<panel name="ChannelSelection"/>
@@ -1344,7 +1352,7 @@
 		<ePixmap pixmap="NileGlass_FHD/ui/speaker.png" position="22,24" size="56,56" alphatest="blend"/>
 		<eLabel position="96,46" size="360,14" backgroundColor="bgBar"/>
 		<widget name="Volume" position="96,46" size="360,14" pixmap="NileGlass_FHD/ui/volume.png" transparent="1" zPosition="1"/>
-		<widget name="VolumeText" position="466,20" size="100,64" font="Medium;44" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="right" valign="center" noWrap="1"/>
+		<widget source="session.CurrentService" render="VolumeText" position="460,20" size="106,64" font="Medium;44" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="right" valign="center" noWrap="1" zPosition="2"/>
 		<eLabel text="%" position="568,30" size="44,50" font="Regular;32" foregroundColor="accent" backgroundColor="bg" transparent="1" halign="left" valign="center"/>
 	</screen>
 	<screen name="Dish" position="center,30" size="960,150" backgroundColor="transparent" flags="wfNoBorder">
@@ -1360,6 +1368,52 @@
 		<widget name="tunerName" position="250,106" size="300,36" font="Regular;26" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="left" valign="center"/>
 		<widget name="turnTime" position="780,20" size="160,70" font="Medium;54" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="right" valign="center"/>
 		<widget name="turnSpeed" position="700,96" size="240,40" font="Regular;24" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="right" valign="center"/>
+	</screen>
+	<screen name="AudioSelection" position="0,0" size="1920,1080" backgroundColor="transparent" flags="wfNoBorder">
+		<eLabel position="40,40" size="1840,1000" backgroundColor="bg" zPosition="-10"/>
+		<eLabel position="40,40" size="1840,3" backgroundColor="lineAccent" zPosition="-9"/>
+		<eLabel position="40,128" size="1840,1" backgroundColor="line" zPosition="-9"/>
+		<widget source="Title" render="Label" position="80,52" size="1160,66" font="Medium;38" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1"/>
+		<widget source="global.CurrentTime" render="Label" position="1260,52" size="380,66" font="Regular;28" foregroundColor="gold" backgroundColor="bg" transparent="1" halign="right" valign="center" noWrap="1"><convert type="ClockToText">Format:%A %d %B</convert></widget>
+		<widget source="global.CurrentTime" render="Label" position="1660,52" size="190,66" font="Regular;48" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="right" valign="center" noWrap="1"><convert type="ClockToText">Format:%H:%M</convert></widget>
+		<!-- settings (the first four follow the colour keys) -->
+		<widget name="config" position="134,150" size="990,348" itemHeight="58" font="Regular;30" secondfont="Regular;30" foregroundColor="fg" backgroundColor="bg" foregroundColorSelected="white" backgroundColorSelected="bgSel" scrollbarMode="showOnDemand" scrollbarWidth="6" scrollbarSliderForegroundColor="accent" transparent="1"/>
+		<widget source="key_red" render="Pixmap" pixmap="NileGlass_FHD/buttons/red.png" position="92,164" size="30,30" alphatest="blend" zPosition="2"><convert type="ConditionalShowHide"/></widget>
+		<widget source="key_green" render="Pixmap" pixmap="NileGlass_FHD/buttons/green.png" position="92,222" size="30,30" alphatest="blend" zPosition="2"><convert type="ConditionalShowHide"/></widget>
+		<widget source="key_yellow" render="Pixmap" pixmap="NileGlass_FHD/buttons/yellow.png" position="92,280" size="30,30" alphatest="blend" zPosition="2"><convert type="ConditionalShowHide"/></widget>
+		<widget source="key_blue" render="Pixmap" pixmap="NileGlass_FHD/buttons/blue.png" position="92,338" size="30,30" alphatest="blend" zPosition="2"><convert type="ConditionalShowHide"/></widget>
+		<eLabel position="80,512" size="1044,1" backgroundColor="line"/>
+		<!-- audio / subtitle tracks -->
+		<widget source="streams" render="Listbox" position="80,526" size="1044,420" backgroundColor="bg" foregroundColor="fg" foregroundColorSelected="white" backgroundColorSelected="bgSel" scrollbarMode="showOnDemand" scrollbarWidth="6" scrollbarSliderForegroundColor="accent" transparent="1">
+			<convert type="TemplatedMultiContent">
+				{"template": [
+					MultiContentEntryText(pos=(14, 0), size=(56, 60), font=0, flags=RT_HALIGN_CENTER|RT_VALIGN_CENTER, text=2),
+					MultiContentEntryText(pos=(84, 0), size=(300, 60), font=1, flags=RT_HALIGN_LEFT|RT_VALIGN_CENTER, text=3, color="#9aa3ae", color_sel="#ffffff"),
+					MultiContentEntryText(pos=(400, 0), size=(540, 60), font=0, flags=RT_HALIGN_LEFT|RT_VALIGN_CENTER, text=4),
+					MultiContentEntryPixmapAlphaBlend(pos=(980, 14), size=(32, 32), png=6, flags=BT_SCALE|BT_KEEP_ASPECT_RATIO)
+				],
+				"fonts": [gFont("Regular", 32), gFont("Regular", 26)],
+				"itemHeight": 60
+				}
+			</convert>
+		</widget>
+		<eLabel position="1150,140" size="1,800" backgroundColor="line"/>
+		<!-- the picture + what is playing -->
+		<eLabel position="1180,150" size="660,374" backgroundColor="posterBorder"/>
+		<widget source="session.VideoPicture" render="Pig" position="1182,152" size="656,370" backgroundColor="transparent" zPosition="1"/>
+		<widget source="session.CurrentService" render="Label" position="1180,540" size="660,48" font="Medium;34" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1">
+			<convert type="ServiceName">Name</convert>
+		</widget>
+		<widget source="session.Event_Now" render="Label" position="1180,592" size="660,44" font="Regular;30" foregroundColor="accent" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1">
+			<convert type="EventName">Name</convert>
+		</widget>
+		<widget source="session.CurrentService" render="Label" position="1180,650" size="660,40" font="Regular;26" foregroundColor="gold" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1">
+			<convert type="ServiceInfo">AudioCodec</convert>
+		</widget>
+		<widget source="session.CurrentService" render="Label" position="1180,694" size="660,40" font="Regular;26" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1">
+			<convert type="PliExtraInfo">ResolutionString</convert>
+		</widget>
+		<eLabel text="OK  اختيار المسار       MENU  اللغة التلقائية للصوت والترجمة" position="1180,880" size="660,40" font="Regular;22" foregroundColor="fgMute" backgroundColor="bg" transparent="1" halign="left" valign="center"/>
 	</screen>
 	<!-- NG_POPUPS_END -->
 

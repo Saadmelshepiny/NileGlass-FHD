@@ -37,6 +37,7 @@ class NGEventList(Renderer, VariableText):
 		self.skipNow = True
 		self.start = 0
 		self.timeBreak = False
+		self.pending = True
 		self.showDuration = False
 		self.timeColor = ""
 		self.textColor = ""
@@ -80,6 +81,10 @@ class NGEventList(Renderer, VariableText):
 			self.text = ""
 			self.lastKey = None
 			return
+		if self.suspended:  # screen hidden (e.g. second infobar): no EPG work until it is shown
+			self.pending = True
+			return
+		self.pending = False
 		ref = self.serviceRef()
 		if ref is None:
 			self.text = ""
@@ -104,3 +109,8 @@ class NGEventList(Renderer, VariableText):
 		if text != self.lastKey:  # CurrentService fires many events per zap - only repaint on change
 			self.lastKey = text
 			self.text = text
+
+	def onShow(self):
+		Renderer.onShow(self)
+		if self.pending:
+			self.changed((self.CHANGED_ALL,))

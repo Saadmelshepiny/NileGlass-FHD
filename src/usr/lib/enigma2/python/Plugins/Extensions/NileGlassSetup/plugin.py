@@ -205,6 +205,12 @@ class NileGlassSetup(Setup):
 		self.direction = NoSave(ConfigSelection(default=style.get("direction", "auto"), choices=[
 			("auto", T("Automatic (by menu language)", "تلقائي (حسب لغة الجهاز)")), ("rtl", T("Always right", "يمين دائمًا")), ("ltr", T("Always left", "شمال دائمًا"))]))
 		self.translate = NoSave(ConfigYesNo(default=bool(style.get("translate", True))))
+		# the image's own settings, shown here for convenience
+		try:
+			self.ibTimeout = config.usage.infobar_timeout
+			self.sibTimeout = config.usage.show_second_infobar
+		except AttributeError:
+			self.ibTimeout = self.sibTimeout = None
 		# --- posters
 		self.posters = NoSave(ConfigYesNo(default=confBool("tmdb", "enabled", True)))
 		self.apiKey = NoSave(ConfigText(default=confGet("tmdb", "api_key", ""), fixed_size=False, visible_width=48))
@@ -287,6 +293,12 @@ class NileGlassSetup(Setup):
 			]
 			if self.prefetch.value:
 				items.append((i + T("Download time", "وقت التحميل"), self.prefetchHour, T("Best at night while the receiver is idle.", "يُفضّل بالليل والجهاز غير مستخدم.")))
+		if self.ibTimeout is not None:
+			items += [
+				(T("— Infobar —", "— الإنفوبار —"),),
+				(i + T("Infobar stays for", "مدة بقاء الإنفوبار"), self.ibTimeout, T("'No timeout' keeps it on screen until you press EXIT.", "«بدون مهلة» يخليه ظاهر لحد ما تضغط EXIT.")),
+				(i + T("Second infobar (OK twice)", "الإنفوبار الثاني (OK مرتين)"), self.sibTimeout, T("How long the second infobar stays, or what OK opens instead.", "مدة بقاء الإنفوبار الثاني، أو اللي يفتح بدله.")),
+			]
 		items += [
 			(T("— Weather —", "— الطقس —"),),
 			(i + T("Show weather", "عرض الطقس"), self.weather, ""),
@@ -391,21 +403,42 @@ class NileGlassSetup(Setup):
 		}
 
 	def keySave(self):
+		# the image's own infobar timeouts: applied at once
+		for item in (self.ibTimeout, self.sibTimeout):
+			if item is not None and item.isChanged():
+				item.save()
+		try:
+			from Components.config import configfile
+			configfile.save()
+		except Exception:
+			pass
+		lookOld = Style.readStyle() if Style else {}
 		try:
 			tmp = CONF_FILE + ".tmp"
 			with open(tmp, "w", encoding="utf-8") as f:
 				f.write(TEMPLATE.format(**self.settingsValues()))
 			os.replace(tmp, CONF_FILE)
-			if Style:
+			lookNew = Style.readStyle() if Style else {}
+			lookChanged = any(lookOld.get(k) != lookNew.get(k) for k in lookNew if k != "translate") or (lookOld.get("translate") and not lookNew.get("translate"))
+			if Style and lookChanged:
 				print("[NileGlass] style applied:", Style.apply())
 		except Exception as err:
 			self.session.open(MessageBox, T("Could not save settings:", "تعذّر حفظ الإعدادات:") + "\n%s" % err, MessageBox.TYPE_ERROR)
 			return
+		needRestart = lookChanged
 		try:
-			os.remove("/tmp/nileglass_weather.json")  # fresh weather after restart
-		except OSError:
-			pass
-		self.askRestart(T("Settings saved.\nRestart the GUI now to apply them?", "تم حفظ الإعدادات.\nإعادة تشغيل الواجهة الآن لتطبيقها؟"))
+			from Components.NileGlassCore import reloadSettings
+			needRestart = reloadSettings() or needRestart
+		except Exception as err:
+			print("[NileGlass] reload:", err)
+			needRestart = True
+		if lookNew.get("translate"):
+			installTranslations()
+		if needRestart:
+			self.askRestart(T("Settings saved.\nThe new look needs a GUI restart. Restart now?", "تم حفظ الإعدادات.\nالشكل الجديد محتاج إعادة تشغيل الواجهة. إعادة التشغيل الآن؟"))
+		else:  # posters, weather, updates ... are already active
+			self.session.open(MessageBox, T("Settings saved and applied.", "تم حفظ الإعدادات وتطبيقها."), MessageBox.TYPE_INFO, timeout=3)
+			self.close()
 
 	def askRestart(self, text):
 		self.session.openWithCallback(self.restartAnswer, MessageBox, text, MessageBox.TYPE_YESNO)
@@ -416,6 +449,9 @@ class NileGlassSetup(Setup):
 			self.close()
 
 	def keyCancel(self):
+		for item in (self.ibTimeout, self.sibTimeout):
+			if item is not None:
+				item.cancel()  # undo unsaved changes of the image's own settings
 		self.close()
 
 	# ----------------------------------------------------------------- yellow: test
