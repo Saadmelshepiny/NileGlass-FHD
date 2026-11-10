@@ -51,6 +51,8 @@ api_key =
 language = ar
 # Set to 0 to switch off poster downloading completely
 enabled = 1
+# Optional free OMDb key (https://www.omdbapi.com/apikey.aspx) for IMDb ratings
+omdb_key =
 
 [posters]
 # Where downloaded posters are kept. "auto" = first writable /media/hdd,
@@ -393,6 +395,10 @@ def formatInfo(meta, fields=("year", "genres", "rating"), arabic=True, sep="  �
 			out.append(meta["details"][f])
 		elif f == "cast" and (meta.get("details") or {}).get("cast"):
 			out.append(("، " if arabic else ", ").join(meta["details"]["cast"][:3]))
+		elif f == "imdb" and (meta.get("details") or {}).get("imdb"):
+			out.append("IMDb %s" % meta["details"]["imdb"])
+		elif f == "awards" and (meta.get("details") or {}).get("awards"):
+			out.append(meta["details"]["awards"])
 		elif f == "runtime" and (meta.get("details") or {}).get("runtime"):
 			out.append(("%d دقيقة" if arabic else "%d min") % meta["details"]["runtime"])
 	return sep.join(x for x in out if x)
@@ -401,6 +407,7 @@ def formatInfo(meta, fields=("year", "genres", "rating"), arabic=True, sep="  �
 CARD_LABELS = {
 	"year": ("السنة", "Year"), "genres": ("النوع", "Genre"), "director": ("المخرج", "Director"),
 	"country": ("البلد", "Country"), "cast": ("الأبطال", "Cast"), "runtime": ("المدة", "Runtime"), "type": ("التصنيف", "Type"),
+	"imdb": ("التقييم", "Rating"), "awards": ("الجوائز", "Awards"),
 }
 
 
@@ -771,7 +778,7 @@ class PosterService:
 				if meta and "details" in needs and "details" not in meta:
 					meta = self._details(title, meta)
 				if meta and "backdrop" in needs and meta.get("backdrop") and not self._backdropPath(title):
-					self._saveImage("https://image.tmdb.org/t/p/w780" + quote(meta["backdrop"]), os.path.join(self.backdropDir, fileNameFor(title)), 2 * 1024 * 1024)
+					self._saveImage("https://image.tmdb.org/t/p/w1280" + quote(meta["backdrop"]), os.path.join(self.backdropDir, fileNameFor(title)), 3 * 1024 * 1024)
 				if downloads and downloads % 25 == 0:
 					self._trimCache()
 			except Exception as err:
@@ -915,7 +922,7 @@ class PosterService:
 		"""Director / writer, country, main cast, runtime (one extra request,
 		only for screens that show them)."""
 		try:
-			d = self._tmdb("%s/%d" % (meta.get("type") or "movie", int(meta["id"])), {"language": self.language, "append_to_response": "credits"})
+			d = self._tmdb("%s/%d" % (meta.get("type") or "movie", int(meta["id"])), {"language": self.language, "append_to_response": "credits,external_ids"})
 		except Exception as err:
 			log("details error for %r: %s" % (title, err))
 			return meta
@@ -931,6 +938,17 @@ class PosterService:
 		meta = dict(meta)
 		meta["details"] = {"director": "، ".join([x for x in directors if x][:2]), "cast": cast, "country": "، ".join(countries[:2]),
 			"runtime": runtime or 0, "seasons": d.get("number_of_seasons") or 0}
+		imdbId = (d.get("external_ids") or {}).get("imdb_id") or d.get("imdb_id")
+		omdbKey = confGet("tmdb", "omdb_key", "")
+		if imdbId and omdbKey:  # IMDb rating + awards from OMDb (free key)
+			try:
+				o = json.loads(httpGet("https://www.omdbapi.com/?" + urlencode({"i": imdbId, "apikey": omdbKey}), timeout=7).decode("utf-8"))
+				if o.get("imdbRating") and o["imdbRating"] != "N/A":
+					meta["details"]["imdb"] = o["imdbRating"]
+				if o.get("Awards") and o["Awards"] != "N/A":
+					meta["details"]["awards"] = o["Awards"][:80]
+			except Exception as err:
+				log("omdb:", err)
 		if not meta.get("overview") and d.get("overview"):
 			meta["overview"] = d["overview"].strip()
 		try:
@@ -1390,7 +1408,7 @@ class WeatherService:
 				lat, lon, city = location
 				params = {"latitude": lat, "longitude": lon, "timezone": "auto",
 					"current": "temperature_2m,weather_code,is_day,relative_humidity_2m,wind_speed_10m",
-					"daily": "temperature_2m_max,temperature_2m_min", "forecast_days": 1}
+					"daily": "temperature_2m_max,temperature_2m_min,weather_code,precipitation_probability_max", "forecast_days": 5}
 				if self.units == "F":
 					params["temperature_unit"] = "fahrenheit"
 				data = json.loads(httpGet("https://api.open-meteo.com/v1/forecast?" + urlencode(params), timeout=8).decode("utf-8"))
@@ -1412,6 +1430,9 @@ class WeatherService:
 					"humidity": ("%d%%" % cur["relative_humidity_2m"]) if isinstance(cur.get("relative_humidity_2m"), (int, float)) else "",
 					"wind": ("%d km/h" % round(cur["wind_speed_10m"])) if isinstance(cur.get("wind_speed_10m"), (int, float)) else "",
 					"updated": int(time.time()),
+					"days": [{"date": d, "icon": wmoIcon(c, 1), "desc": WMO_AR.get(c, ""), "max": fmt(hi), "min": fmt(lo), "rain": ("%d%%" % r) if isinstance(r, (int, float)) else ""}
+						for d, c, hi, lo, r in zip(daily.get("time") or [], daily.get("weather_code") or [], daily.get("temperature_2m_max") or [],
+							daily.get("temperature_2m_min") or [], daily.get("precipitation_probability_max") or [None] * 5)],
 				}
 				self.state = state
 				try:

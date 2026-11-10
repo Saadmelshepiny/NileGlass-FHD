@@ -19,7 +19,7 @@ from Components.NileGlassCore import posters, formatInfo, formatCard, confGet
 from skin import parseColor
 from Tools.Hex2strColor import Hex2strColor
 
-DETAIL_FIELDS = ("director", "country", "cast", "runtime")
+DETAIL_FIELDS = ("director", "country", "cast", "runtime", "imdb", "awards")
 
 
 class NGEventInfo(Renderer, VariableText):

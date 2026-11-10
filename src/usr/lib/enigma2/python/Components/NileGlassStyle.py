@@ -158,7 +158,18 @@ TEXT_COLORS = {"white": ("eef1f4", "9aa3ae"), "pure": ("ffffff", "b4bcc6"), "cre
 TEXT_COLOR_NAMES_AR = {"white": "أبيض", "pure": "أبيض ناصع", "cream": "كريمي", "grey": "رمادي فاتح"}
 DIRECTIONS = ("auto", "rtl", "ltr")
 DEFAULTS = {"accent": "blue", "transparency": "20", "font": "ubuntu", "font_size": "100", "infobar": "full",
-	"infobar_size": "100", "text_color": "white", "bold_titles": "1", "outline": "0", "direction": "auto", "translate": "1"}
+	"infobar_size": "100", "text_color": "white", "bold_titles": "1", "outline": "0", "direction": "auto", "translate": "1",
+	"channels": "posters", "sib": "cinema", "menu_backdrop": "1"}
+LAYOUT_FILES = {("channels", "simple"): "channels_simple.xml", ("sib", "classic"): "sib_classic.xml", ("infobar", "compact"): "infobar_compact.xml"}
+# ready-made looks: (accent, transparency, font, text colour)
+PRESETS = {
+	"classic": ("blue", 20, "ubuntu", "white"),
+	"gold": ("gold", 30, "plex", "cream"),
+	"cinema": ("red", 10, "notosans", "pure"),
+	"sport": ("green", 20, "vazir", "white"),
+	"night": ("purple", 10, "almarai", "grey"),
+}
+PRESET_NAMES_AR = {"classic": "كلاسيك أزرق", "gold": "ذهبي فاخر", "cinema": "سينما", "sport": "رياضة", "night": "ليلي هادي"}
 INFOBAR_LAYOUTS = ("full", "compact")
 
 
@@ -197,7 +208,11 @@ def readStyle(confFile=CONF_FILE):
 		style["text_color"] = "white"
 	if style["direction"] not in DIRECTIONS:
 		style["direction"] = "auto"
-	for k in ("bold_titles", "outline", "translate"):
+	if style["channels"] not in ("posters", "simple"):
+		style["channels"] = "posters"
+	if style["sib"] not in ("cinema", "classic"):
+		style["sib"] = "cinema"
+	for k in ("bold_titles", "outline", "translate", "menu_backdrop"):
 		style[k] = str(style[k]).strip().lower() in ("1", "yes", "true", "on")
 	return style
 
@@ -357,6 +372,33 @@ def transformScreen(scr, ibFactor=1.0, outline=False, rtl=None):
 	return changed
 
 
+def _layoutElements(style, skinDir):
+	"""{screen name: element} of the layout variants chosen in the style."""
+	out = {}
+	for (key, value), fname in LAYOUT_FILES.items():
+		if style.get(key) != value:
+			continue
+		try:
+			root = ET.parse(os.path.join(skinDir, "layouts", fname)).getroot()
+			scrs = [root] if root.tag == "screen" else root.findall("screen")
+			for scr in scrs:
+				out[scr.get("name")] = scr
+		except Exception as err:
+			print("[NileGlass] layout %s: %s" % (fname, err))
+	return out
+
+
+def _dropMenuBackdrops(scr):
+	"""Remove the full-screen event backdrop (option 'menu_backdrop' off)."""
+	changed = False
+	for parent in list(scr.iter()):
+		for el in list(parent):
+			if el.tag == "widget" and el.get("render") == "NGPoster" and el.get("kind") == "backdrop" and el.get("size") == "1920,1080":
+				parent.remove(el)
+				changed = True
+	return changed
+
+
 def _transformedScreens(style, skinDir, language=None):
 	ibFactor = style.get("infobar_size", 100) / 100.0
 	outline = bool(style.get("outline"))
@@ -366,20 +408,23 @@ def _transformedScreens(style, skinDir, language=None):
 	except Exception as err:
 		print("[NileGlass] style: cannot read skin.xml:", err)
 		return ""
-	compact = None
-	if style.get("infobar") == "compact":
-		try:
-			compact = ET.fromstring(_layoutScreens(style, skinDir).strip())
-		except Exception:
-			compact = None
+	layouts = _layoutElements(style, skinDir)
 	out = []
+	done = set()
 	for scr in root.findall("screen"):
-		if compact is not None and scr.get("name") == "InfoBar":
-			scr = compact
-			compact = None
-		if transformScreen(scr, ibFactor, outline, rtl):
+		name = scr.get("name")
+		replaced = name in layouts
+		if replaced:
+			scr = layouts[name]
+		done.add(name)
+		changed = transformScreen(scr, ibFactor, outline, rtl)
+		if not style.get("menu_backdrop", True):
+			changed = _dropMenuBackdrops(scr) or changed
+		if changed or replaced:
 			out.append("\t" + ET.tostring(scr, encoding="unicode").strip())
-		elif scr.get("name") == "InfoBar" and style.get("infobar") == "compact":
+	for name, scr in layouts.items():  # layout screens that skin.xml does not have
+		if name not in done:
+			transformScreen(scr, ibFactor, outline, rtl)
 			out.append("\t" + ET.tostring(scr, encoding="unicode").strip())
 	return "\n".join(out) + ("\n" if out else "")
 

@@ -83,6 +83,7 @@ TEMPLATE = """# NileGlass FHD skin settings (written by the NileGlass setup scre
 api_key = {api_key}
 language = {language}
 enabled = {tmdb_enabled}
+omdb_key = {omdb_key}
 
 [posters]
 cache_dir = {cache_dir}
@@ -116,6 +117,9 @@ bold_titles = {bold_titles}
 outline = {outline}
 direction = {direction}
 translate = {translate}
+channels = {channels}
+sib = {sib}
+menu_backdrop = {menu_backdrop}
 """
 
 
@@ -207,6 +211,14 @@ class NileGlassSetup(Setup):
 		self.direction = NoSave(ConfigSelection(default=style.get("direction", "auto"), choices=[
 			("auto", T("Automatic (by menu language)", "تلقائي (حسب لغة الجهاز)")), ("rtl", T("Always right", "يمين دائمًا")), ("ltr", T("Always left", "شمال دائمًا"))]))
 		self.translate = NoSave(ConfigYesNo(default=bool(style.get("translate", True))))
+		self.preset = NoSave(ConfigSelection(default="none", choices=[("none", T("— keep my choices —", "— خليها زي ما هي —"))] +
+			([(k, Style.PRESET_NAMES_AR[k] if AR else k.capitalize()) for k in Style.PRESETS] if Style else [])))
+		self.channels = NoSave(ConfigSelection(default=style.get("channels", "posters"), choices=[
+			("posters", T("Description + posters", "وصف + بوسترات")), ("simple", T("Wide list", "قائمة عريضة"))]))
+		self.sib = NoSave(ConfigSelection(default=style.get("sib", "cinema"), choices=[
+			("cinema", T("Cinema (posters row)", "سينما (صف بوسترات)")), ("classic", T("Classic (programme list)", "كلاسيك (قائمة برامج)"))]))
+		self.menuBackdrop = NoSave(ConfigYesNo(default=bool(style.get("menu_backdrop", True))))
+		self.omdbKey = NoSave(ConfigText(default=confGet("tmdb", "omdb_key", ""), fixed_size=False, visible_width=30))
 		# the image's own settings, shown here for convenience
 		try:
 			self.ibTimeout = config.usage.infobar_timeout
@@ -265,10 +277,22 @@ class NileGlassSetup(Setup):
 		self.onLayoutFinish.append(self.updatePreview)
 		self.setTitle(T("NileGlass FHD settings", "إعدادات سكين NileGlass"))
 
+	def changedEntry(self):
+		if Style and self["config"].getCurrent() and len(self["config"].getCurrent()) > 1 and self["config"].getCurrent()[1] is self.preset and self.preset.value in Style.PRESETS:
+			accent, transp, font, color = Style.PRESETS[self.preset.value]
+			self.accent.value, self.transparency.value, self.textColor.value = accent, str(transp), color
+			if font in [k for k, v in self.font.choices.choices]:
+				self.font.value = font
+		Setup.changedEntry(self)
+
 	def createSetup(self):
 		i = "   "
 		items = [
 			(T("— Look —", "— المظهر —"),),
+			(i + T("Ready-made style", "ستايل جاهز"), self.preset, T("Sets colour, transparency, font and text colour in one go.", "يغيّر اللون والشفافية والخط ولون النص مرة واحدة.")),
+			(i + T("Channel list", "شكل قائمة القنوات"), self.channels, ""),
+			(i + T("Second infobar", "شكل الإنفوبار الثاني"), self.sib, ""),
+			(i + T("Event picture behind menus", "صورة البرنامج ورا القوائم"), self.menuBackdrop, T("The backdrop of the running programme behind the main menu and settings.", "خلفية البرنامج الشغال ورا القائمة الرئيسية والإعدادات.")),
 			(i + T("Infobar", "شكل الإنفوبار"), self.infobar, T("Full shows signal and service details, compact only the programmes.", "الكامل يعرض الإشارة وتفاصيل القناة، والمختصر البرامج فقط.")),
 			(i + T("Accent colour", "لون التمييز"), self.accent, T("Colour of selection bars, progress bars and highlights.", "لون شريط التحديد وأشرطة التقدم والعناوين.")),
 			(i + T("Background transparency", "شفافية الخلفية"), self.transparency, T("How much of the picture shows through the bars and panels.", "مدى ظهور الصورة من خلف الإنفوبار والقوائم.")),
@@ -287,6 +311,7 @@ class NileGlassSetup(Setup):
 			items += [
 				(i + T("TMDB API key", "مفتاح TMDB"), self.apiKey, T("Free key from themoviedb.org (Settings > API). Press OK to type it.", "مفتاح مجاني من موقع themoviedb.org (الإعدادات > API). اضغط OK للكتابة.")),
 				(i + T("Search language", "لغة البحث"), self.language, ""),
+				(i + T("OMDb key (IMDb rating)", "مفتاح OMDb (تقييم IMDb)"), self.omdbKey, T("Optional free key from omdbapi.com for IMDb ratings and awards.", "اختياري: مفتاح مجاني من omdbapi.com لتقييم IMDb والجوايز.")),
 				(i + T("Use English titles from SaadEPG", "استخدام الأسماء الإنجليزية من SaadEPG"), self.epgTitles, T("When TMDB does not know the Arabic title, search with the English title from your SaadEPG guide (about 0.8 MB once a day).", "لو TMDB مش عارف الاسم العربي، يبحث بالاسم الإنجليزي من دليل SaadEPG (حوالي 0.8 ميجا مرة يوميًا).")),
 				(i + T("Poster quality", "جودة البوستر"), self.quality, T("High looks sharper but needs more internet and disk space.", "العالية أوضح لكنها تستهلك إنترنت ومساحة أكثر.")),
 				(i + T("Poster cache", "مكان حفظ البوسترات"), self.cacheDir, T("A hard disk or USB stick is recommended.", "يُفضّل الهارد أو فلاشة USB.")),
@@ -402,6 +427,10 @@ class NileGlassSetup(Setup):
 			"outline": 1 if self.outline.value else 0,
 			"direction": self.direction.value,
 			"translate": 1 if self.translate.value else 0,
+			"channels": self.channels.value,
+			"sib": self.sib.value,
+			"menu_backdrop": 1 if self.menuBackdrop.value else 0,
+			"omdb_key": self.omdbKey.value.strip(),
 		}
 
 	def keySave(self):
@@ -716,6 +745,15 @@ def main(session, **kwargs):
 	session.open(NileGlassSetup)
 
 
+def openWeather(session, **kwargs):
+	try:
+		from .weatherscreen import NileGlassWeather
+		session.open(NileGlassWeather)
+	except Exception as err:
+		print("[NileGlass] weather:", err)
+		session.open(MessageBox, str(err), MessageBox.TYPE_ERROR, timeout=8)
+
+
 def openTonight(session, **kwargs):
 	try:
 		from .tonight import NileGlassTonight
@@ -730,5 +768,6 @@ def Plugins(**kwargs):
 		PluginDescriptor(name="NileGlass FHD", description=T("Skin settings: look, posters, weather", "إعدادات السكين: المظهر والبوسترات والطقس"), where=PluginDescriptor.WHERE_PLUGINMENU, icon="plugin.png", fnc=main),
 		PluginDescriptor(name=T("Tonight: films and matches", "الليلة: أفلام وماتشات"), description=T("Films and matches of tonight on your channels (Saad EPG)", "أفلام وماتشات الليلة على قنواتك (Saad EPG)"), where=PluginDescriptor.WHERE_PLUGINMENU, icon="tonight.png", fnc=openTonight),
 		PluginDescriptor(name=T("Tonight: films and matches", "الليلة: أفلام وماتشات"), where=PluginDescriptor.WHERE_EXTENSIONSMENU, fnc=openTonight),
+		PluginDescriptor(name=T("Weather (5 days)", "الطقس (5 أيام)"), where=PluginDescriptor.WHERE_EXTENSIONSMENU, fnc=openWeather),
 		PluginDescriptor(where=PluginDescriptor.WHERE_SESSIONSTART, fnc=sessionstart),
 	]

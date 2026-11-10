@@ -370,7 +370,7 @@
 		<widget source="session.Event_Now" render="Label" position="430,132" size="680,60" font="Medium;40" foregroundColor="accent" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1">
 			<convert type="EventName">Name</convert>
 		</widget>
-		<widget source="session.Event_Now" render="NGEventInfo" mode="card" fields="year,genres,director,country,cast,runtime" labelColor="#9aa3ae" position="430,198" size="680,250" font="Regular;27" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="left" delay="0"/>
+		<widget source="session.Event_Now" render="NGEventInfo" mode="card" fields="year,genres,director,country,cast,runtime,imdb" labelColor="#9aa3ae" position="430,198" size="680,250" font="Regular;27" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="left" delay="0"/>
 		<ePixmap pixmap="NileGlass_FHD/ui/stars_bg.png" position="430,458" size="200,36" alphatest="blend"/>
 		<widget source="session.Event_Now" render="NGStars" pixmap="NileGlass_FHD/ui/stars.png" position="430,458" size="200,36" transparent="1" zPosition="1"/>
 		<widget source="session.Event_Now" render="NGEventInfo" fields="rating" position="642,456" size="300,40" font="Medium;28" foregroundColor="gold" backgroundColor="bg" transparent="1" halign="left" valign="center" delay="0"/>
@@ -713,6 +713,7 @@
 	     Menus, settings, dialogs
 	     =================================================================== -->
 	<screen name="Menu" position="0,0" size="1920,1080" backgroundColor="transparent" flags="wfNoBorder">
+		<widget source="session.Event_Now" render="NGPoster" kind="backdrop" position="0,0" size="1920,1080" delay="400" zPosition="-20"/>
 		<panel name="NG_Frame"/>
 		<widget source="menu" render="Listbox" position="60,146" size="700,792" selectionPixmap="NileGlass_FHD/ui/sel_menu.png" scrollbarMode="showOnDemand" scrollbarWidth="6" scrollbarSliderForegroundColor="accent" backgroundColor="bg" foregroundColor="fg" foregroundColorSelected="white" transparent="1">
 			<convert type="TemplatedMultiContent">
@@ -808,6 +809,7 @@
 
 	<!-- Generic settings screen -->
 	<screen name="Setup" position="0,0" size="1920,1080" backgroundColor="transparent" flags="wfNoBorder">
+		<widget source="session.Event_Now" render="NGPoster" kind="backdrop" position="0,0" size="1920,1080" delay="400" zPosition="-20"/>
 		<panel name="NG_Frame"/>
 		<widget name="config" position="80,146" size="1760,648" itemHeight="54" font="Regular;30" secondfont="Regular;30" foregroundColor="fg" backgroundColor="bg" foregroundColorSelected="white" backgroundColorSelected="bgSel" selectionPixmap="NileGlass_FHD/ui/sel_wide.png" scrollbarMode="showOnDemand" scrollbarWidth="6" scrollbarSliderForegroundColor="accent" separatorLineColor="#40ffffff" separatorLineSize="1" transparent="1"/>
 		<eLabel position="80,806" size="1760,1" backgroundColor="line"/>
@@ -887,6 +889,7 @@
 
 	<!-- Plugin browser -->
 	<screen name="PluginBrowser" position="0,0" size="1920,1080" backgroundColor="transparent" flags="wfNoBorder">
+		<widget source="session.Event_Now" render="NGPoster" kind="backdrop" position="0,0" size="1920,1080" delay="400" zPosition="-20"/>
 		<panel name="NG_Frame"/>
 		<widget source="list" render="Listbox" position="60,146" size="1800,800" selectionPixmap="NileGlass_FHD/ui/sel_plugins.png" scrollbarMode="showOnDemand" scrollbarWidth="6" scrollbarSliderForegroundColor="accent" backgroundColor="bg" foregroundColor="fg" foregroundColorSelected="white" transparent="1">
 			<convert type="TemplatedMultiContent">
@@ -1415,6 +1418,91 @@
 			<convert type="PliExtraInfo">ResolutionString</convert>
 		</widget>
 		<eLabel text="OK  اختيار المسار       MENU  اللغة التلقائية للصوت والترجمة" position="1180,880" size="660,40" font="Regular;22" foregroundColor="fgMute" backgroundColor="bg" transparent="1" halign="left" valign="center"/>
+	</screen>
+	<screen name="TimerEditList" position="0,0" size="1920,1080" backgroundColor="transparent" flags="wfNoBorder">
+		<panel name="NG_Frame"/>
+		<widget name="timerlist" position="60,146" size="1800,700" itemHeight="100" backgroundColor="bg" foregroundColor="fg" foregroundColorSelected="white" backgroundColorSelected="bgSel" scrollbarMode="showOnDemand" scrollbarWidth="6" scrollbarSliderForegroundColor="accent" transparent="1"/>
+		<eLabel position="60,860" size="1800,1" backgroundColor="line"/>
+		<widget name="description" position="60,868" size="1800,84" font="Regular;26" foregroundColor="fgDim" backgroundColor="bg" transparent="1"/>
+	</screen>
+	<screen name="PowerTimerEditList" position="0,0" size="1920,1080" backgroundColor="transparent" flags="wfNoBorder">
+		<panel name="NG_Frame"/>
+		<widget name="timerlist" position="60,146" size="1800,700" itemHeight="100" backgroundColor="bg" foregroundColor="fg" foregroundColorSelected="white" backgroundColorSelected="bgSel" scrollbarMode="showOnDemand" scrollbarWidth="6" scrollbarSliderForegroundColor="accent" transparent="1"/>
+		<eLabel position="60,860" size="1800,1" backgroundColor="line"/>
+		<widget name="description" position="60,868" size="1800,84" font="Regular;26" foregroundColor="fgDim" backgroundColor="bg" transparent="1"/>
+	</screen>
+	<screen name="PluginDownloadBrowser" position="0,0" size="1920,1080" backgroundColor="transparent" flags="wfNoBorder">
+		<panel name="NG_Frame"/>
+		<widget name="text" position="60,146" size="1800,50" font="Regular;30" foregroundColor="gold" backgroundColor="bg" transparent="1"/>
+		<widget name="list" position="60,206" size="1800,740" itemHeight="100" backgroundColor="bg" foregroundColor="fg" foregroundColorSelected="white" backgroundColorSelected="bgSel" scrollbarMode="showOnDemand" scrollbarWidth="6" scrollbarSliderForegroundColor="accent" transparent="1"/>
+	</screen>
+	<screen name="ChannelContextMenu" position="center,center" size="1100,860" backgroundColor="transparent" flags="wfNoBorder">
+		<eLabel position="0,0" size="1100,860" backgroundColor="bg" zPosition="-10"/>
+		<eLabel position="0,0" size="1100,3" backgroundColor="lineAccent" zPosition="-9"/>
+		<widget source="Title" render="Label" position="36,12" size="800,64" font="Medium;38" foregroundColor="accent" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1"/>
+		<widget source="global.CurrentTime" render="Label" position="844,12" size="220,64" font="Regular;40" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="right" valign="center" noWrap="1"><convert type="ClockToText">Format:%H:%M</convert></widget>
+		<eLabel position="0,88" size="1100,1" backgroundColor="line"/>
+		<widget name="menu" position="30,104" size="1040,728" itemHeight="56" backgroundColor="bg" foregroundColor="fg" foregroundColorSelected="white" backgroundColorSelected="bgSel" scrollbarMode="showOnDemand" scrollbarWidth="6" scrollbarSliderForegroundColor="accent" transparent="1"/>
+	</screen>
+	<screen name="MovieContextMenu" position="center,center" size="1100,860" backgroundColor="transparent" flags="wfNoBorder">
+		<eLabel position="0,0" size="1100,860" backgroundColor="bg" zPosition="-10"/>
+		<eLabel position="0,0" size="1100,3" backgroundColor="lineAccent" zPosition="-9"/>
+		<widget source="Title" render="Label" position="36,12" size="800,64" font="Medium;38" foregroundColor="accent" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1"/>
+		<widget source="global.CurrentTime" render="Label" position="844,12" size="220,64" font="Regular;40" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="right" valign="center" noWrap="1"><convert type="ClockToText">Format:%H:%M</convert></widget>
+		<eLabel position="0,88" size="1100,1" backgroundColor="line"/>
+		<widget name="config" position="30,104" size="1040,560" itemHeight="56" backgroundColor="bg" foregroundColor="fg" foregroundColorSelected="white" backgroundColorSelected="bgSel" scrollbarMode="showOnDemand" scrollbarWidth="6" scrollbarSliderForegroundColor="accent" transparent="1"/>
+		<eLabel position="30,676" size="1040,1" backgroundColor="line"/>
+		<widget source="description" render="Label" position="30,684" size="1040,80" font="Regular;26" foregroundColor="fgDim" backgroundColor="bg" transparent="1"/>
+		<widget name="footnote" position="30,766" size="1040,30" font="Regular;22" foregroundColor="gold" backgroundColor="bg" transparent="1"/>
+	</screen>
+	<screen name="InputBox" position="center,center" size="1240,380" backgroundColor="transparent" flags="wfNoBorder">
+		<eLabel position="0,0" size="1240,380" backgroundColor="bg" zPosition="-10"/>
+		<eLabel position="0,0" size="1240,3" backgroundColor="lineAccent" zPosition="-9"/>
+		<widget source="Title" render="Label" position="36,12" size="940,64" font="Medium;38" foregroundColor="accent" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1"/>
+		<widget source="global.CurrentTime" render="Label" position="984,12" size="220,64" font="Regular;40" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="right" valign="center" noWrap="1"><convert type="ClockToText">Format:%H:%M</convert></widget>
+		<eLabel position="0,88" size="1240,1" backgroundColor="line"/>
+		<widget name="text" position="40,104" size="1160,100" font="Regular;30" foregroundColor="fg" backgroundColor="bg" transparent="1" valign="center"/>
+		<eLabel position="40,214" size="1160,70" backgroundColor="bgCard" zPosition="-5"/>
+		<widget name="input" position="60,214" size="1120,70" font="Medium;38" foregroundColor="white" backgroundColor="bgCard" transparent="1" valign="center"/>
+	</screen>
+	<screen name="HelpMenu" position="0,0" size="1920,1080" backgroundColor="transparent" flags="wfNoBorder">
+		<panel name="NG_Frame"/>
+		<widget name="list" position="60,146" size="1800,800" itemHeight="56" backgroundColor="bg" foregroundColor="fg" foregroundColorSelected="white" backgroundColorSelected="bgSel" scrollbarMode="showOnDemand" scrollbarWidth="6" scrollbarSliderForegroundColor="accent" transparent="1"/>
+	</screen>
+	<screen name="NileGlassWeather" position="0,0" size="1920,1080" backgroundColor="transparent" flags="wfNoBorder">
+		<panel name="NG_Frame"/>
+		<eLabel position="60,146" size="1800,280" backgroundColor="bgCard" zPosition="-5"/>
+		<widget name="now_icon" position="90,176" size="200,200" alphatest="blend" scale="1" zPosition="1"/>
+		<widget name="now_temp" position="320,170" size="420,130" font="Medium;110" foregroundColor="fg" backgroundColor="bgCard" transparent="1" halign="left" valign="center" noWrap="1"/>
+		<widget name="now_desc" position="320,300" size="900,56" font="Regular;38" foregroundColor="accent" backgroundColor="bgCard" transparent="1" halign="left" valign="center" noWrap="1"/>
+		<widget name="now_extra" position="320,360" size="1500,44" font="Regular;28" foregroundColor="fgDim" backgroundColor="bgCard" transparent="1" halign="left" valign="center" noWrap="1"/>
+		<widget name="city" position="1100,170" size="720,80" font="Medium;54" foregroundColor="gold" backgroundColor="bgCard" transparent="1" halign="right" valign="center" noWrap="1"/>
+		<widget name="updated" position="1100,250" size="720,40" font="Regular;24" foregroundColor="fgMute" backgroundColor="bgCard" transparent="1" halign="right" valign="center" noWrap="1"/>
+		<eLabel position="60,446" size="344,490" backgroundColor="bgCard" zPosition="-5"/>
+		<widget name="day0" position="60,462" size="344,50" font="Medium;34" foregroundColor="accent" backgroundColor="bgCard" transparent="1" halign="center" valign="center" noWrap="1"/>
+		<widget name="icon0" position="157,526" size="150,150" alphatest="blend" scale="1" zPosition="1"/>
+		<widget name="temp0" position="60,690" size="344,60" font="Medium;40" foregroundColor="fg" backgroundColor="bgCard" transparent="1" halign="center" valign="center" noWrap="1"/>
+		<widget name="desc0" position="70,760" size="324,160" font="Regular;28" foregroundColor="fgDim" backgroundColor="bgCard" transparent="1" halign="center" valign="top"/>
+		<eLabel position="424,446" size="344,490" backgroundColor="bgCard" zPosition="-5"/>
+		<widget name="day1" position="424,462" size="344,50" font="Medium;34" foregroundColor="accent" backgroundColor="bgCard" transparent="1" halign="center" valign="center" noWrap="1"/>
+		<widget name="icon1" position="521,526" size="150,150" alphatest="blend" scale="1" zPosition="1"/>
+		<widget name="temp1" position="424,690" size="344,60" font="Medium;40" foregroundColor="fg" backgroundColor="bgCard" transparent="1" halign="center" valign="center" noWrap="1"/>
+		<widget name="desc1" position="434,760" size="324,160" font="Regular;28" foregroundColor="fgDim" backgroundColor="bgCard" transparent="1" halign="center" valign="top"/>
+		<eLabel position="788,446" size="344,490" backgroundColor="bgCard" zPosition="-5"/>
+		<widget name="day2" position="788,462" size="344,50" font="Medium;34" foregroundColor="accent" backgroundColor="bgCard" transparent="1" halign="center" valign="center" noWrap="1"/>
+		<widget name="icon2" position="885,526" size="150,150" alphatest="blend" scale="1" zPosition="1"/>
+		<widget name="temp2" position="788,690" size="344,60" font="Medium;40" foregroundColor="fg" backgroundColor="bgCard" transparent="1" halign="center" valign="center" noWrap="1"/>
+		<widget name="desc2" position="798,760" size="324,160" font="Regular;28" foregroundColor="fgDim" backgroundColor="bgCard" transparent="1" halign="center" valign="top"/>
+		<eLabel position="1152,446" size="344,490" backgroundColor="bgCard" zPosition="-5"/>
+		<widget name="day3" position="1152,462" size="344,50" font="Medium;34" foregroundColor="accent" backgroundColor="bgCard" transparent="1" halign="center" valign="center" noWrap="1"/>
+		<widget name="icon3" position="1249,526" size="150,150" alphatest="blend" scale="1" zPosition="1"/>
+		<widget name="temp3" position="1152,690" size="344,60" font="Medium;40" foregroundColor="fg" backgroundColor="bgCard" transparent="1" halign="center" valign="center" noWrap="1"/>
+		<widget name="desc3" position="1162,760" size="324,160" font="Regular;28" foregroundColor="fgDim" backgroundColor="bgCard" transparent="1" halign="center" valign="top"/>
+		<eLabel position="1516,446" size="344,490" backgroundColor="bgCard" zPosition="-5"/>
+		<widget name="day4" position="1516,462" size="344,50" font="Medium;34" foregroundColor="accent" backgroundColor="bgCard" transparent="1" halign="center" valign="center" noWrap="1"/>
+		<widget name="icon4" position="1613,526" size="150,150" alphatest="blend" scale="1" zPosition="1"/>
+		<widget name="temp4" position="1516,690" size="344,60" font="Medium;40" foregroundColor="fg" backgroundColor="bgCard" transparent="1" halign="center" valign="center" noWrap="1"/>
+		<widget name="desc4" position="1526,760" size="324,160" font="Regular;28" foregroundColor="fgDim" backgroundColor="bgCard" transparent="1" halign="center" valign="top"/>
 	</screen>
 	<!-- NG_POPUPS_END -->
 

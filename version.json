@@ -1,7 +1,7 @@
 {
-  "version": "1.8.1",
-  "ipk": "https://raw.githubusercontent.com/Saadmelshepiny/NileGlass-FHD/main/releases/enigma2-plugin-skins-nileglass-fhd_1.8.1_all.ipk",
-  "sha256": "1749bc389bad503397f095c1dfb4f0feacdbb7fd1a77e0e96f6849082a9af3c9",
-  "notes_ar": "اختيار خط أي سكين متثبت (مثل MX_HQ10) بنفس المقاسات، ويفضل شغال حتى لو السكين اتشال.",
-  "notes_en": "Use the fonts of another installed skin (e.g. MX_HQ10), kept even if that skin is removed."
+  "version": "2.0.0",
+  "ipk": "https://raw.githubusercontent.com/Saadmelshepiny/NileGlass-FHD/main/releases/enigma2-plugin-skins-nileglass-fhd_2.0.0_all.ipk",
+  "sha256": "1864672437f8e250cb7a115af8f0c3d5aa21ecf245e367bd23cb9d03c2b725b3",
+  "notes_ar": "شاشات جديدة، أشكال لقائمة القنوات والإنفوبار الثاني، ستايلات جاهزة، صورة البرنامج ورا القوائم، تقييم IMDb، طقس 5 أيام.",
+  "notes_en": "More screens, channel list and second infobar styles, presets, event backdrop behind menus, IMDb ratings, 5-day weather."
 }
