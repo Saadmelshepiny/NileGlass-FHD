@@ -880,6 +880,11 @@ def sessionstart(reason, session=None, **kwargs):
 				except Exception as err:
 					print("[NileGlass] perf watch:", err)
 				try:
+					from .motorbar import install as installMotor
+					installMotor(session)
+				except Exception as err:
+					print("[NileGlass] motor banner:", err)
+				try:
 					from .fitboxes import install as installFit
 					installFit()
 				except Exception as err:

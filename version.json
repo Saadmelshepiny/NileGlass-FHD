@@ -1,12 +1,12 @@
 {
-  "version": "2.5.6",
-  "ipk": "https://raw.githubusercontent.com/Saadmelshepiny/NileGlass-FHD/main/releases/enigma2-plugin-skins-nileglass-fhd_2.5.6_all.ipk",
-  "sha256": "22a06c0e67ab155c084414d08a9b9eacaad81f376d8da15e11a09821bc169a5e",
-  "notes_ar": "إعدادات السكين بتفتح أسرع بكتير (قائمة خطوط السكينات التانية والمعاينة بقوا محفوظين بدل ما يتقروا كل مرة).",
-  "notes_en": "Skin settings open much faster (other skins' font list and preview fonts are cached).",
+  "version": "2.5.7",
+  "ipk": "https://raw.githubusercontent.com/Saadmelshepiny/NileGlass-FHD/main/releases/enigma2-plugin-skins-nileglass-fhd_2.5.7_all.ipk",
+  "sha256": "deb3428d8a8e5fa3f5a5f4d419c239c26180efc933c31593db8cfb4d193f53f0",
+  "notes_ar": "بيان حركة الطبق على التيونر A: من أي قمر لأي قمر، بالوقت المتوقع وعد تنازلي، وبيقفل لوحده لما القناة تشتغل.",
+  "notes_en": "Dish moving banner for the motorised tuner: from / to any satellite with an estimated countdown; closes when the channel tunes.",
   "previous": {
-    "version": "2.5.5",
-    "ipk": "https://raw.githubusercontent.com/Saadmelshepiny/NileGlass-FHD/main/releases/enigma2-plugin-skins-nileglass-fhd_2.5.5_all.ipk",
-    "sha256": "e60aa539678686b15271e5d5c77b00e8da6984e82db2c51e6c1d745bab8c545b"
+    "version": "2.5.6",
+    "ipk": "https://raw.githubusercontent.com/Saadmelshepiny/NileGlass-FHD/main/releases/enigma2-plugin-skins-nileglass-fhd_2.5.6_all.ipk",
+    "sha256": "22a06c0e67ab155c084414d08a9b9eacaad81f376d8da15e11a09821bc169a5e"
   }
 }
