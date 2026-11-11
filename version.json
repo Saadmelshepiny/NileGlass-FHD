@@ -1,12 +1,12 @@
 {
-  "version": "2.5.2",
-  "ipk": "https://raw.githubusercontent.com/Saadmelshepiny/NileGlass-FHD/main/releases/enigma2-plugin-skins-nileglass-fhd_2.5.2_all.ipk",
-  "sha256": "af9bdc427198a9936cea18d03da2f09dde341937c061451ca394c7a48a041122",
-  "notes_ar": "6 أشكال للأيقونات تختارها من الإعدادات مع معاينة، شاشة تعديل جديدة لسطور الإيمو (كل الحقول في شاشة واحدة)، وشاشة البحث عن القنوات أصغر.",
-  "notes_en": "6 icon styles with preview in the settings; new edit screen for emu readers; compact channel scan screen.",
+  "version": "2.5.3",
+  "ipk": "https://raw.githubusercontent.com/Saadmelshepiny/NileGlass-FHD/main/releases/enigma2-plugin-skins-nileglass-fhd_2.5.3_all.ipk",
+  "sha256": "6419ad9f4cc0aed47e0d1616ed4eb0fe38c5d83e620bb1135f731026c5dd0f76",
+  "notes_ar": "الرسائل وقوائم الاختيار حجمها بقى على قد اللي جواها: رسالة سطر واحد تطلع صغيرة، والكلام الكتير أو الاختيارات الكتير تكبّر الشاشة لحد معين.",
+  "notes_en": "Message and choice boxes now size themselves to their content.",
   "previous": {
-    "version": "2.5.1",
-    "ipk": "https://raw.githubusercontent.com/Saadmelshepiny/NileGlass-FHD/main/releases/enigma2-plugin-skins-nileglass-fhd_2.5.1_all.ipk",
-    "sha256": "8797cba58e2085d694e1d0a2650ab39f60a68a9778263412173c97fa5ebeebde"
+    "version": "2.5.2",
+    "ipk": "https://raw.githubusercontent.com/Saadmelshepiny/NileGlass-FHD/main/releases/enigma2-plugin-skins-nileglass-fhd_2.5.2_all.ipk",
+    "sha256": "af9bdc427198a9936cea18d03da2f09dde341937c061451ca394c7a48a041122"
   }
 }

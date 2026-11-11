@@ -839,7 +839,6 @@
 		<eLabel position="0,0" size="1300,3" backgroundColor="lineAccent" zPosition="1"/>
 		<widget name="text" position="30,14" size="1240,80" font="Regular;32" foregroundColor="gold" backgroundColor="bg" transparent="1"/>
 		<widget name="list" position="30,100" size="1240,580" itemHeight="58" foregroundColor="fg" backgroundColor="bg" foregroundColorSelected="white" backgroundColorSelected="bgSel" scrollbarMode="showOnDemand" scrollbarWidth="6" scrollbarSliderForegroundColor="accent" transparent="1"/>
-		<eLabel position="30,690" size="1240,1" backgroundColor="line"/>
 		<widget name="description" position="30,700" size="1240,90" font="Regular;28" foregroundColor="fgDim" backgroundColor="bg" transparent="1"/>
 	</screen>
 

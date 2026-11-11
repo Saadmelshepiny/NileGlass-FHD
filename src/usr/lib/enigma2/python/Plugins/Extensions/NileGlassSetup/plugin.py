@@ -869,6 +869,11 @@ def sessionstart(reason, session=None, **kwargs):
 				installTranslations()
 				patchSecondInfoBar()
 				try:
+					from .fitboxes import install as installFit
+					installFit()
+				except Exception as err:
+					print("[NileGlass] fit boxes:", err)
+				try:
 					from .neighbours import install as installNeighbours
 					installNeighbours()
 				except Exception as err:
