@@ -1643,7 +1643,22 @@
 		<widget source="session.CurrentService" render="Label" position="180,298" size="890,38" font="Regular;26" foregroundColor="#c8ced6" backgroundColor="bg" transparent="1" valign="center" noWrap="1" halign="left"><convert type="PliExtraInfo">CryptoNameCaid</convert></widget>
 		<eLabel text="الأنظمة" position="30,340" size="150,38" font="Regular;24" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center"/>
 		<widget source="session.CurrentService" render="Label" position="180,340" size="890,38" font="Regular;26" foregroundColor="fg" backgroundColor="bg" transparent="1" valign="center" noWrap="1" halign="left"><convert type="PliExtraInfo">CryptoBar</convert></widget>
-		<eLabel text="يمين / شمال: الإيمو التالي      OK: تشغيل / إعادة تشغيل      EXIT: خروج" position="30,382" size="1040,30" font="Regular;20" foregroundColor="fgMute" backgroundColor="bg" transparent="1" halign="center" valign="center"/>
+		<eLabel text="يمين / شمال: الإيمو التالي     OK: تشغيل / إعادة تشغيل     MENU: السطور     EXIT: خروج" position="30,382" size="1040,30" font="Regular;20" foregroundColor="fgMute" backgroundColor="bg" transparent="1" halign="center" valign="center"/>
+	</screen>
+	<screen name="NileGlassReaders" position="0,0" size="1920,1080" backgroundColor="transparent" flags="wfNoBorder">
+		<panel name="NG_Frame"/>
+		<widget name="file" position="80,138" size="1760,36" font="Regular;24" foregroundColor="gold" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1"/>
+		<eLabel text="الاسم" position="94,180" size="400,34" font="Regular;24" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center"/>
+		<eLabel text="البروتوكول" position="500,180" size="200,34" font="Regular;24" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center"/>
+		<eLabel text="السيرفر" position="710,180" size="560,34" font="Regular;24" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center"/>
+		<eLabel text="اليوزر" position="1280,180" size="300,34" font="Regular;24" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center"/>
+		<eLabel text="الحالة" position="1590,180" size="236,34" font="Regular;24" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="right" valign="center"/>
+		<eLabel position="80,218" size="1760,1" backgroundColor="line"/>
+		<widget source="list" render="Listbox" position="80,226" size="1760,416" backgroundColor="bg" foregroundColor="fg" foregroundColorSelected="white" backgroundColorSelected="bgSel" scrollbarMode="showOnDemand" scrollbarWidth="6" scrollbarSliderForegroundColor="accent" transparent="1"><convert type="TemplatedMultiContent">{"template": [MultiContentEntryText(pos=(14, 0), size=(400, 52), font=0, flags=RT_HALIGN_LEFT|RT_VALIGN_CENTER, text=0), MultiContentEntryText(pos=(420, 0), size=(200, 52), font=1, flags=RT_HALIGN_LEFT|RT_VALIGN_CENTER, text=1, color="#f0c419", color_sel="#ffffff"), MultiContentEntryText(pos=(630, 0), size=(560, 52), font=1, flags=RT_HALIGN_LEFT|RT_VALIGN_CENTER, text=2), MultiContentEntryText(pos=(1200, 0), size=(300, 52), font=1, flags=RT_HALIGN_LEFT|RT_VALIGN_CENTER, text=3, color="#9aa3ae", color_sel="#ffffff"), MultiContentEntryText(pos=(1510, 0), size=(236, 52), font=1, flags=RT_HALIGN_RIGHT|RT_VALIGN_CENTER, text=4, color=MultiContentTemplateColor(6), color_sel="#ffffff")], "fonts": [gFont("Medium", 30), gFont("Regular", 26)], "itemHeight": 52}</convert></widget>
+		<eLabel position="80,652" size="1760,1" backgroundColor="line"/>
+		<eLabel position="80,662" size="1760,236" backgroundColor="bgCard" zPosition="-5"/>
+		<widget name="details" position="100,670" size="1720,222" font="Regular;24" foregroundColor="#c8ced6" backgroundColor="bgCard" transparent="1" halign="left" valign="top"/>
+		<widget name="hint" position="80,906" size="1760,40" font="Regular;22" foregroundColor="fgMute" backgroundColor="bg" transparent="1" halign="center" valign="center" noWrap="1"/>
 	</screen>
 	<screen name="NileGlassBitrate" position="center,center" size="960,420" backgroundColor="transparent" flags="wfNoBorder">
 		<eLabel position="0,0" size="960,420" backgroundColor="bg"/>

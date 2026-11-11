@@ -1,12 +1,12 @@
 {
-  "version": "2.4.1",
-  "ipk": "https://raw.githubusercontent.com/Saadmelshepiny/NileGlass-FHD/main/releases/enigma2-plugin-skins-nileglass-fhd_2.4.1_all.ipk",
-  "sha256": "68f5dc9890b6ff53080c53e76a2c11fed80efc8b08804f201a68ef7f392bbfc1",
-  "notes_ar": "شريط الإيمو: الأسهم بين OScam و NCam، و OK لإعادة التشغيل، و EXIT للخروج، مع تفاصيل التشفير (الحالة والنظام والمصدر والبروتوكول و Hops ووقت ECM). من غير لمس ملفات إعداد الإيمو.",
-  "notes_en": "Emu bar: arrows switch between emus, OK restarts, EXIT closes; full decoding details. Emu config files are never touched.",
+  "version": "2.5.0",
+  "ipk": "https://raw.githubusercontent.com/Saadmelshepiny/NileGlass-FHD/main/releases/enigma2-plugin-skins-nileglass-fhd_2.5.0_all.ipk",
+  "sha256": "9f2e79e81e061a1f89a922e16b1453f610ab81c407b182b07c672fef5c870272",
+  "notes_ar": "شاشة سطور وريدرات الإيمو (OScam / NCam): عرض بالحالة، وحذف وتعديل وإضافة وإيقاف بتأكيد منك، مع نسخة احتياطية قبل أي حفظ. السكين مبيعملش أي حاجة لوحده.",
+  "notes_en": "Emu readers screen (OScam / NCam): live state, delete / edit / add / stop with your confirmation, backup before every save. Nothing happens by itself.",
   "previous": {
-    "version": "2.4.0",
-    "ipk": "https://raw.githubusercontent.com/Saadmelshepiny/NileGlass-FHD/main/releases/enigma2-plugin-skins-nileglass-fhd_2.4.0_all.ipk",
-    "sha256": "99fe930e54b0bb29ecccd04ce6390c266509135fff6f062981d0beaf153e3589"
+    "version": "2.4.1",
+    "ipk": "https://raw.githubusercontent.com/Saadmelshepiny/NileGlass-FHD/main/releases/enigma2-plugin-skins-nileglass-fhd_2.4.1_all.ipk",
+    "sha256": "68f5dc9890b6ff53080c53e76a2c11fed80efc8b08804f201a68ef7f392bbfc1"
   }
 }

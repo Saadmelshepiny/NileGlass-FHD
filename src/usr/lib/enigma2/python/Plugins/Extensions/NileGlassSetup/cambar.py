@@ -172,7 +172,8 @@ class NileGlassCamBar(Screen):
 		self.names = [x for x in (self.cams.names if self.cams else []) if isEmu(x)]
 		self.running = self.cams.current() if self.cams else None
 		self.index = self.names.index(self.running) if self.running in self.names else 0
-		self["actions"] = ActionMap(["OkCancelActions", "DirectionActions"], {
+		self["actions"] = ActionMap(["OkCancelActions", "DirectionActions", "MenuActions"], {
+			"menu": self.readers,
 			"ok": self.apply,
 			"cancel": self.close,
 			"left": self.prev,
@@ -200,6 +201,11 @@ class NileGlassCamBar(Screen):
 		n = len(self.names)
 		self["info"].setText("%d %s  ·  %s: %s" % (n, "إيمو مثبت" if n == 1 else "إيموهات مثبتة", "الشغال", label(self.running) if self.running else "—"))
 		self["state"].setText("إعادة التشغيل بزر OK" if name == self.running else "التشغيل بزر OK")
+
+	def readers(self):
+		from .readers import NileGlassReaders
+		self.session.open(NileGlassReaders)
+		self.close()
 
 	def prev(self):
 		if len(self.names) > 1:
