@@ -28,6 +28,8 @@ import xml.etree.ElementTree as ET
 from enigma import eTimer
 
 from Components.ActionMap import ActionMap
+from Components.config import ConfigSelection, ConfigText, ConfigYesNo, getConfigListEntry
+from Components.ConfigList import ConfigListScreen
 from Components.Label import Label
 from Components.Sources.List import List
 from Components.Sources.StaticText import StaticText
@@ -210,6 +212,18 @@ class ServerFile:
 
 class ChangedOutside(Exception):
 	pass
+
+
+LOG = "/tmp/nileglass_readers.log"
+
+
+def log(*parts):
+	"""Every step of the readers screen, for when something does not work."""
+	try:
+		with open(LOG, "a") as f:
+			f.write("%s %s\n" % (time.strftime("%H:%M:%S"), " ".join(str(p) for p in parts)))
+	except Exception:
+		pass
 
 
 # ------------------------------------------------------- the running emu ---
@@ -396,6 +410,7 @@ class NileGlassReaders(Screen):
 				self.session.open(MessageBox, "اختار ريدر من القائمة الأول.", MessageBox.TYPE_INFO, timeout=5)
 				return
 			try:
+				log("key", action.__name__)
 				action()
 			except Exception as err:
 				import traceback
@@ -491,11 +506,14 @@ class NileGlassReaders(Screen):
 	def commit(self, what):
 		try:
 			self.sf.save()
+			log("saved", self.sf.path)
 		except ChangedOutside:
+			log("not saved: changed outside")
 			self.session.open(MessageBox, "الملف اتغيّر من برّه (بلوجين تاني أو إيدك) من ساعة ما اتفتح.\nمحدش كتب حاجة، وهيتقري من جديد. اعمل التعديل تاني.", MessageBox.TYPE_WARNING, timeout=10)
 			self.reload()
 			return
 		except Exception as err:
+			log("save failed", repr(err))
 			self.session.open(MessageBox, "فشل الحفظ، والملف زي ما هو:\n%s" % err, MessageBox.TYPE_ERROR)
 			self.reload()
 			return
@@ -524,6 +542,7 @@ class NileGlassReaders(Screen):
 		if not self.sf:
 			return False
 		if self.sf.changedOutside():
+			log("changed outside before the action")
 			self.session.open(MessageBox, "الملف اتغيّر من برّه، اتقري من جديد. راجع واعمل العملية تاني.", MessageBox.TYPE_INFO, timeout=6)
 			self.reload()
 			return False
@@ -555,62 +574,54 @@ class NileGlassReaders(Screen):
 		self.sf.setField(idx, "enable", new)
 		self.commit("تم %s «%s»." % (txt, label))
 
-	# ---- edit
+	# ---- edit: one screen with all the fields of the reader
 	def edit(self):
 		idx, r = self.current()
+		log("edit", r.label if r else None)
 		if r is None or not self.guard():
 			return
-		have = [k for k, _v, _i in r.fields]
-		keys = [k for k in MAIN_FIELDS if k in have] + [k for k in have if k not in MAIN_FIELDS]
-		keys += [k for k in MAIN_FIELDS if k not in keys]
-		choices = [("%s = %s" % (k, mask(k, r.get(k)) if not self.showSecrets else r.get(k)), k) for k in keys]
-		choices.append(("+ حقل جديد ...", "__new__"))
-		self.session.openWithCallback(lambda c: c and self.editField(idx, c[1]), ChoiceBox, title="تعديل «%s»: اختار الحقل" % r.label, list=choices)
+		fields = [(k, v) for k, v, _i in r.fields]
+		self.session.openWithCallback(lambda changes: self.edited(idx, r.label, changes), NileGlassReaderEdit, "تعديل «%s»" % r.label, fields)
 
-	def editField(self, idx, key):
-		if key == "__new__":
-			self.keyboard("اسم الحقل الجديد (مثلاً: inactivitytimeout)", "", lambda k: k and self.editField(idx, k.strip().lower()))
-			return
-		r = self.sf.readers[idx]
-		if key == "protocol":
-			cur = r.get("protocol")
-			lst = [(p + ("  ✓" if p == cur else ""), p) for p in PROTOCOLS]
-			self.session.openWithCallback(lambda c: c and self.askSet(idx, key, c[1]), ChoiceBox, title="البروتوكول", list=lst)
-			return
-		if key == "enable":
-			self.session.openWithCallback(lambda c: c and self.askSet(idx, key, c[1]), ChoiceBox, title="enable", list=[("1  (شغال)", "1"), ("0  (موقوف)", "0")])
-			return
-		self.keyboard("%s  (فاضي = مسح الحقل)" % key, r.get(key), lambda v: v is not None and self.askSet(idx, key, v.strip()))
-
-	def askSet(self, idx, key, value):
-		r = self.sf.readers[idx]
-		old = r.get(key)
-		if value == old:
+	def edited(self, idx, label, changes):
+		log("edited", label, sorted((changes or {}).keys()))
+		if not changes:
 			return
 		if not self.guard():
 			return
-		shown = lambda v: mask(key, v) if not self.showSecrets else v  # noqa: E731
-		msg = "«%s»\n%s:\n%s  ←  %s\nحفظ؟" % (r.label, key, shown(value) or "(يتمسح)", shown(old) or "(فاضي)")
-		self.session.openWithCallback(lambda yes: yes and self.doSet(idx, key, value, r.label), MessageBox, msg, MessageBox.TYPE_YESNO, default=False)
+		if "label" in changes and changes["label"] != label:
+			changes["label"] = self.freeLabel(changes["label"]) if changes["label"] else label
+		r = self.sf.readers[idx]
+		txt = "\n".join("%s:  %s  ←  %s" % (k, mask(k, v) or "(يتمسح)", mask(k, r.get(k)) or "(فاضي)") for k, v in changes.items())
+		self.session.openWithCallback(lambda yes: yes and self.doEdit(idx, label, changes), MessageBox,
+			"حفظ التعديلات على «%s»؟\n\n%s" % (label, txt), MessageBox.TYPE_YESNO, default=False)
 
-	def doSet(self, idx, key, value, label):
-		if value:
-			self.sf.setField(idx, key, value)
-		else:
-			self.sf.removeField(idx, key)
-		self.commit("اتعدّل %s في «%s»." % (key, label))
+	def doEdit(self, idx, label, changes):
+		log("save edit", label, sorted(changes))
+		for key, value in changes.items():
+			if value:
+				self.sf.setField(idx, key, value)
+			else:
+				self.sf.removeField(idx, key)
+		self.commit("اتحفظت التعديلات على «%s»." % label)
+
+	def askSet(self, idx, key, value):
+		"""One field (kept for small callers)."""
+		self.edited(idx, self.sf.readers[idx].label, {key: value})
 
 	# ---- add
 	def addMenu(self):
+		log("add menu")
 		if not self.sf or not self.guard():
 			return
 		self.session.openWithCallback(lambda c: c and c[1](), ChoiceBox, title="إضافة سطر",
-			list=[("سطر CCcam  (C: host port user pass)", self.addCLine), ("ريدر جديد خطوة بخطوة", self.addWizard)])
+			list=[("سطر CCcam  (C: host port user pass)", self.addCLine), ("ريدر جديد (كل الحقول في شاشة واحدة)", self.addWizard)])
 
 	def addCLine(self):
 		self.keyboard("اكتب سطر C:", "C: ", self.gotCLine)
 
 	def gotCLine(self, text):
+		log("C line", bool(text))
 		if not text:
 			return
 		m = re.match(r"^\s*[Cc]\s*:\s*(\S+)\s+(\d+)\s+(\S+)\s+(\S+)", text)
@@ -624,47 +635,24 @@ class NileGlassReaders(Screen):
 		self.askAdd(fields)
 
 	def addWizard(self):
-		self.new = {}
-		self.keyboard("اسم الريدر (label)", "", self.w1)
+		fields = [("label", ""), ("protocol", "cccam"), ("device", ""), ("user", ""), ("password", ""), ("group", "1"), ("enable", "1")]
+		self.session.openWithCallback(self.gotNew, NileGlassReaderEdit, "ريدر جديد", fields, True)
 
-	def w1(self, v):
-		if not v:
+	def gotNew(self, values):
+		log("new reader", sorted((values or {}).keys()))
+		if not values:
 			return
-		self.new["label"] = self.freeLabel(v.strip())
-		self.session.openWithCallback(self.w2, ChoiceBox, title="البروتوكول", list=[(p, p) for p in PROTOCOLS[:7]])
-
-	def w2(self, c):
-		if not c:
+		if not values.get("label") or not values.get("device"):
+			self.session.open(MessageBox, "لازم تكتب الاسم (label) والسيرفر (device).", MessageBox.TYPE_ERROR, timeout=8)
 			return
-		self.new["protocol"] = c[1]
-		self.keyboard("السيرفر والبورت (host,port)", "", self.w3)
-
-	def w3(self, v):
-		if not v:
-			return
-		self.new["device"] = v.strip().replace(":", ",").replace(" ", ",")
-		self.keyboard("اليوزر", "", self.w4)
-
-	def w4(self, v):
-		if v is None:
-			return
-		self.new["user"] = v.strip()
-		self.keyboard("الباسورد", "", self.w5)
-
-	def w5(self, v):
-		if v is None:
-			return
-		n = self.new
-		fields = [("label", n["label"]), ("protocol", n["protocol"]), ("device", n["device"])]
-		if n["user"]:
-			fields.append(("user", n["user"]))
-		if v.strip():
-			fields.append(("password", v.strip()))
-		if n["protocol"] == "cccam":
+		values["label"] = self.freeLabel(values["label"])
+		values["device"] = values["device"].replace(":", ",").replace(" ", ",")
+		fields = [(k, values[k]) for k in ("label", "protocol", "device", "user", "password") if values.get(k)]
+		if values.get("protocol") == "cccam":
 			fields += [("inactivitytimeout", "30"), ("cccversion", "2.3.2"), ("ccckeepalive", "1")]
-		elif n["protocol"] == "newcamd":
+		elif values.get("protocol") == "newcamd":
 			fields.append(("key", "0102030405060708091011121314"))
-		fields += [("group", "1"), ("enable", "1")]
+		fields += [("group", values.get("group") or "1"), ("enable", values.get("enable", "1"))]
 		self.askAdd(fields)
 
 	def askAdd(self, fields):
@@ -721,3 +709,58 @@ class NileGlassReaders(Screen):
 	def keyboard(self, title, text, cb):
 		from Screens.VirtualKeyBoard import VirtualKeyBoard
 		self.session.openWithCallback(cb, VirtualKeyBoard, title=title, text=text or "")
+
+
+# ---------------------------------------------------------- the edit screen ---
+FIELD_NAMES = {"label": "الاسم (label)", "protocol": "البروتوكول", "device": "السيرفر,البورت (device)", "user": "اليوزر", "password": "الباسورد",
+	"group": "group", "caid": "caid", "enable": "شغال (enable)"}
+
+
+class NileGlassReaderEdit(ConfigListScreen, Screen):
+	"""All the fields of one reader. OK on a text field opens the keyboard,
+	green saves (the readers screen still asks before writing), red cancels."""
+
+	def __init__(self, session, title, fields, isNew=False):
+		Screen.__init__(self, session)
+		self.skinName = ["NileGlassReaderEdit", "Setup"]
+		self.setTitle(title)
+		self["description"] = Label("OK على أي حقل للكتابة  ·  الأخضر حفظ  ·  الأحمر إلغاء")
+		self["footnote"] = Label("")
+		self.isNew = isNew
+		self.orig = {}
+		self.items = []
+		values = dict(fields)
+		order = [k for k in MAIN_FIELDS if k in values] + [k for k, _v in fields if k not in MAIN_FIELDS]
+		for key in order:
+			value = values.get(key, "")
+			self.orig[key] = value
+			if key == "protocol":
+				choices = list(PROTOCOLS) + ([value] if value and value not in PROTOCOLS else [])
+				el = ConfigSelection(default=value if value in choices else "cccam", choices=[(c, c) for c in choices])
+			elif key == "enable":
+				el = ConfigYesNo(default=value.strip() != "0")
+			else:
+				el = ConfigText(default=value, fixed_size=False, visible_width=40)
+			self.items.append((key, el))
+		lst = [getConfigListEntry(FIELD_NAMES.get(k, k), el) for k, el in self.items]
+		ConfigListScreen.__init__(self, lst, session=session, fullUI=True)
+		self["key_red"].setText("إلغاء")
+		self["key_green"].setText("حفظ")
+		log("edit screen", title, len(self.items))
+
+	def valueOf(self, key, el):
+		if key == "enable":
+			return "1" if el.value else "0"
+		return str(el.value).strip()
+
+	def keySave(self):
+		if self.isNew:
+			result = {k: self.valueOf(k, el) for k, el in self.items}
+		else:
+			result = {k: self.valueOf(k, el) for k, el in self.items if self.valueOf(k, el) != self.orig[k].strip()}
+		log("edit screen save", sorted(result))
+		self.close(result)
+
+	def keyCancel(self):
+		log("edit screen cancel")
+		self.close(None)

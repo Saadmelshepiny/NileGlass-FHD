@@ -126,6 +126,7 @@ opaque_screens = {opaque_screens}
 text_finish = {text_finish}
 ok_upcoming = {ok_upcoming}
 lite = {lite}
+icons = {icons}
 """
 
 
@@ -229,6 +230,10 @@ class NileGlassSetup(Setup):
 		self.opaque = NoSave(ConfigYesNo(default=bool(style.get("opaque_screens", False))))
 		self.finish = NoSave(ConfigSelection(default=style.get("text_finish", "normal"), choices=[
 			("normal", T("Normal", "عادي")), ("glossy", T("Glossy (bright + shadow)", "لامع (أوضح + ظل)")), ("matte", T("Matte (soft)", "مطفي (هادي)"))]))
+		iconNames = getattr(Style, "ICON_STYLE_NAMES_AR", {}) if Style else {}
+		iconStyles = getattr(Style, "ICON_STYLES", ("classic",)) if Style else ("classic",)
+		self.iconStyle = NoSave(ConfigSelection(default=style.get("icons", "classic") if style.get("icons", "classic") in iconStyles else "classic",
+			choices=[(k, iconNames.get(k, k) if isArabic() else k.title()) for k in iconStyles]))
 		self.omdbKey = NoSave(ConfigText(default=confGet("tmdb", "omdb_key", ""), fixed_size=False, visible_width=30))
 		# the image's own settings, shown here for convenience
 		try:
@@ -276,6 +281,7 @@ class NileGlassSetup(Setup):
 		# live preview (shown by the NileGlassSetup screen of the skin)
 		self["preview_accent"] = Pixmap()
 		self["preview_glass"] = Pixmap()
+		self["preview_icons"] = Pixmap()
 		self["preview_font"] = Label(T("Font sample  123  نموذج للخط", "نموذج للخط  123  Font sample"))
 		self["preview_title"] = Label(T("Preview", "معاينة"))
 		self["pv_ib_time"] = Label("22:30")
@@ -326,6 +332,7 @@ class NileGlassSetup(Setup):
 			(i + T("Second infobar", "شكل الإنفوبار الثاني"), self.sib, ""),
 			(i + T("Event picture behind menus", "صورة البرنامج ورا القوائم"), self.menuBackdrop, T("The backdrop of the running programme behind the main menu and settings.", "خلفية البرنامج الشغال ورا القائمة الرئيسية والإعدادات.")),
 			(i + T("Infobar", "شكل الإنفوبار"), self.infobar, T("Full shows signal and service details, compact only the programmes.", "الكامل يعرض الإشارة وتفاصيل القناة، والمختصر البرامج فقط.")),
+			(i + T("Icon style", "شكل الأيقونات"), self.iconStyle, T("Look of the TXT / SUB / DOLBY / 16:9 / HD / CA / REC icons in the infobar. The preview on the right shows the chosen style.", "شكل أيقونات TXT و SUB و DOLBY و 16:9 و HD و CA و REC في الإنفوبار. المعاينة على اليمين بتوريك الشكل اللي اخترته.")),
 			(i + T("Accent colour", "لون التمييز"), self.accent, T("Colour of selection bars, progress bars and highlights.", "لون شريط التحديد وأشرطة التقدم والعناوين.")),
 			(i + T("Solid menus (no TV behind)", "قوائم معتمة تمامًا (بدون صورة القناة)"), self.opaque, T("Menus and plugin screens get a solid background; the infobar stays glassy.", "القوائم وشاشات الإضافات خلفيتها معتمة تمامًا، والإنفوبار يفضل شفاف.")),
 			(i + T("Background transparency", "شفافية الخلفية"), self.transparency, T("How much of the picture shows through the bars and panels.", "مدى ظهور الصورة من خلف الإنفوبار والقوائم.")),
@@ -384,7 +391,7 @@ class NileGlassSetup(Setup):
 		if not Style or "preview_accent" not in self:
 			return
 		key = (self.accent.value, self.transparency.value, self.font.value, self.fontSize.value, self.infobarSize.value, self.textColor.value, self.finish.value,
-			self.boldTitles.value, self.outline.value, self.direction.value)
+			self.boldTitles.value, self.outline.value, self.direction.value, self.iconStyle.value)
 		if key == self.previewKey or not self["preview_accent"].instance:
 			return
 		self.previewKey = key
@@ -392,6 +399,9 @@ class NileGlassSetup(Setup):
 			acc = os.path.join(SKIN_DIR, "variants", "accent", self.accent.value, "ui", "sel_menu.png")
 			if os.path.isfile(acc):
 				self["preview_accent"].instance.setPixmapFromFile(acc)
+			icons = os.path.join(SKIN_DIR, "variants", "icons", self.iconStyle.value, "preview.png")
+			if os.path.isfile(icons) and "preview_icons" in self and self["preview_icons"].instance:
+				self["preview_icons"].instance.setPixmapFromFile(icons)
 			glass = os.path.join(SKIN_DIR, "variants", "glass", self.transparency.value, "ui", "ib_top_right.png")
 			if os.path.isfile(glass):
 				self["preview_glass"].instance.setPixmapFromFile(glass)
@@ -473,6 +483,7 @@ class NileGlassSetup(Setup):
 			"text_finish": self.finish.value,
 			"ok_upcoming": 1 if self.okUpcoming.value else 0,
 			"lite": 1 if self.lite.value else 0,
+			"icons": self.iconStyle.value,
 			"omdb_key": self.omdbKey.value.strip(),
 		}
 

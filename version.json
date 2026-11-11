@@ -1,12 +1,12 @@
 {
-  "version": "2.5.1",
-  "ipk": "https://raw.githubusercontent.com/Saadmelshepiny/NileGlass-FHD/main/releases/enigma2-plugin-skins-nileglass-fhd_2.5.1_all.ipk",
-  "sha256": "8797cba58e2085d694e1d0a2650ab39f60a68a9778263412173c97fa5ebeebde",
-  "notes_ar": "إصلاح أزرار شاشة السطور (الحذف والتعديل والإضافة)، شاشات أصغر لمكتشف الإشارة والماتور والبحث، شاشة صوت أصغر من غير الصورة الحية، واستجابة أسرع في قائمة القنوات.",
-  "notes_en": "Readers screen buttons fixed; compact satfinder / positioner / scan screens; smaller audio screen without live picture; faster channel list.",
+  "version": "2.5.2",
+  "ipk": "https://raw.githubusercontent.com/Saadmelshepiny/NileGlass-FHD/main/releases/enigma2-plugin-skins-nileglass-fhd_2.5.2_all.ipk",
+  "sha256": "af9bdc427198a9936cea18d03da2f09dde341937c061451ca394c7a48a041122",
+  "notes_ar": "6 أشكال للأيقونات تختارها من الإعدادات مع معاينة، شاشة تعديل جديدة لسطور الإيمو (كل الحقول في شاشة واحدة)، وشاشة البحث عن القنوات أصغر.",
+  "notes_en": "6 icon styles with preview in the settings; new edit screen for emu readers; compact channel scan screen.",
   "previous": {
-    "version": "2.5.0",
-    "ipk": "https://raw.githubusercontent.com/Saadmelshepiny/NileGlass-FHD/main/releases/enigma2-plugin-skins-nileglass-fhd_2.5.0_all.ipk",
-    "sha256": "9f2e79e81e061a1f89a922e16b1453f610ab81c407b182b07c672fef5c870272"
+    "version": "2.5.1",
+    "ipk": "https://raw.githubusercontent.com/Saadmelshepiny/NileGlass-FHD/main/releases/enigma2-plugin-skins-nileglass-fhd_2.5.1_all.ipk",
+    "sha256": "8797cba58e2085d694e1d0a2650ab39f60a68a9778263412173c97fa5ebeebde"
   }
 }

@@ -159,8 +159,12 @@ TEXT_COLOR_NAMES_AR = {"white": "أبيض", "pure": "أبيض ناصع", "cream"
 DIRECTIONS = ("auto", "rtl", "ltr")
 DEFAULTS = {"accent": "blue", "transparency": "20", "font": "ubuntu", "font_size": "100", "infobar": "full",
 	"infobar_size": "100", "text_color": "white", "bold_titles": "1", "outline": "0", "direction": "auto", "translate": "1",
-	"channels": "posters", "sib": "cinema", "menu_backdrop": "1", "opaque_screens": "0", "text_finish": "normal", "ok_upcoming": "1", "lite": "0"}
+	"channels": "posters", "sib": "cinema", "menu_backdrop": "1", "opaque_screens": "0", "text_finish": "normal", "ok_upcoming": "1", "lite": "0",
+	"icons": "classic"}
 TEXT_FINISHES = ("normal", "glossy", "matte")
+# infobar status icon sets (variants/icons/<name>)
+ICON_STYLES = ("classic", "glass", "badge", "line", "neon", "minimal")
+ICON_STYLE_NAMES_AR = {"classic": "كلاسيك (الأصلي)", "glass": "زجاجي لامع", "badge": "شارات بيضا", "line": "أيقونات خطية", "neon": "نيون", "minimal": "نص بسيط"}
 LAYOUT_FILES = {("channels", "simple"): "channels_simple.xml", ("sib", "classic"): "sib_classic.xml", ("infobar", "compact"): "infobar_compact.xml"}
 # ready-made looks: (accent, transparency, font, text colour)
 PRESETS = {
@@ -215,6 +219,8 @@ def readStyle(confFile=CONF_FILE):
 		style["sib"] = "cinema"
 	if style["text_finish"] not in TEXT_FINISHES:
 		style["text_finish"] = "normal"
+	if style["icons"] not in ICON_STYLES:
+		style["icons"] = "classic"
 	for k in ("bold_titles", "outline", "translate", "menu_backdrop", "opaque_screens", "ok_upcoming", "lite"):
 		style[k] = str(style[k]).strip().lower() in ("1", "yes", "true", "on")
 	return style
@@ -559,6 +565,9 @@ def apply(confFile=CONF_FILE, skinDir=SKIN_DIR, userXml=USER_XML):
 	style = readStyle(confFile)
 	copied = _copyTree(os.path.join(skinDir, "variants", "accent", style["accent"]), skinDir)
 	copied += _copyTree(os.path.join(skinDir, "variants", "glass", str(style["transparency"] or 10)), skinDir)
+	icons = os.path.join(skinDir, "variants", "icons", style["icons"])
+	if os.path.isdir(icons):
+		copied += _copyTree(os.path.join(icons, "icons"), os.path.join(skinDir, "icons"))
 	os.makedirs(os.path.dirname(userXml), exist_ok=True)
 	xml = safeXml(style, skinDir)
 	tmp = userXml + ".tmp"
