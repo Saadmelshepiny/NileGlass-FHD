@@ -611,6 +611,7 @@ class NileGlassSetup(Setup):
 			(T("Clear posters and details", "مسح البوسترات والتفاصيل"), "clear"),
 			(T("Go back to the previous version", "الرجوع للنسخة السابقة"), "rollback"),
 			(T("Run the first-start wizard again", "تشغيل معالج البداية مرة تانية"), "wizard"),
+			(T("Speed report (slow key presses)", "تقرير السرعة (الضغطات البطيئة)"), "perf"),
 		]
 		self.session.openWithCallback(self.toolChosen, ChoiceBox, title=T("Tools", "أدوات"), list=items)
 
@@ -624,6 +625,9 @@ class NileGlassSetup(Setup):
 			checkForUpdate(self.session, quiet=False, previous=True)
 		elif action == "wizard":
 			startWizard(self.session)
+		elif action == "perf":
+			from .perfwatch import report
+			self.session.open(MessageBox, report(), MessageBox.TYPE_INFO)
 		elif action == "prefetch":
 			n = posters.prefetch(collectBouquetTitles()) if posters else 0
 			self.session.open(MessageBox, T("%d programmes queued. Posters are downloaded in the background.", "تمت إضافة %d برنامج. البوسترات تُحمّل في الخلفية.") % n, MessageBox.TYPE_INFO, timeout=6)
@@ -868,6 +872,11 @@ def sessionstart(reason, session=None, **kwargs):
 					tonight.refresh(force=True)
 				installTranslations()
 				patchSecondInfoBar()
+				try:
+					from .perfwatch import install as installPerf
+					installPerf(session)
+				except Exception as err:
+					print("[NileGlass] perf watch:", err)
 				try:
 					from .fitboxes import install as installFit
 					installFit()

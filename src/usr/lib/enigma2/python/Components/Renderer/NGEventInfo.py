@@ -15,7 +15,7 @@ from enigma import eLabel, eTimer
 
 from Components.Renderer.Renderer import Renderer
 from Components.VariableText import VariableText
-from Components.NileGlassCore import posters, formatInfo, formatCard, confGet
+from Components.NileGlassCore import posters, formatInfo, formatCard, confGet, noFilmEvent
 from skin import parseColor
 from Tools.Hex2strColor import Hex2strColor
 
@@ -69,6 +69,8 @@ class NGEventInfo(Renderer, VariableText):
 		try:
 			if hasattr(src, "event"):
 				event = src.event
+				if noFilmEvent(event, self.source):
+					return ""
 				return event and event.getEventName() or ""
 			service = getattr(src, "service", None)
 			info = service and hasattr(service, "info") and service.info()

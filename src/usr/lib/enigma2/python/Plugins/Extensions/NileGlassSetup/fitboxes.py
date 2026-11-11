@@ -134,6 +134,17 @@ def _ours(box, names):
 	return first in names
 
 
+class _Fitter:
+	"""onLayoutFinish entries MUST be bound methods: enigma2 runs anything
+	else with exec() (old "applet" code) and crashes on a plain function."""
+
+	def __init__(self, box, fit):
+		self.box, self.fit = box, fit
+
+	def run(self):
+		self.fit(self.box)
+
+
 def _patch(cls, fit, names):
 	if getattr(cls, "_ngFit", False):
 		return
@@ -142,7 +153,7 @@ def _patch(cls, fit, names):
 	def __init__(self, *args, **kwargs):
 		original(self, *args, **kwargs)
 		if _ours(self, names):
-			self.onLayoutFinish.append(lambda: fit(self))
+			self.onLayoutFinish.append(_Fitter(self, fit).run)
 	cls.__init__ = __init__
 	cls._ngFit = True
 

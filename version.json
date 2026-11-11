@@ -1,9 +1,9 @@
 {
-  "version": "2.5.3",
-  "ipk": "https://raw.githubusercontent.com/Saadmelshepiny/NileGlass-FHD/main/releases/enigma2-plugin-skins-nileglass-fhd_2.5.3_all.ipk",
-  "sha256": "6419ad9f4cc0aed47e0d1616ed4eb0fe38c5d83e620bb1135f731026c5dd0f76",
-  "notes_ar": "الرسائل وقوائم الاختيار حجمها بقى على قد اللي جواها: رسالة سطر واحد تطلع صغيرة، والكلام الكتير أو الاختيارات الكتير تكبّر الشاشة لحد معين.",
-  "notes_en": "Message and choice boxes now size themselves to their content.",
+  "version": "2.5.4",
+  "ipk": "https://raw.githubusercontent.com/Saadmelshepiny/NileGlass-FHD/main/releases/enigma2-plugin-skins-nileglass-fhd_2.5.4_all.ipk",
+  "sha256": "a1aadddbcb836c41629593e7a5859ccf42670876920d1d5aa7700c965d49876f",
+  "notes_ar": "إصلاح الكراش عند الحفظ وزر الأدوات الأزرق (أي رسالة أو قائمة اختيار). بوسترات أدق (مفيش بوستر فيلم لبرامج الأخبار، ومطابقة أدق للاسم)، تنقل أسرع بين البوسترات، وتقرير سرعة في الأدوات.",
+  "notes_en": "Fixes the crash on every message / choice box (save, blue Tools). Stricter poster matching, no film posters for news, faster poster switching, speed report in Tools.",
   "previous": {
     "version": "2.5.2",
     "ipk": "https://raw.githubusercontent.com/Saadmelshepiny/NileGlass-FHD/main/releases/enigma2-plugin-skins-nileglass-fhd_2.5.2_all.ipk",

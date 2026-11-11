@@ -28,8 +28,35 @@ from time import time
 from enigma import eEPGCache, eServiceCenter, eServiceReference, ePixmap, eTimer, BT_SCALE, BT_KEEP_ASPECT_RATIO, BT_HALIGN_CENTER, BT_VALIGN_CENTER
 
 from Components.Renderer.Renderer import Renderer
-from Components.NileGlassCore import posters, isSportEvent, isSportTitle, upcomingEvents
+from Components.NileGlassCore import posters, isSportEvent, isSportTitle, isNewsEvent, upcomingEvents
 from Tools.Directories import SCOPE_CURRENT_SKIN, resolveFilename
+
+# Decoded pictures of the last posters shown, shared by all poster widgets:
+# moving back and forth in a list shows them again without decoding the
+# JPEG on the UI thread every time.  The "no poster" picture is decoded once.
+_PIX_MAX = 24
+_pix = {}
+
+
+def _pixmap(path):
+	try:
+		mtime = os.path.getmtime(path)
+	except OSError:
+		return None
+	hit = _pix.pop(path, None)
+	if hit and hit[0] == mtime:
+		_pix[path] = hit            # most recent last
+		return hit[1]
+	try:
+		from Tools.LoadPixmap import LoadPixmap
+		pm = LoadPixmap(path, cached=False)
+	except Exception:
+		pm = None
+	if pm is not None:
+		_pix[path] = (mtime, pm)
+		while len(_pix) > _PIX_MAX:
+			_pix.pop(next(iter(_pix)))
+	return pm
 
 
 class NGPoster(Renderer):
@@ -122,8 +149,10 @@ class NGPoster(Renderer):
 		try:
 			if hasattr(src, "event"):
 				event = src.event
-				if sport and event and isSportEvent(event, self.channelName()):
-					return ""
+				if event and (sport or posters.skipSport):
+					ch = self.channelName()
+					if (sport and isSportEvent(event, ch)) or isNewsEvent(event, ch):
+						return ""
 				return event and event.getEventName() or ""
 			# Sources without EPG (media player / recordings / IPTV): use the
 			# title of what is playing.
@@ -195,9 +224,16 @@ class NGPoster(Renderer):
 				self.hidePoster()
 				return
 		if path != self.shownPath:
-			self.instance.setPixmapFromFile(path)
-			self.shownPath = path
+			self.setPicture(path)
 		self.instance.show()
+
+	def setPicture(self, path):
+		pm = _pixmap(path)
+		if pm is not None:
+			self.instance.setPixmap(pm)
+		else:
+			self.instance.setPixmapFromFile(path)
+		self.shownPath = path
 
 	def hidePoster(self):
 		self.wantedTitle = None
@@ -205,8 +241,7 @@ class NGPoster(Renderer):
 			return
 		if self.fallback and not self.prefetch and self.wantedName:
 			if self.shownPath != self.fallback:
-				self.instance.setPixmapFromFile(self.fallback)
-				self.shownPath = self.fallback
+				self.setPicture(self.fallback)
 			self.instance.show()
 		else:
 			self.instance.hide()

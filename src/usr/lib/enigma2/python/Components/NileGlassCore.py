@@ -550,6 +550,50 @@ def isSportEvent(event, channelName=""):
 	return bool(ch) and any(k in ch for k in ("sport", "\u0631\u064a\u0627\u0636", "ssc", "on time", "alkass", "\u0627\u0644\u0643\u0623\u0633"))
 
 
+_NEWS_CHANNELS = ("news", "jazeera", "\u0627\u0644\u062c\u0632\u064a\u0631\u0629", "arabiya", "\u0627\u0644\u0639\u0631\u0628\u064a\u0629", "hadath",
+	"\u0627\u0644\u062d\u062f\u062b", "\u0623\u062e\u0628\u0627\u0631", "\u0627\u0644\u0625\u062e\u0628\u0627\u0631\u064a\u0629", "france 24", "cnn", "bbc", "rt arabic", "rt ", "trt", "asharq", "\u0627\u0644\u0634\u0631\u0642",
+	"alghad", "\u0627\u0644\u063a\u062f", "al araby", "\u0627\u0644\u0639\u0631\u0628\u064a", "dw", "euronews", "cgtn", "i24", "mayadeen", "\u0627\u0644\u0645\u064a\u0627\u062f\u064a\u0646", "qahera")
+_NOT_NEWS = ("doc", "\u0648\u062b\u0627\u0626\u0642", "kids", "\u0623\u0637\u0641\u0627\u0644", "sport", "\u0631\u064a\u0627\u0636", "drama", "\u062f\u0631\u0627\u0645\u0627", "cinema", "\u0633\u064a\u0646\u0645\u0627", "movies", "\u0623\u0641\u0644\u0627\u0645", "mubasher", "\u0645\u0628\u0627\u0634\u0631")
+
+
+def playingChannelName(source=None):
+	"""Name of the channel of a ServiceEvent source, else the playing one."""
+	try:
+		from enigma import eServiceCenter, eServiceReference
+		ref = getattr(source, "serviceref", None) or getattr(source, "service", None)
+		if not isinstance(ref, eServiceReference):
+			import NavigationInstance
+			ref = NavigationInstance.instance.getCurrentlyPlayingServiceReference()
+		info = ref and eServiceCenter.getInstance().info(ref)
+		return info and info.getName(ref) or ""
+	except Exception:
+		return ""
+
+
+def noFilmEvent(event, source=None):
+	"""Sport or news: no film poster / rating / details for it."""
+	if not event or not posters.skipSport:
+		return False
+	ch = playingChannelName(source)
+	return isSportEvent(event, ch) or isNewsEvent(event, ch)
+
+
+def isNewsEvent(event, channelName=""):
+	"""News / talk programmes: DVB genre 0x2 or a news channel. They have
+	no film poster, and a word of their title often matches a film by
+	chance - so no poster is looked up for them."""
+	try:
+		genre = event.getGenreData() if event else None
+		if genre and genre.getLevel1() == 2:
+			return True
+	except Exception:
+		pass
+	ch = (channelName or "").lower()
+	if not ch or any(k in ch for k in _NOT_NEWS):
+		return False
+	return any(k in ch for k in _NEWS_CHANNELS)
+
+
 _reFilmHint = re.compile(r"\b(?:film|movie|documentary|drama|series)\b|\u0641\u064a\u0644\u0645|\u0648\u062b\u0627\u0626\u0642\u064a|\u0645\u0633\u0644\u0633\u0644", re.I)
 
 
@@ -751,10 +795,46 @@ class PosterService:
 				os.makedirs(self.backdropDir, exist_ok=True)
 				os.makedirs(self.metaDir, exist_ok=True)
 				log("poster cache:", c)
+				threading.Thread(target=self._dropLooseMatches, args=(base,), daemon=True).start()
 				return c
 			except Exception:
 				continue
 		return None
+
+	def _dropLooseMatches(self, base):
+		"""Once: forget cached matches made by the old, looser title rule
+		(a word of the title inside a longer film name). They are looked up
+		again with the stricter rule."""
+		mark = os.path.join(base, ".match2")
+		if os.path.exists(mark):
+			return
+		dropped = 0
+		try:
+			for f in os.listdir(self.metaDir):
+				if not f.endswith(".json"):
+					continue
+				stem = f[:-5]
+				try:
+					with open(os.path.join(self.metaDir, f), encoding="utf-8") as fh:
+						meta = json.load(fh)
+				except Exception:
+					continue
+				want = self._norm(stem)
+				name = self._norm(meta.get("name") or "")
+				if not want or not name or want == name:
+					continue
+				short, long_ = sorted((want, name), key=len)
+				if short in long_ and len(short) < 0.6 * len(long_):
+					for d, ext in ((self.metaDir, ".json"), (self.cacheDir, ".jpg"), (self.thumbDir, ".jpg"), (self.backdropDir, ".jpg")):
+						try:
+							os.remove(os.path.join(d, stem + ext))
+						except Exception:
+							pass
+					dropped += 1
+			open(mark, "w").write("%d\n" % dropped)
+			log("dropped %d loose poster matches" % dropped)
+		except Exception as err:
+			log("drop loose matches:", err)
 
 	def _reindex(self):
 		index = {}
@@ -1014,7 +1094,10 @@ class PosterService:
 			nn = self._norm(n)
 			if nn == want:
 				score = max(score, 100)
-			elif want and (want in nn or nn in want) and min(len(nn), len(want)) >= 3:
+			elif want and (want in nn or nn in want) and min(len(nn), len(want)) >= 3 \
+					and min(len(nn), len(want)) >= 0.6 * max(len(nn), len(want)):
+				# part of a title only counts when it is most of it:
+				# "المنتصف" must not match "...: إمبراطورية المنتصف"
 				score = max(score, 60)
 		return score
 
