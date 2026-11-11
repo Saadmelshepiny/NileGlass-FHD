@@ -26,7 +26,7 @@ AUDIO = (
 	("DIGITAL +", "DD+"), ("DIGITAL PLUS", "DD+"), ("EAC3", "DD+"), ("E-AC3", "DD+"), ("AC3+", "DD+"),
 	("DTS", "DTS"), ("DOLBY", "AC3"), ("AC3", "AC3"), ("AC-3", "AC3"),
 	("HE-AAC", "HE-AAC"), ("HEAAC", "HE-AAC"), ("AAC", "AAC"),
-	("MPEG", "MPEG"), ("MP2", "MPEG"), ("MP3", "MP3"), ("LPCM", "PCM"), ("PCM", "PCM"),
+	("MP3", "MP3"), ("LAYER 3", "MP3"), ("LAYER III", "MP3"), ("MPEG", "MPEG"), ("MP2", "MPEG"), ("LPCM", "PCM"), ("PCM", "PCM"),
 	("FLAC", "FLAC"), ("OPUS", "Opus"), ("VORBIS", "Vorbis"), ("WMA", "WMA"),
 )
 

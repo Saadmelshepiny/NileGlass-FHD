@@ -16,7 +16,7 @@
 			<convert type="ClockToText">Format:%H:%M</convert>
 		</widget>
 		<widget source="global.CurrentTime" render="Label" position="460,120" size="320,40" font="NGLcdLight;32" foregroundColor="#f2c94c" halign="right" valign="center" noWrap="1">
-			<convert type="ClockToText">Format:%a %d %b</convert>
+			<convert type="NGDate">{A} {d} {B}</convert>
 		</widget>
 		<widget source="global.CurrentTime" render="Label" position="340,162" size="440,36" font="NGLcdLight;27" foregroundColor="#9aa3ae" halign="right" valign="center" noWrap="1">
 			<convert type="NGHijri"/>
@@ -54,7 +54,7 @@
 			<convert type="ClockToText">Format:%H:%M</convert>
 		</widget>
 		<widget source="global.CurrentTime" render="Label" position="460,120" size="320,40" font="NGLcdLight;32" foregroundColor="#f2c94c" halign="right" valign="center" noWrap="1">
-			<convert type="ClockToText">Format:%a %d %b</convert>
+			<convert type="NGDate">{A} {d} {B}</convert>
 		</widget>
 		<widget source="global.CurrentTime" render="Label" position="340,162" size="440,36" font="NGLcdLight;27" foregroundColor="#9aa3ae" halign="right" valign="center" noWrap="1">
 			<convert type="NGHijri"/>
@@ -92,7 +92,7 @@
 			<convert type="ClockToText">Format:%H:%M</convert>
 		</widget>
 		<widget source="global.CurrentTime" render="Label" position="460,120" size="320,40" font="NGLcdLight;32" foregroundColor="#f2c94c" halign="right" valign="center" noWrap="1">
-			<convert type="ClockToText">Format:%a %d %b</convert>
+			<convert type="NGDate">{A} {d} {B}</convert>
 		</widget>
 		<widget source="global.CurrentTime" render="Label" position="340,162" size="440,36" font="NGLcdLight;27" foregroundColor="#9aa3ae" halign="right" valign="center" noWrap="1">
 			<convert type="NGHijri"/>
@@ -130,7 +130,7 @@
 			<convert type="ClockToText">Format:%H:%M</convert>
 		</widget>
 		<widget source="global.CurrentTime" render="Label" position="460,120" size="320,40" font="NGLcdLight;32" foregroundColor="#f2c94c" halign="right" valign="center" noWrap="1">
-			<convert type="ClockToText">Format:%a %d %b</convert>
+			<convert type="NGDate">{A} {d} {B}</convert>
 		</widget>
 		<widget source="global.CurrentTime" render="Label" position="340,162" size="440,36" font="NGLcdLight;27" foregroundColor="#9aa3ae" halign="right" valign="center" noWrap="1">
 			<convert type="NGHijri"/>
@@ -168,7 +168,7 @@
 			<convert type="ClockToText">Format:%H:%M</convert>
 		</widget>
 		<widget source="global.CurrentTime" render="Label" position="460,120" size="320,40" font="NGLcdLight;32" foregroundColor="#f2c94c" halign="right" valign="center" noWrap="1">
-			<convert type="ClockToText">Format:%a %d %b</convert>
+			<convert type="NGDate">{A} {d} {B}</convert>
 		</widget>
 		<widget source="global.CurrentTime" render="Label" position="340,162" size="440,36" font="NGLcdLight;27" foregroundColor="#9aa3ae" halign="right" valign="center" noWrap="1">
 			<convert type="NGHijri"/>
@@ -206,7 +206,7 @@
 			<convert type="ClockToText">Format:%H:%M</convert>
 		</widget>
 		<widget source="global.CurrentTime" render="Label" position="460,120" size="320,40" font="NGLcdLight;32" foregroundColor="#f2c94c" halign="right" valign="center" noWrap="1">
-			<convert type="ClockToText">Format:%a %d %b</convert>
+			<convert type="NGDate">{A} {d} {B}</convert>
 		</widget>
 		<widget source="global.CurrentTime" render="Label" position="340,162" size="440,36" font="NGLcdLight;27" foregroundColor="#9aa3ae" halign="right" valign="center" noWrap="1">
 			<convert type="NGHijri"/>
@@ -244,7 +244,7 @@
 			<convert type="ClockToText">Format:%H:%M</convert>
 		</widget>
 		<widget source="global.CurrentTime" render="Label" position="460,120" size="320,40" font="NGLcdLight;32" foregroundColor="#f2c94c" halign="right" valign="center" noWrap="1">
-			<convert type="ClockToText">Format:%a %d %b</convert>
+			<convert type="NGDate">{A} {d} {B}</convert>
 		</widget>
 		<widget source="global.CurrentTime" render="Label" position="340,162" size="440,36" font="NGLcdLight;27" foregroundColor="#9aa3ae" halign="right" valign="center" noWrap="1">
 			<convert type="NGHijri"/>
@@ -282,7 +282,7 @@
 			<convert type="ClockToText">Format:%H:%M</convert>
 		</widget>
 		<widget source="global.CurrentTime" render="Label" position="460,120" size="320,40" font="NGLcdLight;32" foregroundColor="#f2c94c" halign="right" valign="center" noWrap="1">
-			<convert type="ClockToText">Format:%a %d %b</convert>
+			<convert type="NGDate">{A} {d} {B}</convert>
 		</widget>
 		<widget source="global.CurrentTime" render="Label" position="340,162" size="440,36" font="NGLcdLight;27" foregroundColor="#9aa3ae" halign="right" valign="center" noWrap="1">
 			<convert type="NGHijri"/>

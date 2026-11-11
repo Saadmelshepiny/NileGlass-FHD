@@ -17,6 +17,7 @@ from Components.Sources.List import List
 from Components.Sources.StaticText import StaticText
 from Screens.Screen import Screen
 
+from Components.Converter.NGDate import formatDate
 from Components.NileGlassCore import posters, formatInfo, cleanTitle, callInUiThread, log, GENRES_AR
 
 CAST = 6
@@ -148,7 +149,7 @@ class NileGlassFilm(Screen):
 			ch = channelName(eServiceReference(ref))
 			if not ch:
 				continue
-			day = time.strftime("%a %d/%m", time.localtime(begin))
+			day = formatDate("{A} {d}/{m}", begin)
 			live = "  الآن" if begin <= now else ""
 			rows.append(("%s  %s%s" % (day, time.strftime("%H:%M", time.localtime(begin)), live), ch, ref, eid, begin))
 		self["showings"].setList(rows[:40])

@@ -231,8 +231,8 @@
 		<widget source="global.CurrentTime" render="Label" position="1440,836" size="96,54" font="Regular;26" foregroundColor="fg" backgroundColor="bgDeep" transparent="1" valign="center" noWrap="1" halign="center">
 			<convert type="NGWeather">temp</convert>
 		</widget>
-		<widget source="global.CurrentTime" render="Label" position="1536,836" size="196,54" font="Regular;24" foregroundColor="gold" backgroundColor="bgDeep" transparent="1" valign="center" noWrap="1" halign="center">
-			<convert type="ClockToText">Format:%a %d %b</convert>
+		<widget source="global.CurrentTime" render="Label" position="1536,836" size="196,54" font="Regular;21" foregroundColor="gold" backgroundColor="bgDeep" transparent="1" valign="center" noWrap="1" halign="center">
+			<convert type="NGDate">{A} {d} {B}</convert>
 		</widget>
 		<widget source="global.CurrentTime" render="Label" position="1736,836" size="152,54" font="Medium;40" foregroundColor="fg" backgroundColor="bgDeep" transparent="1" valign="center" noWrap="1" halign="right">
 			<convert type="ClockToText">Format:%H:%M</convert>
@@ -305,8 +305,14 @@
 		</widget>
 
 		<!-- internet stream (IPTV / web radio): badge instead of the signal panel -->
-		<widget source="session.CurrentService" render="FixedLabel" text="IPTV" position="1426,896" size="300,72" font="Medium;56" foregroundColor="accent" backgroundColor="bgDeep" transparent="1" valign="center" halign="left" noWrap="1"><convert type="NGStream">Only</convert></widget>
-		<widget source="session.CurrentService" render="FixedLabel" text="بث عبر الإنترنت" position="1426,974" size="462,32" font="Regular;24" foregroundColor="fgDim" backgroundColor="bgDeep" transparent="1" valign="center" halign="left" noWrap="1"><convert type="NGStream">Only</convert></widget>
+		<widget source="session.CurrentService" render="FixedLabel" text="IPTV" position="1426,894" size="220,54" font="Medium;46" foregroundColor="accent" backgroundColor="bgDeep" transparent="1" valign="center" halign="left" noWrap="1"><convert type="NGStream">Only</convert></widget>
+		<widget source="session.CurrentService" render="FixedLabel" text="بث عبر الإنترنت" position="1650,900" size="238,44" font="Regular;22" foregroundColor="fgDim" backgroundColor="bgDeep" transparent="1" valign="center" halign="right" noWrap="1"><convert type="NGStream">Only</convert></widget>
+		<widget source="session.CurrentService" render="FixedLabel" text="السرعة" position="1426,950" size="96,32" font="Regular;21" foregroundColor="fgDim" backgroundColor="bgDeep" transparent="1" valign="center" halign="left" noWrap="1"><convert type="NGStream">Only</convert></widget>
+		<widget source="session.CurrentService" render="Label" position="1524,950" size="160,32" font="Regular;22" foregroundColor="green" backgroundColor="bgDeep" transparent="1" valign="center" halign="left" noWrap="1"><convert type="NGStreamInfo">Net</convert></widget>
+		<widget source="session.CurrentService" render="FixedLabel" text="الصوت" position="1706,950" size="80,32" font="Regular;21" foregroundColor="fgDim" backgroundColor="bgDeep" transparent="1" valign="center" halign="left" noWrap="1"><convert type="NGStream">Only</convert></widget>
+		<widget source="session.CurrentService" render="Label" position="1788,950" size="100,32" font="Regular;22" foregroundColor="fg" backgroundColor="bgDeep" transparent="1" valign="center" halign="right" noWrap="1"><convert type="NGStreamInfo">Volume</convert></widget>
+		<widget source="session.CurrentService" render="Label" position="1426,982" size="300,32" font="Regular;21" foregroundColor="gold" backgroundColor="bgDeep" transparent="1" valign="center" halign="left" noWrap="1"><convert type="NGStreamInfo">Audio</convert></widget>
+		<widget source="session.CurrentService" render="Label" position="1730,982" size="158,32" font="Regular;21" foregroundColor="fg" backgroundColor="bgDeep" transparent="1" valign="center" halign="right" noWrap="1"><convert type="NGStreamInfo">Quality</convert></widget>
 		<widget source="session.CurrentService" render="FixedLabel" text="IPTV" position="54,1033" size="218,26" font="Medium;20" foregroundColor="green" backgroundColor="bgDeep" transparent="1" valign="center" halign="right" noWrap="1"><convert type="NGStream">Only</convert></widget>
 		<!-- signal panel -->
 		<widget source="session.FrontendStatus" render="FixedLabel" text="SNR" position="1426,898" size="60,32" font="Regular;22" foregroundColor="fg" backgroundColor="bgDeep" transparent="1" valign="center"><convert type="NGStream"/></widget>
@@ -537,7 +543,7 @@
 		</widget>
 		<widget source="Event" render="Label" position="1210,346" size="360,36" font="Regular;26" foregroundColor="gold" backgroundColor="bg" transparent="1" noWrap="1">
 			<convert type="EventTime">StartTime</convert>
-			<convert type="ClockToText">Format:%a %d %b  %H:%M</convert>
+			<convert type="NGDate">{A} {d} {B}  {H}:{M}</convert>
 		</widget>
 		<widget source="Event" render="Label" position="1210,386" size="360,36" font="Regular;26" foregroundColor="fgDim" backgroundColor="bg" transparent="1" noWrap="1">
 			<convert type="EventTime">Duration</convert>
@@ -618,7 +624,7 @@
 		</widget>
 		<widget source="Event" render="Label" position="200,794" size="300,36" font="Regular;26" foregroundColor="gold" backgroundColor="bg" transparent="1" noWrap="1">
 			<convert type="EventTime">StartTime</convert>
-			<convert type="ClockToText">Format:%a %H:%M</convert>
+			<convert type="NGDate">{A} {H}:{M}</convert>
 		</widget>
 		<widget source="Event" render="Label" position="500,794" size="200,36" font="Regular;26" foregroundColor="fgDim" backgroundColor="bg" transparent="1" noWrap="1">
 			<convert type="EventTime">Duration</convert>
@@ -1048,44 +1054,6 @@
 		<widget name="RadioText" position="0,0" size="1,1" font="Regular;1" transparent="1"/>
 		<widget name="RtpText" position="0,0" size="1,1" font="Regular;1" transparent="1"/>
 		<widget name="RassLogo" position="0,0" size="1,1" transparent="1"/>
-	</screen>
-
-	<!-- Radio: shown BELOW every other window while a radio station plays (plugin radio.py) -->
-	<screen name="NileGlassRadio" position="0,0" size="1920,1080" backgroundColor="#000000" flags="wfNoBorder" zPosition="-10">
-		<ePixmap pixmap="NileGlass_FHD/ui/radio_bg.png" position="0,0" size="1920,1080" scale="1" zPosition="-5"/>
-		<ePixmap pixmap="NileGlass_FHD/ui/picon_bg.png" position="699,149" size="522,314" scale="1" alphatest="blend" zPosition="0"/>
-		<widget source="session.CurrentService" render="Picon" position="710,160" size="500,292" alphatest="blend" zPosition="1">
-			<convert type="ServiceName">Reference</convert>
-		</widget>
-		<widget source="session.CurrentService" render="Label" position="160,492" size="1600,84" font="Medium;64" foregroundColor="fg" backgroundColor="#000000" transparent="1" halign="center" valign="center" noWrap="1">
-			<convert type="ServiceName">Name</convert>
-		</widget>
-		<widget source="session.Event_Now" render="Label" position="160,584" size="1600,60" font="Regular;40" foregroundColor="accent" backgroundColor="#000000" transparent="1" halign="center" valign="center" noWrap="1">
-			<convert type="EventName">Name</convert>
-		</widget>
-		<widget source="session.Event_Now" render="Label" position="560,654" size="140,36" font="Regular;26" foregroundColor="fgDim" backgroundColor="#000000" transparent="1" halign="right" valign="center" noWrap="1">
-			<convert type="EventTime">StartTime</convert><convert type="ClockToText">Format:%H:%M</convert>
-		</widget>
-		<eLabel position="720,668" size="480,6" backgroundColor="bgBar" zPosition="0"/>
-		<widget source="session.Event_Now" render="Progress" position="720,668" size="480,6" pixmap="NileGlass_FHD/ui/progress.png" transparent="1" zPosition="1">
-			<convert type="EventTime">Progress</convert>
-		</widget>
-		<widget source="session.Event_Now" render="Label" position="1220,654" size="140,36" font="Regular;26" foregroundColor="fgDim" backgroundColor="#000000" transparent="1" halign="left" valign="center" noWrap="1">
-			<convert type="EventTime">EndTime</convert><convert type="ClockToText">Format:%H:%M</convert>
-		</widget>
-		<widget name="eq" position="780,716" size="360,110" alphatest="blend" zPosition="1"/>
-		<widget source="session.Event_Next" render="Label" position="160,850" size="1600,44" font="Regular;30" foregroundColor="fgDim" backgroundColor="#000000" transparent="1" halign="center" valign="center" noWrap="1">
-			<convert type="NGNextLine"/>
-		</widget>
-		<widget source="global.CurrentTime" render="Label" position="1380,920" size="480,110" font="Light;100" foregroundColor="fg" backgroundColor="#000000" transparent="1" halign="right" valign="center" noWrap="1">
-			<convert type="ClockToText">Format:%H:%M</convert>
-		</widget>
-		<widget source="global.CurrentTime" render="Label" position="60,940" size="1000,40" font="Regular;30" foregroundColor="gold" backgroundColor="#000000" transparent="1" halign="left" valign="center" noWrap="1">
-			<convert type="ClockToText">Format:%A %d %B %Y</convert>
-		</widget>
-		<widget source="global.CurrentTime" render="Label" position="60,984" size="1000,36" font="Regular;26" foregroundColor="fgDim" backgroundColor="#000000" transparent="1" halign="left" valign="center" noWrap="1">
-			<convert type="NGHijri"/>
-		</widget>
 	</screen>
 
 	<!-- Tonight: films and matches on your channels (file of the Saad EPG plugin) -->

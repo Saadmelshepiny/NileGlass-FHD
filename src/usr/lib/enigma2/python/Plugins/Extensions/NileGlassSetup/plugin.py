@@ -109,7 +109,6 @@ enabled = {weather_enabled}
 auto = {update_auto}
 
 [extras]
-radio = {radio}
 hijri = {hijri}
 hijri_offset = {hijri_offset}
 cast = {cast}
@@ -318,7 +317,6 @@ class NileGlassSetup(Setup):
 		self.units = NoSave(ConfigSelection(default=confGet("weather", "units", "C").upper()[:1] or "C", choices=[("C", "°C"), ("F", "°F")]))
 		self.updateAuto = NoSave(ConfigYesNo(default=confBool("update", "auto", True)))
 		# --- extras
-		self.radioScreen = NoSave(ConfigYesNo(default=confBool("extras", "radio", True)))
 		self.hijri = NoSave(ConfigYesNo(default=confBool("extras", "hijri", True)))
 		try:
 			off = max(-2, min(2, int(confGet("extras", "hijri_offset", "0") or 0)))
@@ -439,7 +437,6 @@ class NileGlassSetup(Setup):
 			items.append((i + T("Units", "الوحدة"), self.units, ""))
 		items += [
 			(T("— Extras —", "— إضافات —"),),
-			(i + T("Radio screen", "شاشة الراديو"), self.radioScreen, T("While a radio station plays: the station logo large, the programme now and next, a small level meter and a big clock instead of a black picture.", "وقت تشغيل إذاعة: لوجو المحطة كبير، البرنامج الحالي والتالي، مؤشر صوت صغير وساعة كبيرة بدل الشاشة السودا.")),
 			(i + T("Hijri date", "التاريخ الهجري"), self.hijri, T("Next to the date in the menus, the channel list and the second infobar.", "جنب التاريخ في القوائم وقائمة القنوات والإنفوبار الثاني.")),
 		]
 		if self.hijri.value:
@@ -556,7 +553,6 @@ class NileGlassSetup(Setup):
 			"lite": 1 if self.lite.value else 0,
 			"icons": self.iconStyle.value,
 			"omdb_key": self.omdbKey.value.strip(),
-			"radio": 1 if self.radioScreen.value else 0,
 			"hijri": 1 if self.hijri.value else 0,
 			"hijri_offset": self.hijriOffset.value,
 			"cast": 1 if self.cast.value else 0,
@@ -968,11 +964,6 @@ def sessionstart(reason, session=None, **kwargs):
 					installGuard(session)
 				except Exception as err:
 					print("[NileGlass] session guard:", err)
-				try:  # first: the radio screen must lie below every later window
-					from .radio import install as installRadio
-					installRadio(session)
-				except Exception as err:
-					print("[NileGlass] radio screen:", err)
 				try:
 					from .casthook import install as installCast
 					installCast()
