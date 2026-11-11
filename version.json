@@ -1,7 +1,7 @@
 {
   "version": "2.4.1",
   "ipk": "https://raw.githubusercontent.com/Saadmelshepiny/NileGlass-FHD/main/releases/enigma2-plugin-skins-nileglass-fhd_2.4.1_all.ipk",
-  "sha256": "",
+  "sha256": "68f5dc9890b6ff53080c53e76a2c11fed80efc8b08804f201a68ef7f392bbfc1",
   "notes_ar": "شريط الإيمو: الأسهم بين OScam و NCam، و OK لإعادة التشغيل، و EXIT للخروج، مع تفاصيل التشفير (الحالة والنظام والمصدر والبروتوكول و Hops ووقت ECM). من غير لمس ملفات إعداد الإيمو.",
   "notes_en": "Emu bar: arrows switch between emus, OK restarts, EXIT closes; full decoding details. Emu config files are never touched.",
   "previous": {
