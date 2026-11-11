@@ -1042,11 +1042,12 @@
 		<widget source="session.CurrentService" render="NGPoster" position="60,600" size="160,240" delay="0" borderWidth="2" borderColor="posterBorder"/>
 	</screen>
 
-	<!-- RDS radio text (image's RdsInfoDisplay): transparent line above the radio screen -->
-	<screen name="RdsInfoDisplay" position="160,40" size="1600,96" backgroundColor="transparent" flags="wfNoBorder">
-		<widget name="RadioText" position="0,0" size="1600,48" font="Regular;30" foregroundColor="fg" backgroundColor="#000000" transparent="1" halign="center" valign="center" noWrap="1"/>
-		<widget name="RtpText" position="0,50" size="1600,44" font="Regular;26" foregroundColor="fgDim" backgroundColor="#000000" transparent="1" halign="center" valign="center" noWrap="1"/>
-		<widget name="RassLogo" pixmap="NileGlass_FHD/icons/rass_logo.png" position="1540,4" size="50,40" alphatest="blend"/>
+	<!-- RDS radio text (image's RdsInfoDisplay). This window stays open all the time; any area it has
+	     cuts a hole (black on radio, the TV picture over the channel list), so it is kept to one pixel. -->
+	<screen name="RdsInfoDisplay" position="0,0" size="1,1" backgroundColor="#ff000000" flags="wfNoBorder">
+		<widget name="RadioText" position="0,0" size="1,1" font="Regular;1" transparent="1"/>
+		<widget name="RtpText" position="0,0" size="1,1" font="Regular;1" transparent="1"/>
+		<widget name="RassLogo" position="0,0" size="1,1" transparent="1"/>
 	</screen>
 
 	<!-- Radio: shown BELOW every other window while a radio station plays (plugin radio.py) -->
