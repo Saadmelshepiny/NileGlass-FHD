@@ -1,12 +1,12 @@
 {
-  "version": "2.5.0",
-  "ipk": "https://raw.githubusercontent.com/Saadmelshepiny/NileGlass-FHD/main/releases/enigma2-plugin-skins-nileglass-fhd_2.5.0_all.ipk",
-  "sha256": "9f2e79e81e061a1f89a922e16b1453f610ab81c407b182b07c672fef5c870272",
-  "notes_ar": "شاشة سطور وريدرات الإيمو (OScam / NCam): عرض بالحالة، وحذف وتعديل وإضافة وإيقاف بتأكيد منك، مع نسخة احتياطية قبل أي حفظ. السكين مبيعملش أي حاجة لوحده.",
-  "notes_en": "Emu readers screen (OScam / NCam): live state, delete / edit / add / stop with your confirmation, backup before every save. Nothing happens by itself.",
+  "version": "2.5.1",
+  "ipk": "https://raw.githubusercontent.com/Saadmelshepiny/NileGlass-FHD/main/releases/enigma2-plugin-skins-nileglass-fhd_2.5.1_all.ipk",
+  "sha256": "8797cba58e2085d694e1d0a2650ab39f60a68a9778263412173c97fa5ebeebde",
+  "notes_ar": "إصلاح أزرار شاشة السطور (الحذف والتعديل والإضافة)، شاشات أصغر لمكتشف الإشارة والماتور والبحث، شاشة صوت أصغر من غير الصورة الحية، واستجابة أسرع في قائمة القنوات.",
+  "notes_en": "Readers screen buttons fixed; compact satfinder / positioner / scan screens; smaller audio screen without live picture; faster channel list.",
   "previous": {
-    "version": "2.4.1",
-    "ipk": "https://raw.githubusercontent.com/Saadmelshepiny/NileGlass-FHD/main/releases/enigma2-plugin-skins-nileglass-fhd_2.4.1_all.ipk",
-    "sha256": "68f5dc9890b6ff53080c53e76a2c11fed80efc8b08804f201a68ef7f392bbfc1"
+    "version": "2.5.0",
+    "ipk": "https://raw.githubusercontent.com/Saadmelshepiny/NileGlass-FHD/main/releases/enigma2-plugin-skins-nileglass-fhd_2.5.0_all.ipk",
+    "sha256": "9f2e79e81e061a1f89a922e16b1453f610ab81c407b182b07c672fef5c870272"
   }
 }

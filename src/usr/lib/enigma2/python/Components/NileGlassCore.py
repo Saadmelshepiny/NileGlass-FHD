@@ -553,6 +553,31 @@ def isSportEvent(event, channelName=""):
 _reFilmHint = re.compile(r"\b(?:film|movie|documentary|drama|series)\b|\u0641\u064a\u0644\u0645|\u0648\u062b\u0627\u0626\u0642\u064a|\u0645\u0633\u0644\u0633\u0644", re.I)
 
 
+# -- shared EPG lookup for the "coming up" widgets ----------------------------
+# The channel list shows 4 upcoming posters + 4 titles per channel; each of
+# them used to ask the EPG cache for 24 hours of events on every key press.
+# They now share one answer per channel and minute.
+_upcoming = {}
+
+
+def upcomingEvents(refstr):
+	"""[(begin, duration, title)] of the next 24 h on a channel, cached."""
+	key = (refstr, int(time.time() // 60))
+	hit = _upcoming.get(key)
+	if hit is not None:
+		return hit
+	try:
+		from enigma import eEPGCache
+		events = eEPGCache.getInstance().lookupEvent(["BDT", (refstr, 0, -1, 24 * 60)]) or []
+	except Exception:
+		events = []
+	if len(_upcoming) > 48:
+		_upcoming.clear()
+	_upcoming[key] = events
+	return events
+
+
+
 class PosterService:
 	"""Posters, backdrops and TMDB metadata for EPG events.
 

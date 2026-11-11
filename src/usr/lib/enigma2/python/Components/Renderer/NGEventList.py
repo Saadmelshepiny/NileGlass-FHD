@@ -21,6 +21,7 @@ from time import localtime, strftime, time
 from enigma import eEPGCache, eLabel, eServiceReference
 
 from Components.Renderer.Renderer import Renderer
+from Components.NileGlassCore import upcomingEvents
 from Components.VariableText import VariableText
 from skin import parseColor
 from Tools.Hex2strColor import Hex2strColor
@@ -90,11 +91,7 @@ class NGEventList(Renderer, VariableText):
 			self.text = ""
 			self.lastKey = None
 			return
-		refstr = ref.toString()
-		try:
-			events = self.epgcache.lookupEvent(["BDT", (refstr, 0, -1, 24 * 60)]) or []
-		except Exception:
-			events = []
+		events = upcomingEvents(ref.toString())
 		if self.skipNow and events and events[0][0] <= time():  # first one is running now
 			events = events[1:]
 		lines = []

@@ -180,9 +180,13 @@ class NileGlassCamBar(Screen):
 			"right": self.next,
 		}, -2)
 		self.closeTimer = eTimer()
-		self.closeTimer.callback.append(self.close)
+		self.closeTimer.callback.append(self.autoClose)
 		self.onClose.append(self.closeTimer.stop)
 		self.onLayoutFinish.append(self.refresh)
+
+	def autoClose(self):
+		if self.session.current_dialog is self:
+			self.close()
 
 	def refresh(self):
 		self.closeTimer.start(AUTOCLOSE, True)
@@ -203,9 +207,14 @@ class NileGlassCamBar(Screen):
 		self["state"].setText("إعادة التشغيل بزر OK" if name == self.running else "التشغيل بزر OK")
 
 	def readers(self):
+		# close the bar FIRST (and its auto-close timer with it), then open the
+		# readers screen: a bar left underneath would later close whatever is
+		# on top (the readers screen or its questions)
 		from .readers import NileGlassReaders
-		self.session.open(NileGlassReaders)
+		self.closeTimer.stop()
+		session = self.session
 		self.close()
+		session.open(NileGlassReaders)
 
 	def prev(self):
 		if len(self.names) > 1:

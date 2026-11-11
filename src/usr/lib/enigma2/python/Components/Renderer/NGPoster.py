@@ -28,7 +28,7 @@ from time import time
 from enigma import eEPGCache, eServiceCenter, eServiceReference, ePixmap, eTimer, BT_SCALE, BT_KEEP_ASPECT_RATIO, BT_HALIGN_CENTER, BT_VALIGN_CENTER
 
 from Components.Renderer.Renderer import Renderer
-from Components.NileGlassCore import posters, isSportEvent, isSportTitle
+from Components.NileGlassCore import posters, isSportEvent, isSportTitle, upcomingEvents
 from Tools.Directories import SCOPE_CURRENT_SKIN, resolveFilename
 
 
@@ -95,14 +95,11 @@ class NGPoster(Renderer):
 			ref = getattr(src, "service", None)
 		if not isinstance(ref, eServiceReference) or not ref.valid():
 			return ""
-		try:
-			events = eEPGCache.getInstance().lookupEvent(["BT", (ref.toString(), 0, -1, 24 * 60)]) or []
-		except Exception:
-			return ""
+		events = upcomingEvents(ref.toString())
 		if events and events[0][0] <= time():
 			events = events[1:]
 		i = self.eventIndex - 1
-		return (events[i][1] or "") if 0 <= i < len(events) else ""
+		return (events[i][2] or "") if 0 <= i < len(events) else ""
 
 	def channelName(self):
 		try:
@@ -144,6 +141,14 @@ class NGPoster(Renderer):
 			self.wantedName = None
 			self.hidePoster()
 			return
+		if self.eventIndex and self.delay:
+			# "coming up" posters: no EPG work while the list is still moving;
+			# the name is looked up once the selection rests
+			self.timer.stop()
+			self.timer.start(self.delay, True)
+			self.deferName = True
+			return
+		self.deferName = False
 		name = self.eventName()
 		if name == self.wantedName:
 			return
@@ -162,6 +167,15 @@ class NGPoster(Renderer):
 			self.pendingLookup = True
 			return
 		self.pendingLookup = False
+		if getattr(self, "deferName", False):
+			self.deferName = False
+			name = self.eventName()
+			if name == self.wantedName and self.shownPath:
+				return
+			self.wantedName = name
+			if not name:
+				self.hidePoster()
+				return
 		if not self.instance or not self.wantedName:
 			return
 		posters.cancel(self.onPoster)

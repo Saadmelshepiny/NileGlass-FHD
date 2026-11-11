@@ -361,13 +361,13 @@ class NileGlassReaders(Screen):
 		self["key_yellow"] = StaticText("تعديل")
 		self["key_blue"] = StaticText("إضافة")
 		self["actions"] = ActionMap(["OkCancelActions", "ColorActions", "MenuActions", "InfoActions", "DirectionActions"], {
-			"ok": self.edit,
+			"ok": self.safe(self.edit),
 			"cancel": self.close,
-			"red": self.askDelete,
-			"green": self.askToggle,
-			"yellow": self.edit,
-			"blue": self.addMenu,
-			"menu": self.menu,
+			"red": self.safe(self.askDelete),
+			"green": self.safe(self.askToggle),
+			"yellow": self.safe(self.edit),
+			"blue": self.safe(self.addMenu),
+			"menu": self.safe(self.menu),
 			"info": self.toggleSecrets,
 			"up": self.up, "down": self.down, "left": self.pageUp, "right": self.pageDown,
 		}, -1)
@@ -385,6 +385,23 @@ class NileGlassReaders(Screen):
 	def closing(self):
 		self.gone = True
 		self.stateTimer.stop()
+
+	def safe(self, action):
+		"""Run a key action; never fail silently: say why nothing happens."""
+		def run():
+			if not self.sf:
+				self.session.open(MessageBox, "مفيش ملف سطور مفتوح.\n%s" % (self["details"].getText() or "شغّل OScam أو NCam الأول."), MessageBox.TYPE_INFO, timeout=8)
+				return
+			if action.__name__ not in ("addMenu", "menu") and self.current()[1] is None:
+				self.session.open(MessageBox, "اختار ريدر من القائمة الأول.", MessageBox.TYPE_INFO, timeout=5)
+				return
+			try:
+				action()
+			except Exception as err:
+				import traceback
+				traceback.print_exc()
+				self.session.open(MessageBox, "حصل خطأ ومفيش حاجة اتغيرت:\n%s: %s" % (type(err).__name__, err), MessageBox.TYPE_ERROR)
+		return run
 
 	# list navigation (the List source needs the screen to move it)
 	def up(self):
