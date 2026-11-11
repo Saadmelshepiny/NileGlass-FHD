@@ -62,6 +62,41 @@ FONTS_DIR = "/usr/share/fonts"
 # font = "skin:MX_HQ10" uses the fonts (files and scales) of that skin. The
 # files are copied once to /usr/share/fonts/NileGlass-From-<skin>-*.ttf, so
 # they keep working when the other skin is removed.
+_fontScan = {}   # skin.xml path -> ((mtime, size), fonts)
+_reFonts = re.compile(r"<fonts\b.*?</fonts>", re.S)
+
+
+def _skinFonts(path, skinDir, fontsDir):
+	"""Fonts of one skin.xml. Only the <fonts> block is parsed (the files
+	are megabytes), and the answer is kept until the file changes."""
+	try:
+		st = os.stat(path)
+	except OSError:
+		return {}
+	sig = (st.st_mtime, st.st_size)
+	hit = _fontScan.get(path)
+	if hit and hit[0] == sig:
+		return hit[1]
+	fonts = {}
+	try:
+		with open(path, "rb") as f:
+			data = f.read().decode("utf-8", "replace")
+		for block in _reFonts.findall(data):
+			for f in ET.fromstring(block).findall("font"):
+				fn, alias = f.get("filename"), f.get("name")
+				if not fn or not alias:
+					continue
+				for cand in (fn, os.path.join(skinDir, fn), os.path.join(skinDir, "fonts", fn), os.path.join(fontsDir, fn)):
+					if os.path.isfile(cand):
+						sc = f.get("scale") or "100"
+						fonts[alias] = (cand, int(sc) if sc.isdigit() else 100, bool(f.get("replacement")))
+						break
+	except Exception:
+		fonts = {}
+	_fontScan[path] = (sig, fonts)
+	return fonts
+
+
 def otherSkinFonts(skinsDir=SKINS_DIR, fontsDir=FONTS_DIR):
 	"""{skin name: {alias: (absolute file, scale, replacement)}} of installed skins."""
 	out = {}
@@ -73,21 +108,7 @@ def otherSkinFonts(skinsDir=SKINS_DIR, fontsDir=FONTS_DIR):
 		path = os.path.join(skinsDir, name, "skin.xml")
 		if name.startswith("NileGlass") or not os.path.isfile(path):
 			continue
-		try:
-			root = ET.parse(path).getroot()
-		except Exception:
-			continue
-		fonts = {}
-		for tag in root.findall("fonts"):
-			for f in tag.findall("font"):
-				fn, alias = f.get("filename"), f.get("name")
-				if not fn or not alias:
-					continue
-				for cand in (fn, os.path.join(skinsDir, name, fn), os.path.join(skinsDir, name, "fonts", fn), os.path.join(fontsDir, fn)):
-					if os.path.isfile(cand):
-						sc = f.get("scale") or "100"
-						fonts[alias] = (cand, int(sc) if sc.isdigit() else 100, bool(f.get("replacement")))
-						break
+		fonts = _skinFonts(path, os.path.join(skinsDir, name), fontsDir)
 		if "Regular" in fonts:
 			out[name] = fonts
 	return out

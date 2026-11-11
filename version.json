@@ -1,12 +1,12 @@
 {
-  "version": "2.5.5",
-  "ipk": "https://raw.githubusercontent.com/Saadmelshepiny/NileGlass-FHD/main/releases/enigma2-plugin-skins-nileglass-fhd_2.5.5_all.ipk",
-  "sha256": "e60aa539678686b15271e5d5c77b00e8da6984e82db2c51e6c1d745bab8c545b",
-  "notes_ar": "تقرير السرعة بقى يفرّق بين بطء البلوجين وبطء السكين، ويكتب اسم الشاشة اللي اتفتحت.",
-  "notes_en": "Speed report now separates plugin time from skin drawing time and names the screen opened.",
+  "version": "2.5.6",
+  "ipk": "https://raw.githubusercontent.com/Saadmelshepiny/NileGlass-FHD/main/releases/enigma2-plugin-skins-nileglass-fhd_2.5.6_all.ipk",
+  "sha256": "22a06c0e67ab155c084414d08a9b9eacaad81f376d8da15e11a09821bc169a5e",
+  "notes_ar": "إعدادات السكين بتفتح أسرع بكتير (قائمة خطوط السكينات التانية والمعاينة بقوا محفوظين بدل ما يتقروا كل مرة).",
+  "notes_en": "Skin settings open much faster (other skins' font list and preview fonts are cached).",
   "previous": {
-    "version": "2.5.4",
-    "ipk": "https://raw.githubusercontent.com/Saadmelshepiny/NileGlass-FHD/main/releases/enigma2-plugin-skins-nileglass-fhd_2.5.4_all.ipk",
-    "sha256": "a1aadddbcb836c41629593e7a5859ccf42670876920d1d5aa7700c965d49876f"
+    "version": "2.5.5",
+    "ipk": "https://raw.githubusercontent.com/Saadmelshepiny/NileGlass-FHD/main/releases/enigma2-plugin-skins-nileglass-fhd_2.5.5_all.ipk",
+    "sha256": "e60aa539678686b15271e5d5c77b00e8da6984e82db2c51e6c1d745bab8c545b"
   }
 }

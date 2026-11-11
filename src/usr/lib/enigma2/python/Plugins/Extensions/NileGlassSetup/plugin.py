@@ -412,7 +412,9 @@ class NileGlassSetup(Setup):
 			def alias(kind, extra=100):
 				fname, rel = fontSet[kind if (kind != "Medium" or self.boldTitles.value) else "Regular"]
 				name = "NGPv_%s_%s_%d_%d" % (self.font.value, kind, size, extra)
-				addFont(fname if fname.startswith("/") else os.path.join(FONT_DIR, fname), name, int(rel * size * extra / 10000), False, 0)
+				if name not in PREVIEW_FONTS:   # loading a font file is slow: once per name
+					addFont(fname if fname.startswith("/") else os.path.join(FONT_DIR, fname), name, int(rel * size * extra / 10000), False, 0)
+					PREVIEW_FONTS.add(name)
 				return name
 			regular, medium = alias("Regular"), alias("Medium")
 			ibRegular, ibMedium = alias("Regular", ib), alias("Medium", ib)
@@ -948,6 +950,9 @@ def openBitrate(session, **kwargs):
 	except Exception as err:
 		print("[NileGlass] bitrate:", err)
 		session.open(MessageBox, str(err), MessageBox.TYPE_ERROR, timeout=8)
+
+
+PREVIEW_FONTS = set()
 
 
 def Plugins(**kwargs):
