@@ -146,10 +146,27 @@ class MotorWatch:
 			return None
 		fe = service.frontendInfo()
 		fdata = fe and fe.getFrontendData()
-		tuner = fdata and fdata.get("tuner_number")
+		# a channel that failed to tune gives an EMPTY dict here, not None
+		tuner = fdata.get("tuner_number") if isinstance(fdata, dict) else None
+		if not isinstance(tuner, int):
+			tuner = None
 		return tuner, data.get("orbital_position", INVALID), data.get("polarization", 0)
 
 	def check(self):
+		# a timer callback: nothing in here may ever raise (it would crash enigma2)
+		try:
+			self._check()
+		except Exception as err:
+			print("[NileGlass] motor banner:", err)
+
+	def step(self):
+		try:
+			self._step()
+		except Exception as err:
+			print("[NileGlass] motor banner:", err)
+			self.stop()
+
+	def _check(self):
 		try:
 			cur = self.current()
 		except Exception:
@@ -217,7 +234,7 @@ class MotorWatch:
 		except Exception:
 			return False
 
-	def step(self):
+	def _step(self):
 		self.left -= 1
 		self.giveUp -= 1
 		if self.tuned() or self.giveUp <= 0:
@@ -229,7 +246,10 @@ class MotorWatch:
 	def stop(self):
 		self.active = False
 		self.tick.stop()
-		self.dialog.hide()
+		try:
+			self.dialog.hide()
+		except Exception:
+			pass
 
 
 watcher = None

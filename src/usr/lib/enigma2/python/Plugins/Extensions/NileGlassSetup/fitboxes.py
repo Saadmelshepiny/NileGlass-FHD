@@ -134,15 +134,34 @@ def _ours(box, names):
 	return first in names
 
 
-class _Fitter:
-	"""onLayoutFinish entries MUST be bound methods: enigma2 runs anything
-	else with exec() (old "applet" code) and crashes on a plain function."""
+# enigma2 calls an onLayoutFinish entry directly only when it has the same type
+# as the screen's close(); anything else is run with exec(entry, globals,
+# locals) where "self" is the screen.  Some plugins replace close() of a box
+# with a plain function, and then even a bound method was exec'd -> crash
+# (TypeError: exec() arg 1 must be a string ...).  A compiled code object is
+# valid for exec in every case, so the fit is started through one.
+_RUN = compile("self._ngFitRun()", "<NileGlass fit>", "exec")
 
+
+class _Fitter:
 	def __init__(self, box, fit):
-		self.box, self.fit = box, fit
+		self.box, self.fit, self.done = box, fit, False
 
 	def run(self):
-		self.fit(self.box)
+		if self.done:
+			return
+		self.done = True
+		try:
+			self.fit(self.box)
+		except Exception as err:
+			print("[NileGlass] fit box:", err)
+
+	def attach(self, box):
+		box._ngFitRun = self.run
+		if isinstance(self.run, type(box.close)):
+			box.onLayoutFinish.append(self.run)
+		else:
+			box.onLayoutFinish.append(_RUN)
 
 
 def _patch(cls, fit, names):
@@ -153,7 +172,10 @@ def _patch(cls, fit, names):
 	def __init__(self, *args, **kwargs):
 		original(self, *args, **kwargs)
 		if _ours(self, names):
-			self.onLayoutFinish.append(_Fitter(self, fit).run)
+			try:
+				_Fitter(self, fit).attach(self)
+			except Exception as err:
+				print("[NileGlass] fit box:", err)
 	cls.__init__ = __init__
 	cls._ngFit = True
 

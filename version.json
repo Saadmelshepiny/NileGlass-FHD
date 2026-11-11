@@ -1,12 +1,12 @@
 {
-  "version": "2.5.10",
-  "ipk": "https://raw.githubusercontent.com/Saadmelshepiny/NileGlass-FHD/main/releases/enigma2-plugin-skins-nileglass-fhd_2.5.10_all.ipk",
-  "sha256": "9802ee16bf3792f8abb4433cec85f311ec605b758b978c8f00f4004f15fb7f35",
-  "notes_ar": "بيان حركة الطبق بيظهر ببياناته (كان فاضي)، وكمان شاشات الصوت والأرقام والتسجيل كانت بياناتها مستخبية ورا الخلفية؛ إصلاح التحديثات؛ حماية من كراش EXIT.",
-  "notes_en": "Dish banner shows its data (was blank); volume/number/PVR popups had their data hidden behind the background; update check fixed; EXIT crash guard.",
+  "version": "2.5.11",
+  "ipk": "https://raw.githubusercontent.com/Saadmelshepiny/NileGlass-FHD/main/releases/enigma2-plugin-skins-nileglass-fhd_2.5.11_all.ipk",
+  "sha256": "de0a713dc7dc1211b36a8f2ed39eff82777b34fb1831096f497072f76516e709",
+  "notes_ar": "إصلاح كراش لما قناة تفشل في الضبط (بيان الطبق)، وكراش مربعات الرسائل مع بلوجينات بتغيّر زر القفل (SaadPanel).",
+  "notes_en": "Fix crash when a channel fails to tune (dish banner) and message-box crash with plugins that replace close() (SaadPanel).",
   "previous": {
-    "version": "2.5.9",
-    "ipk": "https://raw.githubusercontent.com/Saadmelshepiny/NileGlass-FHD/main/releases/enigma2-plugin-skins-nileglass-fhd_2.5.9_all.ipk",
-    "sha256": "8a1efa90253d97ae9c7a40e677058e6a18bae8add1faca86bc407daf44fef87e"
+    "version": "2.5.10",
+    "ipk": "https://raw.githubusercontent.com/Saadmelshepiny/NileGlass-FHD/main/releases/enigma2-plugin-skins-nileglass-fhd_2.5.10_all.ipk",
+    "sha256": "9802ee16bf3792f8abb4433cec85f311ec605b758b978c8f00f4004f15fb7f35"
   }
 }
