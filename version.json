@@ -1,12 +1,12 @@
 {
-  "version": "2.5.11",
-  "ipk": "https://raw.githubusercontent.com/Saadmelshepiny/NileGlass-FHD/main/releases/enigma2-plugin-skins-nileglass-fhd_2.5.11_all.ipk",
-  "sha256": "de0a713dc7dc1211b36a8f2ed39eff82777b34fb1831096f497072f76516e709",
-  "notes_ar": "إصلاح كراش لما قناة تفشل في الضبط (بيان الطبق)، وكراش مربعات الرسائل مع بلوجينات بتغيّر زر القفل (SaadPanel).",
-  "notes_en": "Fix crash when a channel fails to tune (dish banner) and message-box crash with plugins that replace close() (SaadPanel).",
+  "version": "2.6.0",
+  "ipk": "https://raw.githubusercontent.com/Saadmelshepiny/NileGlass-FHD/main/releases/enigma2-plugin-skins-nileglass-fhd_2.6.0_all.ipk",
+  "sha256": "326034c2532de89d821dd2130e9e923f04178873f1c0ea6b88f91c7ab44edb25",
+  "notes_ar": "جديد: شاشة الراديو، الشاشة الأمامية بشكل NileGlass، التاريخ الهجري، الأبطال بصورهم في شاشة INFO، نوع الصورة والصوت في الإنفوبار، وقت انتهاء الفيلم في المشغّل، والوضع الخفيف بقى يقفل البوسترات والترجمة والطقس.",
+  "notes_en": "New: radio screen, NileGlass front display, Hijri date, cast with photos in INFO, codec/fps in the infobar, film end time in the player; lite mode now also stops posters, translation and weather.",
   "previous": {
-    "version": "2.5.10",
-    "ipk": "https://raw.githubusercontent.com/Saadmelshepiny/NileGlass-FHD/main/releases/enigma2-plugin-skins-nileglass-fhd_2.5.10_all.ipk",
-    "sha256": "9802ee16bf3792f8abb4433cec85f311ec605b758b978c8f00f4004f15fb7f35"
+    "version": "2.5.11",
+    "ipk": "https://raw.githubusercontent.com/Saadmelshepiny/NileGlass-FHD/main/releases/enigma2-plugin-skins-nileglass-fhd_2.5.11_all.ipk",
+    "sha256": "de0a713dc7dc1211b36a8f2ed39eff82777b34fb1831096f497072f76516e709"
   }
 }

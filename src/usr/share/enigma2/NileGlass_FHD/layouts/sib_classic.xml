@@ -26,7 +26,7 @@
 			<convert type="ClockToText">Format:%H:%M</convert>
 		</widget>
 		<widget source="global.CurrentTime" render="Label" position="1300,78" size="580,34" font="Regular;24" foregroundColor="gold" backgroundColor="bg" transparent="1" halign="right" noWrap="1">
-			<convert type="ClockToText">Format:%A %d %B %Y</convert>
+			<convert type="ClockToText">Format:%A %d %B %Y</convert><convert type="NGHijri">Append</convert>
 		</widget>
 		<eLabel position="0,120" size="1920,1" backgroundColor="line"/>
 
@@ -72,10 +72,10 @@
 			<convert type="FrontendInfo">AGC</convert><convert type="NGStream"/>
 		</widget>
 		<widget source="session.CurrentService" render="Label" position="1690,560" size="190,32" font="Regular;24" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="right" valign="center" noWrap="1">
-			<convert type="PliExtraInfo">ResolutionString</convert>
+			<convert type="NGCodec">Resolution</convert>
 		</widget>
 		<widget source="session.CurrentService" render="Label" position="1690,598" size="190,32" font="Regular;24" foregroundColor="orange" backgroundColor="bg" transparent="1" halign="right" valign="center" noWrap="1">
-			<convert type="PliExtraInfo">VideoCodec</convert>
+			<convert type="NGCodec">Codecs</convert>
 		</widget>
 		<widget source="session.CurrentService" render="Label" position="1140,636" size="550,30" font="Regular;24" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="left" noWrap="1">
 			<convert type="PliExtraInfo">CryptoBar</convert><convert type="NGStream"/>

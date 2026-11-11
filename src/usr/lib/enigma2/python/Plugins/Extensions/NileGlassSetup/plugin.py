@@ -108,6 +108,14 @@ enabled = {weather_enabled}
 [update]
 auto = {update_auto}
 
+[extras]
+radio = {radio}
+hijri = {hijri}
+hijri_offset = {hijri_offset}
+cast = {cast}
+lcd = {lcd}
+lcd_prev = {lcd_prev}
+
 [style]
 infobar = {infobar}
 accent = {accent}
@@ -129,6 +137,42 @@ ok_upcoming = {ok_upcoming}
 lite = {lite}
 icons = {icons}
 """
+
+
+LCD_SKIN = "NileGlass_LCD/skin_display.xml"
+
+
+def hasLcd():
+	"""A colour front display (the Ultimo4K has 800x480)."""
+	try:
+		from enigma import getDesktop
+		d = getDesktop(1)
+		return d is not None and d.size().width() >= 300 and os.path.isfile("/usr/share/enigma2/display/" + LCD_SKIN)
+	except Exception:
+		return False
+
+
+def applyLcd(on):
+	"""Switch the image's display-skin setting (only when the user saves this
+	setting). Returns True when a GUI restart is needed."""
+	try:
+		from Components.config import config
+		item = config.skin.display_skin
+		if on:
+			target = LCD_SKIN
+		else:
+			target = confGet("extras", "lcd_prev", "") or "skin_default/skin_display.xml"
+			if target == LCD_SKIN:
+				target = "skin_default/skin_display.xml"
+		if item.value == target:
+			return False
+		item.value = target
+		item.save()
+		config.save()
+		return True
+	except Exception as err:
+		print("[NileGlass] front display:", err)
+		return False
 
 
 def cacheChoices():
@@ -273,6 +317,17 @@ class NileGlassSetup(Setup):
 		self.city = NoSave(ConfigText(default=confGet("weather", "city", "Alexandria"), fixed_size=False, visible_width=30))
 		self.units = NoSave(ConfigSelection(default=confGet("weather", "units", "C").upper()[:1] or "C", choices=[("C", "°C"), ("F", "°F")]))
 		self.updateAuto = NoSave(ConfigYesNo(default=confBool("update", "auto", True)))
+		# --- extras
+		self.radioScreen = NoSave(ConfigYesNo(default=confBool("extras", "radio", True)))
+		self.hijri = NoSave(ConfigYesNo(default=confBool("extras", "hijri", True)))
+		try:
+			off = max(-2, min(2, int(confGet("extras", "hijri_offset", "0") or 0)))
+		except ValueError:
+			off = 0
+		self.hijriOffset = NoSave(ConfigSelection(default=str(off), choices=[("-2", "-2"), ("-1", "-1"), ("0", "0"), ("1", "+1"), ("2", "+2")]))
+		self.cast = NoSave(ConfigYesNo(default=confBool("extras", "cast", False)))
+		self.lcdOld = confBool("extras", "lcd", False)
+		self.lcd = NoSave(ConfigYesNo(default=self.lcdOld))
 		self.latitude = confGet("weather", "latitude", "")
 		self.longitude = confGet("weather", "longitude", "")
 		Setup.__init__(self, session, setup=None,
@@ -328,7 +383,7 @@ class NileGlassSetup(Setup):
 		i = "   "
 		items = [
 			(T("— Look —", "— المظهر —"),),
-			(i + T("Lite mode (fastest)", "الوضع الخفيف (أقصى سرعة)"), self.lite, T("Turns off the heavy parts: poster rows, pictures behind menus, text shadows.", "يقفل الحاجات التقيلة: صفوف البوسترات، الصور ورا القوائم، ظل الخط.")),
+			(i + T("Lite mode (fastest)", "الوضع الخفيف (أقصى سرعة)"), self.lite, T("One switch for the fastest box: no posters, no description translation, no weather, no pictures behind menus, no text shadows. Your settings for each are kept and come back when you switch it off.", "مفتاح واحد لأقصى سرعة: يقفل البوسترات وترجمة الوصف والطقس والصور ورا القوائم وظل الخط. إعدادات كل حاجة بتتحفظ وترجع زي ما هي لما تقفله.")),
 			(i + T("Ready-made style", "ستايل جاهز"), self.preset, T("Sets colour, transparency, font and text colour in one go.", "يغيّر اللون والشفافية والخط ولون النص مرة واحدة.")),
 			(i + T("Channel list", "شكل قائمة القنوات"), self.channels, ""),
 			(i + T("Second infobar", "شكل الإنفوبار الثاني"), self.sib, ""),
@@ -382,6 +437,16 @@ class NileGlassSetup(Setup):
 			if self.cityId.value == "custom":
 				items.append((i + T("City name", "اسم المدينة"), self.city, T("Type the city name in English or Arabic.", "اكتب اسم المدينة بالعربي أو الإنجليزي.")))
 			items.append((i + T("Units", "الوحدة"), self.units, ""))
+		items += [
+			(T("— Extras —", "— إضافات —"),),
+			(i + T("Radio screen", "شاشة الراديو"), self.radioScreen, T("While a radio station plays: the station logo large, the programme now and next, a small level meter and a big clock instead of a black picture.", "وقت تشغيل إذاعة: لوجو المحطة كبير، البرنامج الحالي والتالي، مؤشر صوت صغير وساعة كبيرة بدل الشاشة السودا.")),
+			(i + T("Hijri date", "التاريخ الهجري"), self.hijri, T("Next to the date in the menus, the channel list and the second infobar.", "جنب التاريخ في القوائم وقائمة القنوات والإنفوبار الثاني.")),
+		]
+		if self.hijri.value:
+			items.append((i + T("Hijri date correction (days)", "تصحيح التاريخ الهجري (أيام)"), self.hijriOffset, T("The calendar is calculated; if it differs from the sighting in your country by a day, correct it here.", "التاريخ محسوب حسابيًا؛ لو مختلف يوم عن الرؤية في بلدك صححه من هنا.")))
+		items.append((i + T("Cast in the INFO screen", "الأبطال في شاشة INFO"), self.cast, T("Photos and names of the main actors of a film in the INFO screen (one extra TMDB request per film).", "صور وأسماء أبطال الفيلم في شاشة INFO (طلب زيادة من TMDB لكل فيلم).")))
+		if hasLcd():
+			items.append((i + T("Front display in NileGlass style", "الشاشة الأمامية بشكل NileGlass"), self.lcd, T("The receiver's front display shows the channel, logo, programme, progress and clock in the NileGlass style (GUI restart). Off: back to the display skin you had.", "شاشة الجهاز الأمامية تعرض القناة واللوجو والبرنامج والتقدم والساعة بشكل NileGlass (بعد إعادة تشغيل الواجهة). لو قفلته بيرجع شكل الشاشة اللي كان عندك.")))
 		items += [
 			(T("— Updates —", "— التحديثات —"),),
 			(i + T("Check for updates daily", "التحقق من التحديثات يوميًا"), self.updateAuto, T("Installed version: %s. Updates come from GitHub; your settings are kept.", "النسخة المثبتة: %s. التحديثات من GitHub وإعداداتك لا تتغير.") % (updater.installedVersion() if updater else "?")),
@@ -491,7 +556,25 @@ class NileGlassSetup(Setup):
 			"lite": 1 if self.lite.value else 0,
 			"icons": self.iconStyle.value,
 			"omdb_key": self.omdbKey.value.strip(),
+			"radio": 1 if self.radioScreen.value else 0,
+			"hijri": 1 if self.hijri.value else 0,
+			"hijri_offset": self.hijriOffset.value,
+			"cast": 1 if self.cast.value else 0,
+			"lcd": 1 if self.lcd.value else 0,
+			"lcd_prev": self.lcdPrev(),
 		}
+
+	def lcdPrev(self):
+		"""The display skin to go back to when the NileGlass front display is switched off."""
+		prev = confGet("extras", "lcd_prev", "")
+		try:
+			from Components.config import config
+			cur = config.skin.display_skin.value
+			if cur and cur != LCD_SKIN:
+				prev = cur
+		except Exception:
+			pass
+		return prev
 
 	def keySave(self):
 		# the image's own infobar timeouts: applied at once
@@ -519,6 +602,8 @@ class NileGlassSetup(Setup):
 			self.session.open(MessageBox, T("Could not save settings:", "تعذّر حفظ الإعدادات:") + "\n%s" % err, MessageBox.TYPE_ERROR)
 			return
 		needRestart = lookChanged
+		if self.lcd.value != self.lcdOld:
+			needRestart = applyLcd(self.lcd.value) or needRestart
 		try:
 			from Components.NileGlassCore import reloadSettings
 			needRestart = reloadSettings() or needRestart
@@ -883,6 +968,16 @@ def sessionstart(reason, session=None, **kwargs):
 					installGuard(session)
 				except Exception as err:
 					print("[NileGlass] session guard:", err)
+				try:  # first: the radio screen must lie below every later window
+					from .radio import install as installRadio
+					installRadio(session)
+				except Exception as err:
+					print("[NileGlass] radio screen:", err)
+				try:
+					from .casthook import install as installCast
+					installCast()
+				except Exception as err:
+					print("[NileGlass] cast:", err)
 				try:
 					from .perfwatch import install as installPerf
 					installPerf(session)

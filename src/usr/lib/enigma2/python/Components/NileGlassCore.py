@@ -253,6 +253,13 @@ def confBool(section, key, default=True):
 	return confGet(section, key, "1" if default else "0").lower() in ("1", "true", "yes", "on")
 
 
+def liteMode():
+	"""Lite mode (one switch in the settings): no poster downloads, no
+	translation, no weather - the saved settings of each stay as they are and
+	come back when lite mode is switched off."""
+	return confBool("style", "lite", False)
+
+
 # ------------------------------------------------------------------ helpers
 def callInUiThread(fnc, *args):
 	"""Run fnc(*args) on the enigma2 main loop."""
@@ -635,7 +642,7 @@ class PosterService:
 	KINDS = ("poster", "backdrop", "meta", "details", "thumb")
 
 	def __init__(self):
-		self.enabled = confBool("tmdb", "enabled", True)
+		self.enabled = confBool("tmdb", "enabled", True) and not liteMode()
 		self.apiKey = confGet("tmdb", "api_key", "")
 		self.language = confGet("tmdb", "language", "ar")
 		try:
@@ -1636,7 +1643,7 @@ class WeatherService:
 	RETRY_AFTER = 5 * 60
 
 	def __init__(self):
-		self.enabled = confBool("weather", "enabled", True)
+		self.enabled = confBool("weather", "enabled", True) and not liteMode()
 		self.units = confGet("weather", "units", "C").upper()[:1]
 		self.state = {}
 		self.started = False
@@ -1645,7 +1652,7 @@ class WeatherService:
 
 	def reload(self):
 		"""New city / units / on-off from the settings: refresh now, no restart."""
-		self.enabled = confBool("weather", "enabled", True)
+		self.enabled = confBool("weather", "enabled", True) and not liteMode()
 		self.units = confGet("weather", "units", "C").upper()[:1]
 		if not self.enabled:
 			self.state = {}
@@ -1751,7 +1758,7 @@ def reloadSettings():
 	oldCache = confGet("posters", "cache_dir", "auto")
 	CONFIG = loadConfig()
 	p = posters
-	p.enabled = confBool("tmdb", "enabled", True)
+	p.enabled = confBool("tmdb", "enabled", True) and not liteMode()
 	p.apiKey = confGet("tmdb", "api_key", "")
 	p.language = confGet("tmdb", "language", "ar")
 	p.quality = "w500" if confGet("posters", "quality", "w342") == "w500" else "w342"
@@ -1793,7 +1800,7 @@ class Translator:
 
 	@property
 	def enabled(self):
-		return confBool("posters", "translate_epg", True)
+		return confBool("posters", "translate_epg", True) and not liteMode()
 
 	@staticmethod
 	def needs(text):
