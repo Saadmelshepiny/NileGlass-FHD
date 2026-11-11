@@ -973,14 +973,14 @@
 
 	<!-- Number zap -->
 	<screen name="NumberZap" position="center,120" size="700,120" backgroundColor="transparent" flags="wfNoBorder">
-		<eLabel position="0,0" size="700,120" backgroundColor="bg"/>
-		<eLabel position="0,0" size="700,2" backgroundColor="lineAccent"/>
+		<eLabel position="0,0" size="700,120" backgroundColor="bg" zPosition="-10"/>
+		<eLabel position="0,0" size="700,2" backgroundColor="lineAccent" zPosition="-9"/>
 		<widget name="number" position="20,10" size="200,100" font="Regular;72" foregroundColor="accent" backgroundColor="bg" transparent="1" halign="center" valign="center"/>
 		<widget name="servicename" position="230,10" size="450,100" font="Regular;34" foregroundColor="fg" backgroundColor="bg" transparent="1" valign="center"/>
 	</screen>
 	<screen name="NumberZapPicon" position="center,120" size="900,160" backgroundColor="transparent" flags="wfNoBorder">
-		<eLabel position="0,0" size="900,160" backgroundColor="bg"/>
-		<eLabel position="0,0" size="900,2" backgroundColor="lineAccent"/>
+		<eLabel position="0,0" size="900,160" backgroundColor="bg" zPosition="-10"/>
+		<eLabel position="0,0" size="900,2" backgroundColor="lineAccent" zPosition="-9"/>
 		<widget source="Service" render="Picon" position="14,14" size="220,132" alphatest="blend">
 			<convert type="ServiceName">Reference</convert>
 		</widget>
@@ -1360,17 +1360,17 @@
 		<widget name="Ecmtext" position="844,550" size="700,290" font="Regular;22" foregroundColor="fgDim" backgroundColor="bgCard" transparent="1" halign="left"/>
 	</screen>
 	<screen name="Volume" position="1250,56" size="630,104" backgroundColor="transparent" flags="wfNoBorder">
-		<eLabel position="0,0" size="630,104" backgroundColor="bg"/>
-		<eLabel position="0,0" size="630,3" backgroundColor="lineAccent"/>
+		<eLabel position="0,0" size="630,104" backgroundColor="bg" zPosition="-10"/>
+		<eLabel position="0,0" size="630,3" backgroundColor="lineAccent" zPosition="-9"/>
 		<ePixmap pixmap="NileGlass_FHD/ui/speaker.png" position="22,24" size="56,56" alphatest="blend"/>
-		<eLabel position="96,46" size="360,14" backgroundColor="bgBar"/>
+		<eLabel position="96,46" size="360,14" backgroundColor="bgBar" zPosition="-9"/>
 		<widget name="Volume" position="96,46" size="360,14" pixmap="NileGlass_FHD/ui/volume.png" transparent="1" zPosition="1"/>
 		<widget source="session.CurrentService" render="VolumeText" position="460,20" size="106,64" font="Medium;44" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="right" valign="center" noWrap="1" zPosition="2"/>
 		<eLabel text="%" position="568,30" size="44,50" font="Regular;32" foregroundColor="accent" backgroundColor="bg" transparent="1" halign="left" valign="center"/>
 	</screen>
 	<screen name="Dish" position="center,30" size="960,150" backgroundColor="transparent" flags="wfNoBorder">
-		<eLabel position="0,0" size="960,150" backgroundColor="bg"/>
-		<eLabel position="0,0" size="960,3" backgroundColor="lineAccent"/>
+		<eLabel position="0,0" size="960,150" backgroundColor="bg" zPosition="-10"/>
+		<eLabel position="0,0" size="960,3" backgroundColor="lineAccent" zPosition="-9"/>
 		<widget name="Dishpixmap" pixmap="NileGlass_FHD/ui/dish.png" position="24,27" size="96,96" alphatest="blend" zPosition="1"/>
 		<eLabel text="الطبق يتحرك" position="140,12" size="420,50" font="Medium;36" foregroundColor="accent" backgroundColor="bg" transparent="1" halign="left" valign="center"/>
 		<widget name="From" position="140,66" size="110,40" font="Regular;26" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center"/>
@@ -1668,8 +1668,8 @@
 		<eLabel position="30,645" size="1443,1" backgroundColor="line"/>
 	</screen>
 	<screen name="NileGlassMotor" position="center,48" size="820,150" backgroundColor="transparent" flags="wfNoBorder" zPosition="5">
-		<eLabel position="0,0" size="820,150" backgroundColor="bg"/>
-		<eLabel position="0,0" size="820,3" backgroundColor="lineAccent"/>
+		<eLabel position="0,0" size="820,150" backgroundColor="bg" zPosition="-10"/>
+		<eLabel position="0,0" size="820,3" backgroundColor="lineAccent" zPosition="-9"/>
 		<widget name="title" position="24,10" size="560,40" font="Medium;28" foregroundColor="gold" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1"/>
 		<widget name="time" position="596,8" size="200,48" font="Medium;40" foregroundColor="accent" backgroundColor="bg" transparent="1" halign="right" valign="center" noWrap="1"/>
 		<widget name="from" position="24,58" size="300,56" font="Medium;44" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="center" valign="center" noWrap="1"/>
@@ -1696,15 +1696,15 @@
 		<widget name="footnote" position="30,673" size="1443,33" font="Regular;22" foregroundColor="fgDim" backgroundColor="bg" transparent="1" noWrap="1"/>
 	</screen>
 	<screen name="NileGlassCamBar" position="center,40" size="1100,420" backgroundColor="transparent" flags="wfNoBorder">
-		<eLabel position="0,0" size="1100,420" backgroundColor="bg"/>
-		<eLabel position="0,0" size="1100,3" backgroundColor="lineAccent"/>
+		<eLabel position="0,0" size="1100,420" backgroundColor="bg" zPosition="-10"/>
+		<eLabel position="0,0" size="1100,3" backgroundColor="lineAccent" zPosition="-9"/>
 		<eLabel text="الإيمو" position="30,14" size="300,40" font="Medium;28" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center"/>
 		<widget name="state" position="560,14" size="510,40" font="Regular;26" foregroundColor="green" backgroundColor="bg" transparent="1" halign="right" valign="center" noWrap="1"/>
 		<widget name="left" pixmap="NileGlass_FHD/icons/arrow_left.png" position="40,62" size="40,48" alphatest="blend"/>
 		<widget name="cam" position="100,56" size="900,60" font="Medium;46" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="center" valign="center" noWrap="1"/>
 		<widget name="right" pixmap="NileGlass_FHD/icons/arrow_right.png" position="1020,62" size="40,48" alphatest="blend"/>
 		<widget name="info" position="30,118" size="1040,34" font="Regular;24" foregroundColor="gold" backgroundColor="bg" transparent="1" halign="center" valign="center" noWrap="1"/>
-		<eLabel position="30,162" size="1040,1" backgroundColor="line"/>
+		<eLabel position="30,162" size="1040,1" backgroundColor="line" zPosition="-9"/>
 		<eLabel text="الحالة" position="30,172" size="150,38" font="Regular;24" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center"/>
 		<widget source="session.CurrentService" render="Label" position="180,172" size="890,38" font="Medium;28" foregroundColor="accent" backgroundColor="bg" transparent="1" valign="center" noWrap="1" halign="left"><convert type="NGEcm">State</convert></widget>
 		<eLabel text="النظام" position="30,214" size="150,38" font="Regular;24" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center"/>
@@ -1739,11 +1739,11 @@
 		<widget name="hint" position="80,906" size="1760,40" font="Regular;22" foregroundColor="fgMute" backgroundColor="bg" transparent="1" halign="center" valign="center" noWrap="1"/>
 	</screen>
 	<screen name="NileGlassBitrate" position="center,center" size="960,420" backgroundColor="transparent" flags="wfNoBorder">
-		<eLabel position="0,0" size="960,420" backgroundColor="bg"/>
-		<eLabel position="0,0" size="960,3" backgroundColor="lineAccent"/>
+		<eLabel position="0,0" size="960,420" backgroundColor="bg" zPosition="-10"/>
+		<eLabel position="0,0" size="960,3" backgroundColor="lineAccent" zPosition="-9"/>
 		<eLabel text="معدل البت (kb/s)" position="30,20" size="560,56" font="Medium;36" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="left" valign="center"/>
 		<widget source="session.CurrentService" render="Label" position="590,20" size="340,56" font="Regular;26" foregroundColor="gold" backgroundColor="bg" transparent="1" halign="right" valign="center" noWrap="1"><convert type="ServiceName">Name</convert></widget>
-		<eLabel position="30,90" size="900,1" backgroundColor="line"/>
+		<eLabel position="30,90" size="900,1" backgroundColor="line" zPosition="-9"/>
 		<eLabel text="فيديو" position="30,116" size="160,44" font="Medium;30" foregroundColor="accent" backgroundColor="bg" transparent="1" halign="left" valign="center"/>
 		<eLabel text="الحالي" position="200,116" size="170,34" font="Regular;24" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="center" valign="center"/>
 		<widget source="session.CurrentService" render="Label" position="200,154" size="170,52" font="Medium;40" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="center" valign="center" noWrap="1"><convert type="NGBitrate">video.cur</convert></widget>
@@ -1856,16 +1856,16 @@
 		<widget name="lab1" position="130,100" size="600,100" font="Regular;30" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="left" valign="center"/>
 	</screen>
 	<screen name="PVRState" position="60,50" size="620,104" backgroundColor="transparent" flags="wfNoBorder">
-		<eLabel position="0,0" size="620,104" backgroundColor="bg"/>
-		<eLabel position="0,0" size="620,3" backgroundColor="lineAccent"/>
+		<eLabel position="0,0" size="620,104" backgroundColor="bg" zPosition="-10"/>
+		<eLabel position="0,0" size="620,3" backgroundColor="lineAccent" zPosition="-9"/>
 		<widget name="statusicon" position="20,20" size="64,64" pixmaps="NileGlass_FHD/icons/pvr_0.png,NileGlass_FHD/icons/pvr_1.png,NileGlass_FHD/icons/pvr_2.png,NileGlass_FHD/icons/pvr_3.png,NileGlass_FHD/icons/pvr_4.png,NileGlass_FHD/icons/pvr_5.png,NileGlass_FHD/icons/pvr_6.png" alphatest="blend"/>
 		<widget name="state" position="100,10" size="300,48" font="Medium;34" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="left" valign="center"/>
 		<widget name="speed" position="420,10" size="180,48" font="Medium;34" foregroundColor="accent" backgroundColor="bg" transparent="1" halign="right" valign="center"/>
 		<widget name="eventname" position="100,58" size="500,36" font="Regular;24" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1"/>
 	</screen>
 	<screen name="TimeshiftState" position="60,50" size="620,104" backgroundColor="transparent" flags="wfNoBorder">
-		<eLabel position="0,0" size="620,104" backgroundColor="bg"/>
-		<eLabel position="0,0" size="620,3" backgroundColor="lineAccent"/>
+		<eLabel position="0,0" size="620,104" backgroundColor="bg" zPosition="-10"/>
+		<eLabel position="0,0" size="620,3" backgroundColor="lineAccent" zPosition="-9"/>
 		<widget name="statusicon" position="20,20" size="64,64" pixmaps="NileGlass_FHD/icons/pvr_0.png,NileGlass_FHD/icons/pvr_1.png,NileGlass_FHD/icons/pvr_2.png,NileGlass_FHD/icons/pvr_3.png,NileGlass_FHD/icons/pvr_4.png,NileGlass_FHD/icons/pvr_5.png,NileGlass_FHD/icons/pvr_6.png" alphatest="blend"/>
 		<widget name="state" position="100,10" size="300,48" font="Medium;34" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="left" valign="center"/>
 		<widget name="speed" position="420,10" size="180,48" font="Medium;34" foregroundColor="accent" backgroundColor="bg" transparent="1" halign="right" valign="center"/>
@@ -1874,16 +1874,16 @@
 		<widget name="PTSSeekPointer" position="0,0" size="1,1" transparent="1"/>
 	</screen>
 	<screen name="VideoMode" position="1250,56" size="630,90" backgroundColor="transparent" flags="wfNoBorder">
-		<eLabel position="0,0" size="630,90" backgroundColor="bg"/>
-		<eLabel position="0,0" size="630,3" backgroundColor="lineAccent"/>
+		<eLabel position="0,0" size="630,90" backgroundColor="bg" zPosition="-10"/>
+		<eLabel position="0,0" size="630,3" backgroundColor="lineAccent" zPosition="-9"/>
 		<widget name="videomode" position="24,14" size="582,64" font="Medium;34" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="center" valign="center"/>
 	</screen>
 	<screen name="UnhandledKey" position="1820,40" size="64,64" backgroundColor="transparent" flags="wfNoBorder">
 		<widget name="UnhandledKeyPixmap" pixmap="NileGlass_FHD/icons/unhandled_key.png" position="0,0" size="64,64" alphatest="blend"/>
 	</screen>
 	<screen name="SubservicesQuickzap" position="1250,56" size="630,90" backgroundColor="transparent" flags="wfNoBorder">
-		<eLabel position="0,0" size="630,90" backgroundColor="bg"/>
-		<eLabel position="0,0" size="630,3" backgroundColor="lineAccent"/>
+		<eLabel position="0,0" size="630,90" backgroundColor="bg" zPosition="-10"/>
+		<eLabel position="0,0" size="630,3" backgroundColor="lineAccent" zPosition="-9"/>
 		<widget name="CurrentSubserviceNumber" position="24,14" size="582,64" font="Medium;34" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="center" valign="center"/>
 	</screen>
 	<screen name="MinuteInput" position="center,center" size="600,230" backgroundColor="transparent" flags="wfNoBorder" title="دقائق">
