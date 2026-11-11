@@ -95,6 +95,7 @@ epg_titles = {epg_titles}
 epg_titles_url = {epg_titles_url}
 neighbours = {neighbours}
 smart_sport = {smart_sport}
+translate_epg = {translate_epg}
 
 [weather]
 city_id = {city_id}
@@ -263,6 +264,7 @@ class NileGlassSetup(Setup):
 		self.epgTitles = NoSave(ConfigYesNo(default=confBool("posters", "epg_titles", True)))
 		self.neighbours = NoSave(ConfigYesNo(default=confBool("posters", "neighbours", True)))
 		self.smartSport = NoSave(ConfigYesNo(default=confBool("posters", "smart_sport", True)))
+		self.translateEpg = NoSave(ConfigYesNo(default=confBool("posters", "translate_epg", True)))
 		self.prefetchHour = NoSave(ConfigSelection(default=str(hour % 24), choices=[(str(h), "%02d:00" % h) for h in range(24)]))
 		# --- weather
 		self.weather = NoSave(ConfigYesNo(default=confBool("weather", "enabled", True)))
@@ -358,6 +360,7 @@ class NileGlassSetup(Setup):
 				(i + T("Poster cache", "مكان حفظ البوسترات"), self.cacheDir, T("A hard disk or USB stick is recommended.", "يُفضّل الهارد أو فلاشة USB.")),
 				(i + T("Maximum posters kept", "أقصى عدد بوسترات"), self.maxFiles, T("Older posters are removed automatically.", "يُحذف الأقدم تلقائيًا.")),
 				(i + T("Prepare neighbouring channels", "تجهيز القنوات المجاورة"), self.neighbours, T("In the channel list, posters of the 2 channels above and below are downloaded in the background, so they show instantly when you move.", "في قائمة القنوات بيحمّل في الخلفية بوسترات قناتين فوق وقناتين تحت، فتظهر فورًا لما تتحرك عليهم.")),
+				(i + T("Programme descriptions in Arabic", "ترجمة وصف البرامج للعربي"), self.translateEpg, T("Descriptions in other languages are translated to Arabic in the background (the programme name is kept as it is). Translations are kept, so the same text is never fetched twice.", "الوصف اللي بلغة تانية بيتترجم للعربي في الخلفية (اسم البرنامج بيفضل زي ما هو). الترجمة بتتحفظ، فنفس الكلام مبيتطلبش مرتين.")),
 				(i + T("Smart sport mode", "وضع الرياضة الذكي"), self.smartSport, T("No film poster during matches and sport programmes (TMDB has none and would show a wrong film). The infobar stays clear of the score.", "مفيش بوستر أفلام وقت الماتشات والبرامج الرياضية (TMDB معندوش ليها وكان هيجيب فيلم غلط)، والشريط ميغطيش النتيجة.")),
 				(i + T("Daily download of the bouquets", "تحميل يومي لبوسترات الباقات"), self.prefetch, T("Downloads posters of the coming programmes once a day, so they appear instantly.", "يحمّل بوسترات البرامج القادمة مرة يوميًا فتظهر فورًا وقت التقليب.")),
 			]
@@ -459,6 +462,7 @@ class NileGlassSetup(Setup):
 			"epg_titles": 1 if self.epgTitles.value else 0,
 			"neighbours": 1 if self.neighbours.value else 0,
 			"smart_sport": 1 if self.smartSport.value else 0,
+			"translate_epg": 1 if self.translateEpg.value else 0,
 			"epg_titles_url": confGet("posters", "epg_titles_url", "https://raw.githubusercontent.com/Saadmelshepiny/saadepg-data/epg"),
 			"city_id": self.cityId.value,
 			"city": cityText if custom else CITIES.get(self.cityId.value, ("", cityText))[1],
@@ -879,6 +883,11 @@ def sessionstart(reason, session=None, **kwargs):
 					installPerf(session)
 				except Exception as err:
 					print("[NileGlass] perf watch:", err)
+				try:
+					from .translatehook import install as installTranslate
+					installTranslate()
+				except Exception as err:
+					print("[NileGlass] translate hook:", err)
 				try:
 					from .motorbar import install as installMotor
 					installMotor(session)

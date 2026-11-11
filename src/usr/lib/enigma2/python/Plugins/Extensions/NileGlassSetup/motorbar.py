@@ -9,8 +9,9 @@
 #     Tuner A   7.0W  ->  13.0E      00:14
 # counting down an estimate (degrees x the turning speed from the tuner
 # setup) and closes as soon as the channel is tuned (PMT found), or after the
-# estimate plus a margin.  When the image's own banner is on screen, this one
-# stays hidden.  Nothing is changed in the tuner or image settings.
+# estimate plus a margin.  While it is up, the image's own banner (which
+# often has no data on FBC / USALS) is kept hidden so only one shows.
+# Nothing is changed in the tuner or image settings.
 
 import json
 import os
@@ -100,6 +101,7 @@ class MotorWatch:
 		self.checkTimer.callback.append(self.check)
 		self.tick = eTimer()
 		self.tick.callback.append(self.step)
+		self.active = False
 		session.nav.event.append(self.event)
 
 	# ---- remembered position per tuner
@@ -170,17 +172,31 @@ class MotorWatch:
 		d["to"].setText(orbText(orbpos))
 		d["info"].setText("%.1f°  ·  حوالي %d ثانية" % (deg, self.total))
 		d["time"].setText(mmss(self.left))
-		if not self.imageDishShown():
-			d.show()
+		self.active = True
+		self.quietImageDish()
+		d.show()
 		self.tick.start(1000, False)
 
-	def imageDishShown(self):
+	def quietImageDish(self):
+		"""Keep the image's dish banner hidden while ours is up."""
 		try:
 			from Screens.InfoBar import InfoBar
 			dish = InfoBar.instance and getattr(InfoBar.instance, "dishDialog", None)
-			return bool(dish and dish.shown)
 		except Exception:
-			return False
+			dish = None
+		if dish is None:
+			return
+		if not getattr(dish, "_ngQuiet", False):
+			original = dish.show
+			watch = self
+
+			def show(*args, **kwargs):
+				if not watch.active:
+					return original(*args, **kwargs)
+			dish.show = show
+			dish._ngQuiet = True
+		if getattr(dish, "shown", False):
+			dish.hide()
 
 	def tuned(self):
 		try:
@@ -198,12 +214,10 @@ class MotorWatch:
 			self.stop()
 			return
 		self.dialog["time"].setText(mmss(self.left) if self.left > 0 else "...")
-		if self.imageDishShown():
-			self.dialog.hide()
-		elif not self.dialog.shown:
-			self.dialog.show()
+		self.quietImageDish()
 
 	def stop(self):
+		self.active = False
 		self.tick.stop()
 		self.dialog.hide()
 

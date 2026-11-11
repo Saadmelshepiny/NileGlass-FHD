@@ -98,10 +98,10 @@
 			<convert type="NGTonight">Soon</convert>
 		</widget>
 		<!-- buttons -->
-		<ePixmap pixmap="NileGlass_FHD/buttons/green_pill_s.png" position="1360,1018" size="240,50" alphatest="blend"/>
-		<ePixmap pixmap="NileGlass_FHD/buttons/blue_pill_s.png" position="1640,1018" size="240,50" alphatest="blend"/>
-		<widget name="key_green" position="1360,1018" size="240,50" font="Medium;24" foregroundColor="white" backgroundColor="black" transparent="1" halign="center" valign="center" noWrap="1" zPosition="1"/>
-		<widget name="key_blue" position="1640,1018" size="240,50" font="Medium;24" foregroundColor="white" backgroundColor="black" transparent="1" halign="center" valign="center" noWrap="1" zPosition="1"/>
+		<ePixmap pixmap="NileGlass_FHD/buttons/green_k200.png" position="1360,1024" size="200,38" alphatest="blend"/>
+		<ePixmap pixmap="NileGlass_FHD/buttons/blue_k200.png" position="1640,1024" size="200,38" alphatest="blend"/>
+		<widget name="key_green" position="1360,1024" size="200,38" font="Medium;24" foregroundColor="white" backgroundColor="black" transparent="1" halign="center" valign="center" noWrap="1" zPosition="1"/>
+		<widget name="key_blue" position="1640,1024" size="200,38" font="Medium;24" foregroundColor="white" backgroundColor="black" transparent="1" halign="center" valign="center" noWrap="1" zPosition="1"/>
 		<widget source="session.CurrentService" render="NGEventList" items="5" position="40,744" size="1840,240" font="Regular;30" timeColor="gold" foregroundColor="#d6dbe1" backgroundColor="bg" transparent="1" halign="left" showDuration="1"/>
 	</screen>
 </skin>

@@ -74,6 +74,8 @@ epg_titles_url = https://raw.githubusercontent.com/Saadmelshepiny/saadepg-data/e
 # Download the posters of the channels around the selected one in the
 # channel list, so they are ready when you move to them
 neighbours = 1
+# Translate programme descriptions (not titles) to Arabic
+translate_epg = 1
 # No film posters for matches / sport (TMDB has none and would guess wrong)
 smart_sport = 1
 
@@ -1768,6 +1770,122 @@ def reloadSettings():
 
 
 posters = PosterService()
+
+
+# ---------------------------------------------------------------- translation
+class Translator:
+	"""Programme descriptions -> Arabic (titles are never translated).
+
+	Free Google translate endpoint, one background thread, answers kept in
+	memory and on disk (same text = no new request). Text that is already
+	mostly Arabic, or very short, is left as it is."""
+
+	URL = "https://translate.googleapis.com/translate_a/single?client=gtx&sl=auto&tl=ar&dt=t&q="
+	MEM = 400
+	MAX_CHARS = 1800
+
+	def __init__(self):
+		self.mem = {}
+		self.waiting = {}
+		self.queue = queue.Queue()
+		self.thread = None
+		self.lock = threading.Lock()
+
+	@property
+	def enabled(self):
+		return confBool("posters", "translate_epg", True)
+
+	@staticmethod
+	def needs(text):
+		if not text or len(text.strip()) < 12:
+			return False
+		letters = [c for c in text if c.isalpha()]
+		if not letters:
+			return False
+		arabic = sum(1 for c in letters if "\u0600" <= c <= "\u06ff")
+		return arabic < 0.3 * len(letters)
+
+	@staticmethod
+	def key(text):
+		return hashlib.md5(text.encode("utf-8")).hexdigest()
+
+	def folder(self):
+		base = posters.metaDir and os.path.dirname(posters.metaDir.rstrip("/"))
+		d = os.path.join(base or "/tmp/NileGlass", "translate")
+		try:
+			os.makedirs(d, exist_ok=True)
+		except OSError:
+			return None
+		return d
+
+	def cached(self, text):
+		"""Translation if known (memory or disk), else None. Cheap."""
+		if not self.needs(text):
+			return text
+		k = self.key(text)
+		hit = self.mem.get(k)
+		if hit is not None:
+			return hit
+		d = posters.metaDir and self.folder()
+		if d:
+			try:
+				with open(os.path.join(d, k + ".txt"), encoding="utf-8") as f:
+					hit = f.read()
+				self._remember(k, hit)
+				return hit
+			except OSError:
+				pass
+		return None
+
+	def _remember(self, k, value):
+		if len(self.mem) >= self.MEM:
+			self.mem.pop(next(iter(self.mem)))
+		self.mem[k] = value
+
+	def request(self, text, callback):
+		"""Ask for a translation; callback(original, translated) on the UI thread."""
+		if not self.enabled or not self.needs(text):
+			return
+		k = self.key(text)
+		with self.lock:
+			first = k not in self.waiting
+			self.waiting.setdefault(k, []).append(callback)
+		if first:
+			self.queue.put((k, text))
+			if self.thread is None or not self.thread.is_alive():
+				self.thread = threading.Thread(target=self._loop, daemon=True)
+				self.thread.start()
+
+	def _loop(self):
+		while True:
+			try:
+				k, text = self.queue.get(timeout=60)
+			except queue.Empty:
+				return
+			result = None
+			try:
+				data = json.loads(httpGet(self.URL + quote(text[:self.MAX_CHARS]), timeout=6).decode("utf-8"))
+				result = "".join(part[0] for part in data[0] if part and part[0]).strip() or None
+			except Exception as err:
+				log("translate:", err)
+			if result:
+				self._remember(k, result)
+				d = self.folder()
+				if d:
+					try:
+						with open(os.path.join(d, k + ".tmp"), "w", encoding="utf-8") as f:
+							f.write(result)
+						os.replace(os.path.join(d, k + ".tmp"), os.path.join(d, k + ".txt"))
+					except OSError:
+						pass
+			with self.lock:
+				callbacks = self.waiting.pop(k, [])
+			if result:
+				for cb in callbacks:
+					callInUiThread(cb, text, result)
+
+
+translator = Translator()
 epgTitles = EpgTitleMap()
 tonight = TonightService()
 weather = WeatherService()
