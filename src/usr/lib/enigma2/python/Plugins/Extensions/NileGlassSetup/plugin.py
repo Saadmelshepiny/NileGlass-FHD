@@ -879,6 +879,11 @@ def sessionstart(reason, session=None, **kwargs):
 				installTranslations()
 				patchSecondInfoBar()
 				try:
+					from .sessionguard import install as installGuard
+					installGuard(session)
+				except Exception as err:
+					print("[NileGlass] session guard:", err)
+				try:
 					from .perfwatch import install as installPerf
 					installPerf(session)
 				except Exception as err:
@@ -939,10 +944,20 @@ def openTonight(session, **kwargs):
 		session.open(MessageBox, str(err), MessageBox.TYPE_ERROR, timeout=8)
 
 
+class _CamBarDone:
+	def __init__(self, session):
+		self.session = session
+
+	def done(self, result=None):
+		if result == "readers":
+			from .readers import NileGlassReaders
+			self.session.open(NileGlassReaders)
+
+
 def openCamBar(session, **kwargs):
 	try:
 		from .cambar import NileGlassCamBar
-		session.open(NileGlassCamBar)
+		session.openWithCallback(_CamBarDone(session).done, NileGlassCamBar)
 	except Exception as err:
 		print("[NileGlass] cambar:", err)
 		session.open(MessageBox, str(err), MessageBox.TYPE_ERROR, timeout=8)

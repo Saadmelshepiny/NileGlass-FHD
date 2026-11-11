@@ -207,14 +207,11 @@ class NileGlassCamBar(Screen):
 		self["state"].setText("إعادة التشغيل بزر OK" if name == self.running else "التشغيل بزر OK")
 
 	def readers(self):
-		# close the bar FIRST (and its auto-close timer with it), then open the
-		# readers screen: a bar left underneath would later close whatever is
-		# on top (the readers screen or its questions)
-		from .readers import NileGlassReaders
+		# the bar closes with "readers" and whoever opened it opens the readers
+		# screen once the bar is really gone (openCamBar); opening it here,
+		# right after close(), is refused by enigma2 ("Modal open ...")
 		self.closeTimer.stop()
-		session = self.session
-		self.close()
-		session.open(NileGlassReaders)
+		self.close("readers")
 
 	def prev(self):
 		if len(self.names) > 1:

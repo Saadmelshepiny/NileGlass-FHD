@@ -1,12 +1,12 @@
 {
-  "version": "2.5.8",
-  "ipk": "https://raw.githubusercontent.com/Saadmelshepiny/NileGlass-FHD/main/releases/enigma2-plugin-skins-nileglass-fhd_2.5.8_all.ipk",
-  "sha256": "a524f0f7accc55e8ba9e4a9e2560eb6a3c6d3bb1c0de9230afc52cc57005de3c",
-  "notes_ar": "ترجمة وصف البرامج للعربي (اسم البرنامج زي ما هو)، أزرار ملونة أصغر، وصف أكبر في قائمة القنوات، وبيان حركة الطبق بالبيانات كاملة.",
-  "notes_en": "Programme descriptions translated to Arabic (titles kept), smaller colour buttons, bigger description in the channel list, dish banner with full data.",
+  "version": "2.5.9",
+  "ipk": "releases/enigma2-plugin-skins-nileglass-fhd_2.5.9_all.ipk",
+  "sha256": "8a1efa90253d97ae9c7a40e677058e6a18bae8add1faca86bc407daf44fef87e",
+  "notes_ar": "بيان الطبق بيفضل ظاهر لحد ما التيونر يقفل على القمر الجديد (كان بيقفل بعد ثانية)؛ حماية من كراش قفل الواجهة الرئيسية بزر EXIT؛ إصلاح فتح شاشة الريدرات من شريط الإيمو بزر MENU.",
+  "notes_en": "Dish banner stays until the tuner locks (closed after 1 s before); guard against a stray EXIT closing the InfoBar (crash); readers screen from the cam bar MENU fixed.",
   "previous": {
-    "version": "2.5.7",
-    "ipk": "https://raw.githubusercontent.com/Saadmelshepiny/NileGlass-FHD/main/releases/enigma2-plugin-skins-nileglass-fhd_2.5.7_all.ipk",
-    "sha256": "deb3428d8a8e5fa3f5a5f4d419c239c26180efc933c31593db8cfb4d193f53f0"
+    "version": "2.5.8",
+    "ipk": "https://raw.githubusercontent.com/Saadmelshepiny/NileGlass-FHD/main/releases/enigma2-plugin-skins-nileglass-fhd_2.5.8_all.ipk",
+    "sha256": "a524f0f7accc55e8ba9e4a9e2560eb6a3c6d3bb1c0de9230afc52cc57005de3c"
   }
 }

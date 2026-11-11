@@ -102,6 +102,7 @@ class MotorWatch:
 		self.tick = eTimer()
 		self.tick.callback.append(self.step)
 		self.active = False
+		self.tunedIn = False
 		session.nav.event.append(self.event)
 
 	# ---- remembered position per tuner
@@ -128,8 +129,12 @@ class MotorWatch:
 	# ---- service events
 	def event(self, ev):
 		if ev == iPlayableService.evStart:
+			self.tunedIn = False
 			self.pending = 8                  # tuner number may need a moment
 			self.checkTimer.start(250, True)
+		elif ev == iPlayableService.evTunedIn:
+			# the tuner has locked: the dish is there
+			self.tunedIn = True
 		elif ev == iPlayableService.evEnd:
 			self.checkTimer.stop()
 
@@ -160,8 +165,8 @@ class MotorWatch:
 		old = self.last.get(tuner)
 		self.last[tuner] = orbpos
 		self.save()
-		if old is None or old == orbpos:
-			return
+		if old is None or old == orbpos or self.tunedIn:
+			return                        # same satellite, or already locked
 		deg = degrees(old, orbpos)
 		self.total = int(round(deg * turningSpeed(tuner, orbpos, pol))) + 2
 		self.left = self.total
@@ -199,6 +204,11 @@ class MotorWatch:
 			dish.hide()
 
 	def tuned(self):
+		# the PMT pid alone is no proof: enigma2 answers it from the channel
+		# cache right away, long before the dish has arrived (that closed the
+		# banner after one second).  First the tuner must have locked.
+		if not self.tunedIn:
+			return False
 		try:
 			service = self.session.nav.getCurrentService()
 			info = service and service.info()
