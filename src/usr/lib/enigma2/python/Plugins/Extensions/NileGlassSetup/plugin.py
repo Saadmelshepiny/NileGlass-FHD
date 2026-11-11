@@ -898,6 +898,24 @@ def openTonight(session, **kwargs):
 		session.open(MessageBox, str(err), MessageBox.TYPE_ERROR, timeout=8)
 
 
+def openCamBar(session, **kwargs):
+	try:
+		from .cambar import NileGlassCamBar
+		session.open(NileGlassCamBar)
+	except Exception as err:
+		print("[NileGlass] cambar:", err)
+		session.open(MessageBox, str(err), MessageBox.TYPE_ERROR, timeout=8)
+
+
+def openBitrate(session, **kwargs):
+	try:
+		from .cambar import NileGlassBitrate
+		session.open(NileGlassBitrate)
+	except Exception as err:
+		print("[NileGlass] bitrate:", err)
+		session.open(MessageBox, str(err), MessageBox.TYPE_ERROR, timeout=8)
+
+
 def Plugins(**kwargs):
 	return [
 		PluginDescriptor(name="NileGlass FHD", description=T("Skin settings: look, posters, weather", "إعدادات السكين: المظهر والبوسترات والطقس"), where=PluginDescriptor.WHERE_PLUGINMENU, icon="plugin.png", fnc=main),
@@ -906,5 +924,7 @@ def Plugins(**kwargs):
 		PluginDescriptor(name=T("Weather (5 days)", "الطقس (5 أيام)"), where=PluginDescriptor.WHERE_EXTENSIONSMENU, fnc=openWeather),
 		PluginDescriptor(name=T("Coming up (posters)", "البرامج القادمة (بوسترات)"), where=PluginDescriptor.WHERE_EXTENSIONSMENU, fnc=openUpcoming),
 		PluginDescriptor(name=T("Film page (now)", "صفحة الفيلم (الشغال دلوقتي)"), where=PluginDescriptor.WHERE_EXTENSIONSMENU, fnc=openFilm),
+		PluginDescriptor(name=T("Switch softcam", "تبديل الإيمو"), where=PluginDescriptor.WHERE_EXTENSIONSMENU, fnc=openCamBar),
+		PluginDescriptor(name=T("Bitrate viewer", "معدل البت (Bitrate)"), where=PluginDescriptor.WHERE_EXTENSIONSMENU, fnc=openBitrate),
 		PluginDescriptor(where=PluginDescriptor.WHERE_SESSIONSTART, fnc=sessionstart),
 	]

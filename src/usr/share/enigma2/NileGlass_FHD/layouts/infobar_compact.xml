@@ -8,36 +8,41 @@
 		<widget source="session.CurrentService" render="Label" position="30,886" size="496,54" font="Medium;32" foregroundColor="fg" backgroundColor="bgDeep" transparent="1" halign="left" valign="center" noWrap="1">
 			<convert type="ServiceName">Name</convert>
 		</widget>
-		<ePixmap pixmap="NileGlass_FHD/icons/ib_txt_off.png" position="540,893" size="58,40" alphatest="blend" />
-		<widget source="session.CurrentService" render="Pixmap" pixmap="NileGlass_FHD/icons/ib_txt_on.png" position="540,893" size="58,40" alphatest="blend" zPosition="1">
+		<ePixmap pixmap="NileGlass_FHD/icons/ib_txt_off.png" position="540,893" size="64,40" alphatest="blend" />
+		<widget source="session.CurrentService" render="Pixmap" pixmap="NileGlass_FHD/icons/ib_txt_on.png" position="540,893" size="64,40" alphatest="blend" zPosition="1">
 			<convert type="ServiceInfo">HasTelext</convert>
 			<convert type="ConditionalShowHide" />
 		</widget>
-		<ePixmap pixmap="NileGlass_FHD/icons/ib_sub_off.png" position="606,893" size="58,40" alphatest="blend" />
-		<widget source="session.CurrentService" render="Pixmap" pixmap="NileGlass_FHD/icons/ib_sub_on.png" position="606,893" size="58,40" alphatest="blend" zPosition="1">
+		<ePixmap pixmap="NileGlass_FHD/icons/ib_sub_off.png" position="612,893" size="64,40" alphatest="blend" />
+		<widget source="session.CurrentService" render="Pixmap" pixmap="NileGlass_FHD/icons/ib_sub_on.png" position="612,893" size="64,40" alphatest="blend" zPosition="1">
 			<convert type="ServiceInfo">SubtitlesAvailable</convert>
 			<convert type="ConditionalShowHide" />
 		</widget>
-		<ePixmap pixmap="NileGlass_FHD/icons/ib_dolby_off.png" position="672,893" size="120,40" alphatest="blend" />
-		<widget source="session.CurrentService" render="Pixmap" pixmap="NileGlass_FHD/icons/ib_dolby_on.png" position="672,893" size="120,40" alphatest="blend" zPosition="1">
+		<ePixmap pixmap="NileGlass_FHD/icons/ib_dolby_off.png" position="684,893" size="120,40" alphatest="blend" />
+		<widget source="session.CurrentService" render="Pixmap" pixmap="NileGlass_FHD/icons/ib_dolby_on.png" position="684,893" size="120,40" alphatest="blend" zPosition="1">
 			<convert type="ServiceInfo">IsMultichannel</convert>
 			<convert type="ConditionalShowHide" />
 		</widget>
-		<ePixmap pixmap="NileGlass_FHD/icons/ib_wide_off.png" position="800,893" size="64,40" alphatest="blend" />
-		<widget source="session.CurrentService" render="Pixmap" pixmap="NileGlass_FHD/icons/ib_wide_on.png" position="800,893" size="64,40" alphatest="blend" zPosition="1">
+		<ePixmap pixmap="NileGlass_FHD/icons/ib_wide_off.png" position="812,893" size="64,40" alphatest="blend" />
+		<widget source="session.CurrentService" render="Pixmap" pixmap="NileGlass_FHD/icons/ib_wide_on.png" position="812,893" size="64,40" alphatest="blend" zPosition="1">
 			<convert type="ServiceInfo">IsWidescreen</convert>
 			<convert type="ConditionalShowHide" />
 		</widget>
-		<ePixmap pixmap="NileGlass_FHD/icons/ib_hd_off.png" position="872,893" size="64,40" alphatest="blend" />
-		<widget source="session.CurrentService" render="Pixmap" pixmap="NileGlass_FHD/icons/ib_hd_on.png" position="872,893" size="64,40" alphatest="blend" zPosition="1">
+		<ePixmap pixmap="NileGlass_FHD/icons/ib_hd_off.png" position="884,893" size="64,40" alphatest="blend" />
+		<widget source="session.CurrentService" render="Pixmap" pixmap="NileGlass_FHD/icons/ib_hd_on.png" position="884,893" size="64,40" alphatest="blend" zPosition="1">
 			<convert type="ServiceInfo">IsHD</convert>
 			<convert type="ConditionalShowHide" />
 		</widget>
-		<widget source="session.CurrentService" render="Pixmap" pixmap="NileGlass_FHD/icons/ib_uhd_on.png" position="872,893" size="64,40" alphatest="blend" zPosition="2">
+		<widget source="session.CurrentService" render="Pixmap" pixmap="NileGlass_FHD/icons/ib_uhd_on.png" position="884,893" size="64,40" alphatest="blend" zPosition="2">
 			<convert type="ServiceInfo">Is4K</convert>
 			<convert type="ConditionalShowHide" />
 		</widget>
-		<widget source="session.RecordState" render="Pixmap" pixmap="NileGlass_FHD/icons/ib_rec_on.png" position="944,893" size="96,40" alphatest="blend" zPosition="2">
+		<ePixmap pixmap="NileGlass_FHD/icons/ib_crypt_off.png" position="956,893" size="56,40" alphatest="blend"/>
+		<widget source="session.CurrentService" render="Pixmap" pixmap="NileGlass_FHD/icons/ib_crypt_on.png" position="956,893" size="56,40" alphatest="blend" zPosition="1">
+			<convert type="ServiceInfo">IsCrypted</convert>
+			<convert type="ConditionalShowHide"/>
+		</widget>
+		<widget source="session.RecordState" render="Pixmap" pixmap="NileGlass_FHD/icons/ib_rec_on.png" position="1168,893" size="96,40" alphatest="blend" zPosition="2">
 			<convert type="ConditionalShowHide">Blink</convert>
 		</widget>
 		<widget source="global.CurrentTime" render="NGWeatherIcon" position="1392,888" size="50,50" alphatest="blend" zPosition="1" />
@@ -55,6 +60,7 @@
 		</widget>
 		<widget source="session.Event_Now" render="NGPoster" position="50,536" size="230,345" delay="0" borderWidth="2" borderColor="posterBorder" zPosition="3" />
 		<widget source="session.Event_Next" render="NGPoster" position="0,0" size="1,1" prefetch="1" delay="1500" />
+		<widget source="session.Event_Now" render="NGStars" backgroundPixmap="NileGlass_FHD/ui/stars_bg.png" pixmap="NileGlass_FHD/ui/stars.png" position="65,838" size="200,36" transparent="1" zPosition="4"/>
 		<widget source="session.Event_Now" render="Label" position="260,946" size="104,52" font="Regular;36" foregroundColor="fg" backgroundColor="bgDeep" transparent="1" valign="center" noWrap="1">
 			<convert type="EventTime">StartTime</convert>
 			<convert type="ClockToText">Format:%H:%M</convert>

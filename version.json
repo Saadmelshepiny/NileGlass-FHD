@@ -1,12 +1,12 @@
 {
-  "version": "2.3.2",
-  "ipk": "https://raw.githubusercontent.com/Saadmelshepiny/NileGlass-FHD/main/releases/enigma2-plugin-skins-nileglass-fhd_2.3.2_all.ipk",
-  "sha256": "a16bebb67051c802203f36a51f440cb03546faf6236fd9c6b6585ab278696530",
-  "notes_ar": "قنوات وإذاعات الإنترنت بتظهر بعلامة IPTV، وبيختفي منها SNR وAGC والتشفير وSID. مع وضع الرياضة الذكي وكل اللي في 2.3.",
-  "notes_en": "Internet streams show an IPTV badge; SNR/AGC/crypto/SID are hidden for them. Plus smart sport and everything from 2.3.",
+  "version": "2.4.0",
+  "ipk": "https://raw.githubusercontent.com/Saadmelshepiny/NileGlass-FHD/main/releases/enigma2-plugin-skins-nileglass-fhd_2.4.0_all.ipk",
+  "sha256": "99fe930e54b0bb29ecccd04ce6390c266509135fff6f062981d0beaf153e3589",
+  "notes_ar": "شريط تبديل الإيمو، معدل البت في الإنفوبار وشاشة تفاصيله، أيقونات أوضح ونجوم التقييم، وشاشات ضبط الماتور والبحث والإيقاف وغيرها بشكل السكين.",
+  "notes_en": "Softcam switcher bar, bitrate in the infobar plus a bitrate viewer, clearer icons and rating stars, and positioner/scan/PVR and other popups restyled.",
   "previous": {
-    "version": "2.3.1",
-    "ipk": "https://raw.githubusercontent.com/Saadmelshepiny/NileGlass-FHD/main/releases/enigma2-plugin-skins-nileglass-fhd_2.3.1_all.ipk",
-    "sha256": "156d1cae966f7e768bf47bfb1ace5d6ae386563070ffb862fb2e046fc3b384b5"
+    "version": "2.3.2",
+    "ipk": "https://raw.githubusercontent.com/Saadmelshepiny/NileGlass-FHD/main/releases/enigma2-plugin-skins-nileglass-fhd_2.3.2_all.ipk",
+    "sha256": "a16bebb67051c802203f36a51f440cb03546faf6236fd9c6b6585ab278696530"
   }
 }

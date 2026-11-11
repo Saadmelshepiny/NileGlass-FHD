@@ -77,11 +77,18 @@
 		<widget source="session.CurrentService" render="Label" position="1690,598" size="190,32" font="Regular;24" foregroundColor="orange" backgroundColor="bg" transparent="1" halign="right" valign="center" noWrap="1">
 			<convert type="PliExtraInfo">VideoCodec</convert>
 		</widget>
-		<widget source="session.CurrentService" render="Label" position="1140,636" size="740,30" font="Regular;24" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="left" noWrap="1">
+		<widget source="session.CurrentService" render="Label" position="1140,636" size="550,30" font="Regular;24" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="left" noWrap="1">
 			<convert type="PliExtraInfo">CryptoBar</convert><convert type="NGStream"/>
 		</widget>
-		<widget source="session.CurrentService" render="Label" position="1140,666" size="740,30" font="Regular;22" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" noWrap="1">
+		<widget source="session.CurrentService" render="Label" position="1140,666" size="420,30" font="Regular;22" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" noWrap="1">
 			<convert type="PliExtraInfo">CryptoNameCaid</convert>
+		</widget>
+		<widget source="session.CurrentService" render="Label" position="1570,666" size="310,30" font="Regular;22" foregroundColor="accent" backgroundColor="bg" transparent="1" halign="right" noWrap="1">
+			<convert type="NGBitrate">Compact</convert>
+		</widget>
+		<widget source="session.CurrentService" render="FixedLabel" text="SID" position="1700,636" size="50,30" font="Regular;22" foregroundColor="accent" backgroundColor="bg" transparent="1" halign="left" noWrap="1"><convert type="NGStream"/></widget>
+		<widget source="session.CurrentService" render="Label" position="1750,636" size="130,30" font="Regular;22" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="right" noWrap="1">
+			<convert type="ServiceInfo">Sid</convert><convert type="NGStream"/>
 		</widget>
 		<eLabel position="0,700" size="1920,1" backgroundColor="line"/>
 
