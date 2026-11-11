@@ -1,12 +1,12 @@
 {
-  "version": "2.6.0",
-  "ipk": "https://raw.githubusercontent.com/Saadmelshepiny/NileGlass-FHD/main/releases/enigma2-plugin-skins-nileglass-fhd_2.6.0_all.ipk",
-  "sha256": "326034c2532de89d821dd2130e9e923f04178873f1c0ea6b88f91c7ab44edb25",
-  "notes_ar": "جديد: شاشة الراديو، الشاشة الأمامية بشكل NileGlass، التاريخ الهجري، الأبطال بصورهم في شاشة INFO، نوع الصورة والصوت في الإنفوبار، وقت انتهاء الفيلم في المشغّل، والوضع الخفيف بقى يقفل البوسترات والترجمة والطقس.",
-  "notes_en": "New: radio screen, NileGlass front display, Hijri date, cast with photos in INFO, codec/fps in the infobar, film end time in the player; lite mode now also stops posters, translation and weather.",
+  "version": "2.6.1",
+  "ipk": "https://raw.githubusercontent.com/Saadmelshepiny/NileGlass-FHD/main/releases/enigma2-plugin-skins-nileglass-fhd_2.6.1_all.ipk",
+  "sha256": "2c8a84828ba0e9af297a476e2db29d0256afacb38f8eef431184e7ca595c25cd",
+  "notes_ar": "شاشة الراديو: نص الراديو (RDS) بقى بشكل السكين بدل المربع الأسود، وكلمة «التالي» مبتظهرش لوحدها لو مفيش برنامج تالي.",
+  "notes_en": "Radio screen: RDS radio text styled (no black box), 'Next' hidden when there is no next programme.",
   "previous": {
-    "version": "2.5.11",
-    "ipk": "https://raw.githubusercontent.com/Saadmelshepiny/NileGlass-FHD/main/releases/enigma2-plugin-skins-nileglass-fhd_2.5.11_all.ipk",
-    "sha256": "de0a713dc7dc1211b36a8f2ed39eff82777b34fb1831096f497072f76516e709"
+    "version": "2.6.0",
+    "ipk": "https://raw.githubusercontent.com/Saadmelshepiny/NileGlass-FHD/main/releases/enigma2-plugin-skins-nileglass-fhd_2.6.0_all.ipk",
+    "sha256": "326034c2532de89d821dd2130e9e923f04178873f1c0ea6b88f91c7ab44edb25"
   }
 }

@@ -1042,6 +1042,13 @@
 		<widget source="session.CurrentService" render="NGPoster" position="60,600" size="160,240" delay="0" borderWidth="2" borderColor="posterBorder"/>
 	</screen>
 
+	<!-- RDS radio text (image's RdsInfoDisplay): transparent line above the radio screen -->
+	<screen name="RdsInfoDisplay" position="160,40" size="1600,96" backgroundColor="transparent" flags="wfNoBorder">
+		<widget name="RadioText" position="0,0" size="1600,48" font="Regular;30" foregroundColor="fg" backgroundColor="#000000" transparent="1" halign="center" valign="center" noWrap="1"/>
+		<widget name="RtpText" position="0,50" size="1600,44" font="Regular;26" foregroundColor="fgDim" backgroundColor="#000000" transparent="1" halign="center" valign="center" noWrap="1"/>
+		<widget name="RassLogo" pixmap="NileGlass_FHD/icons/rass_logo.png" position="1540,4" size="50,40" alphatest="blend"/>
+	</screen>
+
 	<!-- Radio: shown BELOW every other window while a radio station plays (plugin radio.py) -->
 	<screen name="NileGlassRadio" position="0,0" size="1920,1080" backgroundColor="#000000" flags="wfNoBorder" zPosition="-10">
 		<ePixmap pixmap="NileGlass_FHD/ui/radio_bg.png" position="0,0" size="1920,1080" scale="1" zPosition="-5"/>
@@ -1066,12 +1073,8 @@
 			<convert type="EventTime">EndTime</convert><convert type="ClockToText">Format:%H:%M</convert>
 		</widget>
 		<widget name="eq" position="780,716" size="360,110" alphatest="blend" zPosition="1"/>
-		<eLabel text="التالي" position="420,850" size="200,44" font="ArabicBold;28" foregroundColor="gold" backgroundColor="#000000" transparent="1" halign="right" valign="center"/>
-		<widget source="session.Event_Next" render="Label" position="640,850" size="110,44" font="Regular;30" foregroundColor="fg" backgroundColor="#000000" transparent="1" halign="left" valign="center" noWrap="1">
-			<convert type="EventTime">StartTime</convert><convert type="ClockToText">Format:%H:%M</convert>
-		</widget>
-		<widget source="session.Event_Next" render="Label" position="760,850" size="1000,44" font="Regular;30" foregroundColor="fgDim" backgroundColor="#000000" transparent="1" halign="left" valign="center" noWrap="1">
-			<convert type="EventName">Name</convert>
+		<widget source="session.Event_Next" render="Label" position="160,850" size="1600,44" font="Regular;30" foregroundColor="fgDim" backgroundColor="#000000" transparent="1" halign="center" valign="center" noWrap="1">
+			<convert type="NGNextLine"/>
 		</widget>
 		<widget source="global.CurrentTime" render="Label" position="1380,920" size="480,110" font="Light;100" foregroundColor="fg" backgroundColor="#000000" transparent="1" halign="right" valign="center" noWrap="1">
 			<convert type="ClockToText">Format:%H:%M</convert>
