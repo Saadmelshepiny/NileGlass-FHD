@@ -102,6 +102,28 @@ def _menuList(screen):
 	return None
 
 
+# other list screens of the image that NileGlass draws as a left panel:
+# class name -> (list widget, row height, minimum rows)
+OTHER = {
+	"AdapterSetupConfiguration": ("menulist", 58, 9),
+	"NetworkMountsMenu": ("menulist", 58, 9),
+	"AdapterSetup": ("config", 54, 8),
+}
+
+
+def _otherFit(screen):
+	name, ih, minRows = OTHER[screen.__class__.__name__]
+	if name not in screen:
+		return None
+
+	def rows():
+		items = getattr(screen, "mainmenu", None) if name == "menulist" else None
+		if items is None:
+			items = getattr(screen[name], "list", None)
+		return len(items or [])
+	return _Fit(screen, lambda: screen[name], rows, ih, minRows).run
+
+
 def _patchApplySkin():
 	"""Fit right after the screen is laid out (end of applySkin), whatever
 	other plugins do with onLayoutFinish or close()."""
@@ -113,6 +135,8 @@ def _patchApplySkin():
 	def applySkin(self, *args, **kwargs):
 		result = original(self, *args, **kwargs)
 		fit = getattr(self, "_ngFitNow", None)
+		if fit is None and self.__class__.__name__ in OTHER:
+			fit = _otherFit(self)
 		if fit is not None:
 			try:
 				fit()

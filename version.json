@@ -1,12 +1,12 @@
 {
-  "version": "2.7.5",
-  "ipk": "https://raw.githubusercontent.com/Saadmelshepiny/NileGlass-FHD/main/releases/enigma2-plugin-skins-nileglass-fhd_2.7.5_all.ipk",
-  "sha256": "e9c4cb2a701189d9b2fac57e2fa4ceb51398fd1f92794f08b028a657dbef2836",
-  "notes_ar": "القوائم القصيرة ليها طول أدنى (9 سطور للقوائم و8 للإعدادات) علشان شكلها؛ الطويلة زي ما هي على قد سطورها.",
-  "notes_en": "Short menus/settings keep a minimum panel height (9 / 8 rows).",
+  "version": "2.7.6",
+  "ipk": "https://raw.githubusercontent.com/Saadmelshepiny/NileGlass-FHD/main/releases/enigma2-plugin-skins-nileglass-fhd_2.7.6_all.ipk",
+  "sha256": "104349e7bbecc8f3aac66cc5e54555c6bbdd4843d8484b24112f11ec366925a6",
+  "notes_ar": "شاشات الشبكة (ضبط الشبكة، إعدادات المحول، مجلدات الشبكة، خدمات الشبكة) بقت لوحة فوق القناة بسطور واسعة وواضحة.",
+  "notes_en": "Network screens (setup menu, adapter settings, mounts, services) as left panels with roomy rows.",
   "previous": {
-    "version": "2.7.4",
-    "ipk": "https://raw.githubusercontent.com/Saadmelshepiny/NileGlass-FHD/main/releases/enigma2-plugin-skins-nileglass-fhd_2.7.4_all.ipk",
-    "sha256": "ac5f403476a0151b7196b1d9d1dcd7687ff95a4a6dbeb8b25fd18315cc733fb0"
+    "version": "2.7.5",
+    "ipk": "https://raw.githubusercontent.com/Saadmelshepiny/NileGlass-FHD/main/releases/enigma2-plugin-skins-nileglass-fhd_2.7.5_all.ipk",
+    "sha256": "e9c4cb2a701189d9b2fac57e2fa4ceb51398fd1f92794f08b028a657dbef2836"
   }
 }

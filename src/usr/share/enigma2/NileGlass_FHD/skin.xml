@@ -1056,6 +1056,106 @@
 		<widget name="RassLogo" position="0,0" size="1,1" transparent="1"/>
 	</screen>
 
+	<!-- Network screens of the image: panels at the left like the menus -->
+	<screen name="AdapterSetupConfiguration" position="40,center" size="800,860" backgroundColor="bg" flags="wfNoBorder">
+		<eLabel position="0,0" size="800,860" backgroundColor="bg" zPosition="-10"/>
+		<eLabel position="0,0" size="800,2" backgroundColor="lineAccent" zPosition="-9"/>
+		<widget source="Title" render="Label" position="30,12" size="570,60" font="Medium;34" foregroundColor="accent" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1"/>
+		<widget source="global.CurrentTime" render="Label" position="610,12" size="160,60" font="Regular;42" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="right" valign="center" noWrap="1">
+			<convert type="ClockToText">Format:%H:%M</convert>
+		</widget>
+		<eLabel position="0,84" size="800,1" backgroundColor="line" zPosition="-9"/>
+		<widget name="menulist" position="30,96" size="740,522" font="Regular;30" itemHeight="58" foregroundColor="fg" backgroundColor="bg" foregroundColorSelected="white" backgroundColorSelected="bgSel" transparent="1" scrollbarMode="showOnDemand" enableWrapAround="1"/>
+		<eLabel position="0,630" size="800,1" backgroundColor="line" zPosition="-9"/>
+		<widget source="description" render="Label" position="30,640" size="740,96" font="Regular;24" foregroundColor="fgDim" backgroundColor="bg" transparent="1"/>
+		<widget source="IFtext" render="Label" position="30,740" size="180,40" font="Regular;26" foregroundColor="fgDim" backgroundColor="bg" transparent="1" valign="center" noWrap="1"/>
+		<widget source="IF" render="Label" position="210,740" size="560,40" font="Medium;26" foregroundColor="fg" backgroundColor="bg" transparent="1" valign="center" noWrap="1"/>
+		<widget source="Statustext" render="Label" position="30,782" size="180,40" font="Regular;26" foregroundColor="fgDim" backgroundColor="bg" transparent="1" valign="center" noWrap="1"/>
+		<widget name="statuspic" pixmaps="NileGlass_FHD/icons/lock_on.png,NileGlass_FHD/icons/lock_off.png" position="210,786" size="32,32" alphatest="blend"/>
+		<widget name="devicepic" pixmaps="NileGlass_FHD/icons/lock_on.png,NileGlass_FHD/icons/lock_on.png" position="760,786" size="1,1" alphatest="blend"/>
+		<ePixmap pixmap="NileGlass_FHD/buttons/red_k260.png" position="40,824" size="260,38" alphatest="blend" conditional="key_red"/>
+		<widget name="key_red" position="40,824" size="260,38" font="Medium;22" foregroundColor="white" backgroundColor="black" transparent="1" halign="center" valign="center" noWrap="1" zPosition="1" objectTypes="key_red,Button,Label"/>
+		<widget source="key_red" render="Label" position="40,824" size="260,38" font="Medium;22" foregroundColor="white" backgroundColor="black" transparent="1" halign="center" valign="center" noWrap="1" zPosition="1" objectTypes="key_red,StaticText"/>
+	</screen>
+	<screen name="NetworkMountsMenu" position="40,center" size="800,800" backgroundColor="bg" flags="wfNoBorder">
+		<eLabel position="0,0" size="800,800" backgroundColor="bg" zPosition="-10"/>
+		<eLabel position="0,0" size="800,2" backgroundColor="lineAccent" zPosition="-9"/>
+		<widget source="Title" render="Label" position="30,12" size="570,60" font="Medium;34" foregroundColor="accent" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1"/>
+		<widget source="global.CurrentTime" render="Label" position="610,12" size="160,60" font="Regular;42" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="right" valign="center" noWrap="1">
+			<convert type="ClockToText">Format:%H:%M</convert>
+		</widget>
+		<eLabel position="0,84" size="800,1" backgroundColor="line" zPosition="-9"/>
+		<widget name="menulist" position="30,96" size="740,522" font="Regular;30" itemHeight="58" foregroundColor="fg" backgroundColor="bg" foregroundColorSelected="white" backgroundColorSelected="bgSel" transparent="1" scrollbarMode="showOnDemand" enableWrapAround="1"/>
+		<eLabel position="0,630" size="800,1" backgroundColor="line" zPosition="-9"/>
+		<widget source="introduction" render="Label" position="30,640" size="740,96" font="Regular;24" foregroundColor="fgDim" backgroundColor="bg" transparent="1"/>
+		<ePixmap pixmap="NileGlass_FHD/buttons/red_k260.png" position="40,750" size="260,38" alphatest="blend" conditional="key_red"/>
+		<widget name="key_red" position="40,750" size="260,38" font="Medium;22" foregroundColor="white" backgroundColor="black" transparent="1" halign="center" valign="center" noWrap="1" zPosition="1" objectTypes="key_red,Button,Label"/>
+		<widget source="key_red" render="Label" position="40,750" size="260,38" font="Medium;22" foregroundColor="white" backgroundColor="black" transparent="1" halign="center" valign="center" noWrap="1" zPosition="1" objectTypes="key_red,StaticText"/>
+	</screen>
+	<screen name="AdapterSetup" position="40,center" size="1280,930" backgroundColor="bg" flags="wfNoBorder">
+		<eLabel position="0,0" size="1280,930" backgroundColor="bg" zPosition="-10"/>
+		<eLabel position="0,0" size="1280,2" backgroundColor="lineAccent" zPosition="-9"/>
+		<widget source="Title" render="Label" position="30,12" size="1050,60" font="Medium;34" foregroundColor="accent" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1"/>
+		<widget source="global.CurrentTime" render="Label" position="1090,12" size="160,60" font="Regular;42" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="right" valign="center" noWrap="1">
+			<convert type="ClockToText">Format:%H:%M</convert>
+		</widget>
+		<eLabel position="0,84" size="1280,1" backgroundColor="line" zPosition="-9"/>
+		<widget name="config" position="40,96" size="1200,486" itemHeight="54" font="Regular;30" secondfont="Regular;28" foregroundColor="fg" backgroundColor="bg" foregroundColorSelected="white" backgroundColorSelected="bgSel" transparent="1" scrollbarMode="showOnDemand" enableWrapAround="1"/>
+		<eLabel position="0,592" size="1280,1" backgroundColor="line" zPosition="-9"/>
+		<widget source="introduction" render="Label" position="40,600" size="400,38" font="Medium;26" foregroundColor="gold" backgroundColor="bg" transparent="1" valign="center" noWrap="1"/>
+		<widget source="Adaptertext" render="Label" position="40,642" size="220,34" font="Regular;24" foregroundColor="fgDim" backgroundColor="bg" transparent="1" noWrap="1"/>
+		<widget source="Adapter" render="Label" position="260,642" size="380,34" font="Regular;24" foregroundColor="fg" backgroundColor="bg" transparent="1" noWrap="1"/>
+		<widget source="IPtext" render="Label" position="40,678" size="220,34" font="Regular;24" foregroundColor="fgDim" backgroundColor="bg" transparent="1" noWrap="1"/>
+		<widget source="IP" render="Label" position="260,678" size="380,34" font="Regular;24" foregroundColor="fg" backgroundColor="bg" transparent="1" noWrap="1"/>
+		<widget source="Netmasktext" render="Label" position="40,714" size="220,34" font="Regular;24" foregroundColor="fgDim" backgroundColor="bg" transparent="1" noWrap="1"/>
+		<widget source="Mask" render="Label" position="260,714" size="380,34" font="Regular;24" foregroundColor="fg" backgroundColor="bg" transparent="1" noWrap="1"/>
+		<widget source="Gatewaytext" render="Label" position="660,642" size="240,34" font="Regular;24" foregroundColor="fgDim" backgroundColor="bg" transparent="1" noWrap="1"/>
+		<widget source="Gateway" render="Label" position="900,642" size="340,34" font="Regular;24" foregroundColor="fg" backgroundColor="bg" transparent="1" noWrap="1"/>
+		<widget source="DNS1text" render="Label" position="660,678" size="240,34" font="Regular;24" foregroundColor="fgDim" backgroundColor="bg" transparent="1" noWrap="1"/>
+		<widget source="DNS1" render="Label" position="900,678" size="340,34" font="Regular;24" foregroundColor="fg" backgroundColor="bg" transparent="1" noWrap="1"/>
+		<widget source="DNS2text" render="Label" position="660,714" size="240,34" font="Regular;24" foregroundColor="fgDim" backgroundColor="bg" transparent="1" noWrap="1"/>
+		<widget source="DNS2" render="Label" position="900,714" size="340,34" font="Regular;24" foregroundColor="fg" backgroundColor="bg" transparent="1" noWrap="1"/>
+		<widget source="introduction2" render="Label" position="40,760" size="1200,72" font="Regular;24" foregroundColor="fgDim" backgroundColor="bg" transparent="1"/>
+		<ePixmap pixmap="NileGlass_FHD/buttons/red_k260.png" position="40,878" size="260,38" alphatest="blend" conditional="key_red"/>
+		<widget name="key_red" position="40,878" size="260,38" font="Medium;22" foregroundColor="white" backgroundColor="black" transparent="1" halign="center" valign="center" noWrap="1" zPosition="1" objectTypes="key_red,Button,Label"/>
+		<widget source="key_red" render="Label" position="40,878" size="260,38" font="Medium;22" foregroundColor="white" backgroundColor="black" transparent="1" halign="center" valign="center" noWrap="1" zPosition="1" objectTypes="key_red,StaticText"/>
+		<ePixmap pixmap="NileGlass_FHD/buttons/green_k260.png" position="353,878" size="260,38" alphatest="blend" conditional="key_green"/>
+		<widget name="key_green" position="353,878" size="260,38" font="Medium;22" foregroundColor="white" backgroundColor="black" transparent="1" halign="center" valign="center" noWrap="1" zPosition="1" objectTypes="key_green,Button,Label"/>
+		<widget source="key_green" render="Label" position="353,878" size="260,38" font="Medium;22" foregroundColor="white" backgroundColor="black" transparent="1" halign="center" valign="center" noWrap="1" zPosition="1" objectTypes="key_green,StaticText"/>
+		<ePixmap pixmap="NileGlass_FHD/buttons/yellow_k260.png" position="666,878" size="260,38" alphatest="blend" conditional="key_yellow"/>
+		<widget name="key_yellow" position="666,878" size="260,38" font="Medium;22" foregroundColor="white" backgroundColor="black" transparent="1" halign="center" valign="center" noWrap="1" zPosition="1" objectTypes="key_yellow,Button,Label"/>
+		<widget source="key_yellow" render="Label" position="666,878" size="260,38" font="Medium;22" foregroundColor="white" backgroundColor="black" transparent="1" halign="center" valign="center" noWrap="1" zPosition="1" objectTypes="key_yellow,StaticText"/>
+		<ePixmap pixmap="NileGlass_FHD/buttons/blue_k260.png" position="979,878" size="260,38" alphatest="blend" conditional="key_blue"/>
+		<widget name="key_blue" position="979,878" size="260,38" font="Medium;22" foregroundColor="white" backgroundColor="black" transparent="1" halign="center" valign="center" noWrap="1" zPosition="1" objectTypes="key_blue,Button,Label"/>
+		<widget source="key_blue" render="Label" position="979,878" size="260,38" font="Medium;22" foregroundColor="white" backgroundColor="black" transparent="1" halign="center" valign="center" noWrap="1" zPosition="1" objectTypes="key_blue,StaticText"/>
+	</screen>
+	<screen name="NetworkServiceSetup" position="40,center" size="900,330" backgroundColor="bg" flags="wfNoBorder">
+		<eLabel position="0,0" size="900,330" backgroundColor="bg" zPosition="-10"/>
+		<eLabel position="0,0" size="900,2" backgroundColor="lineAccent" zPosition="-9"/>
+		<widget source="Title" render="Label" position="30,12" size="670,60" font="Medium;34" foregroundColor="accent" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1"/>
+		<widget source="global.CurrentTime" render="Label" position="710,12" size="160,60" font="Regular;42" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="right" valign="center" noWrap="1">
+			<convert type="ClockToText">Format:%H:%M</convert>
+		</widget>
+		<eLabel position="0,84" size="900,1" backgroundColor="line" zPosition="-9"/>
+		<widget name="lab1" position="40,110" size="300,44" font="Regular;28" foregroundColor="fgDim" backgroundColor="bg" transparent="1" valign="center"/>
+		<widget name="labactive" position="360,110" size="500,44" font="Medium;28" foregroundColor="gold" backgroundColor="bg" transparent="1" valign="center"/>
+		<widget name="lab2" position="40,166" size="300,44" font="Regular;28" foregroundColor="fgDim" backgroundColor="bg" transparent="1" valign="center"/>
+		<widget name="labstop" position="360,166" size="500,44" font="Medium;28" foregroundColor="red" backgroundColor="bg" transparent="1" valign="center"/>
+		<widget name="labrun" position="360,166" size="500,44" font="Medium;28" foregroundColor="green" backgroundColor="bg" transparent="1" valign="center"/>
+		<ePixmap pixmap="NileGlass_FHD/buttons/red_k260.png" position="40,262" size="260,38" alphatest="blend" conditional="key_red"/>
+		<widget name="key_red" position="40,262" size="260,38" font="Medium;22" foregroundColor="white" backgroundColor="black" transparent="1" halign="center" valign="center" noWrap="1" zPosition="1" objectTypes="key_red,Button,Label"/>
+		<widget source="key_red" render="Label" position="40,262" size="260,38" font="Medium;22" foregroundColor="white" backgroundColor="black" transparent="1" halign="center" valign="center" noWrap="1" zPosition="1" objectTypes="key_red,StaticText"/>
+		<ePixmap pixmap="NileGlass_FHD/buttons/green_k260.png" position="226,262" size="260,38" alphatest="blend" conditional="key_green"/>
+		<widget name="key_green" position="226,262" size="260,38" font="Medium;22" foregroundColor="white" backgroundColor="black" transparent="1" halign="center" valign="center" noWrap="1" zPosition="1" objectTypes="key_green,Button,Label"/>
+		<widget source="key_green" render="Label" position="226,262" size="260,38" font="Medium;22" foregroundColor="white" backgroundColor="black" transparent="1" halign="center" valign="center" noWrap="1" zPosition="1" objectTypes="key_green,StaticText"/>
+		<ePixmap pixmap="NileGlass_FHD/buttons/yellow_k260.png" position="412,262" size="260,38" alphatest="blend" conditional="key_yellow"/>
+		<widget name="key_yellow" position="412,262" size="260,38" font="Medium;22" foregroundColor="white" backgroundColor="black" transparent="1" halign="center" valign="center" noWrap="1" zPosition="1" objectTypes="key_yellow,Button,Label"/>
+		<widget source="key_yellow" render="Label" position="412,262" size="260,38" font="Medium;22" foregroundColor="white" backgroundColor="black" transparent="1" halign="center" valign="center" noWrap="1" zPosition="1" objectTypes="key_yellow,StaticText"/>
+		<ePixmap pixmap="NileGlass_FHD/buttons/blue_k260.png" position="598,262" size="260,38" alphatest="blend" conditional="key_blue"/>
+		<widget name="key_blue" position="598,262" size="260,38" font="Medium;22" foregroundColor="white" backgroundColor="black" transparent="1" halign="center" valign="center" noWrap="1" zPosition="1" objectTypes="key_blue,Button,Label"/>
+		<widget source="key_blue" render="Label" position="598,262" size="260,38" font="Medium;22" foregroundColor="white" backgroundColor="black" transparent="1" halign="center" valign="center" noWrap="1" zPosition="1" objectTypes="key_blue,StaticText"/>
+	</screen>
+
 	<!-- Tonight: films and matches on your channels (file of the Saad EPG plugin) -->
 	<screen name="NileGlassTonight" position="0,0" size="1920,1080" backgroundColor="transparent" flags="wfNoBorder">
 		<panel name="NG_Frame"/>
