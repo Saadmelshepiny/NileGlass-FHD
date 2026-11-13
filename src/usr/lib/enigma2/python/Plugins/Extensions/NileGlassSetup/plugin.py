@@ -992,6 +992,11 @@ def sessionstart(reason, session=None, **kwargs):
 				except Exception as err:
 					print("[NileGlass] session guard:", err)
 				try:
+					from .menufit import install as installMenuFit
+					installMenuFit()
+				except Exception as err:
+					print("[NileGlass] menu fit:", err)
+				try:
 					from .casthook import install as installCast
 					installCast()
 				except Exception as err:

@@ -1,12 +1,12 @@
 {
-  "version": "2.7.1",
-  "ipk": "https://raw.githubusercontent.com/Saadmelshepiny/NileGlass-FHD/main/releases/enigma2-plugin-skins-nileglass-fhd_2.7.1_all.ipk",
-  "sha256": "c2429b90ca5828fa64b2544d1d2b267a58cc6fb2d8c2be458112c2ce3317462a",
-  "notes_ar": "القوائم وشاشات الإعدادات بقت لوحة في نص الشاشة فوق القناة (والقناة بحجمها الكامل). الشكل القديم موجود في الإعدادات: «شكل القوائم والإعدادات».",
-  "notes_en": "Menus and settings screens open as a centred panel over the full-size live picture (old full-screen look selectable).",
+  "version": "2.7.2",
+  "ipk": "https://raw.githubusercontent.com/Saadmelshepiny/NileGlass-FHD/main/releases/enigma2-plugin-skins-nileglass-fhd_2.7.2_all.ipk",
+  "sha256": "aa3855ed415f51487ce8fe26aa706ca264b27e97397f115876a15d4befd525c4",
+  "notes_ar": "لوحات القوائم والإعدادات بقت على يسار الشاشة وطولها على قد عدد السطور (لحد ما تملا الشاشة)، فمفيش صفحة تانية عشان سطر واحد.",
+  "notes_en": "Menu and settings panels sit at the left edge and are as tall as their rows (up to the screen height).",
   "previous": {
-    "version": "2.7.0",
-    "ipk": "https://raw.githubusercontent.com/Saadmelshepiny/NileGlass-FHD/main/releases/enigma2-plugin-skins-nileglass-fhd_2.7.0_all.ipk",
-    "sha256": "c613a7b11a6afc0ec9da8df9e09b84aa92a856c69241eca17bf144c694720e8a"
+    "version": "2.7.1",
+    "ipk": "https://raw.githubusercontent.com/Saadmelshepiny/NileGlass-FHD/main/releases/enigma2-plugin-skins-nileglass-fhd_2.7.1_all.ipk",
+    "sha256": "c2429b90ca5828fa64b2544d1d2b267a58cc6fb2d8c2be458112c2ce3317462a"
   }
 }

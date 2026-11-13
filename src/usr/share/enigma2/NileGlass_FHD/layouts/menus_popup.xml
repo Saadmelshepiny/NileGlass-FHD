@@ -1,6 +1,6 @@
 <skin>
 	<!-- Menus and settings as a panel over the live picture (style option "menus = popup") -->
-	<screen name="Menu" position="center,center" size="800,890" backgroundColor="bg" flags="wfNoBorder">
+	<screen name="Menu" position="40,center" size="800,890" backgroundColor="bg" flags="wfNoBorder">
 		<eLabel position="0,0" size="800,890" backgroundColor="bg" zPosition="-10"/>
 		<eLabel position="0,0" size="800,2" backgroundColor="lineAccent" zPosition="-9"/>
 		<widget source="Title" render="Label" position="30,12" size="570,60" font="Medium;34" foregroundColor="accent" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1"/>
@@ -22,7 +22,7 @@
 		<eLabel position="0,832" size="800,1" backgroundColor="line" zPosition="-9"/>
 		<widget source="description" render="Label" position="30,840" size="740,44" font="Regular;24" foregroundColor="fgDim" backgroundColor="bg" transparent="1" valign="center" noWrap="1"/>
 	</screen>
-	<screen name="Setup" position="center,center" size="1280,910" backgroundColor="bg" flags="wfNoBorder">
+	<screen name="Setup" position="40,center" size="1280,910" backgroundColor="bg" flags="wfNoBorder">
 		<eLabel position="0,0" size="1280,910" backgroundColor="bg" zPosition="-10"/>
 		<eLabel position="0,0" size="1280,2" backgroundColor="lineAccent" zPosition="-9"/>
 		<widget source="Title" render="Label" position="30,12" size="1050,60" font="Medium;34" foregroundColor="accent" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1"/>
@@ -47,17 +47,17 @@
 		<widget name="key_blue" position="979,856" size="260,38" font="Medium;22" foregroundColor="white" backgroundColor="black" transparent="1" halign="center" valign="center" noWrap="1" zPosition="1" objectTypes="key_blue,Button,Label"/>
 		<widget source="key_blue" render="Label" position="979,856" size="260,38" font="Medium;22" foregroundColor="white" backgroundColor="black" transparent="1" halign="center" valign="center" noWrap="1" zPosition="1" objectTypes="key_blue,StaticText"/>
 	</screen>
-	<screen name="menu_mainmenu" position="center,center" size="800,890" backgroundColor="bg" flags="wfNoBorder"><panel name="Menu"/></screen>
-	<screen name="menu_setup" position="center,center" size="800,890" backgroundColor="bg" flags="wfNoBorder"><panel name="Menu"/></screen>
-	<screen name="menu_system" position="center,center" size="800,890" backgroundColor="bg" flags="wfNoBorder"><panel name="Menu"/></screen>
-	<screen name="menu_information" position="center,center" size="800,890" backgroundColor="bg" flags="wfNoBorder"><panel name="Menu"/></screen>
-	<screen name="menu_shutdown" position="center,center" size="800,890" backgroundColor="bg" flags="wfNoBorder"><panel name="Menu"/></screen>
-	<screen name="menu_timermenu" position="center,center" size="800,890" backgroundColor="bg" flags="wfNoBorder"><panel name="Menu"/></screen>
-	<screen name="menu_scan" position="center,center" size="800,890" backgroundColor="bg" flags="wfNoBorder"><panel name="Menu"/></screen>
-	<screen name="menu_network" position="center,center" size="800,890" backgroundColor="bg" flags="wfNoBorder"><panel name="Menu"/></screen>
-	<screen name="menu_harddisk" position="center,center" size="800,890" backgroundColor="bg" flags="wfNoBorder"><panel name="Menu"/></screen>
-	<screen name="menu_backupscreen" position="center,center" size="800,890" backgroundColor="bg" flags="wfNoBorder"><panel name="Menu"/></screen>
-	<screen name="menu_epg" position="center,center" size="800,890" backgroundColor="bg" flags="wfNoBorder"><panel name="Menu"/></screen>
-	<screen name="menu_osd_menu" position="center,center" size="800,890" backgroundColor="bg" flags="wfNoBorder"><panel name="Menu"/></screen>
-	<screen name="menu_video" position="center,center" size="800,890" backgroundColor="bg" flags="wfNoBorder"><panel name="Menu"/></screen>
+	<screen name="menu_mainmenu" position="40,center" size="800,890" backgroundColor="bg" flags="wfNoBorder"><panel name="Menu"/></screen>
+	<screen name="menu_setup" position="40,center" size="800,890" backgroundColor="bg" flags="wfNoBorder"><panel name="Menu"/></screen>
+	<screen name="menu_system" position="40,center" size="800,890" backgroundColor="bg" flags="wfNoBorder"><panel name="Menu"/></screen>
+	<screen name="menu_information" position="40,center" size="800,890" backgroundColor="bg" flags="wfNoBorder"><panel name="Menu"/></screen>
+	<screen name="menu_shutdown" position="40,center" size="800,890" backgroundColor="bg" flags="wfNoBorder"><panel name="Menu"/></screen>
+	<screen name="menu_timermenu" position="40,center" size="800,890" backgroundColor="bg" flags="wfNoBorder"><panel name="Menu"/></screen>
+	<screen name="menu_scan" position="40,center" size="800,890" backgroundColor="bg" flags="wfNoBorder"><panel name="Menu"/></screen>
+	<screen name="menu_network" position="40,center" size="800,890" backgroundColor="bg" flags="wfNoBorder"><panel name="Menu"/></screen>
+	<screen name="menu_harddisk" position="40,center" size="800,890" backgroundColor="bg" flags="wfNoBorder"><panel name="Menu"/></screen>
+	<screen name="menu_backupscreen" position="40,center" size="800,890" backgroundColor="bg" flags="wfNoBorder"><panel name="Menu"/></screen>
+	<screen name="menu_epg" position="40,center" size="800,890" backgroundColor="bg" flags="wfNoBorder"><panel name="Menu"/></screen>
+	<screen name="menu_osd_menu" position="40,center" size="800,890" backgroundColor="bg" flags="wfNoBorder"><panel name="Menu"/></screen>
+	<screen name="menu_video" position="40,center" size="800,890" backgroundColor="bg" flags="wfNoBorder"><panel name="Menu"/></screen>
 </skin>
