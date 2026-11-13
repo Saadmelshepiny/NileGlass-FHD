@@ -129,6 +129,7 @@ direction = {direction}
 translate = {translate}
 channels = {channels}
 sib = {sib}
+menus = {menus}
 menu_backdrop = {menu_backdrop}
 opaque_screens = {opaque_screens}
 text_finish = {text_finish}
@@ -267,6 +268,8 @@ class NileGlassSetup(Setup):
 			([(k, Style.PRESET_NAMES_AR[k] if AR else k.capitalize()) for k in Style.PRESETS] if Style else [])))
 		self.channels = NoSave(ConfigSelection(default=style.get("channels", "posters"), choices=[
 			("posters", T("Description + posters", "وصف + بوسترات")), ("simple", T("Wide list", "قائمة عريضة"))]))
+		self.menus = NoSave(ConfigSelection(default=style.get("menus", "popup") if style.get("menus", "popup") in ("popup", "full") else "popup", choices=[
+			("popup", T("Panel over the picture", "لوحة فوق القناة")), ("full", T("Full screen (small picture inside)", "شاشة كاملة (القناة في شاشة صغيرة)"))]))
 		self.sib = NoSave(ConfigSelection(default=style.get("sib", "cinema"), choices=[
 			("cinema", T("Cinema (posters row)", "سينما (صف بوسترات)")), ("classic", T("Classic (programme list)", "كلاسيك (قائمة برامج)"))]))
 		self.menuBackdrop = NoSave(ConfigYesNo(default=bool(style.get("menu_backdrop", True))))
@@ -394,6 +397,7 @@ class NileGlassSetup(Setup):
 			(i + T("Ready-made style", "ستايل جاهز"), self.preset, T("Sets colour, transparency, font and text colour in one go.", "يغيّر اللون والشفافية والخط ولون النص مرة واحدة.")),
 			(i + T("Channel list", "شكل قائمة القنوات"), self.channels, ""),
 			(i + T("Second infobar", "شكل الإنفوبار الثاني"), self.sib, ""),
+			(i + T("Menus and settings", "شكل القوائم والإعدادات"), self.menus, T("Panel over the picture: the menus and all settings screens open as a panel in the middle and the channel keeps playing full size around it. Full screen: the menu fills the screen with the channel in a small window.", "لوحة فوق القناة: القوائم وكل شاشات الإعدادات بتفتح كلوحة في النص والقناة شغالة بحجمها الكامل حواليها. شاشة كاملة: القائمة بتملا الشاشة والقناة في شاشة صغيرة.")),
 			(i + T("Event picture behind menus", "صورة البرنامج ورا القوائم"), self.menuBackdrop, T("The backdrop of the running programme behind the main menu and settings.", "خلفية البرنامج الشغال ورا القائمة الرئيسية والإعدادات.")),
 			(i + T("Infobar", "شكل الإنفوبار"), self.infobar, T("Full shows signal and service details, compact only the programmes.", "الكامل يعرض الإشارة وتفاصيل القناة، والمختصر البرامج فقط.")),
 			(i + T("Infobar background colour", "لون أرضية الإنفوبار"), self.ibColor, T("Colour of the infobar and second-infobar background (with the transparency chosen above). The preview on the right shows it over a picture.", "لون أرضية الإنفوبار والإنفوبار الثاني (بدرجة الشفافية اللي فوق). المعاينة على اليمين بتوريك اللون فوق صورة.")),
@@ -567,6 +571,7 @@ class NileGlassSetup(Setup):
 			"translate": 1 if self.translate.value else 0,
 			"channels": self.channels.value,
 			"sib": self.sib.value,
+			"menus": self.menus.value,
 			"menu_backdrop": 1 if self.menuBackdrop.value else 0,
 			"opaque_screens": 1 if self.opaque.value else 0,
 			"text_finish": self.finish.value,

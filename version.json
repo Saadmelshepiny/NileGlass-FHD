@@ -1,12 +1,12 @@
 {
-  "version": "2.7.0",
-  "ipk": "https://raw.githubusercontent.com/Saadmelshepiny/NileGlass-FHD/main/releases/enigma2-plugin-skins-nileglass-fhd_2.7.0_all.ipk",
-  "sha256": "c613a7b11a6afc0ec9da8df9e09b84aa92a856c69241eca17bf144c694720e8a",
-  "notes_ar": "جديد: 16 لون لأرضية الإنفوبار (مع كل درجات الشفافية) بمعاينة في الإعدادات.",
-  "notes_en": "New: 16 infobar background colours (with every transparency level), previewed in the settings.",
+  "version": "2.7.1",
+  "ipk": "https://raw.githubusercontent.com/Saadmelshepiny/NileGlass-FHD/main/releases/enigma2-plugin-skins-nileglass-fhd_2.7.1_all.ipk",
+  "sha256": "c2429b90ca5828fa64b2544d1d2b267a58cc6fb2d8c2be458112c2ce3317462a",
+  "notes_ar": "القوائم وشاشات الإعدادات بقت لوحة في نص الشاشة فوق القناة (والقناة بحجمها الكامل). الشكل القديم موجود في الإعدادات: «شكل القوائم والإعدادات».",
+  "notes_en": "Menus and settings screens open as a centred panel over the full-size live picture (old full-screen look selectable).",
   "previous": {
-    "version": "2.6.3",
-    "ipk": "https://raw.githubusercontent.com/Saadmelshepiny/NileGlass-FHD/main/releases/enigma2-plugin-skins-nileglass-fhd_2.6.3_all.ipk",
-    "sha256": "ca9f87f39ac0ef27afe9977ac737998e595f44a5dad276bca2e9003ce65f0e7b"
+    "version": "2.7.0",
+    "ipk": "https://raw.githubusercontent.com/Saadmelshepiny/NileGlass-FHD/main/releases/enigma2-plugin-skins-nileglass-fhd_2.7.0_all.ipk",
+    "sha256": "c613a7b11a6afc0ec9da8df9e09b84aa92a856c69241eca17bf144c694720e8a"
   }
 }

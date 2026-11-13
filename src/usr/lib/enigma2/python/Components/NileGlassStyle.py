@@ -181,7 +181,7 @@ DIRECTIONS = ("auto", "rtl", "ltr")
 DEFAULTS = {"accent": "blue", "transparency": "20", "font": "ubuntu", "font_size": "100", "infobar": "full",
 	"infobar_size": "100", "text_color": "white", "bold_titles": "1", "outline": "0", "direction": "auto", "translate": "1",
 	"channels": "posters", "sib": "cinema", "menu_backdrop": "1", "opaque_screens": "0", "text_finish": "normal", "ok_upcoming": "1", "lite": "0",
-	"icons": "classic", "ib_color": "graphite"}
+	"icons": "classic", "ib_color": "graphite", "menus": "popup"}
 TEXT_FINISHES = ("normal", "glossy", "matte")
 # infobar status icon sets (variants/icons/<name>)
 ICON_STYLES = ("classic", "glass", "badge", "line", "neon", "minimal")
@@ -193,7 +193,7 @@ IB_COLOR_NAMES_AR = {"graphite": "رمادي غامق (الأصلي)", "black": 
 	"royal": "أزرق ملكي", "petrol": "بترولي", "teal": "تركواز غامق", "emerald": "زمردي", "olive": "زيتوني",
 	"purple": "بنفسجي", "plum": "برقوقي", "burgundy": "عنابي", "red": "أحمر قاني", "brown": "بني",
 	"gold": "ذهبي غامق", "silver": "فضي"}
-LAYOUT_FILES = {("channels", "simple"): "channels_simple.xml", ("sib", "classic"): "sib_classic.xml", ("infobar", "compact"): "infobar_compact.xml"}
+LAYOUT_FILES = {("channels", "simple"): "channels_simple.xml", ("sib", "classic"): "sib_classic.xml", ("infobar", "compact"): "infobar_compact.xml", ("menus", "popup"): "menus_popup.xml"}
 # ready-made looks: (accent, transparency, font, text colour)
 PRESETS = {
 	"classic": ("blue", 20, "ubuntu", "white"),
@@ -239,6 +239,8 @@ def readStyle(confFile=CONF_FILE):
 		style["infobar_size"] = 100
 	if style["text_color"] not in TEXT_COLORS:
 		style["text_color"] = "white"
+	if style["menus"] not in ("popup", "full"):
+		style["menus"] = "popup"
 	if style["ib_color"] not in IB_COLORS:
 		style["ib_color"] = "graphite"
 	if style["direction"] not in DIRECTIONS:

@@ -1,0 +1,63 @@
+<skin>
+	<!-- Menus and settings as a panel over the live picture (style option "menus = popup") -->
+	<screen name="Menu" position="center,center" size="800,890" backgroundColor="bg" flags="wfNoBorder">
+		<eLabel position="0,0" size="800,890" backgroundColor="bg" zPosition="-10"/>
+		<eLabel position="0,0" size="800,2" backgroundColor="lineAccent" zPosition="-9"/>
+		<widget source="Title" render="Label" position="30,12" size="570,60" font="Medium;34" foregroundColor="accent" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1"/>
+		<widget source="global.CurrentTime" render="Label" position="610,12" size="160,60" font="Regular;42" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="right" valign="center" noWrap="1">
+			<convert type="ClockToText">Format:%H:%M</convert>
+		</widget>
+		<eLabel position="0,84" size="800,1" backgroundColor="line" zPosition="-9"/>
+		<widget source="menu" render="Listbox" position="60,96" size="680,726" selectionPixmap="NileGlass_FHD/ui/sel_menu.png" scrollbarMode="showOnDemand" scrollbarWidth="6" scrollbarSliderForegroundColor="accent" backgroundColor="bg" foregroundColor="fg" foregroundColorSelected="white" transparent="1">
+			<convert type="TemplatedMultiContent">
+				{"template": [
+					MultiContentEntryPixmapAlphaBlend(pos=(616, 9), size=(48, 48), png=5),
+					MultiContentEntryText(pos=(20, 0), size=(580, 66), font=0, flags=RT_VALIGN_CENTER, text=0)
+				],
+				"fonts": [gFont("Regular", 32)],
+				"itemHeight": 66
+				}
+			</convert>
+		</widget>
+		<eLabel position="0,832" size="800,1" backgroundColor="line" zPosition="-9"/>
+		<widget source="description" render="Label" position="30,840" size="740,44" font="Regular;24" foregroundColor="fgDim" backgroundColor="bg" transparent="1" valign="center" noWrap="1"/>
+	</screen>
+	<screen name="Setup" position="center,center" size="1280,910" backgroundColor="bg" flags="wfNoBorder">
+		<eLabel position="0,0" size="1280,910" backgroundColor="bg" zPosition="-10"/>
+		<eLabel position="0,0" size="1280,2" backgroundColor="lineAccent" zPosition="-9"/>
+		<widget source="Title" render="Label" position="30,12" size="1050,60" font="Medium;34" foregroundColor="accent" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1"/>
+		<widget source="global.CurrentTime" render="Label" position="1090,12" size="160,60" font="Regular;42" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="right" valign="center" noWrap="1">
+			<convert type="ClockToText">Format:%H:%M</convert>
+		</widget>
+		<eLabel position="0,84" size="1280,1" backgroundColor="line" zPosition="-9"/>
+		<widget name="config" position="40,96" size="1200,594" itemHeight="54" font="Regular;30" secondfont="Regular;30" foregroundColor="fg" backgroundColor="bg" foregroundColorSelected="white" backgroundColorSelected="bgSel" selectionPixmap="NileGlass_FHD/ui/sel_list.png" scrollbarMode="showOnDemand" scrollbarWidth="6" scrollbarSliderForegroundColor="accent" separatorLineColor="#40ffffff" separatorLineSize="1" transparent="1"/>
+		<eLabel position="0,700" size="1280,1" backgroundColor="line" zPosition="-9"/>
+		<widget name="description" position="40,708" size="1200,96" font="Regular;26" foregroundColor="fgDim" backgroundColor="bg" transparent="1"/>
+		<widget name="footnote" position="40,806" size="1200,40" font="Regular;24" foregroundColor="gold" backgroundColor="bg" transparent="1" noWrap="1"/>
+		<ePixmap pixmap="NileGlass_FHD/buttons/red_k260.png" position="40,856" size="260,38" alphatest="blend" conditional="key_red"/>
+		<widget name="key_red" position="40,856" size="260,38" font="Medium;22" foregroundColor="white" backgroundColor="black" transparent="1" halign="center" valign="center" noWrap="1" zPosition="1" objectTypes="key_red,Button,Label"/>
+		<widget source="key_red" render="Label" position="40,856" size="260,38" font="Medium;22" foregroundColor="white" backgroundColor="black" transparent="1" halign="center" valign="center" noWrap="1" zPosition="1" objectTypes="key_red,StaticText"/>
+		<ePixmap pixmap="NileGlass_FHD/buttons/green_k260.png" position="353,856" size="260,38" alphatest="blend" conditional="key_green"/>
+		<widget name="key_green" position="353,856" size="260,38" font="Medium;22" foregroundColor="white" backgroundColor="black" transparent="1" halign="center" valign="center" noWrap="1" zPosition="1" objectTypes="key_green,Button,Label"/>
+		<widget source="key_green" render="Label" position="353,856" size="260,38" font="Medium;22" foregroundColor="white" backgroundColor="black" transparent="1" halign="center" valign="center" noWrap="1" zPosition="1" objectTypes="key_green,StaticText"/>
+		<ePixmap pixmap="NileGlass_FHD/buttons/yellow_k260.png" position="666,856" size="260,38" alphatest="blend" conditional="key_yellow"/>
+		<widget name="key_yellow" position="666,856" size="260,38" font="Medium;22" foregroundColor="white" backgroundColor="black" transparent="1" halign="center" valign="center" noWrap="1" zPosition="1" objectTypes="key_yellow,Button,Label"/>
+		<widget source="key_yellow" render="Label" position="666,856" size="260,38" font="Medium;22" foregroundColor="white" backgroundColor="black" transparent="1" halign="center" valign="center" noWrap="1" zPosition="1" objectTypes="key_yellow,StaticText"/>
+		<ePixmap pixmap="NileGlass_FHD/buttons/blue_k260.png" position="979,856" size="260,38" alphatest="blend" conditional="key_blue"/>
+		<widget name="key_blue" position="979,856" size="260,38" font="Medium;22" foregroundColor="white" backgroundColor="black" transparent="1" halign="center" valign="center" noWrap="1" zPosition="1" objectTypes="key_blue,Button,Label"/>
+		<widget source="key_blue" render="Label" position="979,856" size="260,38" font="Medium;22" foregroundColor="white" backgroundColor="black" transparent="1" halign="center" valign="center" noWrap="1" zPosition="1" objectTypes="key_blue,StaticText"/>
+	</screen>
+	<screen name="menu_mainmenu" position="center,center" size="800,890" backgroundColor="bg" flags="wfNoBorder"><panel name="Menu"/></screen>
+	<screen name="menu_setup" position="center,center" size="800,890" backgroundColor="bg" flags="wfNoBorder"><panel name="Menu"/></screen>
+	<screen name="menu_system" position="center,center" size="800,890" backgroundColor="bg" flags="wfNoBorder"><panel name="Menu"/></screen>
+	<screen name="menu_information" position="center,center" size="800,890" backgroundColor="bg" flags="wfNoBorder"><panel name="Menu"/></screen>
+	<screen name="menu_shutdown" position="center,center" size="800,890" backgroundColor="bg" flags="wfNoBorder"><panel name="Menu"/></screen>
+	<screen name="menu_timermenu" position="center,center" size="800,890" backgroundColor="bg" flags="wfNoBorder"><panel name="Menu"/></screen>
+	<screen name="menu_scan" position="center,center" size="800,890" backgroundColor="bg" flags="wfNoBorder"><panel name="Menu"/></screen>
+	<screen name="menu_network" position="center,center" size="800,890" backgroundColor="bg" flags="wfNoBorder"><panel name="Menu"/></screen>
+	<screen name="menu_harddisk" position="center,center" size="800,890" backgroundColor="bg" flags="wfNoBorder"><panel name="Menu"/></screen>
+	<screen name="menu_backupscreen" position="center,center" size="800,890" backgroundColor="bg" flags="wfNoBorder"><panel name="Menu"/></screen>
+	<screen name="menu_epg" position="center,center" size="800,890" backgroundColor="bg" flags="wfNoBorder"><panel name="Menu"/></screen>
+	<screen name="menu_osd_menu" position="center,center" size="800,890" backgroundColor="bg" flags="wfNoBorder"><panel name="Menu"/></screen>
+	<screen name="menu_video" position="center,center" size="800,890" backgroundColor="bg" flags="wfNoBorder"><panel name="Menu"/></screen>
+</skin>
