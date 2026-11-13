@@ -234,11 +234,133 @@ def kbits(v):
 	return "%.1f Mbit/s" % (v / 1000.0) if v >= 1000 else "%d kbit/s" % v
 
 
-def netType():
-	for ifname in interfaces():
-		if _ifUp(ifname) or _ifAddress(ifname):
-			return "%s · %s" % ("Wi-Fi" if _isWifi(ifname) else "Ethernet", ifname)
+def mainInterface():
+	"""The interface that carries the box's address (wired first); else the first one that is up."""
+	names = interfaces()
+	for ifname in names:
+		ip = _ifAddress(ifname)
+		if ip and not ip.startswith("127."):
+			return ifname
+	for ifname in names:
+		if _ifUp(ifname):
+			return ifname
 	return ""
+
+
+def netType():
+	ifname = mainInterface()
+	return "%s · %s" % ("Wi-Fi" if _isWifi(ifname) else "Ethernet", ifname) if ifname else ""
+
+
+def _ioctlAddr(ifname, req):
+	s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+	try:
+		return socket.inet_ntoa(fcntl.ioctl(s.fileno(), req, struct.pack("256s", ifname[:15].encode()))[20:24])
+	except Exception:
+		return ""
+	finally:
+		s.close()
+
+
+def gateway():
+	try:
+		with open("/proc/net/route") as f:
+			for line in f.readlines()[1:]:
+				p = line.split()
+				if len(p) > 2 and p[1] == "00000000" and p[2] != "00000000":
+					return socket.inet_ntoa(struct.pack("<L", int(p[2], 16)))
+	except Exception:
+		pass
+	return ""
+
+
+def dnsServers():
+	out = []
+	try:
+		with open("/etc/resolv.conf") as f:
+			for line in f:
+				p = line.split()
+				if len(p) > 1 and p[0] == "nameserver" and p[1] not in out:
+					out.append(p[1])
+	except Exception:
+		pass
+	return "  ·  ".join(out[:2])
+
+
+def linkSpeed(ifname):
+	if not ifname or _isWifi(ifname):
+		return "Wi-Fi" if ifname else ""
+	sp = _readFirstLine("/sys/class/net/%s/speed" % ifname)
+	if not sp.isdigit() or int(sp) <= 0:
+		return ""
+	dup = _readFirstLine("/sys/class/net/%s/duplex" % ifname)
+	sp = int(sp)
+	return ("%d Gb/s" % (sp // 1000) if sp >= 1000 else "%d Mb/s" % sp) + (" (Half)" if dup == "half" else "")
+
+
+def ifTotals(ifname):
+	try:
+		with open("/proc/net/dev") as f:
+			for line in f.readlines()[2:]:
+				name, data = line.split(":", 1)
+				if name.strip() == ifname:
+					d = data.split()
+					return int(d[0]), int(d[8])
+	except Exception:
+		pass
+	return None, None
+
+
+def rotorPosition():
+	try:
+		from Components.config import config
+		pos = int(config.misc.lastrotorposition.value)
+	except Exception:
+		return ""
+	if pos <= 0 or pos >= 3600:
+		return ""
+	return "%.1f°W" % ((3600 - pos) / 10.0) if pos > 1800 else "%.1f°E" % (pos / 10.0)
+
+
+def nimSockets():
+	"""[(slot letter, name, type)] from /proc/bus/nim_sockets"""
+	out, cur = [], None
+	try:
+		with open("/proc/bus/nim_sockets") as f:
+			for line in f:
+				line = line.strip()
+				if line.startswith("NIM Socket"):
+					cur = {"n": len(out)}
+					out.append(cur)
+				elif cur is not None and ":" in line:
+					k, v = line.split(":", 1)
+					cur.setdefault(k.strip(), v.strip())
+	except Exception:
+		return []
+	return [(chr(65 + c["n"]), c.get("Name", ""), c.get("Type", "")) for c in out]
+
+
+AC3 = {"downmix": "تحويل ستيريو", "passthrough": "تمرير رقمي", "multichannel": "متعدد القنوات", "force_ac3": "تحويل AC3", "use_hdmi_caps": "حسب الشاشة"}
+
+
+def videoOutput():
+	mode = _readFirstLine("/proc/stb/video/videomode")
+	return mode.replace("multi", "").strip() if mode else ""
+
+
+def hdmiColour():
+	cs = _readFirstLine("/proc/stb/video/hdmi_colorspace")
+	cd = _readFirstLine("/proc/stb/video/hdmi_colordepth")
+	return "  ·  ".join(p for p in (cs, cd) if p)
+
+
+def volume():
+	try:
+		from enigma import eDVBVolumecontrol
+		v = eDVBVolumecontrol.getInstance()
+		return "صامت" if v.isMuted() else "%d%%" % v.getVolume()
+	except Exception:
+		return ""
 
 
 def usbPath():
@@ -254,8 +376,9 @@ def usbPath():
 
 class NGSysInfo(Poll, Converter):
 	SLOW_TYPES = ("FlashFree", "HddFree", "FlashPercent", "HddPercent", "IP", "BoxName", "Image",
-		"HddFreeOnly", "UsbFree", "UsbPercent", "NetType", "Online", "SkinVersion")
-	FAST_TYPES = ("NetDown", "NetUp")
+		"HddFreeOnly", "UsbFree", "UsbPercent", "NetType", "Online", "OnlineYes", "OnlineNo", "SkinVersion", "Gateway", "Dns",
+		"Mac", "Netmask", "LinkSpeed", "TunerCount", "TunerName", "TunerTypes", "VideoOut", "HdmiColour", "Aspect", "Ac3")
+	FAST_TYPES = ("NetDown", "NetUp", "Volume")
 
 	def __init__(self, type):
 		Converter.__init__(self, type)
@@ -321,6 +444,51 @@ class NGSysInfo(Poll, Converter):
 			return netType()
 		if t == "Online":
 			return "متصل" if self.getBoolean() else "غير متصل"
+		if t == "OnlineYes":
+			return "متصل" if self.getBoolean() else ""
+		if t == "OnlineNo":
+			return "" if self.getBoolean() else "غير متصل"
+		if t == "Gateway":
+			return gateway() or "—"
+		if t == "Dns":
+			return dnsServers() or "—"
+		if t == "Mac":
+			i = mainInterface()
+			return _readFirstLine("/sys/class/net/%s/address" % i).upper() if i else ""
+		if t == "Netmask":
+			i = mainInterface()
+			return _ioctlAddr(i, 0x891b) if i else ""        # SIOCGIFNETMASK
+		if t == "LinkSpeed":
+			return linkSpeed(mainInterface()) or "—"
+		if t in ("RxTotal", "TxTotal"):
+			rx, tx = ifTotals(mainInterface())
+			v = rx if t == "RxTotal" else tx
+			return human(v) if v is not None else "—"
+		if t == "Rotor":
+			return rotorPosition() or "—"
+		if t == "TunerCount":
+			n = nimSockets()
+			return "%d" % len(n) if n else "—"
+		if t == "TunerName":
+			n = nimSockets()
+			return n[0][1] if n else ""
+		if t == "TunerTypes":
+			types = []
+			for _l, _n, ty in nimSockets():
+				if ty and ty not in types:
+					types.append(ty)
+			return "  ·  ".join(types)
+		if t == "VideoOut":
+			return videoOutput() or "—"
+		if t == "HdmiColour":
+			return hdmiColour() or "—"
+		if t == "Aspect":
+			return _readFirstLine("/proc/stb/video/aspect") or "—"
+		if t == "Ac3":
+			v = _readFirstLine("/proc/stb/audio/ac3")
+			return AC3.get(v, v) or "—"
+		if t == "Volume":
+			return volume() or "—"
 		if t == "SkinVersion":
 			if self._static is None:
 				v = _readFirstLine("/usr/share/enigma2/NileGlass_FHD/version.txt")
@@ -366,7 +534,7 @@ class NGSysInfo(Poll, Converter):
 
 	@cached
 	def getBoolean(self):
-		if self.type == "Online":
+		if self.type in ("Online", "OnlineYes", "OnlineNo"):
 			return bool(ipAddress()) or any(_ifUp(n) for n in interfaces())
 		return bool(self.getValue())
 

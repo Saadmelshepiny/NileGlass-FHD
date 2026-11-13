@@ -15,7 +15,7 @@ from enigma import ePoint, eSize, getDesktop
 LEFT = 40          # panel distance from the left edge
 MARGIN = 30        # free space kept above and below the panel
 MENU_MIN_ROWS = 9     # a 3-item menu still looks like a menu, not a strip
-SETUP_MIN_ROWS = 8
+SETUP_MIN_ROWS = 6
 FULL = 1800        # a window this wide is a full-screen skin: not touched
 
 
@@ -105,23 +105,70 @@ def _menuList(screen):
 # other list screens of the image that NileGlass draws as a left panel:
 # class name -> (list widget, row height, minimum rows)
 OTHER = {
+	"PluginBrowser": ("list", 0, 6),
+	"NimSelection": ("nimlist", 0, 3),
+	"InputDeviceSelection": ("list", 0, 4),
+	"HarddiskSelection": ("hddlist", 0, 3),
+	"NetworkAdapterSelection": ("list", 0, 3),
+	"OpenBhImageManager": ("list", 0, 6),
+	"OpenBhBackupManager": ("list", 0, 6),
+	"CronTimers": ("list", 0, 5),
+	"SkinSelector": ("skins", 0, 5),
+	"LogManager": ("list", 0, 6),
+	"PluginDownloadBrowser": ("list", 100, 6),
+	"HelpMenu": ("list", 56, 8),
+	"OscamInfoMenu": ("mainmenu", 0, 6),
+	"TimerEditList": ("timerlist", 100, 5),
+	"PowerTimerEditList": ("timerlist", 100, 5),
 	"AdapterSetupConfiguration": ("menulist", 58, 9),
 	"NetworkMountsMenu": ("menulist", 58, 9),
 	"AdapterSetup": ("config", 54, 8),
 }
 
 
+def _renderer(screen, source):
+	"""the Listbox renderer drawing a source (through its converters)"""
+	for r in getattr(screen, "renderer", []):
+		src, depth = getattr(r, "source", None), 0
+		while src is not None and depth < 5:
+			if src is source:
+				return r
+			src, depth = getattr(src, "source", None), depth + 1
+	return None
+
+
 def _otherFit(screen):
 	name, ih, minRows = OTHER[screen.__class__.__name__]
 	if name not in screen:
+		return None
+	comp = screen[name]
+	widget = comp if getattr(comp, "instance", None) is not None else _renderer(screen, comp)
+	if widget is None:
 		return None
 
 	def rows():
 		items = getattr(screen, "mainmenu", None) if name == "menulist" else None
 		if items is None:
-			items = getattr(screen[name], "list", None)
+			items = getattr(comp, "list", None)
 		return len(items or [])
-	return _Fit(screen, lambda: screen[name], rows, ih, minRows).run
+	if not ih:
+		ih = _itemHeight(widget, 0) or _instanceItemHeight(comp, widget)
+		if not ih:
+			return None
+	return _Fit(screen, lambda: widget, rows, ih, minRows).run
+
+
+def _instanceItemHeight(comp, widget):
+	src = getattr(widget, "source", None)
+	while src is not None:
+		t = getattr(src, "template", None)
+		if isinstance(t, dict) and t.get("itemHeight"):
+			return int(t["itemHeight"])
+		src = getattr(src, "source", None)
+	try:
+		return int(comp.l.getItemSize().height())
+	except Exception:
+		return 0
 
 
 def _patchApplySkin():
@@ -162,6 +209,8 @@ def install():
 				try:
 					fit = _Fit(self, lambda: _menuList(self), lambda: len(self["menu"].list or []), 58, MENU_MIN_ROWS)
 					self._ngFitNow = fit.run
+					from .dashctx import attachMenu
+					attachMenu(self)
 				except Exception as err:
 					print("[NileGlass] menu fit:", err)
 			Menu.__init__ = __init__
@@ -179,6 +228,8 @@ def install():
 				try:
 					fit = _Fit(self, lambda: self["config"], lambda: len(self["config"].list or []), _itemHeight(self["config"], 54), SETUP_MIN_ROWS)
 					self._ngFitNow = self._ngFitSetup = fit.run
+					from .dashctx import attachSetup
+					attachSetup(self)
 				except Exception as err:
 					print("[NileGlass] setup fit:", err)
 
