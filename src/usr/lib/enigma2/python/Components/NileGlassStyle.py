@@ -181,11 +181,18 @@ DIRECTIONS = ("auto", "rtl", "ltr")
 DEFAULTS = {"accent": "blue", "transparency": "20", "font": "ubuntu", "font_size": "100", "infobar": "full",
 	"infobar_size": "100", "text_color": "white", "bold_titles": "1", "outline": "0", "direction": "auto", "translate": "1",
 	"channels": "posters", "sib": "cinema", "menu_backdrop": "1", "opaque_screens": "0", "text_finish": "normal", "ok_upcoming": "1", "lite": "0",
-	"icons": "classic"}
+	"icons": "classic", "ib_color": "graphite"}
 TEXT_FINISHES = ("normal", "glossy", "matte")
 # infobar status icon sets (variants/icons/<name>)
 ICON_STYLES = ("classic", "glass", "badge", "line", "neon", "minimal")
 ICON_STYLE_NAMES_AR = {"classic": "كلاسيك (الأصلي)", "glass": "زجاجي لامع", "badge": "شارات بيضا", "line": "أيقونات خطية", "neon": "نيون", "minimal": "نص بسيط"}
+# infobar background colours (variants/ibcolor/<name>/<transparency>/ui)
+IB_COLORS = ("graphite", "black", "navy", "midnight", "royal", "petrol", "teal", "emerald", "olive",
+	"purple", "plum", "burgundy", "red", "brown", "gold", "silver")
+IB_COLOR_NAMES_AR = {"graphite": "رمادي غامق (الأصلي)", "black": "أسود", "navy": "كحلي", "midnight": "أزرق ليلي",
+	"royal": "أزرق ملكي", "petrol": "بترولي", "teal": "تركواز غامق", "emerald": "زمردي", "olive": "زيتوني",
+	"purple": "بنفسجي", "plum": "برقوقي", "burgundy": "عنابي", "red": "أحمر قاني", "brown": "بني",
+	"gold": "ذهبي غامق", "silver": "فضي"}
 LAYOUT_FILES = {("channels", "simple"): "channels_simple.xml", ("sib", "classic"): "sib_classic.xml", ("infobar", "compact"): "infobar_compact.xml"}
 # ready-made looks: (accent, transparency, font, text colour)
 PRESETS = {
@@ -232,6 +239,8 @@ def readStyle(confFile=CONF_FILE):
 		style["infobar_size"] = 100
 	if style["text_color"] not in TEXT_COLORS:
 		style["text_color"] = "white"
+	if style["ib_color"] not in IB_COLORS:
+		style["ib_color"] = "graphite"
 	if style["direction"] not in DIRECTIONS:
 		style["direction"] = "auto"
 	if style["channels"] not in ("posters", "simple"):
@@ -586,6 +595,8 @@ def apply(confFile=CONF_FILE, skinDir=SKIN_DIR, userXml=USER_XML):
 	style = readStyle(confFile)
 	copied = _copyTree(os.path.join(skinDir, "variants", "accent", style["accent"]), skinDir)
 	copied += _copyTree(os.path.join(skinDir, "variants", "glass", str(style["transparency"] or 10)), skinDir)
+	if style["ib_color"] != "graphite":
+		copied += _copyTree(os.path.join(skinDir, "variants", "ibcolor", style["ib_color"], str(style["transparency"] or 10)), skinDir)
 	icons = os.path.join(skinDir, "variants", "icons", style["icons"])
 	if os.path.isdir(icons):
 		copied += _copyTree(os.path.join(icons, "icons"), os.path.join(skinDir, "icons"))

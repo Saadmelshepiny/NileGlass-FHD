@@ -1,12 +1,12 @@
 {
-  "version": "2.6.3",
-  "ipk": "https://raw.githubusercontent.com/Saadmelshepiny/NileGlass-FHD/main/releases/enigma2-plugin-skins-nileglass-fhd_2.6.3_all.ipk",
-  "sha256": "ca9f87f39ac0ef27afe9977ac737998e595f44a5dad276bca2e9003ce65f0e7b",
-  "notes_ar": "اسم اليوم والشهر كامل بدل «ر 11 نوف»، شاشة الراديو اتشالت (رجع شكل OpenBh)، وللراديو والبث من النت: سرعة النت وحجم الصوت ونوع الصوت وجودته في الإنفوبار.",
-  "notes_en": "Full Arabic day/month names, radio screen removed (OpenBh background back), web radio/IPTV: internet speed, volume, audio format and quality in the infobar.",
+  "version": "2.7.0",
+  "ipk": "https://raw.githubusercontent.com/Saadmelshepiny/NileGlass-FHD/main/releases/enigma2-plugin-skins-nileglass-fhd_2.7.0_all.ipk",
+  "sha256": "c613a7b11a6afc0ec9da8df9e09b84aa92a856c69241eca17bf144c694720e8a",
+  "notes_ar": "جديد: 16 لون لأرضية الإنفوبار (مع كل درجات الشفافية) بمعاينة في الإعدادات.",
+  "notes_en": "New: 16 infobar background colours (with every transparency level), previewed in the settings.",
   "previous": {
-    "version": "2.6.2",
-    "ipk": "https://raw.githubusercontent.com/Saadmelshepiny/NileGlass-FHD/main/releases/enigma2-plugin-skins-nileglass-fhd_2.6.2_all.ipk",
-    "sha256": "8d4a97482e71ddfff62b99134beab8c8cc1cf4126b5d82c2e3c05da46b30430e"
+    "version": "2.6.3",
+    "ipk": "https://raw.githubusercontent.com/Saadmelshepiny/NileGlass-FHD/main/releases/enigma2-plugin-skins-nileglass-fhd_2.6.3_all.ipk",
+    "sha256": "ca9f87f39ac0ef27afe9977ac737998e595f44a5dad276bca2e9003ce65f0e7b"
   }
 }

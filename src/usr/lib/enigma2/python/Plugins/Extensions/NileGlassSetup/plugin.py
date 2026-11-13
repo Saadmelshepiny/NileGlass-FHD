@@ -135,6 +135,7 @@ text_finish = {text_finish}
 ok_upcoming = {ok_upcoming}
 lite = {lite}
 icons = {icons}
+ib_color = {ib_color}
 """
 
 
@@ -278,6 +279,10 @@ class NileGlassSetup(Setup):
 		iconStyles = getattr(Style, "ICON_STYLES", ("classic",)) if Style else ("classic",)
 		self.iconStyle = NoSave(ConfigSelection(default=style.get("icons", "classic") if style.get("icons", "classic") in iconStyles else "classic",
 			choices=[(k, iconNames.get(k, k) if isArabic() else k.title()) for k in iconStyles]))
+		ibNames = getattr(Style, "IB_COLOR_NAMES_AR", {}) if Style else {}
+		ibColors = getattr(Style, "IB_COLORS", ("graphite",)) if Style else ("graphite",)
+		self.ibColor = NoSave(ConfigSelection(default=style.get("ib_color", "graphite") if style.get("ib_color", "graphite") in ibColors else "graphite",
+			choices=[(k, ibNames.get(k, k) if isArabic() else k.title()) for k in ibColors]))
 		self.omdbKey = NoSave(ConfigText(default=confGet("tmdb", "omdb_key", ""), fixed_size=False, visible_width=30))
 		# the image's own settings, shown here for convenience
 		try:
@@ -337,6 +342,10 @@ class NileGlassSetup(Setup):
 		self["preview_accent"] = Pixmap()
 		self["preview_glass"] = Pixmap()
 		self["preview_icons"] = Pixmap()
+		try:  # the preview follows the cursor (colour row -> colour preview)
+			self["config"].onSelectionChanged.append(self.updatePreview)
+		except Exception:
+			pass
 		self["preview_font"] = Label(T("Font sample  123  نموذج للخط", "نموذج للخط  123  Font sample"))
 		self["preview_title"] = Label(T("Preview", "معاينة"))
 		self["pv_ib_time"] = Label("22:30")
@@ -387,6 +396,7 @@ class NileGlassSetup(Setup):
 			(i + T("Second infobar", "شكل الإنفوبار الثاني"), self.sib, ""),
 			(i + T("Event picture behind menus", "صورة البرنامج ورا القوائم"), self.menuBackdrop, T("The backdrop of the running programme behind the main menu and settings.", "خلفية البرنامج الشغال ورا القائمة الرئيسية والإعدادات.")),
 			(i + T("Infobar", "شكل الإنفوبار"), self.infobar, T("Full shows signal and service details, compact only the programmes.", "الكامل يعرض الإشارة وتفاصيل القناة، والمختصر البرامج فقط.")),
+			(i + T("Infobar background colour", "لون أرضية الإنفوبار"), self.ibColor, T("Colour of the infobar and second-infobar background (with the transparency chosen above). The preview on the right shows it over a picture.", "لون أرضية الإنفوبار والإنفوبار الثاني (بدرجة الشفافية اللي فوق). المعاينة على اليمين بتوريك اللون فوق صورة.")),
 			(i + T("Icon style", "شكل الأيقونات"), self.iconStyle, T("Look of the TXT / SUB / DOLBY / 16:9 / HD / CA / REC icons in the infobar. The preview on the right shows the chosen style.", "شكل أيقونات TXT و SUB و DOLBY و 16:9 و HD و CA و REC في الإنفوبار. المعاينة على اليمين بتوريك الشكل اللي اخترته.")),
 			(i + T("Accent colour", "لون التمييز"), self.accent, T("Colour of selection bars, progress bars and highlights.", "لون شريط التحديد وأشرطة التقدم والعناوين.")),
 			(i + T("Solid menus (no TV behind)", "قوائم معتمة تمامًا (بدون صورة القناة)"), self.opaque, T("Menus and plugin screens get a solid background; the infobar stays glassy.", "القوائم وشاشات الإضافات خلفيتها معتمة تمامًا، والإنفوبار يفضل شفاف.")),
@@ -452,11 +462,18 @@ class NileGlassSetup(Setup):
 		self.updatePreview()
 
 	# ----------------------------------------------------------------- preview
+	def onColourRow(self):
+		try:
+			cur = self["config"].getCurrent()
+			return bool(cur) and len(cur) > 1 and cur[1] is self.ibColor
+		except Exception:
+			return False
+
 	def updatePreview(self):
 		if not Style or "preview_accent" not in self:
 			return
 		key = (self.accent.value, self.transparency.value, self.font.value, self.fontSize.value, self.infobarSize.value, self.textColor.value, self.finish.value,
-			self.boldTitles.value, self.outline.value, self.direction.value, self.iconStyle.value)
+			self.boldTitles.value, self.outline.value, self.direction.value, self.iconStyle.value, self.ibColor.value, self.onColourRow())
 		if key == self.previewKey or not self["preview_accent"].instance:
 			return
 		self.previewKey = key
@@ -465,9 +482,13 @@ class NileGlassSetup(Setup):
 			if os.path.isfile(acc):
 				self["preview_accent"].instance.setPixmapFromFile(acc)
 			icons = os.path.join(SKIN_DIR, "variants", "icons", self.iconStyle.value, "preview.png")
+			if self.onColourRow():
+				icons = os.path.join(SKIN_DIR, "variants", "ibcolor", self.ibColor.value, "preview.png")
 			if os.path.isfile(icons) and "preview_icons" in self and self["preview_icons"].instance:
 				self["preview_icons"].instance.setPixmapFromFile(icons)
 			glass = os.path.join(SKIN_DIR, "variants", "glass", self.transparency.value, "ui", "ib_top_right.png")
+			if self.ibColor.value != "graphite":
+				glass = os.path.join(SKIN_DIR, "variants", "ibcolor", self.ibColor.value, self.transparency.value, "ui", "ib_top_right.png")
 			if os.path.isfile(glass):
 				self["preview_glass"].instance.setPixmapFromFile(glass)
 			fontSet = Style.fontSet(self.font.value, copy=False)
@@ -552,6 +573,7 @@ class NileGlassSetup(Setup):
 			"ok_upcoming": 1 if self.okUpcoming.value else 0,
 			"lite": 1 if self.lite.value else 0,
 			"icons": self.iconStyle.value,
+			"ib_color": self.ibColor.value,
 			"omdb_key": self.omdbKey.value.strip(),
 			"hijri": 1 if self.hijri.value else 0,
 			"hijri_offset": self.hijriOffset.value,
