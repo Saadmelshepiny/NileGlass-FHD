@@ -84,9 +84,15 @@ def _attach(screen, func, code):
 
 
 def _menuList(screen):
+	"""The Listbox renderer of the "menu" source; between them there is a
+	converter (TemplatedMultiContent), so follow the chain of sources."""
+	menu = screen.get("menu")
 	for r in getattr(screen, "renderer", []):
-		if getattr(r, "source", None) is screen.get("menu"):
-			return r
+		src, depth = getattr(r, "source", None), 0
+		while src is not None and depth < 5:
+			if src is menu:
+				return r
+			src, depth = getattr(src, "source", None), depth + 1
 	return None
 
 
