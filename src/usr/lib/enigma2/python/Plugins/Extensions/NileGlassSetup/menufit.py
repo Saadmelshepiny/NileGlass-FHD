@@ -14,6 +14,8 @@ from enigma import ePoint, eSize, getDesktop
 
 LEFT = 40          # panel distance from the left edge
 MARGIN = 30        # free space kept above and below the panel
+MENU_MIN_ROWS = 9     # a 3-item menu still looks like a menu, not a strip
+SETUP_MIN_ROWS = 8
 FULL = 1800        # a window this wide is a full-screen skin: not touched
 
 
@@ -47,8 +49,9 @@ def _log(text):
 
 
 class _Fit:
-	def __init__(self, screen, listWidget, rows, itemHeight):
+	def __init__(self, screen, listWidget, rows, itemHeight, minRows=1):
 		self.screen, self.listWidget, self.rows, self.itemHeight = screen, listWidget, rows, itemHeight
+		self.minRows = minRows     # short lists still get a panel of a decent height
 
 	def run(self):
 		s = self.screen
@@ -65,7 +68,7 @@ class _Fit:
 		H0 = win.size().height()
 		below = H0 - (ly + lh)                     # description / buttons under the list
 		maxRows = max(1, (dh - 2 * MARGIN - ly - below) // self.itemHeight)
-		rows = max(1, min(self.rows(), maxRows))
+		rows = max(self.minRows, min(self.rows(), maxRows))
 		newH = rows * self.itemHeight
 		delta = newH - lh
 		if not delta:
@@ -81,7 +84,6 @@ class _Fit:
 			elif p.y() <= ly and p.y() + inst.size().height() >= bottom - 2:   # spans the panel (background, divider)
 				inst.resize(eSize(inst.size().width(), inst.size().height() + delta))
 		lst.resize(eSize(lst.size().width(), newH))
-		_log("%s %d rows: list %d -> %d" % (name, self.rows(), lh, newH))
 		H = H0 + delta
 		win.resize(eSize(win.size().width(), H))
 		win.move(ePoint(LEFT, max(MARGIN, (dh - H) // 2)))
@@ -134,7 +136,7 @@ def install():
 			def __init__(self, *args, **kwargs):
 				original(self, *args, **kwargs)
 				try:
-					fit = _Fit(self, lambda: _menuList(self), lambda: len(self["menu"].list or []), 66)
+					fit = _Fit(self, lambda: _menuList(self), lambda: len(self["menu"].list or []), 66, MENU_MIN_ROWS)
 					self._ngFitNow = fit.run
 				except Exception as err:
 					print("[NileGlass] menu fit:", err)
@@ -151,7 +153,7 @@ def install():
 			def __init__(self, *args, **kwargs):
 				originalInit(self, *args, **kwargs)
 				try:
-					fit = _Fit(self, lambda: self["config"], lambda: len(self["config"].list or []), _itemHeight(self["config"], 54))
+					fit = _Fit(self, lambda: self["config"], lambda: len(self["config"].list or []), _itemHeight(self["config"], 54), SETUP_MIN_ROWS)
 					self._ngFitNow = self._ngFitSetup = fit.run
 				except Exception as err:
 					print("[NileGlass] setup fit:", err)
