@@ -1,63 +1,118 @@
 <skin>
-	<!-- Menus and settings as a panel over the live picture (style option "menus = popup") -->
-	<screen name="Menu" position="40,center" size="800,890" backgroundColor="bg" flags="wfNoBorder">
-		<eLabel position="0,0" size="800,890" backgroundColor="bg" zPosition="-10"/>
-		<eLabel position="0,0" size="800,2" backgroundColor="lineAccent" zPosition="-9"/>
-		<widget source="Title" render="Label" position="30,12" size="570,60" font="Medium;34" foregroundColor="accent" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1"/>
-		<widget source="global.CurrentTime" render="Label" position="610,12" size="160,60" font="Regular;42" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="right" valign="center" noWrap="1">
-			<convert type="ClockToText">Format:%H:%M</convert>
-		</widget>
-		<eLabel position="0,84" size="800,1" backgroundColor="line" zPosition="-9"/>
-		<widget source="menu" render="Listbox" position="60,96" size="680,726" selectionPixmap="NileGlass_FHD/ui/sel_menu.png" scrollbarMode="showOnDemand" scrollbarWidth="6" scrollbarSliderForegroundColor="accent" backgroundColor="bg" foregroundColor="fg" foregroundColorSelected="white" transparent="1">
+	<!-- Menus: rounded panel at the left + system dashboard; settings: rounded panel (style option "menus = popup") -->
+	<screen name="Menu" position="40,center" size="1290,790" backgroundColor="transparent" flags="wfNoBorder">
+		<ePixmap pixmap="NileGlass_FHD/ui/pn_top.png" position="0,0" size="600,24" alphatest="blend" zPosition="-9"/>
+		<eLabel position="0,24" size="600,676" backgroundColor="#0b0f1722" zPosition="-10"/>
+		<ePixmap pixmap="NileGlass_FHD/ui/pn_bot.png" position="0,700" size="600,24" alphatest="blend" zPosition="-9"/>
+		<ePixmap pixmap="NileGlass_FHD/ui/ng_logo.png" position="22,22" size="40,40" alphatest="blend" zPosition="1"/>
+		<widget source="Title" render="Label" position="74,16" size="350,52" font="Medium;30" foregroundColor="accent" backgroundColor="#0b0f1722" transparent="1" halign="left" valign="center" noWrap="1"/>
+		<widget source="global.CurrentTime" render="Label" position="430,16" size="146,52" font="Regular;38" foregroundColor="fg" backgroundColor="#0b0f1722" transparent="1" halign="right" valign="center" noWrap="1"><convert type="ClockToText">Format:%H:%M</convert></widget>
+		<eLabel position="22,82" size="556,1" backgroundColor="line" zPosition="-8"/>
+		<widget source="menu" render="Listbox" position="20,96" size="560,522" selectionPixmap="NileGlass_FHD/ui/sel_pn.png" scrollbarMode="showOnDemand" scrollbarWidth="4" scrollbarSliderForegroundColor="accent" backgroundColor="#0b0f1722" foregroundColor="fg" foregroundColorSelected="white" transparent="1">
 			<convert type="TemplatedMultiContent">
 				{"template": [
-					MultiContentEntryPixmapAlphaBlend(pos=(616, 9), size=(48, 48), png=5),
-					MultiContentEntryText(pos=(20, 0), size=(580, 66), font=0, flags=RT_VALIGN_CENTER, text=0)
+					MultiContentEntryPixmapAlphaBlend(pos=(500, 9), size=(40, 40), png=5, flags=BT_SCALE),
+					MultiContentEntryText(pos=(16, 0), size=(470, 58), font=0, flags=RT_VALIGN_CENTER, text=0)
 				],
-				"fonts": [gFont("Regular", 32)],
-				"itemHeight": 66
+				"fonts": [gFont("Regular", 30)],
+				"itemHeight": 58
 				}
 			</convert>
 		</widget>
-		<eLabel position="0,832" size="800,1" backgroundColor="line" zPosition="-9"/>
-		<widget source="description" render="Label" position="30,840" size="740,44" font="Regular;24" foregroundColor="fgDim" backgroundColor="bg" transparent="1" valign="center" noWrap="1"/>
+		<eLabel position="22,628" size="556,1" backgroundColor="line" zPosition="-8"/>
+		<ePixmap pixmap="NileGlass_FHD/ui/ng_logo.png" position="24,648" size="40,40" alphatest="blend" zPosition="1"/>
+		<eLabel text="NileGlass FHD" position="76,640" size="360,32" font="Medium;26" foregroundColor="fg" backgroundColor="#0b0f1722" transparent="1" halign="left" valign="center" noWrap="1"/>
+		<widget source="session.CurrentService" render="Label" position="76,672" size="180,26" font="Regular;18" foregroundColor="fgDim" backgroundColor="#0b0f1722" transparent="1" halign="left" valign="center" noWrap="1"><convert type="NGSysInfo">Image</convert></widget>
+		<widget source="session.CurrentService" render="Label" position="262,672" size="200,26" font="Regular;18" foregroundColor="fgMute" backgroundColor="#0b0f1722" transparent="1" halign="left" valign="center" noWrap="1"><convert type="NGSysInfo">BoxName</convert></widget>
+		<widget source="session.CurrentService" render="Label" position="462,652" size="114,34" font="Medium;22" foregroundColor="gold" backgroundColor="#0b0f1722" transparent="1" halign="right" valign="center" noWrap="1"><convert type="NGSysInfo">SkinVersion</convert></widget>
+		<ePixmap pixmap="NileGlass_FHD/ui/keybar.png" position="0,738" size="600,52" alphatest="blend" zPosition="-9"/>
+		<ePixmap pixmap="NileGlass_FHD/ui/key_ok.png" position="22,749" size="64,30" alphatest="blend" zPosition="1"/>
+		<eLabel text="فتح" position="94,738" size="90,52" font="Regular;24" foregroundColor="fg" backgroundColor="#0b0f1722" transparent="1" halign="left" valign="center" noWrap="1"/>
+		<ePixmap pixmap="NileGlass_FHD/ui/key_exit.png" position="212,749" size="64,30" alphatest="blend" zPosition="1"/>
+		<eLabel text="رجوع" position="284,738" size="90,52" font="Regular;24" foregroundColor="fg" backgroundColor="#0b0f1722" transparent="1" halign="left" valign="center" noWrap="1"/>
+		<ePixmap pixmap="NileGlass_FHD/ui/key_menu.png" position="400,749" size="64,30" alphatest="blend" zPosition="1"/>
+		<eLabel text="إغلاق" position="472,738" size="110,52" font="Regular;24" foregroundColor="fg" backgroundColor="#0b0f1722" transparent="1" halign="left" valign="center" noWrap="1"/>
+		<ePixmap pixmap="NileGlass_FHD/ui/card_s.png" position="620,0" size="158,96" alphatest="blend" zPosition="-9"/>
+		<eLabel text="الحرارة" position="634,8" size="130,24" font="Regular;18" foregroundColor="fgDim" backgroundColor="#0b0f1722" transparent="1" halign="left" valign="center" noWrap="1"/>
+		<widget source="session.CurrentService" render="Label" position="634,32" size="140,40" font="Medium;32" foregroundColor="gold" backgroundColor="#0b0f1722" transparent="1" halign="left" valign="center" noWrap="1"><convert type="NGSysInfo">CpuTemp</convert></widget>
+		<eLabel text="حساس اللوحة" position="634,68" size="140,22" font="Regular;16" foregroundColor="fgMute" backgroundColor="#0b0f1722" transparent="1" halign="left" valign="center" noWrap="1"/>
+		<ePixmap pixmap="NileGlass_FHD/ui/card_s.png" position="790,0" size="158,96" alphatest="blend" zPosition="-9"/>
+		<eLabel text="المعالج" position="804,8" size="130,24" font="Regular;18" foregroundColor="fgDim" backgroundColor="#0b0f1722" transparent="1" halign="left" valign="center" noWrap="1"/>
+		<widget source="session.CurrentService" render="Label" position="804,32" size="140,40" font="Medium;32" foregroundColor="accent" backgroundColor="#0b0f1722" transparent="1" halign="left" valign="center" noWrap="1"><convert type="NGSysInfo">LoadAvg</convert></widget>
+		<eLabel text="الحمل · دقيقة" position="804,68" size="140,22" font="Regular;16" foregroundColor="fgMute" backgroundColor="#0b0f1722" transparent="1" halign="left" valign="center" noWrap="1"/>
+		<ePixmap pixmap="NileGlass_FHD/ui/card_s.png" position="960,0" size="158,96" alphatest="blend" zPosition="-9"/>
+		<eLabel text="المروحة" position="974,8" size="130,24" font="Regular;18" foregroundColor="fgDim" backgroundColor="#0b0f1722" transparent="1" halign="left" valign="center" noWrap="1"/>
+		<widget source="session.CurrentService" render="Label" position="974,32" size="140,40" font="Medium;32" foregroundColor="fg" backgroundColor="#0b0f1722" transparent="1" halign="left" valign="center" noWrap="1"><convert type="NGSysInfo">Fan</convert></widget>
+		<eLabel text="rpm" position="974,68" size="140,22" font="Regular;16" foregroundColor="fgMute" backgroundColor="#0b0f1722" transparent="1" halign="left" valign="center" noWrap="1"/>
+		<ePixmap pixmap="NileGlass_FHD/ui/card_s.png" position="1130,0" size="158,96" alphatest="blend" zPosition="-9"/>
+		<eLabel text="وقت التشغيل" position="1144,8" size="130,24" font="Regular;18" foregroundColor="fgDim" backgroundColor="#0b0f1722" transparent="1" halign="left" valign="center" noWrap="1"/>
+		<widget source="session.CurrentService" render="Label" position="1144,32" size="140,40" font="Medium;32" foregroundColor="fg" backgroundColor="#0b0f1722" transparent="1" halign="left" valign="center" noWrap="1"><convert type="NGSysInfo">Uptime</convert></widget>
+		<eLabel text="منذ الإقلاع" position="1144,68" size="140,22" font="Regular;16" foregroundColor="fgMute" backgroundColor="#0b0f1722" transparent="1" halign="left" valign="center" noWrap="1"/>
+		<ePixmap pixmap="NileGlass_FHD/ui/card_l.png" position="620,108" size="670,220" alphatest="blend" zPosition="-9"/>
+		<eLabel text="النظام" position="642,118" size="200,28" font="Regular;20" foregroundColor="fgDim" backgroundColor="#0b0f1722" transparent="1" halign="left" valign="center" noWrap="1"/>
+		<widget source="session.CurrentService" render="NGRing" position="642,150" size="130,130" alphatest="blend" zPosition="1"><convert type="NGSysInfo">RamPercent</convert></widget>
+		<widget source="session.CurrentService" render="Label" position="642,190" size="130,36" font="Medium;30" foregroundColor="fg" backgroundColor="#0b0f1722" transparent="1" halign="center" valign="center" noWrap="1" zPosition="2"><convert type="NGSysInfo">RamPercent</convert></widget>
+		<eLabel text="RAM" position="642,224" size="130,22" font="Regular;16" foregroundColor="fgDim" backgroundColor="#0b0f1722" transparent="1" halign="center" valign="center" noWrap="1"/>
+		<widget source="session.CurrentService" render="Label" position="622,288" size="170,28" font="Regular;18" foregroundColor="fgDim" backgroundColor="#0b0f1722" transparent="1" halign="center" valign="center" noWrap="1"><convert type="NGSysInfo">RamMB</convert></widget>
+		<eLabel text="الفلاش" position="810,150" size="120,30" font="Medium;22" foregroundColor="fg" backgroundColor="#0b0f1722" transparent="1" halign="left" valign="center" noWrap="1"/>
+		<widget source="session.CurrentService" render="Label" position="1046,150" size="220,30" font="Regular;20" foregroundColor="fgDim" backgroundColor="#0b0f1722" transparent="1" halign="right" valign="center" noWrap="1"><convert type="NGSysInfo">FlashFree</convert></widget>
+		<ePixmap pixmap="NileGlass_FHD/ui/bar_track.png" position="810,186" size="456,8" alphatest="blend" zPosition="-8"/>
+		<widget source="session.CurrentService" render="Progress" position="810,186" size="456,8" pixmap="NileGlass_FHD/ui/bar_gold.png" transparent="1" zPosition="1"><convert type="NGSysInfo">FlashPercent</convert></widget>
+		<eLabel text="الهارد" position="810,210" size="120,30" font="Medium;22" foregroundColor="fg" backgroundColor="#0b0f1722" transparent="1" halign="left" valign="center" noWrap="1"/>
+		<widget source="session.CurrentService" render="Label" position="1046,210" size="220,30" font="Regular;20" foregroundColor="fgDim" backgroundColor="#0b0f1722" transparent="1" halign="right" valign="center" noWrap="1"><convert type="NGSysInfo">HddFreeOnly</convert></widget>
+		<ePixmap pixmap="NileGlass_FHD/ui/bar_track.png" position="810,246" size="456,8" alphatest="blend" zPosition="-8"/>
+		<widget source="session.CurrentService" render="Progress" position="810,246" size="456,8" pixmap="NileGlass_FHD/ui/bar_green.png" transparent="1" zPosition="1"><convert type="NGSysInfo">HddPercent</convert></widget>
+		<eLabel text="USB" position="810,270" size="120,30" font="Medium;22" foregroundColor="fg" backgroundColor="#0b0f1722" transparent="1" halign="left" valign="center" noWrap="1"/>
+		<widget source="session.CurrentService" render="Label" position="1046,270" size="220,30" font="Regular;20" foregroundColor="fgDim" backgroundColor="#0b0f1722" transparent="1" halign="right" valign="center" noWrap="1"><convert type="NGSysInfo">UsbFree</convert></widget>
+		<ePixmap pixmap="NileGlass_FHD/ui/bar_track.png" position="810,306" size="456,8" alphatest="blend" zPosition="-8"/>
+		<widget source="session.CurrentService" render="Progress" position="810,306" size="456,8" pixmap="NileGlass_FHD/ui/bar_white.png" transparent="1" zPosition="1"><convert type="NGSysInfo">UsbPercent</convert></widget>
+		<ePixmap pixmap="NileGlass_FHD/ui/card_m.png" position="620,340" size="670,124" alphatest="blend" zPosition="-9"/>
+		<eLabel text="الشبكة" position="642,350" size="160,26" font="Regular;20" foregroundColor="fgDim" backgroundColor="#0b0f1722" transparent="1" halign="left" valign="center" noWrap="1"/>
+		<widget source="session.CurrentService" render="Label" position="800,350" size="180,26" font="Regular;18" foregroundColor="green" backgroundColor="#0b0f1722" transparent="1" halign="left" valign="center" noWrap="1"><convert type="NGSysInfo">Online</convert></widget>
+		<widget source="session.CurrentService" render="Label" position="642,382" size="330,44" font="Medium;34" foregroundColor="fg" backgroundColor="#0b0f1722" transparent="1" halign="left" valign="center" noWrap="1"><convert type="NGSysInfo">IP</convert></widget>
+		<widget source="session.CurrentService" render="Label" position="642,428" size="330,26" font="Regular;18" foregroundColor="fgDim" backgroundColor="#0b0f1722" transparent="1" halign="left" valign="center" noWrap="1"><convert type="NGSysInfo">NetType</convert></widget>
+		<eLabel position="988,354" size="1,96" backgroundColor="line" zPosition="-8"/>
+		<eLabel text="تحميل" position="1006,350" size="130,26" font="Regular;18" foregroundColor="fgDim" backgroundColor="#0b0f1722" transparent="1" halign="left" valign="center" noWrap="1"/>
+		<widget source="session.CurrentService" render="Label" position="1006,382" size="140,40" font="Medium;24" foregroundColor="accent" backgroundColor="#0b0f1722" transparent="1" halign="left" valign="center" noWrap="1"><convert type="NGSysInfo">NetDown</convert></widget>
+		<eLabel text="رفع" position="1150,350" size="130,26" font="Regular;18" foregroundColor="fgDim" backgroundColor="#0b0f1722" transparent="1" halign="left" valign="center" noWrap="1"/>
+		<widget source="session.CurrentService" render="Label" position="1150,382" size="136,40" font="Medium;24" foregroundColor="gold" backgroundColor="#0b0f1722" transparent="1" halign="left" valign="center" noWrap="1"><convert type="NGSysInfo">NetUp</convert></widget>
 	</screen>
-	<screen name="Setup" position="40,center" size="1280,910" backgroundColor="bg" flags="wfNoBorder">
-		<eLabel position="0,0" size="1280,910" backgroundColor="bg" zPosition="-10"/>
-		<eLabel position="0,0" size="1280,2" backgroundColor="lineAccent" zPosition="-9"/>
-		<widget source="Title" render="Label" position="30,12" size="1050,60" font="Medium;34" foregroundColor="accent" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1"/>
-		<widget source="global.CurrentTime" render="Label" position="1090,12" size="160,60" font="Regular;42" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="right" valign="center" noWrap="1">
-			<convert type="ClockToText">Format:%H:%M</convert>
-		</widget>
-		<eLabel position="0,84" size="1280,1" backgroundColor="line" zPosition="-9"/>
-		<widget name="config" position="40,96" size="1200,594" itemHeight="54" font="Regular;30" secondfont="Regular;30" foregroundColor="fg" backgroundColor="bg" foregroundColorSelected="white" backgroundColorSelected="bgSel" selectionPixmap="NileGlass_FHD/ui/sel_list.png" scrollbarMode="showOnDemand" scrollbarWidth="6" scrollbarSliderForegroundColor="accent" separatorLineColor="#40ffffff" separatorLineSize="1" transparent="1"/>
-		<eLabel position="0,700" size="1280,1" backgroundColor="line" zPosition="-9"/>
-		<widget name="description" position="40,708" size="1200,96" font="Regular;26" foregroundColor="fgDim" backgroundColor="bg" transparent="1"/>
-		<widget name="footnote" position="40,806" size="1200,40" font="Regular;24" foregroundColor="gold" backgroundColor="bg" transparent="1" noWrap="1"/>
-		<ePixmap pixmap="NileGlass_FHD/buttons/red_k260.png" position="40,856" size="260,38" alphatest="blend" conditional="key_red"/>
-		<widget name="key_red" position="40,856" size="260,38" font="Medium;22" foregroundColor="white" backgroundColor="black" transparent="1" halign="center" valign="center" noWrap="1" zPosition="1" objectTypes="key_red,Button,Label"/>
-		<widget source="key_red" render="Label" position="40,856" size="260,38" font="Medium;22" foregroundColor="white" backgroundColor="black" transparent="1" halign="center" valign="center" noWrap="1" zPosition="1" objectTypes="key_red,StaticText"/>
-		<ePixmap pixmap="NileGlass_FHD/buttons/green_k260.png" position="353,856" size="260,38" alphatest="blend" conditional="key_green"/>
-		<widget name="key_green" position="353,856" size="260,38" font="Medium;22" foregroundColor="white" backgroundColor="black" transparent="1" halign="center" valign="center" noWrap="1" zPosition="1" objectTypes="key_green,Button,Label"/>
-		<widget source="key_green" render="Label" position="353,856" size="260,38" font="Medium;22" foregroundColor="white" backgroundColor="black" transparent="1" halign="center" valign="center" noWrap="1" zPosition="1" objectTypes="key_green,StaticText"/>
-		<ePixmap pixmap="NileGlass_FHD/buttons/yellow_k260.png" position="666,856" size="260,38" alphatest="blend" conditional="key_yellow"/>
-		<widget name="key_yellow" position="666,856" size="260,38" font="Medium;22" foregroundColor="white" backgroundColor="black" transparent="1" halign="center" valign="center" noWrap="1" zPosition="1" objectTypes="key_yellow,Button,Label"/>
-		<widget source="key_yellow" render="Label" position="666,856" size="260,38" font="Medium;22" foregroundColor="white" backgroundColor="black" transparent="1" halign="center" valign="center" noWrap="1" zPosition="1" objectTypes="key_yellow,StaticText"/>
-		<ePixmap pixmap="NileGlass_FHD/buttons/blue_k260.png" position="979,856" size="260,38" alphatest="blend" conditional="key_blue"/>
-		<widget name="key_blue" position="979,856" size="260,38" font="Medium;22" foregroundColor="white" backgroundColor="black" transparent="1" halign="center" valign="center" noWrap="1" zPosition="1" objectTypes="key_blue,Button,Label"/>
-		<widget source="key_blue" render="Label" position="979,856" size="260,38" font="Medium;22" foregroundColor="white" backgroundColor="black" transparent="1" halign="center" valign="center" noWrap="1" zPosition="1" objectTypes="key_blue,StaticText"/>
+	<screen name="Setup" position="40,center" size="1280,910" backgroundColor="transparent" flags="wfNoBorder">
+		<ePixmap pixmap="NileGlass_FHD/ui/pn_top_w.png" position="0,0" size="1280,24" alphatest="blend" zPosition="-9"/>
+		<eLabel position="0,24" size="1280,862" backgroundColor="#0b0f1722" zPosition="-10"/>
+		<ePixmap pixmap="NileGlass_FHD/ui/pn_bot_w.png" position="0,886" size="1280,24" alphatest="blend" zPosition="-9"/>
+		<ePixmap pixmap="NileGlass_FHD/ui/ng_logo.png" position="22,22" size="40,40" alphatest="blend" zPosition="1"/>
+		<widget source="Title" render="Label" position="74,16" size="1030,52" font="Medium;30" foregroundColor="accent" backgroundColor="#0b0f1722" transparent="1" halign="left" valign="center" noWrap="1"/>
+		<widget source="global.CurrentTime" render="Label" position="1110,16" size="146,52" font="Regular;38" foregroundColor="fg" backgroundColor="#0b0f1722" transparent="1" halign="right" valign="center" noWrap="1"><convert type="ClockToText">Format:%H:%M</convert></widget>
+		<eLabel position="22,82" size="1236,1" backgroundColor="line" zPosition="-8"/>
+		<widget name="config" position="40,96" size="1200,594" itemHeight="54" font="Regular;30" secondfont="Regular;28" selectionPixmap="NileGlass_FHD/ui/sel_list.png" scrollbarMode="showOnDemand" scrollbarWidth="4" scrollbarSliderForegroundColor="accent" backgroundColor="#0b0f1722" foregroundColor="fg" foregroundColorSelected="white" transparent="1" enableWrapAround="1"/>
+		<eLabel position="22,698" size="1236,1" backgroundColor="line" zPosition="-8"/>
+		<widget name="description" position="40,704" size="1200,90" font="Regular;26" foregroundColor="fgDim" backgroundColor="#0b0f1722" transparent="1"/>
+		<widget name="footnote" position="40,796" size="1200,34" font="Regular;22" foregroundColor="gold" backgroundColor="#0b0f1722" transparent="1" noWrap="1"/>
+		<ePixmap pixmap="NileGlass_FHD/buttons/red_k260.png" position="40,842" size="260,38" alphatest="blend" conditional="key_red"/>
+		<widget name="key_red" position="40,842" size="260,38" font="Medium;22" foregroundColor="white" backgroundColor="black" transparent="1" halign="center" valign="center" noWrap="1" zPosition="1" objectTypes="key_red,Button,Label"/>
+		<widget source="key_red" render="Label" position="40,842" size="260,38" font="Medium;22" foregroundColor="white" backgroundColor="black" transparent="1" halign="center" valign="center" noWrap="1" zPosition="1" objectTypes="key_red,StaticText"/>
+		<ePixmap pixmap="NileGlass_FHD/buttons/green_k260.png" position="353,842" size="260,38" alphatest="blend" conditional="key_green"/>
+		<widget name="key_green" position="353,842" size="260,38" font="Medium;22" foregroundColor="white" backgroundColor="black" transparent="1" halign="center" valign="center" noWrap="1" zPosition="1" objectTypes="key_green,Button,Label"/>
+		<widget source="key_green" render="Label" position="353,842" size="260,38" font="Medium;22" foregroundColor="white" backgroundColor="black" transparent="1" halign="center" valign="center" noWrap="1" zPosition="1" objectTypes="key_green,StaticText"/>
+		<ePixmap pixmap="NileGlass_FHD/buttons/yellow_k260.png" position="666,842" size="260,38" alphatest="blend" conditional="key_yellow"/>
+		<widget name="key_yellow" position="666,842" size="260,38" font="Medium;22" foregroundColor="white" backgroundColor="black" transparent="1" halign="center" valign="center" noWrap="1" zPosition="1" objectTypes="key_yellow,Button,Label"/>
+		<widget source="key_yellow" render="Label" position="666,842" size="260,38" font="Medium;22" foregroundColor="white" backgroundColor="black" transparent="1" halign="center" valign="center" noWrap="1" zPosition="1" objectTypes="key_yellow,StaticText"/>
+		<ePixmap pixmap="NileGlass_FHD/buttons/blue_k260.png" position="979,842" size="260,38" alphatest="blend" conditional="key_blue"/>
+		<widget name="key_blue" position="979,842" size="260,38" font="Medium;22" foregroundColor="white" backgroundColor="black" transparent="1" halign="center" valign="center" noWrap="1" zPosition="1" objectTypes="key_blue,Button,Label"/>
+		<widget source="key_blue" render="Label" position="979,842" size="260,38" font="Medium;22" foregroundColor="white" backgroundColor="black" transparent="1" halign="center" valign="center" noWrap="1" zPosition="1" objectTypes="key_blue,StaticText"/>
 	</screen>
-	<screen name="menu_mainmenu" position="40,center" size="800,890" backgroundColor="bg" flags="wfNoBorder"><panel name="Menu"/></screen>
-	<screen name="menu_setup" position="40,center" size="800,890" backgroundColor="bg" flags="wfNoBorder"><panel name="Menu"/></screen>
-	<screen name="menu_system" position="40,center" size="800,890" backgroundColor="bg" flags="wfNoBorder"><panel name="Menu"/></screen>
-	<screen name="menu_information" position="40,center" size="800,890" backgroundColor="bg" flags="wfNoBorder"><panel name="Menu"/></screen>
-	<screen name="menu_shutdown" position="40,center" size="800,890" backgroundColor="bg" flags="wfNoBorder"><panel name="Menu"/></screen>
-	<screen name="menu_timermenu" position="40,center" size="800,890" backgroundColor="bg" flags="wfNoBorder"><panel name="Menu"/></screen>
-	<screen name="menu_scan" position="40,center" size="800,890" backgroundColor="bg" flags="wfNoBorder"><panel name="Menu"/></screen>
-	<screen name="menu_network" position="40,center" size="800,890" backgroundColor="bg" flags="wfNoBorder"><panel name="Menu"/></screen>
-	<screen name="menu_harddisk" position="40,center" size="800,890" backgroundColor="bg" flags="wfNoBorder"><panel name="Menu"/></screen>
-	<screen name="menu_backupscreen" position="40,center" size="800,890" backgroundColor="bg" flags="wfNoBorder"><panel name="Menu"/></screen>
-	<screen name="menu_epg" position="40,center" size="800,890" backgroundColor="bg" flags="wfNoBorder"><panel name="Menu"/></screen>
-	<screen name="menu_osd_menu" position="40,center" size="800,890" backgroundColor="bg" flags="wfNoBorder"><panel name="Menu"/></screen>
-	<screen name="menu_video" position="40,center" size="800,890" backgroundColor="bg" flags="wfNoBorder"><panel name="Menu"/></screen>
+	<screen name="menu_mainmenu" position="40,center" size="1290,790" backgroundColor="transparent" flags="wfNoBorder"><panel name="Menu"/></screen>
+	<screen name="menu_setup" position="40,center" size="1290,790" backgroundColor="transparent" flags="wfNoBorder"><panel name="Menu"/></screen>
+	<screen name="menu_system" position="40,center" size="1290,790" backgroundColor="transparent" flags="wfNoBorder"><panel name="Menu"/></screen>
+	<screen name="menu_information" position="40,center" size="1290,790" backgroundColor="transparent" flags="wfNoBorder"><panel name="Menu"/></screen>
+	<screen name="menu_shutdown" position="40,center" size="1290,790" backgroundColor="transparent" flags="wfNoBorder"><panel name="Menu"/></screen>
+	<screen name="menu_timermenu" position="40,center" size="1290,790" backgroundColor="transparent" flags="wfNoBorder"><panel name="Menu"/></screen>
+	<screen name="menu_scan" position="40,center" size="1290,790" backgroundColor="transparent" flags="wfNoBorder"><panel name="Menu"/></screen>
+	<screen name="menu_network" position="40,center" size="1290,790" backgroundColor="transparent" flags="wfNoBorder"><panel name="Menu"/></screen>
+	<screen name="menu_harddisk" position="40,center" size="1290,790" backgroundColor="transparent" flags="wfNoBorder"><panel name="Menu"/></screen>
+	<screen name="menu_backupscreen" position="40,center" size="1290,790" backgroundColor="transparent" flags="wfNoBorder"><panel name="Menu"/></screen>
+	<screen name="menu_epg" position="40,center" size="1290,790" backgroundColor="transparent" flags="wfNoBorder"><panel name="Menu"/></screen>
+	<screen name="menu_osd_menu" position="40,center" size="1290,790" backgroundColor="transparent" flags="wfNoBorder"><panel name="Menu"/></screen>
+	<screen name="menu_video" position="40,center" size="1290,790" backgroundColor="transparent" flags="wfNoBorder"><panel name="Menu"/></screen>
 </skin>

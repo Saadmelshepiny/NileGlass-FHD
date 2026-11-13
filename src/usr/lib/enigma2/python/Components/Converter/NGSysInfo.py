@@ -9,8 +9,10 @@
 #   </widget>
 #
 # Text types : CpuTemp, CpuLoad, RamUsed, RamPercent, FlashFree, HddFree,
-#              Uptime, IP, BoxName, Image
-# Value types: CpuLoad, RamPercent, FlashPercent, HddPercent (0..100, for Progress)
+#              Uptime, IP, BoxName, Image,
+#              LoadAvg, Fan, RamMB, HddFreeOnly, UsbFree, NetDown, NetUp,
+#              NetType, Online, SkinVersion
+# Value types: CpuLoad, RamPercent, FlashPercent, HddPercent, UsbPercent (0..100)
 #
 # Everything is read from /proc or with statvfs on local disks only - no
 # subprocesses, no network shares (a sleeping NAS would freeze the UI).
@@ -150,15 +152,79 @@ def imageName():
 		return "OpenBh"
 
 
+def loadAvg():
+	v = _readFirstLine("/proc/loadavg").split()
+	return v[0] if v else ""
+
+
+def fanSpeed():
+	for path in ("/proc/stb/fp/fan_speed", "/proc/stb/fp/fanspeed"):
+		v = _readFirstLine(path)
+		if v:
+			return v.replace("RPM", "").strip()
+	return "N/A"
+
+
+_net = {"t": 0.0, "rx": 0, "tx": 0, "down": 0, "up": 0}
+
+
+def netRates():
+	"""Download / upload of the whole box in kbit/s (shared, at most every 2 s)."""
+	now = time.monotonic()
+	if now - _net["t"] < 1.5:
+		return _net["down"], _net["up"]
+	rx = tx = 0
+	try:
+		with open("/proc/net/dev") as f:
+			for line in f.readlines()[2:]:
+				name, data = line.split(":", 1)
+				if name.strip() != "lo":
+					d = data.split()
+					rx += int(d[0])
+					tx += int(d[8])
+	except Exception:
+		return 0, 0
+	dt = now - _net["t"]
+	if _net["t"] and dt > 0 and rx >= _net["rx"] and tx >= _net["tx"]:
+		_net["down"] = int((rx - _net["rx"]) * 8 / 1000.0 / dt)
+		_net["up"] = int((tx - _net["tx"]) * 8 / 1000.0 / dt)
+	_net.update(t=now, rx=rx, tx=tx)
+	return _net["down"], _net["up"]
+
+
+def kbits(v):
+	return "%.1f Mbit/s" % (v / 1000.0) if v >= 1000 else "%d kbit/s" % v
+
+
+def netType():
+	for ifname, label in (("eth0", "Ethernet"), ("wlan0", "Wi-Fi"), ("eth1", "Ethernet"), ("wlan1", "Wi-Fi"), ("ra0", "Wi-Fi")):
+		if _readFirstLine("/sys/class/net/%s/operstate" % ifname) == "up":
+			return "%s · %s" % (label, ifname)
+	return ""
+
+
+def usbPath():
+	try:
+		for name in sorted(os.listdir("/media")):
+			p = "/media/" + name
+			if name.startswith("usb") and os.path.isdir(p) and isLocalMount(p):
+				return p
+	except Exception:
+		pass
+	return None
+
+
 class NGSysInfo(Poll, Converter):
-	SLOW_TYPES = ("FlashFree", "HddFree", "FlashPercent", "HddPercent", "IP", "BoxName", "Image")
+	SLOW_TYPES = ("FlashFree", "HddFree", "FlashPercent", "HddPercent", "IP", "BoxName", "Image",
+		"HddFreeOnly", "UsbFree", "UsbPercent", "NetType", "Online", "SkinVersion")
+	FAST_TYPES = ("NetDown", "NetUp")
 
 	def __init__(self, type):
 		Converter.__init__(self, type)
 		Poll.__init__(self)
 		self.type = (type or "CpuTemp").strip()
-		self.poll_interval = 30000 if self.type in self.SLOW_TYPES else 5000
-		self.poll_enabled = self.type not in ("BoxName", "Image")
+		self.poll_interval = 30000 if self.type in self.SLOW_TYPES else 2000 if self.type in self.FAST_TYPES else 5000
+		self.poll_enabled = self.type not in ("BoxName", "Image", "SkinVersion")
 		self._static = None
 
 	def _hddPath(self):
@@ -195,6 +261,33 @@ class NGSysInfo(Poll, Converter):
 			return uptime()
 		if t == "IP":
 			return ipAddress()
+		if t == "LoadAvg":
+			return loadAvg()
+		if t == "Fan":
+			return fanSpeed()
+		if t == "RamMB":
+			total, used = memInfo()
+			return "%d / %d MB" % (used // 1024, total // 1024) if total else ""
+		if t == "HddFreeOnly":
+			p = self._hddPath()
+			total, free = diskInfo(p) if p else (0, 0)
+			return human(free) if total else "—"
+		if t == "UsbFree":
+			p = usbPath()
+			total, free = diskInfo(p) if p else (0, 0)
+			return human(free) if total else "—"
+		if t in ("NetDown", "NetUp"):
+			down, up = netRates()
+			return kbits(down if t == "NetDown" else up)
+		if t == "NetType":
+			return netType()
+		if t == "Online":
+			return "متصل" if ipAddress() else "غير متصل"
+		if t == "SkinVersion":
+			if self._static is None:
+				v = _readFirstLine("/usr/share/enigma2/NileGlass_FHD/version.txt")
+				self._static = ("v" + v) if v else ""
+			return self._static
 		if t in ("BoxName", "Image"):
 			if self._static is None:
 				self._static = boxName() if t == "BoxName" else imageName()
@@ -216,6 +309,12 @@ class NGSysInfo(Poll, Converter):
 			return int(round(100 * (total - free) / total)) if total else 0
 		if t == "HddPercent":
 			p = self._hddPath()
+			if p:
+				total, free = diskInfo(p)
+				return int(round(100 * (total - free) / total)) if total else 0
+			return 0
+		if t == "UsbPercent":
+			p = usbPath()
 			if p:
 				total, free = diskInfo(p)
 				return int(round(100 * (total - free) / total)) if total else 0

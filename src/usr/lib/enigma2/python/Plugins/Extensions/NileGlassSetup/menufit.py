@@ -160,7 +160,7 @@ def install():
 			def __init__(self, *args, **kwargs):
 				original(self, *args, **kwargs)
 				try:
-					fit = _Fit(self, lambda: _menuList(self), lambda: len(self["menu"].list or []), 66, MENU_MIN_ROWS)
+					fit = _Fit(self, lambda: _menuList(self), lambda: len(self["menu"].list or []), 58, MENU_MIN_ROWS)
 					self._ngFitNow = fit.run
 				except Exception as err:
 					print("[NileGlass] menu fit:", err)

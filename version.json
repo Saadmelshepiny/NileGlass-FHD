@@ -1,12 +1,12 @@
 {
-  "version": "2.7.6",
-  "ipk": "https://raw.githubusercontent.com/Saadmelshepiny/NileGlass-FHD/main/releases/enigma2-plugin-skins-nileglass-fhd_2.7.6_all.ipk",
-  "sha256": "104349e7bbecc8f3aac66cc5e54555c6bbdd4843d8484b24112f11ec366925a6",
-  "notes_ar": "شاشات الشبكة (ضبط الشبكة، إعدادات المحول، مجلدات الشبكة، خدمات الشبكة) بقت لوحة فوق القناة بسطور واسعة وواضحة.",
-  "notes_en": "Network screens (setup menu, adapter settings, mounts, services) as left panels with roomy rows.",
+  "version": "2.8.0",
+  "ipk": "https://raw.githubusercontent.com/Saadmelshepiny/NileGlass-FHD/main/releases/enigma2-plugin-skins-nileglass-fhd_2.8.0_all.ipk",
+  "sha256": "6a540aad73704cde01fadb7b1d42b69dfcb5d10087eca9cbbb224782845dfb02",
+  "notes_ar": "شكل جديد للقوائم: لوحة مستديرة على اليسار بشريط أزرار وتذييل، وجنبها لوحة معلومات (الحرارة، المعالج، المروحة، وقت التشغيل، دائرة الذاكرة، الفلاش والهارد وUSB، الشبكة والسرعة). وشاشات الإعدادات لوحة مستديرة بنفس الأسلوب.",
+  "notes_en": "New menu look: rounded left panel with footer and key bar, plus a system dashboard (temperature, CPU load, fan, uptime, RAM ring, flash/HDD/USB, network and speeds). Settings screens use the same rounded panel.",
   "previous": {
-    "version": "2.7.5",
-    "ipk": "https://raw.githubusercontent.com/Saadmelshepiny/NileGlass-FHD/main/releases/enigma2-plugin-skins-nileglass-fhd_2.7.5_all.ipk",
-    "sha256": "e9c4cb2a701189d9b2fac57e2fa4ceb51398fd1f92794f08b028a657dbef2836"
+    "version": "2.7.6",
+    "ipk": "https://raw.githubusercontent.com/Saadmelshepiny/NileGlass-FHD/main/releases/enigma2-plugin-skins-nileglass-fhd_2.7.6_all.ipk",
+    "sha256": "104349e7bbecc8f3aac66cc5e54555c6bbdd4843d8484b24112f11ec366925a6"
   }
 }
