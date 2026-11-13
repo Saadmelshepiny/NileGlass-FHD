@@ -1,7 +1,6 @@
 <skin>
 	<screen name="SecondInfoBar" position="0,0" size="1920,1080" backgroundColor="transparent" flags="wfNoBorder">
-		<eLabel position="0,0" size="1920,1080" backgroundColor="bg" zPosition="-10"/>
-		<eLabel position="0,0" size="1920,2" backgroundColor="lineAccent" zPosition="-9"/>
+		<eLabel position="12,6" size="1896,1068" backgroundColor="bg" zPosition="-10" cornerRadius="24"/>
 
 		<!-- header: channel -->
 		<widget source="session.CurrentService" render="Picon" position="40,22" size="150,90" alphatest="blend">
@@ -28,7 +27,7 @@
 		<widget source="global.CurrentTime" render="Label" position="1300,78" size="580,34" font="Regular;24" foregroundColor="gold" backgroundColor="bg" transparent="1" halign="right" noWrap="1">
 			<convert type="ClockToText">Format:%A %d %B %Y</convert><convert type="NGHijri">Append</convert>
 		</widget>
-		<eLabel position="0,120" size="1920,1" backgroundColor="line"/>
+		<eLabel position="36,120" size="1848,1" backgroundColor="line"/>
 
 		<!-- running programme: poster + film card -->
 		<widget source="session.Event_Now" render="NGPoster" position="40,134" size="360,540" delay="0" fallback="NileGlass_FHD/ui/noposter.png" borderWidth="2" borderColor="posterBorder" zPosition="2"/>
@@ -90,7 +89,7 @@
 		<widget source="session.CurrentService" render="Label" position="1750,636" size="130,30" font="Regular;22" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="right" noWrap="1">
 			<convert type="ServiceInfo">Sid</convert><convert type="NGStream"/>
 		</widget>
-		<eLabel position="0,700" size="1920,1" backgroundColor="line"/>
+		<eLabel position="36,700" size="1848,1" backgroundColor="line"/>
 
 		<!-- coming programmes with posters -->
 		<eLabel text="البرامج القادمة" position="40,704" size="600,36" font="ArabicBold;26" foregroundColor="accent" backgroundColor="bg" transparent="1" halign="left"/>

@@ -523,10 +523,10 @@ def buildXml(style, skinDir=SKIN_DIR, language=None):
 		<color name="bgSelNow" value="#{dark}"/>
 		<color name="lineAccent" value="#58{line}"/>
 		<color name="posterBorder" value="#50{line}"/>
-		<color name="background" value="#{bgA}0b0d10"/>
-		<color name="bg" value="#{bgA}0b0d10"/>
-		<color name="bgDeep" value="#{deepA}060709"/>
-		<color name="bgCard" value="#{cardA}161a20"/>
+		<color name="background" value="#{bgA}0f1722"/>
+		<color name="bg" value="#{bgA}0f1722"/>
+		<color name="bgDeep" value="#{deepA}0b1119"/>
+		<color name="bgCard" value="#{cardA}1a2535"/>
 		<color name="fg" value="#00{fg}"/>
 		<color name="foreground" value="#00{fg}"/>
 		<color name="fgDim" value="#00{fgDim}"/>

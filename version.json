@@ -1,12 +1,12 @@
 {
-  "version": "2.8.0",
-  "ipk": "https://raw.githubusercontent.com/Saadmelshepiny/NileGlass-FHD/main/releases/enigma2-plugin-skins-nileglass-fhd_2.8.0_all.ipk",
-  "sha256": "6a540aad73704cde01fadb7b1d42b69dfcb5d10087eca9cbbb224782845dfb02",
-  "notes_ar": "شكل جديد للقوائم: لوحة مستديرة على اليسار بشريط أزرار وتذييل، وجنبها لوحة معلومات (الحرارة، المعالج، المروحة، وقت التشغيل، دائرة الذاكرة، الفلاش والهارد وUSB، الشبكة والسرعة). وشاشات الإعدادات لوحة مستديرة بنفس الأسلوب.",
-  "notes_en": "New menu look: rounded left panel with footer and key bar, plus a system dashboard (temperature, CPU load, fan, uptime, RAM ring, flash/HDD/USB, network and speeds). Settings screens use the same rounded panel.",
+  "version": "2.8.1",
+  "ipk": "https://raw.githubusercontent.com/Saadmelshepiny/NileGlass-FHD/main/releases/enigma2-plugin-skins-nileglass-fhd_2.8.1_all.ipk",
+  "sha256": "ba809e8396c8b7a9e9598f5c74cbe7d080a6cdb514c5e56992d989eb3dd2924b",
+  "notes_ar": "كل الشاشات والنوافذ والانفوبار الأول والثاني بقت بنفس شكل القوائم: لوحات كحلي بأركان مستديرة وخطوط داخلية وتحديد مستدير. لوحة القائمة: اتشال مربع المروحة، ومربع الشبكة بيعرف الـIP ونوع الاتصال على أي واجهة، وحالة الاتصال أخضر/أحمر.",
+  "notes_en": "Every screen, popup and both infobars now share the menu look: rounded navy panels, inset lines, rounded selection. Menu dashboard: fan card removed; network card finds the IP and link on any interface, status green/red.",
   "previous": {
-    "version": "2.7.6",
-    "ipk": "https://raw.githubusercontent.com/Saadmelshepiny/NileGlass-FHD/main/releases/enigma2-plugin-skins-nileglass-fhd_2.7.6_all.ipk",
-    "sha256": "104349e7bbecc8f3aac66cc5e54555c6bbdd4843d8484b24112f11ec366925a6"
+    "version": "2.8.0",
+    "ipk": "https://raw.githubusercontent.com/Saadmelshepiny/NileGlass-FHD/main/releases/enigma2-plugin-skins-nileglass-fhd_2.8.0_all.ipk",
+    "sha256": "6a540aad73704cde01fadb7b1d42b69dfcb5d10087eca9cbbb224782845dfb02"
   }
 }

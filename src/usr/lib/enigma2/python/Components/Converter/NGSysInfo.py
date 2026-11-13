@@ -106,18 +106,56 @@ def human(n):
 		n /= 1024.0
 
 
+def interfaces():
+	"""Network interfaces of the box, wired first (any name: eth0, end0, enp1s0, wlan0, ra0 ...)."""
+	try:
+		names = [n for n in os.listdir("/sys/class/net") if n != "lo" and not n.startswith(("sit", "tun", "tap", "dummy", "ip6", "gre", "ifb", "veth", "docker", "can"))]
+	except Exception:
+		names = ["eth0", "wlan0", "eth1", "wlan1", "ra0"]
+	return sorted(names, key=lambda n: (_isWifi(n), n))
+
+
+def _isWifi(name):
+	return name.startswith(("wl", "ra", "wifi", "ath")) or os.path.isdir("/sys/class/net/%s/wireless" % name)
+
+
+def _ifAddress(ifname):
+	s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+	try:
+		packed = fcntl.ioctl(s.fileno(), 0x8915, struct.pack("256s", ifname[:15].encode()))  # SIOCGIFADDR
+		return socket.inet_ntoa(packed[20:24])
+	except Exception:
+		return ""
+	finally:
+		s.close()
+
+
+def _routeAddress():
+	"""Address the box would use to reach the internet (no packet is sent)."""
+	s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+	try:
+		s.connect(("8.8.8.8", 53))
+		ip = s.getsockname()[0]
+		return "" if ip.startswith("0.") else ip
+	except Exception:
+		return ""
+	finally:
+		s.close()
+
+
+def _ifUp(ifname):
+	state = _readFirstLine("/sys/class/net/%s/operstate" % ifname)
+	if state == "up":
+		return True
+	return state in ("unknown", "dormant", "") and _readFirstLine("/sys/class/net/%s/carrier" % ifname) == "1"
+
+
 def ipAddress():
-	for ifname in ("eth0", "wlan0", "eth1", "wlan1", "ra0"):
-		try:
-			s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-			try:
-				addr = fcntl.ioctl(s.fileno(), 0x8915, struct.pack("256s", ifname[:15].encode()))[20:24]  # SIOCGIFADDR
-			finally:
-				s.close()
-			return socket.inet_ntoa(addr)
-		except Exception:
-			continue
-	return ""
+	for ifname in interfaces():
+		ip = _ifAddress(ifname)
+		if ip and not ip.startswith("127."):
+			return ip
+	return _routeAddress()
 
 
 def uptime():
@@ -197,9 +235,9 @@ def kbits(v):
 
 
 def netType():
-	for ifname, label in (("eth0", "Ethernet"), ("wlan0", "Wi-Fi"), ("eth1", "Ethernet"), ("wlan1", "Wi-Fi"), ("ra0", "Wi-Fi")):
-		if _readFirstLine("/sys/class/net/%s/operstate" % ifname) == "up":
-			return "%s · %s" % (label, ifname)
+	for ifname in interfaces():
+		if _ifUp(ifname) or _ifAddress(ifname):
+			return "%s · %s" % ("Wi-Fi" if _isWifi(ifname) else "Ethernet", ifname)
 	return ""
 
 
@@ -282,7 +320,7 @@ class NGSysInfo(Poll, Converter):
 		if t == "NetType":
 			return netType()
 		if t == "Online":
-			return "متصل" if ipAddress() else "غير متصل"
+			return "متصل" if self.getBoolean() else "غير متصل"
 		if t == "SkinVersion":
 			if self._static is None:
 				v = _readFirstLine("/usr/share/enigma2/NileGlass_FHD/version.txt")
@@ -325,4 +363,12 @@ class NGSysInfo(Poll, Converter):
 		return 0
 
 	value = property(getValue)
+
+	@cached
+	def getBoolean(self):
+		if self.type == "Online":
+			return bool(ipAddress()) or any(_ifUp(n) for n in interfaces())
+		return bool(self.getValue())
+
+	boolean = property(getBoolean)
 	range = 100

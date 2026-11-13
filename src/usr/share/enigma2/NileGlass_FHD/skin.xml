@@ -19,10 +19,10 @@
 
 	<colors>
 		<color name="transparent" value="#ff000000"/>
-		<color name="background" value="#1a0b0d10"/>
-		<color name="bg" value="#1a0b0d10"/>
-		<color name="bgDeep" value="#12060709"/>
-		<color name="bgCard" value="#30161a20"/>
+		<color name="background" value="#1a0f1722"/>
+		<color name="bg" value="#1a0f1722"/>
+		<color name="bgDeep" value="#120b1119"/>
+		<color name="bgCard" value="#301a2535"/>
 		<color name="bgBar" value="#38808a96"/>
 		<color name="bgSel" value="#1f5fa8"/>
 		<color name="foreground" value="#eef1f4"/>
@@ -140,11 +140,11 @@
 
 	<!-- Full-screen frame: glass background, title, date/clock, colour buttons -->
 	<screen name="NG_Frame">
-		<eLabel position="40,40" size="1840,1000" backgroundColor="bg" zPosition="-10"/>
-		<eLabel position="40,40" size="1840,2" backgroundColor="lineAccent" zPosition="-9"/>
-		<eLabel position="40,128" size="1840,1" backgroundColor="line" zPosition="-9"/>
-		<eLabel position="40,958" size="1840,1" backgroundColor="line" zPosition="-9"/>
-		<widget source="Title" render="Label" position="80,52" size="1160,66" font="Medium;38" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1"/>
+		<eLabel position="40,40" size="1840,1000" backgroundColor="bg" zPosition="-10" cornerRadius="24"/>
+		<eLabel position="64,128" size="1792,1" backgroundColor="line" zPosition="-9"/>
+		<eLabel position="64,958" size="1792,1" backgroundColor="line" zPosition="-9"/>
+		<ePixmap pixmap="NileGlass_FHD/ui/ng_logo.png" position="66,65" size="40,40" alphatest="blend" zPosition="1"/>
+		<widget source="Title" render="Label" position="120,52" size="1120,66" font="Medium;38" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1"/>
 		<widget source="global.CurrentTime" render="Label" position="1260,52" size="380,36" font="Regular;26" foregroundColor="gold" backgroundColor="bg" transparent="1" halign="right" valign="center" noWrap="1">
 			<convert type="ClockToText">Format:%A %d %B</convert>
 		</widget>
@@ -349,8 +349,7 @@
 	     Second InfoBar  (full details + poster + upcoming EPG)
 	     =================================================================== -->
 	<screen name="SecondInfoBar" position="0,0" size="1920,1080" backgroundColor="transparent" flags="wfNoBorder">
-		<eLabel position="0,0" size="1920,1080" backgroundColor="bg" zPosition="-10"/>
-		<eLabel position="0,0" size="1920,2" backgroundColor="lineAccent" zPosition="-9"/>
+		<eLabel position="12,6" size="1896,1068" backgroundColor="bg" zPosition="-10" cornerRadius="24"/>
 
 		<!-- header: channel -->
 		<widget source="session.CurrentService" render="Picon" position="40,22" size="150,90" alphatest="blend">
@@ -377,7 +376,7 @@
 		<widget source="global.CurrentTime" render="Label" position="1300,78" size="580,34" font="Regular;24" foregroundColor="gold" backgroundColor="bg" transparent="1" halign="right" noWrap="1">
 			<convert type="ClockToText">Format:%A %d %B %Y</convert><convert type="NGHijri">Append</convert>
 		</widget>
-		<eLabel position="0,120" size="1920,1" backgroundColor="line"/>
+		<eLabel position="36,120" size="1848,1" backgroundColor="line"/>
 
 		<!-- running programme: poster + film card -->
 		<widget source="session.Event_Now" render="NGPoster" position="40,134" size="360,540" delay="0" fallback="NileGlass_FHD/ui/noposter.png" borderWidth="2" borderColor="posterBorder" zPosition="2"/>
@@ -439,7 +438,7 @@
 		<widget source="session.CurrentService" render="Label" position="1750,636" size="130,30" font="Regular;22" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="right" noWrap="1">
 			<convert type="ServiceInfo">Sid</convert><convert type="NGStream"/>
 		</widget>
-		<eLabel position="0,700" size="1920,1" backgroundColor="line"/>
+		<eLabel position="36,700" size="1848,1" backgroundColor="line"/>
 
 		<!-- coming programmes with posters -->
 		<eLabel text="البرامج القادمة" position="40,704" size="600,36" font="ArabicBold;26" foregroundColor="accent" backgroundColor="bg" transparent="1" halign="left"/>
@@ -731,8 +730,7 @@
 		<panel name="EventView"/>
 	</screen>
 	<screen name="InfoBarEventView" position="0,0" size="1920,1080" backgroundColor="transparent" flags="wfNoBorder">
-		<eLabel position="40,580" size="1840,460" backgroundColor="bg" zPosition="-10"/>
-		<eLabel position="40,580" size="1840,2" backgroundColor="lineAccent" zPosition="-9"/>
+		<eLabel position="40,580" size="1840,460" backgroundColor="bg" zPosition="-10" cornerRadius="24"/>
 		<widget source="Event" render="NGPoster" position="70,600" size="260,390" delay="0" borderWidth="2" borderColor="posterBorder" zPosition="3"/>
 		<widget source="Event" render="Label" position="360,600" size="1480,56" font="Medium;38" foregroundColor="accent" backgroundColor="bg" transparent="1" noWrap="1">
 			<convert type="EventName">Name</convert>
@@ -762,7 +760,7 @@
 		<eLabel position="780,146" size="1,792" backgroundColor="line"/>
 
 		<!-- receiver card -->
-		<eLabel position="810,150" size="1030,330" backgroundColor="bgCard" zPosition="-1"/>
+		<eLabel position="810,150" size="1030,330" backgroundColor="bgCard" zPosition="-1" cornerRadius="16"/>
 		<widget source="session.CurrentService" render="Label" position="840,166" size="700,56" font="Medium;42" foregroundColor="fg" backgroundColor="bgCard" transparent="1" noWrap="1">
 			<convert type="NGSysInfo">BoxName</convert>
 		</widget>
@@ -850,16 +848,16 @@
 		<widget name="footnote" position="80,914" size="1760,40" font="Regular;24" foregroundColor="gold" backgroundColor="bg" transparent="1" noWrap="1"/>
 	</screen>
 
-	<screen name="MessageBox" position="center,center" size="1240,340" backgroundColor="bg">
+	<screen name="MessageBox" position="center,center" size="1240,340" backgroundColor="bg" cornerRadius="24">
 		<widget name="icon" position="24,24" size="64,64" pixmaps="NileGlass_FHD/icons/msg_question.png,NileGlass_FHD/icons/msg_info.png,NileGlass_FHD/icons/msg_warning.png,NileGlass_FHD/icons/msg_error.png,NileGlass_FHD/icons/msg_message.png" alphatest="blend" scale="1"/>
 		<widget name="text" position="110,18" size="1100,190" font="Regular;34" foregroundColor="fg" backgroundColor="bg" transparent="1"/>
 		<widget name="list" position="24,214" size="1192,120" itemHeight="60" font="Regular;34" foregroundColor="fg" backgroundColor="bg" foregroundColorSelected="white" backgroundColorSelected="bgSel" scrollbarMode="showOnDemand" transparent="1"/>
 	</screen>
-	<screen name="MessageBoxSimple" position="center,center" size="1240,340" backgroundColor="bg">
+	<screen name="MessageBoxSimple" position="center,center" size="1240,340" backgroundColor="bg" cornerRadius="24">
 		<panel name="MessageBox"/>
 	</screen>
 
-	<screen name="ChoiceBox" position="center,center" size="1300,800" backgroundColor="bg">
+	<screen name="ChoiceBox" position="center,center" size="1300,800" backgroundColor="bg" cornerRadius="24">
 		<eLabel position="0,0" size="1300,3" backgroundColor="lineAccent" zPosition="1"/>
 		<widget name="text" position="30,14" size="1240,80" font="Regular;32" foregroundColor="gold" backgroundColor="bg" transparent="1"/>
 		<widget name="list" position="30,100" size="1240,580" itemHeight="58" foregroundColor="fg" backgroundColor="bg" foregroundColorSelected="white" backgroundColorSelected="bgSel" scrollbarMode="showOnDemand" scrollbarWidth="6" scrollbarSliderForegroundColor="accent" transparent="1"/>
@@ -874,7 +872,7 @@
 		<widget source="lab3" render="Label" position="80,248" size="900,40" font="Regular;28" foregroundColor="fgDim" backgroundColor="bg" transparent="1" noWrap="1"/>
 		<widget name="AboutScrollLabel" position="80,300" size="1200,640" font="Regular;28" foregroundColor="fg" backgroundColor="bg" transparent="1"/>
 		<eLabel position="1310,146" size="1,792" backgroundColor="line"/>
-		<eLabel position="1340,150" size="500,786" backgroundColor="bgCard" zPosition="-1"/>
+		<eLabel position="1340,150" size="500,786" backgroundColor="bgCard" zPosition="-1" cornerRadius="16"/>
 		<widget source="session.CurrentService" render="Label" position="1366,170" size="460,56" font="Medium;40" foregroundColor="fg" backgroundColor="bgCard" transparent="1" noWrap="1">
 			<convert type="NGSysInfo">BoxName</convert>
 		</widget>
@@ -940,14 +938,13 @@
 
 	<!-- OpenBh Green Panel (plugins): bigger list, clear names -->
 	<screen name="DeliteGreenPanel" title="OpenBh Green Panel" position="center,center" size="1600,960" backgroundColor="transparent" flags="wfNoBorder">
-		<eLabel position="0,0" size="1600,960" backgroundColor="bg" zPosition="-10"/>
-		<eLabel position="0,0" size="1600,2" backgroundColor="lineAccent" zPosition="-9"/>
+		<eLabel position="0,0" size="1600,960" backgroundColor="bg" zPosition="-10" cornerRadius="24"/>
 		<widget source="Title" render="Label" position="40,14" size="1100,62" font="Medium;40" foregroundColor="accent" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1"/>
 		<widget source="global.CurrentTime" render="Label" position="1340,14" size="220,62" font="Regular;44" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="right" valign="center" noWrap="1">
 			<convert type="ClockToText">Format:%H:%M</convert>
 		</widget>
-		<eLabel position="0,88" size="1600,1" backgroundColor="line"/>
-		<eLabel position="0,866" size="1600,1" backgroundColor="line"/>
+		<eLabel position="24,88" size="1552,1" backgroundColor="line"/>
+		<eLabel position="24,866" size="1552,1" backgroundColor="line"/>
 		<widget source="list" render="Listbox" position="40,102" size="1520,756" selectionPixmap="NileGlass_FHD/ui/sel_panel.png" scrollbarMode="showOnDemand" scrollbarWidth="6" scrollbarSliderForegroundColor="accent" backgroundColor="bg" foregroundColor="fg" foregroundColorSelected="white" transparent="1">
 			<convert type="TemplatedMultiContent">
 				{"template": [
@@ -997,14 +994,12 @@
 
 	<!-- Number zap -->
 	<screen name="NumberZap" position="center,120" size="700,120" backgroundColor="transparent" flags="wfNoBorder">
-		<eLabel position="0,0" size="700,120" backgroundColor="bg" zPosition="-10"/>
-		<eLabel position="0,0" size="700,2" backgroundColor="lineAccent" zPosition="-9"/>
+		<eLabel position="0,0" size="700,120" backgroundColor="bg" zPosition="-10" cornerRadius="24"/>
 		<widget name="number" position="20,10" size="200,100" font="Regular;72" foregroundColor="accent" backgroundColor="bg" transparent="1" halign="center" valign="center"/>
 		<widget name="servicename" position="230,10" size="450,100" font="Regular;34" foregroundColor="fg" backgroundColor="bg" transparent="1" valign="center"/>
 	</screen>
 	<screen name="NumberZapPicon" position="center,120" size="900,160" backgroundColor="transparent" flags="wfNoBorder">
-		<eLabel position="0,0" size="900,160" backgroundColor="bg" zPosition="-10"/>
-		<eLabel position="0,0" size="900,2" backgroundColor="lineAccent" zPosition="-9"/>
+		<eLabel position="0,0" size="900,160" backgroundColor="bg" zPosition="-10" cornerRadius="24"/>
 		<widget source="Service" render="Picon" position="14,14" size="220,132" alphatest="blend">
 			<convert type="ServiceName">Reference</convert>
 		</widget>
@@ -1057,16 +1052,15 @@
 	</screen>
 
 	<!-- Network screens of the image: panels at the left like the menus -->
-	<screen name="AdapterSetupConfiguration" position="40,center" size="800,860" backgroundColor="bg" flags="wfNoBorder">
-		<eLabel position="0,0" size="800,860" backgroundColor="bg" zPosition="-10"/>
-		<eLabel position="0,0" size="800,2" backgroundColor="lineAccent" zPosition="-9"/>
+	<screen name="AdapterSetupConfiguration" position="40,center" size="800,860" backgroundColor="bg" flags="wfNoBorder" cornerRadius="24">
+		<eLabel position="0,0" size="800,860" backgroundColor="bg" zPosition="-10" cornerRadius="24"/>
 		<widget source="Title" render="Label" position="30,12" size="570,60" font="Medium;34" foregroundColor="accent" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1"/>
 		<widget source="global.CurrentTime" render="Label" position="610,12" size="160,60" font="Regular;42" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="right" valign="center" noWrap="1">
 			<convert type="ClockToText">Format:%H:%M</convert>
 		</widget>
-		<eLabel position="0,84" size="800,1" backgroundColor="line" zPosition="-9"/>
+		<eLabel position="24,84" size="752,1" backgroundColor="line" zPosition="-9"/>
 		<widget name="menulist" position="30,96" size="740,522" font="Regular;30" itemHeight="58" foregroundColor="fg" backgroundColor="bg" foregroundColorSelected="white" backgroundColorSelected="bgSel" transparent="1" scrollbarMode="showOnDemand" enableWrapAround="1"/>
-		<eLabel position="0,630" size="800,1" backgroundColor="line" zPosition="-9"/>
+		<eLabel position="24,630" size="752,1" backgroundColor="line" zPosition="-9"/>
 		<widget source="description" render="Label" position="30,640" size="740,96" font="Regular;24" foregroundColor="fgDim" backgroundColor="bg" transparent="1"/>
 		<widget source="IFtext" render="Label" position="30,740" size="180,40" font="Regular;26" foregroundColor="fgDim" backgroundColor="bg" transparent="1" valign="center" noWrap="1"/>
 		<widget source="IF" render="Label" position="210,740" size="560,40" font="Medium;26" foregroundColor="fg" backgroundColor="bg" transparent="1" valign="center" noWrap="1"/>
@@ -1077,31 +1071,29 @@
 		<widget name="key_red" position="40,824" size="260,38" font="Medium;22" foregroundColor="white" backgroundColor="black" transparent="1" halign="center" valign="center" noWrap="1" zPosition="1" objectTypes="key_red,Button,Label"/>
 		<widget source="key_red" render="Label" position="40,824" size="260,38" font="Medium;22" foregroundColor="white" backgroundColor="black" transparent="1" halign="center" valign="center" noWrap="1" zPosition="1" objectTypes="key_red,StaticText"/>
 	</screen>
-	<screen name="NetworkMountsMenu" position="40,center" size="800,800" backgroundColor="bg" flags="wfNoBorder">
-		<eLabel position="0,0" size="800,800" backgroundColor="bg" zPosition="-10"/>
-		<eLabel position="0,0" size="800,2" backgroundColor="lineAccent" zPosition="-9"/>
+	<screen name="NetworkMountsMenu" position="40,center" size="800,800" backgroundColor="bg" flags="wfNoBorder" cornerRadius="24">
+		<eLabel position="0,0" size="800,800" backgroundColor="bg" zPosition="-10" cornerRadius="24"/>
 		<widget source="Title" render="Label" position="30,12" size="570,60" font="Medium;34" foregroundColor="accent" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1"/>
 		<widget source="global.CurrentTime" render="Label" position="610,12" size="160,60" font="Regular;42" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="right" valign="center" noWrap="1">
 			<convert type="ClockToText">Format:%H:%M</convert>
 		</widget>
-		<eLabel position="0,84" size="800,1" backgroundColor="line" zPosition="-9"/>
+		<eLabel position="24,84" size="752,1" backgroundColor="line" zPosition="-9"/>
 		<widget name="menulist" position="30,96" size="740,522" font="Regular;30" itemHeight="58" foregroundColor="fg" backgroundColor="bg" foregroundColorSelected="white" backgroundColorSelected="bgSel" transparent="1" scrollbarMode="showOnDemand" enableWrapAround="1"/>
-		<eLabel position="0,630" size="800,1" backgroundColor="line" zPosition="-9"/>
+		<eLabel position="24,630" size="752,1" backgroundColor="line" zPosition="-9"/>
 		<widget source="introduction" render="Label" position="30,640" size="740,96" font="Regular;24" foregroundColor="fgDim" backgroundColor="bg" transparent="1"/>
 		<ePixmap pixmap="NileGlass_FHD/buttons/red_k260.png" position="40,750" size="260,38" alphatest="blend" conditional="key_red"/>
 		<widget name="key_red" position="40,750" size="260,38" font="Medium;22" foregroundColor="white" backgroundColor="black" transparent="1" halign="center" valign="center" noWrap="1" zPosition="1" objectTypes="key_red,Button,Label"/>
 		<widget source="key_red" render="Label" position="40,750" size="260,38" font="Medium;22" foregroundColor="white" backgroundColor="black" transparent="1" halign="center" valign="center" noWrap="1" zPosition="1" objectTypes="key_red,StaticText"/>
 	</screen>
-	<screen name="AdapterSetup" position="40,center" size="1280,930" backgroundColor="bg" flags="wfNoBorder">
-		<eLabel position="0,0" size="1280,930" backgroundColor="bg" zPosition="-10"/>
-		<eLabel position="0,0" size="1280,2" backgroundColor="lineAccent" zPosition="-9"/>
+	<screen name="AdapterSetup" position="40,center" size="1280,930" backgroundColor="bg" flags="wfNoBorder" cornerRadius="24">
+		<eLabel position="0,0" size="1280,930" backgroundColor="bg" zPosition="-10" cornerRadius="24"/>
 		<widget source="Title" render="Label" position="30,12" size="1050,60" font="Medium;34" foregroundColor="accent" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1"/>
 		<widget source="global.CurrentTime" render="Label" position="1090,12" size="160,60" font="Regular;42" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="right" valign="center" noWrap="1">
 			<convert type="ClockToText">Format:%H:%M</convert>
 		</widget>
-		<eLabel position="0,84" size="1280,1" backgroundColor="line" zPosition="-9"/>
+		<eLabel position="24,84" size="1232,1" backgroundColor="line" zPosition="-9"/>
 		<widget name="config" position="40,96" size="1200,486" itemHeight="54" font="Regular;30" secondfont="Regular;28" foregroundColor="fg" backgroundColor="bg" foregroundColorSelected="white" backgroundColorSelected="bgSel" transparent="1" scrollbarMode="showOnDemand" enableWrapAround="1"/>
-		<eLabel position="0,592" size="1280,1" backgroundColor="line" zPosition="-9"/>
+		<eLabel position="24,592" size="1232,1" backgroundColor="line" zPosition="-9"/>
 		<widget source="introduction" render="Label" position="40,600" size="400,38" font="Medium;26" foregroundColor="gold" backgroundColor="bg" transparent="1" valign="center" noWrap="1"/>
 		<widget source="Adaptertext" render="Label" position="40,642" size="220,34" font="Regular;24" foregroundColor="fgDim" backgroundColor="bg" transparent="1" noWrap="1"/>
 		<widget source="Adapter" render="Label" position="260,642" size="380,34" font="Regular;24" foregroundColor="fg" backgroundColor="bg" transparent="1" noWrap="1"/>
@@ -1129,14 +1121,13 @@
 		<widget name="key_blue" position="979,878" size="260,38" font="Medium;22" foregroundColor="white" backgroundColor="black" transparent="1" halign="center" valign="center" noWrap="1" zPosition="1" objectTypes="key_blue,Button,Label"/>
 		<widget source="key_blue" render="Label" position="979,878" size="260,38" font="Medium;22" foregroundColor="white" backgroundColor="black" transparent="1" halign="center" valign="center" noWrap="1" zPosition="1" objectTypes="key_blue,StaticText"/>
 	</screen>
-	<screen name="NetworkServiceSetup" position="40,center" size="900,330" backgroundColor="bg" flags="wfNoBorder">
-		<eLabel position="0,0" size="900,330" backgroundColor="bg" zPosition="-10"/>
-		<eLabel position="0,0" size="900,2" backgroundColor="lineAccent" zPosition="-9"/>
+	<screen name="NetworkServiceSetup" position="40,center" size="900,330" backgroundColor="bg" flags="wfNoBorder" cornerRadius="24">
+		<eLabel position="0,0" size="900,330" backgroundColor="bg" zPosition="-10" cornerRadius="24"/>
 		<widget source="Title" render="Label" position="30,12" size="670,60" font="Medium;34" foregroundColor="accent" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1"/>
 		<widget source="global.CurrentTime" render="Label" position="710,12" size="160,60" font="Regular;42" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="right" valign="center" noWrap="1">
 			<convert type="ClockToText">Format:%H:%M</convert>
 		</widget>
-		<eLabel position="0,84" size="900,1" backgroundColor="line" zPosition="-9"/>
+		<eLabel position="24,84" size="852,1" backgroundColor="line" zPosition="-9"/>
 		<widget name="lab1" position="40,110" size="300,44" font="Regular;28" foregroundColor="fgDim" backgroundColor="bg" transparent="1" valign="center"/>
 		<widget name="labactive" position="360,110" size="500,44" font="Medium;28" foregroundColor="gold" backgroundColor="bg" transparent="1" valign="center"/>
 		<widget name="lab2" position="40,166" size="300,44" font="Regular;28" foregroundColor="fgDim" backgroundColor="bg" transparent="1" valign="center"/>
@@ -1198,102 +1189,102 @@
 
 	<!-- NG_POPUPS_BEGIN (generated by tools/gen_popups.py) -->
 	<screen name="DeliteAddons" position="center,center" size="960,720" backgroundColor="transparent" flags="wfNoBorder" title="OpenBh E2 Addons Manager">
-		<eLabel position="0,0" size="960,720" backgroundColor="bg" zPosition="-10"/>
+		<eLabel position="0,0" size="960,720" backgroundColor="bg" zPosition="-10" cornerRadius="24"/>
 		<eLabel position="0,0" size="960,3" backgroundColor="lineAccent" zPosition="-9"/>
 		<widget source="Title" render="Label" position="36,12" size="660,64" font="Medium;38" foregroundColor="accent" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1"/>
 		<widget source="global.CurrentTime" render="Label" position="704,12" size="220,64" font="Regular;40" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="right" valign="center" noWrap="1"><convert type="ClockToText">Format:%H:%M</convert></widget>
-		<eLabel position="0,88" size="960,1" backgroundColor="line"/>
+		<eLabel position="24,88" size="912,1" backgroundColor="line"/>
 		<widget source="list" render="Listbox" position="30,104" size="900,576" backgroundColor="bg" foregroundColor="fg" foregroundColorSelected="white" backgroundColorSelected="bgSel" scrollbarMode="showOnDemand" scrollbarWidth="6" scrollbarSliderForegroundColor="accent" transparent="1"><convert type="TemplatedMultiContent">{"template": [MultiContentEntryPixmapAlphaBlend(pos=(18, 8), size=(48, 48), png=1, flags=BT_SCALE|BT_KEEP_ASPECT_RATIO|BT_HALIGN_CENTER|BT_VALIGN_CENTER), MultiContentEntryText(pos=(88, 0), size=(790, 64), font=0, flags=RT_HALIGN_LEFT|RT_VALIGN_CENTER, text=0)], "fonts": [gFont("Regular", 32)], "itemHeight": 64}</convert></widget>
 	</screen>
 	<screen name="Nab_downArea" position="center,center" size="960,720" backgroundColor="transparent" flags="wfNoBorder" title="OpenBh E2 Downloads Manager">
-		<eLabel position="0,0" size="960,720" backgroundColor="bg" zPosition="-10"/>
+		<eLabel position="0,0" size="960,720" backgroundColor="bg" zPosition="-10" cornerRadius="24"/>
 		<eLabel position="0,0" size="960,3" backgroundColor="lineAccent" zPosition="-9"/>
 		<widget source="Title" render="Label" position="36,12" size="660,64" font="Medium;38" foregroundColor="accent" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1"/>
 		<widget source="global.CurrentTime" render="Label" position="704,12" size="220,64" font="Regular;40" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="right" valign="center" noWrap="1"><convert type="ClockToText">Format:%H:%M</convert></widget>
-		<eLabel position="0,88" size="960,1" backgroundColor="line"/>
+		<eLabel position="24,88" size="912,1" backgroundColor="line"/>
 		<widget source="list" render="Listbox" position="30,104" size="900,576" backgroundColor="bg" foregroundColor="fg" foregroundColorSelected="white" backgroundColorSelected="bgSel" scrollbarMode="showOnDemand" scrollbarWidth="6" scrollbarSliderForegroundColor="accent" transparent="1"><convert type="TemplatedMultiContent">{"template": [MultiContentEntryPixmapAlphaBlend(pos=(18, 8), size=(48, 48), png=1, flags=BT_SCALE|BT_KEEP_ASPECT_RATIO|BT_HALIGN_CENTER|BT_VALIGN_CENTER), MultiContentEntryText(pos=(88, 0), size=(790, 64), font=0, flags=RT_HALIGN_LEFT|RT_VALIGN_CENTER, text=0)], "fonts": [gFont("Regular", 32)], "itemHeight": 64}</convert></widget>
 	</screen>
 	<screen name="BhSetupGreen" position="center,center" size="960,720" backgroundColor="transparent" flags="wfNoBorder" title="Black Hole Green Panel Setup">
-		<eLabel position="0,0" size="960,720" backgroundColor="bg" zPosition="-10"/>
+		<eLabel position="0,0" size="960,720" backgroundColor="bg" zPosition="-10" cornerRadius="24"/>
 		<eLabel position="0,0" size="960,3" backgroundColor="lineAccent" zPosition="-9"/>
 		<widget source="Title" render="Label" position="36,12" size="660,64" font="Medium;38" foregroundColor="accent" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1"/>
 		<widget source="global.CurrentTime" render="Label" position="704,12" size="220,64" font="Regular;40" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="right" valign="center" noWrap="1"><convert type="ClockToText">Format:%H:%M</convert></widget>
-		<eLabel position="0,88" size="960,1" backgroundColor="line"/>
+		<eLabel position="24,88" size="912,1" backgroundColor="line"/>
 		<widget source="list" render="Listbox" position="30,104" size="900,576" backgroundColor="bg" foregroundColor="fg" foregroundColorSelected="white" backgroundColorSelected="bgSel" scrollbarMode="showOnDemand" scrollbarWidth="6" scrollbarSliderForegroundColor="accent" transparent="1"><convert type="TemplatedMultiContent">{"template": [MultiContentEntryPixmapAlphaBlend(pos=(18, 8), size=(48, 48), png=1, flags=BT_SCALE|BT_KEEP_ASPECT_RATIO|BT_HALIGN_CENTER|BT_VALIGN_CENTER), MultiContentEntryText(pos=(88, 0), size=(790, 64), font=0, flags=RT_HALIGN_LEFT|RT_VALIGN_CENTER, text=0)], "fonts": [gFont("Regular", 32)], "itemHeight": 64}</convert></widget>
 	</screen>
 	<screen name="DeliteSettings" position="center,center" size="1000,980" backgroundColor="transparent" flags="wfNoBorder" title="OpenBh Extra Settings">
-		<eLabel position="0,0" size="1000,980" backgroundColor="bg" zPosition="-10"/>
+		<eLabel position="0,0" size="1000,980" backgroundColor="bg" zPosition="-10" cornerRadius="24"/>
 		<eLabel position="0,0" size="1000,3" backgroundColor="lineAccent" zPosition="-9"/>
 		<widget source="Title" render="Label" position="36,12" size="700,64" font="Medium;38" foregroundColor="accent" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1"/>
 		<widget source="global.CurrentTime" render="Label" position="744,12" size="220,64" font="Regular;40" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="right" valign="center" noWrap="1"><convert type="ClockToText">Format:%H:%M</convert></widget>
-		<eLabel position="0,88" size="1000,1" backgroundColor="line"/>
+		<eLabel position="24,88" size="952,1" backgroundColor="line"/>
 		<widget source="list" render="Listbox" position="30,104" size="940,832" backgroundColor="bg" foregroundColor="fg" foregroundColorSelected="white" backgroundColorSelected="bgSel" scrollbarMode="showOnDemand" scrollbarWidth="6" scrollbarSliderForegroundColor="accent" transparent="1"><convert type="TemplatedMultiContent">{"template": [MultiContentEntryPixmapAlphaBlend(pos=(18, 8), size=(48, 48), png=1, flags=BT_SCALE|BT_KEEP_ASPECT_RATIO|BT_HALIGN_CENTER|BT_VALIGN_CENTER), MultiContentEntryText(pos=(88, 0), size=(830, 64), font=0, flags=RT_HALIGN_LEFT|RT_VALIGN_CENTER, text=0)], "fonts": [gFont("Regular", 32)], "itemHeight": 64}</convert></widget>
 	</screen>
 	<screen name="DeliteSetupFp" position="center,center" size="960,820" backgroundColor="transparent" flags="wfNoBorder" title="OpenBh Fast Plugin Setup">
-		<eLabel position="0,0" size="960,820" backgroundColor="bg" zPosition="-10"/>
+		<eLabel position="0,0" size="960,820" backgroundColor="bg" zPosition="-10" cornerRadius="24"/>
 		<eLabel position="0,0" size="960,3" backgroundColor="lineAccent" zPosition="-9"/>
 		<widget source="Title" render="Label" position="36,12" size="660,64" font="Medium;38" foregroundColor="accent" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1"/>
 		<widget source="global.CurrentTime" render="Label" position="704,12" size="220,64" font="Regular;40" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="right" valign="center" noWrap="1"><convert type="ClockToText">Format:%H:%M</convert></widget>
-		<eLabel position="0,88" size="960,1" backgroundColor="line"/>
-		<eLabel position="0,736" size="960,1" backgroundColor="line"/>
+		<eLabel position="24,88" size="912,1" backgroundColor="line"/>
+		<eLabel position="24,736" size="912,1" backgroundColor="line"/>
 		<ePixmap pixmap="NileGlass_FHD/buttons/red_k260.png" position="350,753" size="260,50" alphatest="blend"/>
 		<widget name="key_red" position="350,753" size="260,50" font="Medium;28" foregroundColor="white" backgroundColor="black" transparent="1" halign="center" valign="center" noWrap="1" zPosition="1"/>
 		<widget source="list" render="Listbox" position="30,104" size="900,616" font="Regular;30" itemHeight="56" backgroundColor="bg" foregroundColor="fg" foregroundColorSelected="white" backgroundColorSelected="bgSel" scrollbarMode="showOnDemand" scrollbarWidth="6" scrollbarSliderForegroundColor="accent" transparent="1"><convert type="StringList"/></widget>
 	</screen>
 	<screen name="Nab_downCat" position="center,center" size="1240,880" backgroundColor="transparent" flags="wfNoBorder" title="OpenBh E2 Downloads Manager">
-		<eLabel position="0,0" size="1240,880" backgroundColor="bg" zPosition="-10"/>
+		<eLabel position="0,0" size="1240,880" backgroundColor="bg" zPosition="-10" cornerRadius="24"/>
 		<eLabel position="0,0" size="1240,3" backgroundColor="lineAccent" zPosition="-9"/>
 		<widget source="Title" render="Label" position="36,12" size="940,64" font="Medium;38" foregroundColor="accent" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1"/>
 		<widget source="global.CurrentTime" render="Label" position="984,12" size="220,64" font="Regular;40" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="right" valign="center" noWrap="1"><convert type="ClockToText">Format:%H:%M</convert></widget>
-		<eLabel position="0,88" size="1240,1" backgroundColor="line"/>
+		<eLabel position="24,88" size="1192,1" backgroundColor="line"/>
 		<widget source="list" render="Listbox" position="30,104" size="1180,728" font="Regular;30" itemHeight="56" backgroundColor="bg" foregroundColor="fg" foregroundColorSelected="white" backgroundColorSelected="bgSel" scrollbarMode="showOnDemand" scrollbarWidth="6" scrollbarSliderForegroundColor="accent" transparent="1"><convert type="StringList"/></widget>
 	</screen>
 	<screen name="Nab_downPanel" position="center,center" size="1240,880" backgroundColor="transparent" flags="wfNoBorder" title="OpenBh E2 Manual Install BH Packages">
-		<eLabel position="0,0" size="1240,880" backgroundColor="bg" zPosition="-10"/>
+		<eLabel position="0,0" size="1240,880" backgroundColor="bg" zPosition="-10" cornerRadius="24"/>
 		<eLabel position="0,0" size="1240,3" backgroundColor="lineAccent" zPosition="-9"/>
 		<widget source="Title" render="Label" position="36,12" size="940,64" font="Medium;38" foregroundColor="accent" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1"/>
 		<widget source="global.CurrentTime" render="Label" position="984,12" size="220,64" font="Regular;40" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="right" valign="center" noWrap="1"><convert type="ClockToText">Format:%H:%M</convert></widget>
-		<eLabel position="0,88" size="1240,1" backgroundColor="line"/>
+		<eLabel position="24,88" size="1192,1" backgroundColor="line"/>
 		<widget source="list" render="Listbox" position="30,104" size="1180,728" font="Regular;30" itemHeight="56" backgroundColor="bg" foregroundColor="fg" foregroundColorSelected="white" backgroundColorSelected="bgSel" scrollbarMode="showOnDemand" scrollbarWidth="6" scrollbarSliderForegroundColor="accent" transparent="1"><convert type="StringList"/></widget>
 	</screen>
 	<screen name="Nab_uninstPanel" position="center,center" size="1240,880" backgroundColor="transparent" flags="wfNoBorder" title="OpenBh E2 Uninstall Panel">
-		<eLabel position="0,0" size="1240,880" backgroundColor="bg" zPosition="-10"/>
+		<eLabel position="0,0" size="1240,880" backgroundColor="bg" zPosition="-10" cornerRadius="24"/>
 		<eLabel position="0,0" size="1240,3" backgroundColor="lineAccent" zPosition="-9"/>
 		<widget source="Title" render="Label" position="36,12" size="940,64" font="Medium;38" foregroundColor="accent" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1"/>
 		<widget source="global.CurrentTime" render="Label" position="984,12" size="220,64" font="Regular;40" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="right" valign="center" noWrap="1"><convert type="ClockToText">Format:%H:%M</convert></widget>
-		<eLabel position="0,88" size="1240,1" backgroundColor="line"/>
+		<eLabel position="24,88" size="1192,1" backgroundColor="line"/>
 		<widget source="list" render="Listbox" position="30,104" size="1180,728" font="Regular;30" itemHeight="56" backgroundColor="bg" foregroundColor="fg" foregroundColorSelected="white" backgroundColorSelected="bgSel" scrollbarMode="showOnDemand" scrollbarWidth="6" scrollbarSliderForegroundColor="accent" transparent="1"><convert type="StringList"/></widget>
 	</screen>
 	<screen name="Nab_downPanelIPK" position="center,center" size="1240,880" backgroundColor="transparent" flags="wfNoBorder" title="OpenBh E2 Manual Install Ipk Packages">
-		<eLabel position="0,0" size="1240,880" backgroundColor="bg" zPosition="-10"/>
+		<eLabel position="0,0" size="1240,880" backgroundColor="bg" zPosition="-10" cornerRadius="24"/>
 		<eLabel position="0,0" size="1240,3" backgroundColor="lineAccent" zPosition="-9"/>
 		<widget source="Title" render="Label" position="36,12" size="940,64" font="Medium;38" foregroundColor="accent" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1"/>
 		<widget source="global.CurrentTime" render="Label" position="984,12" size="220,64" font="Regular;40" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="right" valign="center" noWrap="1"><convert type="ClockToText">Format:%H:%M</convert></widget>
-		<eLabel position="0,88" size="1240,1" backgroundColor="line"/>
+		<eLabel position="24,88" size="1192,1" backgroundColor="line"/>
 		<widget source="list" render="Listbox" position="30,104" size="1180,616" font="Regular;30" itemHeight="56" backgroundColor="bg" foregroundColor="fg" foregroundColorSelected="white" backgroundColorSelected="bgSel" scrollbarMode="showOnDemand" scrollbarWidth="6" scrollbarSliderForegroundColor="accent" transparent="1"><convert type="StringList"/></widget>
-		<eLabel position="30,732" size="1180,120" backgroundColor="bgCard" zPosition="-5"/>
+		<eLabel position="30,732" size="1180,120" backgroundColor="bgCard" zPosition="-5" cornerRadius="16"/>
 		<widget name="warntext" position="50,742" size="1140,100" font="Regular;28" foregroundColor="gold" backgroundColor="bg" transparent="1" halign="left" valign="center"/>
 	</screen>
 	<screen name="DeliteScript" position="center,center" size="1240,900" backgroundColor="transparent" flags="wfNoBorder" title="OpenBh Script Panel">
-		<eLabel position="0,0" size="1240,900" backgroundColor="bg" zPosition="-10"/>
+		<eLabel position="0,0" size="1240,900" backgroundColor="bg" zPosition="-10" cornerRadius="24"/>
 		<eLabel position="0,0" size="1240,3" backgroundColor="lineAccent" zPosition="-9"/>
 		<widget source="Title" render="Label" position="36,12" size="940,64" font="Medium;38" foregroundColor="accent" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1"/>
 		<widget source="global.CurrentTime" render="Label" position="984,12" size="220,64" font="Regular;40" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="right" valign="center" noWrap="1"><convert type="ClockToText">Format:%H:%M</convert></widget>
-		<eLabel position="0,88" size="1240,1" backgroundColor="line"/>
-		<eLabel position="0,816" size="1240,1" backgroundColor="line"/>
+		<eLabel position="24,88" size="1192,1" backgroundColor="line"/>
+		<eLabel position="24,816" size="1192,1" backgroundColor="line"/>
 		<ePixmap pixmap="NileGlass_FHD/buttons/green_k260.png" position="490,833" size="260,50" alphatest="blend"/>
 		<widget name="key_green" position="490,833" size="260,50" font="Medium;28" foregroundColor="white" backgroundColor="black" transparent="1" halign="center" valign="center" noWrap="1" zPosition="1"/>
 		<widget source="list" render="Listbox" position="30,104" size="1180,560" font="Regular;30" itemHeight="56" backgroundColor="bg" foregroundColor="fg" foregroundColorSelected="white" backgroundColorSelected="bgSel" scrollbarMode="showOnDemand" scrollbarWidth="6" scrollbarSliderForegroundColor="accent" transparent="1"><convert type="StringList"/></widget>
-		<eLabel position="30,676" size="1180,120" backgroundColor="bgCard" zPosition="-5"/>
+		<eLabel position="30,676" size="1180,120" backgroundColor="bgCard" zPosition="-5" cornerRadius="16"/>
 		<widget name="statuslab" position="50,684" size="1140,104" font="Regular;28" foregroundColor="gold" backgroundColor="bg" transparent="1" halign="left" valign="center"/>
 	</screen>
 	<screen name="Nab_ShowDownFile" position="center,center" size="1240,880" backgroundColor="transparent" flags="wfNoBorder" title="OpenBh E2 Package Details">
-		<eLabel position="0,0" size="1240,880" backgroundColor="bg" zPosition="-10"/>
+		<eLabel position="0,0" size="1240,880" backgroundColor="bg" zPosition="-10" cornerRadius="24"/>
 		<eLabel position="0,0" size="1240,3" backgroundColor="lineAccent" zPosition="-9"/>
 		<widget source="Title" render="Label" position="36,12" size="940,64" font="Medium;38" foregroundColor="accent" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1"/>
 		<widget source="global.CurrentTime" render="Label" position="984,12" size="220,64" font="Regular;40" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="right" valign="center" noWrap="1"><convert type="ClockToText">Format:%H:%M</convert></widget>
-		<eLabel position="0,88" size="1240,1" backgroundColor="line"/>
-		<eLabel position="0,796" size="1240,1" backgroundColor="line"/>
+		<eLabel position="24,88" size="1192,1" backgroundColor="line"/>
+		<eLabel position="24,796" size="1192,1" backgroundColor="line"/>
 		<ePixmap pixmap="NileGlass_FHD/buttons/green_k260.png" position="240,813" size="260,50" alphatest="blend"/>
 		<widget name="key_green" position="240,813" size="260,50" font="Medium;28" foregroundColor="white" backgroundColor="black" transparent="1" halign="center" valign="center" noWrap="1" zPosition="1"/>
 		<ePixmap pixmap="NileGlass_FHD/buttons/yellow_k260.png" position="740,813" size="260,50" alphatest="blend"/>
@@ -1301,64 +1292,64 @@
 		<widget name="infotext" position="40,104" size="1160,670" font="Regular;28" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="left" />
 	</screen>
 	<screen name="Nab_Stats" position="center,center" size="1240,880" backgroundColor="transparent" flags="wfNoBorder" title="OpenBh E2 Statistics">
-		<eLabel position="0,0" size="1240,880" backgroundColor="bg" zPosition="-10"/>
+		<eLabel position="0,0" size="1240,880" backgroundColor="bg" zPosition="-10" cornerRadius="24"/>
 		<eLabel position="0,0" size="1240,3" backgroundColor="lineAccent" zPosition="-9"/>
 		<widget source="Title" render="Label" position="36,12" size="940,64" font="Medium;38" foregroundColor="accent" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1"/>
 		<widget source="global.CurrentTime" render="Label" position="984,12" size="220,64" font="Regular;40" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="right" valign="center" noWrap="1"><convert type="ClockToText">Format:%H:%M</convert></widget>
-		<eLabel position="0,88" size="1240,1" backgroundColor="line"/>
+		<eLabel position="24,88" size="1192,1" backgroundColor="line"/>
 		<widget name="infotext" position="40,104" size="1160,750" font="Regular;28" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="left" />
 	</screen>
 	<screen name="NabEnsetInfo" position="center,center" size="1240,880" backgroundColor="transparent" flags="wfNoBorder" title="Black Hole E2 Enigma Settings Info">
-		<eLabel position="0,0" size="1240,880" backgroundColor="bg" zPosition="-10"/>
+		<eLabel position="0,0" size="1240,880" backgroundColor="bg" zPosition="-10" cornerRadius="24"/>
 		<eLabel position="0,0" size="1240,3" backgroundColor="lineAccent" zPosition="-9"/>
 		<widget source="Title" render="Label" position="36,12" size="940,64" font="Medium;38" foregroundColor="accent" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1"/>
 		<widget source="global.CurrentTime" render="Label" position="984,12" size="220,64" font="Regular;40" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="right" valign="center" noWrap="1"><convert type="ClockToText">Format:%H:%M</convert></widget>
-		<eLabel position="0,88" size="1240,1" backgroundColor="line"/>
+		<eLabel position="24,88" size="1192,1" backgroundColor="line"/>
 		<widget name="infotext" position="40,104" size="1160,750" font="Regular;28" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="left" />
 	</screen>
 	<screen name="DeliteInaLog" position="center,center" size="1240,880" backgroundColor="transparent" flags="wfNoBorder" title="OpenBh E2 Inadyn Log">
-		<eLabel position="0,0" size="1240,880" backgroundColor="bg" zPosition="-10"/>
+		<eLabel position="0,0" size="1240,880" backgroundColor="bg" zPosition="-10" cornerRadius="24"/>
 		<eLabel position="0,0" size="1240,3" backgroundColor="lineAccent" zPosition="-9"/>
 		<widget source="Title" render="Label" position="36,12" size="940,64" font="Medium;38" foregroundColor="accent" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1"/>
 		<widget source="global.CurrentTime" render="Label" position="984,12" size="220,64" font="Regular;40" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="right" valign="center" noWrap="1"><convert type="ClockToText">Format:%H:%M</convert></widget>
-		<eLabel position="0,88" size="1240,1" backgroundColor="line"/>
+		<eLabel position="24,88" size="1192,1" backgroundColor="line"/>
 		<widget name="infotext" position="40,104" size="1160,750" font="Regular;28" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="left" />
 	</screen>
 	<screen name="DeliteVpnLog" position="center,center" size="1240,880" backgroundColor="transparent" flags="wfNoBorder" title="OpenBh OpenVpn Log">
-		<eLabel position="0,0" size="1240,880" backgroundColor="bg" zPosition="-10"/>
+		<eLabel position="0,0" size="1240,880" backgroundColor="bg" zPosition="-10" cornerRadius="24"/>
 		<eLabel position="0,0" size="1240,3" backgroundColor="lineAccent" zPosition="-9"/>
 		<widget source="Title" render="Label" position="36,12" size="940,64" font="Medium;38" foregroundColor="accent" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1"/>
 		<widget source="global.CurrentTime" render="Label" position="984,12" size="220,64" font="Regular;40" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="right" valign="center" noWrap="1"><convert type="ClockToText">Format:%H:%M</convert></widget>
-		<eLabel position="0,88" size="1240,1" backgroundColor="line"/>
+		<eLabel position="24,88" size="1192,1" backgroundColor="line"/>
 		<widget name="infotext" position="40,104" size="1160,750" font="Regular;28" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="left" />
 	</screen>
 	<screen name="NabProcInfo" position="center,center" size="1240,880" backgroundColor="transparent" flags="wfNoBorder" title="Black Hole E2 Process Info">
-		<eLabel position="0,0" size="1240,880" backgroundColor="bg" zPosition="-10"/>
+		<eLabel position="0,0" size="1240,880" backgroundColor="bg" zPosition="-10" cornerRadius="24"/>
 		<eLabel position="0,0" size="1240,3" backgroundColor="lineAccent" zPosition="-9"/>
 		<widget source="Title" render="Label" position="36,12" size="940,64" font="Medium;38" foregroundColor="accent" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1"/>
 		<widget source="global.CurrentTime" render="Label" position="984,12" size="220,64" font="Regular;40" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="right" valign="center" noWrap="1"><convert type="ClockToText">Format:%H:%M</convert></widget>
-		<eLabel position="0,88" size="1240,1" backgroundColor="line"/>
+		<eLabel position="24,88" size="1192,1" backgroundColor="line"/>
 		<widget name="pibartit" position="40,100" size="1160,44" font="Medium;28" foregroundColor="accent" backgroundColor="bg" transparent="1" halign="left" />
 		<widget name="infotext" position="40,150" size="1160,700" font="Regular;26" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="left" />
 	</screen>
 	<screen name="BhBackupSettings" position="center,center" size="1240,620" backgroundColor="transparent" flags="wfNoBorder" title="Backup your settings">
-		<eLabel position="0,0" size="1240,620" backgroundColor="bg" zPosition="-10"/>
+		<eLabel position="0,0" size="1240,620" backgroundColor="bg" zPosition="-10" cornerRadius="24"/>
 		<eLabel position="0,0" size="1240,3" backgroundColor="lineAccent" zPosition="-9"/>
 		<widget source="Title" render="Label" position="36,12" size="940,64" font="Medium;38" foregroundColor="accent" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1"/>
 		<widget source="global.CurrentTime" render="Label" position="984,12" size="220,64" font="Regular;40" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="right" valign="center" noWrap="1"><convert type="ClockToText">Format:%H:%M</convert></widget>
-		<eLabel position="0,88" size="1240,1" backgroundColor="line"/>
-		<eLabel position="0,536" size="1240,1" backgroundColor="line"/>
+		<eLabel position="24,88" size="1192,1" backgroundColor="line"/>
+		<eLabel position="24,536" size="1192,1" backgroundColor="line"/>
 		<ePixmap pixmap="NileGlass_FHD/buttons/red_k260.png" position="490,553" size="260,50" alphatest="blend"/>
 		<widget name="key_red" position="490,553" size="260,50" font="Medium;28" foregroundColor="white" backgroundColor="black" transparent="1" halign="center" valign="center" noWrap="1" zPosition="1"/>
 		<widget name="infotext" position="40,104" size="1160,420" font="Regular;28" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="left" />
 	</screen>
 	<screen name="BhGreenPluginsSetup" position="center,center" size="1240,880" backgroundColor="transparent" flags="wfNoBorder" title="Reorder Plugin List">
-		<eLabel position="0,0" size="1240,880" backgroundColor="bg" zPosition="-10"/>
+		<eLabel position="0,0" size="1240,880" backgroundColor="bg" zPosition="-10" cornerRadius="24"/>
 		<eLabel position="0,0" size="1240,3" backgroundColor="lineAccent" zPosition="-9"/>
 		<widget source="Title" render="Label" position="36,12" size="940,64" font="Medium;38" foregroundColor="accent" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1"/>
 		<widget source="global.CurrentTime" render="Label" position="984,12" size="220,64" font="Regular;40" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="right" valign="center" noWrap="1"><convert type="ClockToText">Format:%H:%M</convert></widget>
-		<eLabel position="0,88" size="1240,1" backgroundColor="line"/>
-		<eLabel position="0,796" size="1240,1" backgroundColor="line"/>
+		<eLabel position="24,88" size="1192,1" backgroundColor="line"/>
+		<eLabel position="24,796" size="1192,1" backgroundColor="line"/>
 		<ePixmap pixmap="NileGlass_FHD/buttons/red_k260.png" position="115,813" size="260,50" alphatest="blend"/>
 		<widget name="key_red" position="115,813" size="260,50" font="Medium;28" foregroundColor="white" backgroundColor="black" transparent="1" halign="center" valign="center" noWrap="1" zPosition="1"/>
 		<ePixmap pixmap="NileGlass_FHD/buttons/green_k260.png" position="490,813" size="260,50" alphatest="blend"/>
@@ -1368,12 +1359,12 @@
 		<widget name="config" position="40,104" size="1160,672" itemHeight="56" font="Regular;30" secondfont="Regular;30" foregroundColor="fg" backgroundColor="bg" foregroundColorSelected="white" backgroundColorSelected="bgSel" scrollbarMode="showOnDemand" scrollbarWidth="6" scrollbarSliderForegroundColor="accent" transparent="1"/>
 	</screen>
 	<screen name="BhSpeedUp" position="center,center" size="1240,960" backgroundColor="transparent" flags="wfNoBorder" title="OpenBh Speed Up">
-		<eLabel position="0,0" size="1240,960" backgroundColor="bg" zPosition="-10"/>
+		<eLabel position="0,0" size="1240,960" backgroundColor="bg" zPosition="-10" cornerRadius="24"/>
 		<eLabel position="0,0" size="1240,3" backgroundColor="lineAccent" zPosition="-9"/>
 		<widget source="Title" render="Label" position="36,12" size="940,64" font="Medium;38" foregroundColor="accent" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1"/>
 		<widget source="global.CurrentTime" render="Label" position="984,12" size="220,64" font="Regular;40" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="right" valign="center" noWrap="1"><convert type="ClockToText">Format:%H:%M</convert></widget>
-		<eLabel position="0,88" size="1240,1" backgroundColor="line"/>
-		<eLabel position="0,876" size="1240,1" backgroundColor="line"/>
+		<eLabel position="24,88" size="1192,1" backgroundColor="line"/>
+		<eLabel position="24,876" size="1192,1" backgroundColor="line"/>
 		<ePixmap pixmap="NileGlass_FHD/buttons/red_k260.png" position="240,893" size="260,50" alphatest="blend"/>
 		<widget name="key_red" position="240,893" size="260,50" font="Medium;28" foregroundColor="white" backgroundColor="black" transparent="1" halign="center" valign="center" noWrap="1" zPosition="1"/>
 		<ePixmap pixmap="NileGlass_FHD/buttons/green_k260.png" position="740,893" size="260,50" alphatest="blend"/>
@@ -1382,23 +1373,23 @@
 		<widget name="config" position="40,196" size="1160,616" itemHeight="56" font="Regular;30" secondfont="Regular;30" foregroundColor="fg" backgroundColor="bg" foregroundColorSelected="white" backgroundColorSelected="bgSel" scrollbarMode="showOnDemand" scrollbarWidth="6" scrollbarSliderForegroundColor="accent" transparent="1"/>
 	</screen>
 	<screen name="DeliteSetupAutocam2" position="center,center" size="1240,700" backgroundColor="transparent" flags="wfNoBorder" title="OpenBh Autocam Setup">
-		<eLabel position="0,0" size="1240,700" backgroundColor="bg" zPosition="-10"/>
+		<eLabel position="0,0" size="1240,700" backgroundColor="bg" zPosition="-10" cornerRadius="24"/>
 		<eLabel position="0,0" size="1240,3" backgroundColor="lineAccent" zPosition="-9"/>
 		<widget source="Title" render="Label" position="36,12" size="940,64" font="Medium;38" foregroundColor="accent" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1"/>
 		<widget source="global.CurrentTime" render="Label" position="984,12" size="220,64" font="Regular;40" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="right" valign="center" noWrap="1"><convert type="ClockToText">Format:%H:%M</convert></widget>
-		<eLabel position="0,88" size="1240,1" backgroundColor="line"/>
-		<eLabel position="0,616" size="1240,1" backgroundColor="line"/>
+		<eLabel position="24,88" size="1192,1" backgroundColor="line"/>
+		<eLabel position="24,616" size="1192,1" backgroundColor="line"/>
 		<ePixmap pixmap="NileGlass_FHD/buttons/green_k260.png" position="490,633" size="260,50" alphatest="blend"/>
 		<widget name="key_green" position="490,633" size="260,50" font="Medium;28" foregroundColor="white" backgroundColor="black" transparent="1" halign="center" valign="center" noWrap="1" zPosition="1"/>
 		<widget name="config" position="40,104" size="1160,448" itemHeight="56" font="Regular;30" secondfont="Regular;30" foregroundColor="fg" backgroundColor="bg" foregroundColorSelected="white" backgroundColorSelected="bgSel" scrollbarMode="showOnDemand" scrollbarWidth="6" scrollbarSliderForegroundColor="accent" transparent="1"/>
 	</screen>
 	<screen name="addonsParentalConfig" position="center,center" size="1240,700" backgroundColor="transparent" flags="wfNoBorder" title="Addons parental control setup">
-		<eLabel position="0,0" size="1240,700" backgroundColor="bg" zPosition="-10"/>
+		<eLabel position="0,0" size="1240,700" backgroundColor="bg" zPosition="-10" cornerRadius="24"/>
 		<eLabel position="0,0" size="1240,3" backgroundColor="lineAccent" zPosition="-9"/>
 		<widget source="Title" render="Label" position="36,12" size="940,64" font="Medium;38" foregroundColor="accent" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1"/>
 		<widget source="global.CurrentTime" render="Label" position="984,12" size="220,64" font="Regular;40" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="right" valign="center" noWrap="1"><convert type="ClockToText">Format:%H:%M</convert></widget>
-		<eLabel position="0,88" size="1240,1" backgroundColor="line"/>
-		<eLabel position="0,616" size="1240,1" backgroundColor="line"/>
+		<eLabel position="24,88" size="1192,1" backgroundColor="line"/>
+		<eLabel position="24,616" size="1192,1" backgroundColor="line"/>
 		<ePixmap pixmap="NileGlass_FHD/buttons/red_k260.png" position="240,633" size="260,50" alphatest="blend"/>
 		<widget name="key_red" position="240,633" size="260,50" font="Medium;28" foregroundColor="white" backgroundColor="black" transparent="1" halign="center" valign="center" noWrap="1" zPosition="1"/>
 		<ePixmap pixmap="NileGlass_FHD/buttons/green_k260.png" position="740,633" size="260,50" alphatest="blend"/>
@@ -1406,38 +1397,38 @@
 		<widget name="config" position="40,104" size="1160,448" itemHeight="56" font="Regular;30" secondfont="Regular;30" foregroundColor="fg" backgroundColor="bg" foregroundColorSelected="white" backgroundColorSelected="bgSel" scrollbarMode="showOnDemand" scrollbarWidth="6" scrollbarSliderForegroundColor="accent" transparent="1"/>
 	</screen>
 	<screen name="DeliteInaSetup" position="center,center" size="1240,700" backgroundColor="transparent" flags="wfNoBorder" title="OpenBh E2 Inadyn Setup">
-		<eLabel position="0,0" size="1240,700" backgroundColor="bg" zPosition="-10"/>
+		<eLabel position="0,0" size="1240,700" backgroundColor="bg" zPosition="-10" cornerRadius="24"/>
 		<eLabel position="0,0" size="1240,3" backgroundColor="lineAccent" zPosition="-9"/>
 		<widget source="Title" render="Label" position="36,12" size="940,64" font="Medium;38" foregroundColor="accent" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1"/>
 		<widget source="global.CurrentTime" render="Label" position="984,12" size="220,64" font="Regular;40" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="right" valign="center" noWrap="1"><convert type="ClockToText">Format:%H:%M</convert></widget>
-		<eLabel position="0,88" size="1240,1" backgroundColor="line"/>
-		<eLabel position="0,616" size="1240,1" backgroundColor="line"/>
+		<eLabel position="24,88" size="1192,1" backgroundColor="line"/>
+		<eLabel position="24,616" size="1192,1" backgroundColor="line"/>
 		<ePixmap pixmap="NileGlass_FHD/buttons/green_k260.png" position="490,633" size="260,50" alphatest="blend"/>
 		<widget name="key_green" position="490,633" size="260,50" font="Medium;28" foregroundColor="white" backgroundColor="black" transparent="1" halign="center" valign="center" noWrap="1" zPosition="1"/>
 		<widget name="config" position="40,104" size="1160,448" itemHeight="56" font="Regular;30" secondfont="Regular;30" foregroundColor="fg" backgroundColor="bg" foregroundColorSelected="white" backgroundColorSelected="bgSel" scrollbarMode="showOnDemand" scrollbarWidth="6" scrollbarSliderForegroundColor="accent" transparent="1"/>
 	</screen>
 	<screen name="DeliteAutocamMan2" position="center,center" size="1240,880" backgroundColor="transparent" flags="wfNoBorder" title="OpenBh Autocam Manager">
-		<eLabel position="0,0" size="1240,880" backgroundColor="bg" zPosition="-10"/>
+		<eLabel position="0,0" size="1240,880" backgroundColor="bg" zPosition="-10" cornerRadius="24"/>
 		<eLabel position="0,0" size="1240,3" backgroundColor="lineAccent" zPosition="-9"/>
 		<widget source="Title" render="Label" position="36,12" size="940,64" font="Medium;38" foregroundColor="accent" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1"/>
 		<widget source="global.CurrentTime" render="Label" position="984,12" size="220,64" font="Regular;40" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="right" valign="center" noWrap="1"><convert type="ClockToText">Format:%H:%M</convert></widget>
-		<eLabel position="0,88" size="1240,1" backgroundColor="line"/>
-		<eLabel position="0,796" size="1240,1" backgroundColor="line"/>
+		<eLabel position="24,88" size="1192,1" backgroundColor="line"/>
+		<eLabel position="24,796" size="1192,1" backgroundColor="line"/>
 		<ePixmap pixmap="NileGlass_FHD/buttons/red_k260.png" position="240,813" size="260,50" alphatest="blend"/>
 		<widget name="key_red" position="240,813" size="260,50" font="Medium;28" foregroundColor="white" backgroundColor="black" transparent="1" halign="center" valign="center" noWrap="1" zPosition="1"/>
 		<ePixmap pixmap="NileGlass_FHD/buttons/green_k260.png" position="740,813" size="260,50" alphatest="blend"/>
 		<widget name="key_green" position="740,813" size="260,50" font="Medium;28" foregroundColor="white" backgroundColor="black" transparent="1" halign="center" valign="center" noWrap="1" zPosition="1"/>
-		<eLabel position="30,100" size="1180,60" backgroundColor="bgCard" zPosition="-5"/>
+		<eLabel position="30,100" size="1180,60" backgroundColor="bgCard" zPosition="-5" cornerRadius="12"/>
 		<widget name="defaultcam" position="50,100" size="1140,60" font="Medium;30" foregroundColor="gold" backgroundColor="bg" transparent="1" halign="left" valign="center"/>
 		<widget source="list" render="Listbox" position="30,176" size="1180,616" font="Regular;30" itemHeight="56" backgroundColor="bg" foregroundColor="fg" foregroundColorSelected="white" backgroundColorSelected="bgSel" scrollbarMode="showOnDemand" scrollbarWidth="6" scrollbarSliderForegroundColor="accent" transparent="1"><convert type="StringList"/></widget>
 	</screen>
 	<screen name="BhNetBrowser" position="center,center" size="1240,880" backgroundColor="transparent" flags="wfNoBorder" title="Select Network Interface">
-		<eLabel position="0,0" size="1240,880" backgroundColor="bg" zPosition="-10"/>
+		<eLabel position="0,0" size="1240,880" backgroundColor="bg" zPosition="-10" cornerRadius="24"/>
 		<eLabel position="0,0" size="1240,3" backgroundColor="lineAccent" zPosition="-9"/>
 		<widget source="Title" render="Label" position="36,12" size="940,64" font="Medium;38" foregroundColor="accent" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1"/>
 		<widget source="global.CurrentTime" render="Label" position="984,12" size="220,64" font="Regular;40" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="right" valign="center" noWrap="1"><convert type="ClockToText">Format:%H:%M</convert></widget>
-		<eLabel position="0,88" size="1240,1" backgroundColor="line"/>
-		<eLabel position="0,796" size="1240,1" backgroundColor="line"/>
+		<eLabel position="24,88" size="1192,1" backgroundColor="line"/>
+		<eLabel position="24,796" size="1192,1" backgroundColor="line"/>
 		<ePixmap pixmap="NileGlass_FHD/buttons/red_k260.png" position="240,813" size="260,50" alphatest="blend"/>
 		<widget name="key_red" position="240,813" size="260,50" font="Medium;28" foregroundColor="white" backgroundColor="black" transparent="1" halign="center" valign="center" noWrap="1" zPosition="1"/>
 		<ePixmap pixmap="NileGlass_FHD/buttons/green_k260.png" position="740,813" size="260,50" alphatest="blend"/>
@@ -1445,12 +1436,12 @@
 		<widget source="list" render="Listbox" position="30,104" size="1180,672" font="Regular;30" itemHeight="56" backgroundColor="bg" foregroundColor="fg" foregroundColorSelected="white" backgroundColorSelected="bgSel" scrollbarMode="showOnDemand" scrollbarWidth="6" scrollbarSliderForegroundColor="accent" transparent="1"><convert type="StringList"/></widget>
 	</screen>
 	<screen name="DeliteBluePanel" position="center,center" size="1600,960" backgroundColor="transparent" flags="wfNoBorder" title="OpenBh Blue Panel">
-		<eLabel position="0,0" size="1600,960" backgroundColor="bg" zPosition="-10"/>
+		<eLabel position="0,0" size="1600,960" backgroundColor="bg" zPosition="-10" cornerRadius="24"/>
 		<eLabel position="0,0" size="1600,3" backgroundColor="lineAccent" zPosition="-9"/>
 		<widget source="Title" render="Label" position="36,12" size="1300,64" font="Medium;38" foregroundColor="accent" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1"/>
 		<widget source="global.CurrentTime" render="Label" position="1344,12" size="220,64" font="Regular;40" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="right" valign="center" noWrap="1"><convert type="ClockToText">Format:%H:%M</convert></widget>
-		<eLabel position="0,88" size="1600,1" backgroundColor="line"/>
-		<eLabel position="0,876" size="1600,1" backgroundColor="line"/>
+		<eLabel position="24,88" size="1552,1" backgroundColor="line"/>
+		<eLabel position="24,876" size="1552,1" backgroundColor="line"/>
 		<ePixmap pixmap="NileGlass_FHD/buttons/red_k200.png" position="160,893" size="200,50" alphatest="blend"/>
 		<widget name="key_red" position="160,893" size="200,50" font="Medium;28" foregroundColor="white" backgroundColor="black" transparent="1" halign="center" valign="center" noWrap="1" zPosition="1"/>
 		<ePixmap pixmap="NileGlass_FHD/buttons/green_k200.png" position="520,893" size="200,50" alphatest="blend"/>
@@ -1475,7 +1466,7 @@
 		<widget source="session.CurrentService" render="Label" position="290,612" size="470,40" font="Regular;26" foregroundColor="fgDim" backgroundColor="bg" transparent="1" noWrap="1"><convert type="PliExtraInfo">TransponderInfo</convert></widget>
 		<widget source="session.CurrentService" render="Label" position="290,654" size="470,40" font="Regular;26" foregroundColor="fgDim" backgroundColor="bg" transparent="1" noWrap="1"><convert type="PliExtraInfo">PIDInfo</convert></widget>
 		<eLabel position="790,104" size="1,750" backgroundColor="line"/>
-		<eLabel position="820,104" size="740,750" backgroundColor="bgCard" zPosition="-5"/>
+		<eLabel position="820,104" size="740,750" backgroundColor="bgCard" zPosition="-5" cornerRadius="16"/>
 		<eLabel text="فك التشفير" position="844,114" size="700,44" font="ArabicBold;30" foregroundColor="accent" backgroundColor="bgCard" transparent="1"/>
 		<widget source="session.CurrentService" render="Label" position="844,162" size="700,44" font="Regular;30" foregroundColor="fgDim" backgroundColor="bgCard" transparent="1" noWrap="1"><convert type="PliExtraInfo">CryptoBar</convert></widget>
 		<widget source="session.CurrentService" render="Label" position="844,212" size="700,48" font="Medium;32" foregroundColor="gold" backgroundColor="bgCard" transparent="1" noWrap="1"><convert type="NGEcm">State</convert></widget>
@@ -1495,7 +1486,7 @@
 		<widget name="Ecmtext" position="844,550" size="700,290" font="Regular;22" foregroundColor="fgDim" backgroundColor="bgCard" transparent="1" halign="left"/>
 	</screen>
 	<screen name="Volume" position="1250,56" size="630,104" backgroundColor="transparent" flags="wfNoBorder">
-		<eLabel position="0,0" size="630,104" backgroundColor="bg" zPosition="-10"/>
+		<eLabel position="0,0" size="630,104" backgroundColor="bg" zPosition="-10" cornerRadius="18"/>
 		<eLabel position="0,0" size="630,3" backgroundColor="lineAccent" zPosition="-9"/>
 		<ePixmap pixmap="NileGlass_FHD/ui/speaker.png" position="22,24" size="56,56" alphatest="blend"/>
 		<eLabel position="96,46" size="360,14" backgroundColor="bgBar" zPosition="-9"/>
@@ -1504,7 +1495,7 @@
 		<eLabel text="%" position="568,30" size="44,50" font="Regular;32" foregroundColor="accent" backgroundColor="bg" transparent="1" halign="left" valign="center"/>
 	</screen>
 	<screen name="Dish" position="center,30" size="960,150" backgroundColor="transparent" flags="wfNoBorder">
-		<eLabel position="0,0" size="960,150" backgroundColor="bg" zPosition="-10"/>
+		<eLabel position="0,0" size="960,150" backgroundColor="bg" zPosition="-10" cornerRadius="24"/>
 		<eLabel position="0,0" size="960,3" backgroundColor="lineAccent" zPosition="-9"/>
 		<widget name="Dishpixmap" pixmap="NileGlass_FHD/ui/dish.png" position="24,27" size="96,96" alphatest="blend" zPosition="1"/>
 		<eLabel text="الطبق يتحرك" position="140,12" size="420,50" font="Medium;36" foregroundColor="accent" backgroundColor="bg" transparent="1" halign="left" valign="center"/>
@@ -1518,11 +1509,11 @@
 		<widget name="turnSpeed" position="700,96" size="240,40" font="Regular;24" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="right" valign="center"/>
 	</screen>
 	<screen name="AudioSelection" position="center,center" size="1240,968" backgroundColor="transparent" flags="wfNoBorder">
-		<eLabel position="0,0" size="1240,968" backgroundColor="bg" zPosition="-10"/>
+		<eLabel position="0,0" size="1240,968" backgroundColor="bg" zPosition="-10" cornerRadius="24"/>
 		<eLabel position="0,0" size="1240,3" backgroundColor="lineAccent" zPosition="-9"/>
 		<widget source="Title" render="Label" position="36,12" size="940,64" font="Medium;38" foregroundColor="accent" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1"/>
 		<widget source="global.CurrentTime" render="Label" position="984,12" size="220,64" font="Regular;40" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="right" valign="center" noWrap="1"><convert type="ClockToText">Format:%H:%M</convert></widget>
-		<eLabel position="0,88" size="1240,1" backgroundColor="line"/>
+		<eLabel position="24,88" size="1192,1" backgroundColor="line"/>
 		<widget source="global.CurrentTime" render="Label" position="700,12" size="270,64" font="Regular;26" foregroundColor="gold" backgroundColor="bg" transparent="1" halign="right" valign="center" noWrap="1"><convert type="ClockToText">Format:%A %d %B</convert></widget>
 		<!-- settings: the first four follow the colour keys -->
 		<widget name="config" position="84,100" size="1126,504" itemHeight="56" font="Regular;30" secondfont="Regular;30" backgroundColor="bg" foregroundColor="fg" foregroundColorSelected="white" backgroundColorSelected="bgSel" scrollbarMode="showOnDemand" scrollbarWidth="6" scrollbarSliderForegroundColor="accent" transparent="1"/>
@@ -1568,32 +1559,32 @@
 		<widget name="list" position="60,206" size="1800,740" itemHeight="100" backgroundColor="bg" foregroundColor="fg" foregroundColorSelected="white" backgroundColorSelected="bgSel" scrollbarMode="showOnDemand" scrollbarWidth="6" scrollbarSliderForegroundColor="accent" transparent="1"/>
 	</screen>
 	<screen name="ChannelContextMenu" position="center,center" size="1100,860" backgroundColor="transparent" flags="wfNoBorder">
-		<eLabel position="0,0" size="1100,860" backgroundColor="bg" zPosition="-10"/>
+		<eLabel position="0,0" size="1100,860" backgroundColor="bg" zPosition="-10" cornerRadius="24"/>
 		<eLabel position="0,0" size="1100,3" backgroundColor="lineAccent" zPosition="-9"/>
 		<widget source="Title" render="Label" position="36,12" size="800,64" font="Medium;38" foregroundColor="accent" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1"/>
 		<widget source="global.CurrentTime" render="Label" position="844,12" size="220,64" font="Regular;40" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="right" valign="center" noWrap="1"><convert type="ClockToText">Format:%H:%M</convert></widget>
-		<eLabel position="0,88" size="1100,1" backgroundColor="line"/>
+		<eLabel position="24,88" size="1052,1" backgroundColor="line"/>
 		<widget name="menu" position="30,104" size="1040,728" itemHeight="56" backgroundColor="bg" foregroundColor="fg" foregroundColorSelected="white" backgroundColorSelected="bgSel" scrollbarMode="showOnDemand" scrollbarWidth="6" scrollbarSliderForegroundColor="accent" transparent="1"/>
 	</screen>
 	<screen name="MovieContextMenu" position="center,center" size="1100,860" backgroundColor="transparent" flags="wfNoBorder">
-		<eLabel position="0,0" size="1100,860" backgroundColor="bg" zPosition="-10"/>
+		<eLabel position="0,0" size="1100,860" backgroundColor="bg" zPosition="-10" cornerRadius="24"/>
 		<eLabel position="0,0" size="1100,3" backgroundColor="lineAccent" zPosition="-9"/>
 		<widget source="Title" render="Label" position="36,12" size="800,64" font="Medium;38" foregroundColor="accent" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1"/>
 		<widget source="global.CurrentTime" render="Label" position="844,12" size="220,64" font="Regular;40" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="right" valign="center" noWrap="1"><convert type="ClockToText">Format:%H:%M</convert></widget>
-		<eLabel position="0,88" size="1100,1" backgroundColor="line"/>
+		<eLabel position="24,88" size="1052,1" backgroundColor="line"/>
 		<widget name="config" position="30,104" size="1040,560" itemHeight="56" backgroundColor="bg" foregroundColor="fg" foregroundColorSelected="white" backgroundColorSelected="bgSel" scrollbarMode="showOnDemand" scrollbarWidth="6" scrollbarSliderForegroundColor="accent" transparent="1"/>
 		<eLabel position="30,676" size="1040,1" backgroundColor="line"/>
 		<widget source="description" render="Label" position="30,684" size="1040,80" font="Regular;26" foregroundColor="fgDim" backgroundColor="bg" transparent="1"/>
 		<widget name="footnote" position="30,766" size="1040,30" font="Regular;22" foregroundColor="gold" backgroundColor="bg" transparent="1"/>
 	</screen>
 	<screen name="InputBox" position="center,center" size="1240,380" backgroundColor="transparent" flags="wfNoBorder">
-		<eLabel position="0,0" size="1240,380" backgroundColor="bg" zPosition="-10"/>
+		<eLabel position="0,0" size="1240,380" backgroundColor="bg" zPosition="-10" cornerRadius="24"/>
 		<eLabel position="0,0" size="1240,3" backgroundColor="lineAccent" zPosition="-9"/>
 		<widget source="Title" render="Label" position="36,12" size="940,64" font="Medium;38" foregroundColor="accent" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1"/>
 		<widget source="global.CurrentTime" render="Label" position="984,12" size="220,64" font="Regular;40" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="right" valign="center" noWrap="1"><convert type="ClockToText">Format:%H:%M</convert></widget>
-		<eLabel position="0,88" size="1240,1" backgroundColor="line"/>
+		<eLabel position="24,88" size="1192,1" backgroundColor="line"/>
 		<widget name="text" position="40,104" size="1160,100" font="Regular;30" foregroundColor="fg" backgroundColor="bg" transparent="1" valign="center"/>
-		<eLabel position="40,214" size="1160,70" backgroundColor="bgCard" zPosition="-5"/>
+		<eLabel position="40,214" size="1160,70" backgroundColor="bgCard" zPosition="-5" cornerRadius="12"/>
 		<widget name="input" position="60,214" size="1120,70" font="Medium;38" foregroundColor="white" backgroundColor="bgCard" transparent="1" valign="center"/>
 	</screen>
 	<screen name="HelpMenu" position="0,0" size="1920,1080" backgroundColor="transparent" flags="wfNoBorder">
@@ -1602,34 +1593,34 @@
 	</screen>
 	<screen name="NileGlassWeather" position="0,0" size="1920,1080" backgroundColor="transparent" flags="wfNoBorder">
 		<panel name="NG_Frame"/>
-		<eLabel position="60,146" size="1800,280" backgroundColor="bgCard" zPosition="-5"/>
+		<eLabel position="60,146" size="1800,280" backgroundColor="bgCard" zPosition="-5" cornerRadius="16"/>
 		<widget name="now_icon" position="90,176" size="200,200" alphatest="blend" scale="1" zPosition="1"/>
 		<widget name="now_temp" position="320,170" size="420,130" font="Medium;110" foregroundColor="fg" backgroundColor="bgCard" transparent="1" halign="left" valign="center" noWrap="1"/>
 		<widget name="now_desc" position="320,300" size="900,56" font="Regular;38" foregroundColor="accent" backgroundColor="bgCard" transparent="1" halign="left" valign="center" noWrap="1"/>
 		<widget name="now_extra" position="320,360" size="1500,44" font="Regular;28" foregroundColor="fgDim" backgroundColor="bgCard" transparent="1" halign="left" valign="center" noWrap="1"/>
 		<widget name="city" position="1100,170" size="720,80" font="Medium;54" foregroundColor="gold" backgroundColor="bgCard" transparent="1" halign="right" valign="center" noWrap="1"/>
 		<widget name="updated" position="1100,250" size="720,40" font="Regular;24" foregroundColor="fgMute" backgroundColor="bgCard" transparent="1" halign="right" valign="center" noWrap="1"/>
-		<eLabel position="60,446" size="344,490" backgroundColor="bgCard" zPosition="-5"/>
+		<eLabel position="60,446" size="344,490" backgroundColor="bgCard" zPosition="-5" cornerRadius="16"/>
 		<widget name="day0" position="60,462" size="344,50" font="Medium;34" foregroundColor="accent" backgroundColor="bgCard" transparent="1" halign="center" valign="center" noWrap="1"/>
 		<widget name="icon0" position="157,526" size="150,150" alphatest="blend" scale="1" zPosition="1"/>
 		<widget name="temp0" position="60,690" size="344,60" font="Medium;40" foregroundColor="fg" backgroundColor="bgCard" transparent="1" halign="center" valign="center" noWrap="1"/>
 		<widget name="desc0" position="70,760" size="324,160" font="Regular;28" foregroundColor="fgDim" backgroundColor="bgCard" transparent="1" halign="center" valign="top"/>
-		<eLabel position="424,446" size="344,490" backgroundColor="bgCard" zPosition="-5"/>
+		<eLabel position="424,446" size="344,490" backgroundColor="bgCard" zPosition="-5" cornerRadius="16"/>
 		<widget name="day1" position="424,462" size="344,50" font="Medium;34" foregroundColor="accent" backgroundColor="bgCard" transparent="1" halign="center" valign="center" noWrap="1"/>
 		<widget name="icon1" position="521,526" size="150,150" alphatest="blend" scale="1" zPosition="1"/>
 		<widget name="temp1" position="424,690" size="344,60" font="Medium;40" foregroundColor="fg" backgroundColor="bgCard" transparent="1" halign="center" valign="center" noWrap="1"/>
 		<widget name="desc1" position="434,760" size="324,160" font="Regular;28" foregroundColor="fgDim" backgroundColor="bgCard" transparent="1" halign="center" valign="top"/>
-		<eLabel position="788,446" size="344,490" backgroundColor="bgCard" zPosition="-5"/>
+		<eLabel position="788,446" size="344,490" backgroundColor="bgCard" zPosition="-5" cornerRadius="16"/>
 		<widget name="day2" position="788,462" size="344,50" font="Medium;34" foregroundColor="accent" backgroundColor="bgCard" transparent="1" halign="center" valign="center" noWrap="1"/>
 		<widget name="icon2" position="885,526" size="150,150" alphatest="blend" scale="1" zPosition="1"/>
 		<widget name="temp2" position="788,690" size="344,60" font="Medium;40" foregroundColor="fg" backgroundColor="bgCard" transparent="1" halign="center" valign="center" noWrap="1"/>
 		<widget name="desc2" position="798,760" size="324,160" font="Regular;28" foregroundColor="fgDim" backgroundColor="bgCard" transparent="1" halign="center" valign="top"/>
-		<eLabel position="1152,446" size="344,490" backgroundColor="bgCard" zPosition="-5"/>
+		<eLabel position="1152,446" size="344,490" backgroundColor="bgCard" zPosition="-5" cornerRadius="16"/>
 		<widget name="day3" position="1152,462" size="344,50" font="Medium;34" foregroundColor="accent" backgroundColor="bgCard" transparent="1" halign="center" valign="center" noWrap="1"/>
 		<widget name="icon3" position="1249,526" size="150,150" alphatest="blend" scale="1" zPosition="1"/>
 		<widget name="temp3" position="1152,690" size="344,60" font="Medium;40" foregroundColor="fg" backgroundColor="bgCard" transparent="1" halign="center" valign="center" noWrap="1"/>
 		<widget name="desc3" position="1162,760" size="324,160" font="Regular;28" foregroundColor="fgDim" backgroundColor="bgCard" transparent="1" halign="center" valign="top"/>
-		<eLabel position="1516,446" size="344,490" backgroundColor="bgCard" zPosition="-5"/>
+		<eLabel position="1516,446" size="344,490" backgroundColor="bgCard" zPosition="-5" cornerRadius="16"/>
 		<widget name="day4" position="1516,462" size="344,50" font="Medium;34" foregroundColor="accent" backgroundColor="bgCard" transparent="1" halign="center" valign="center" noWrap="1"/>
 		<widget name="icon4" position="1613,526" size="150,150" alphatest="blend" scale="1" zPosition="1"/>
 		<widget name="temp4" position="1516,690" size="344,60" font="Medium;40" foregroundColor="fg" backgroundColor="bgCard" transparent="1" halign="center" valign="center" noWrap="1"/>
@@ -1668,7 +1659,7 @@
 		<widget name="when" position="80,698" size="1100,40" font="Regular;28" foregroundColor="gold" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1"/>
 		<widget name="info" position="80,740" size="1100,38" font="Regular;27" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1"/>
 		<widget name="desc" position="80,782" size="1100,166" font="Regular;28" foregroundColor="#d6dbe1" backgroundColor="bg" transparent="1" halign="left"/>
-		<eLabel position="1210,644" size="630,304" backgroundColor="bgCard" zPosition="-5"/>
+		<eLabel position="1210,644" size="630,304" backgroundColor="bgCard" zPosition="-5" cornerRadius="16"/>
 		<widget name="card" position="1230,656" size="590,280" font="Regular;27" foregroundColor="fg" backgroundColor="bgCard" transparent="1" halign="left"/>
 	</screen>
 	<screen name="NileGlassFilm" position="0,0" size="1920,1080" backgroundColor="transparent" flags="wfNoBorder">
@@ -1686,36 +1677,36 @@
 		<widget name="story" position="480,296" size="1360,206" font="Regular;29" foregroundColor="#e6e9ec" backgroundColor="bg" transparent="1" halign="left"/>
 		<widget name="crew" position="480,512" size="1360,110" font="Regular;26" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left"/>
 		<eLabel text="الأبطال" position="80,640" size="400,40" font="ArabicBold;28" foregroundColor="accent" backgroundColor="bg" transparent="1" halign="left"/>
-		<eLabel position="80,686" size="140,210" backgroundColor="bgCard" zPosition="0"/>
+		<eLabel position="80,686" size="140,210" backgroundColor="bgCard" zPosition="0" cornerRadius="16"/>
 		<widget name="cast0" position="80,686" size="140,210" scale="1" zPosition="1"/>
 		<widget name="castname0" position="62,900" size="176,80" font="Regular;21" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="center" valign="top"/>
-		<eLabel position="266,686" size="140,210" backgroundColor="bgCard" zPosition="0"/>
+		<eLabel position="266,686" size="140,210" backgroundColor="bgCard" zPosition="0" cornerRadius="16"/>
 		<widget name="cast1" position="266,686" size="140,210" scale="1" zPosition="1"/>
 		<widget name="castname1" position="248,900" size="176,80" font="Regular;21" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="center" valign="top"/>
-		<eLabel position="452,686" size="140,210" backgroundColor="bgCard" zPosition="0"/>
+		<eLabel position="452,686" size="140,210" backgroundColor="bgCard" zPosition="0" cornerRadius="16"/>
 		<widget name="cast2" position="452,686" size="140,210" scale="1" zPosition="1"/>
 		<widget name="castname2" position="434,900" size="176,80" font="Regular;21" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="center" valign="top"/>
-		<eLabel position="638,686" size="140,210" backgroundColor="bgCard" zPosition="0"/>
+		<eLabel position="638,686" size="140,210" backgroundColor="bgCard" zPosition="0" cornerRadius="16"/>
 		<widget name="cast3" position="638,686" size="140,210" scale="1" zPosition="1"/>
 		<widget name="castname3" position="620,900" size="176,80" font="Regular;21" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="center" valign="top"/>
-		<eLabel position="824,686" size="140,210" backgroundColor="bgCard" zPosition="0"/>
+		<eLabel position="824,686" size="140,210" backgroundColor="bgCard" zPosition="0" cornerRadius="16"/>
 		<widget name="cast4" position="824,686" size="140,210" scale="1" zPosition="1"/>
 		<widget name="castname4" position="806,900" size="176,80" font="Regular;21" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="center" valign="top"/>
-		<eLabel position="1010,686" size="140,210" backgroundColor="bgCard" zPosition="0"/>
+		<eLabel position="1010,686" size="140,210" backgroundColor="bgCard" zPosition="0" cornerRadius="16"/>
 		<widget name="cast5" position="1010,686" size="140,210" scale="1" zPosition="1"/>
 		<widget name="castname5" position="992,900" size="176,80" font="Regular;21" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="center" valign="top"/>
 		<widget name="showings_title" position="1240,640" size="600,40" font="ArabicBold;28" foregroundColor="accent" backgroundColor="bg" transparent="1" halign="left"/>
-		<eLabel position="1236,684" size="608,316" backgroundColor="bgCard" zPosition="-1"/>
+		<eLabel position="1236,684" size="608,316" backgroundColor="bgCard" zPosition="-1" cornerRadius="16"/>
 		<widget source="showings" render="Listbox" position="1240,688" size="600,308" backgroundColor="bgCard" foregroundColor="fg" foregroundColorSelected="white" backgroundColorSelected="bgSel" scrollbarMode="showOnDemand" scrollbarWidth="6" scrollbarSliderForegroundColor="accent" transparent="1"><convert type="TemplatedMultiContent">{"template": [MultiContentEntryText(pos=(14, 0), size=(250, 44), font=0, flags=RT_HALIGN_LEFT|RT_VALIGN_CENTER, text=0, color="#f2c94c", color_sel="#ffffff"), MultiContentEntryText(pos=(270, 0), size=(316, 44), font=0, flags=RT_HALIGN_LEFT|RT_VALIGN_CENTER, text=1)], "fonts": [gFont("Regular", 26)], "itemHeight": 44}</convert></widget>
 		<eLabel text="أعلى/أسفل: اختيار الميعاد     OK: تحويل     الأحمر: تسجيل" position="80,1010" size="1760,40" font="Regular;24" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center"/>
 	</screen>
 	<screen name="Satfinder" position="center,center" size="1503,849" backgroundColor="transparent" flags="wfNoBorder">
-		<eLabel position="0,0" size="1503,849" backgroundColor="bg" zPosition="-10"/>
+		<eLabel position="0,0" size="1503,849" backgroundColor="bg" zPosition="-10" cornerRadius="24"/>
 		<eLabel position="0,0" size="1503,3" backgroundColor="lineAccent" zPosition="-9"/>
 		<widget source="Title" render="Label" position="36,12" size="1203,64" font="Medium;38" foregroundColor="accent" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1"/>
 		<widget source="global.CurrentTime" render="Label" position="1247,12" size="220,64" font="Regular;40" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="right" valign="center" noWrap="1"><convert type="ClockToText">Format:%H:%M</convert></widget>
-		<eLabel position="0,88" size="1503,1" backgroundColor="line"/>
-		<eLabel position="0,765" size="1503,1" backgroundColor="line"/>
+		<eLabel position="24,88" size="1455,1" backgroundColor="line"/>
+		<eLabel position="24,765" size="1455,1" backgroundColor="line"/>
 		<ePixmap pixmap="NileGlass_FHD/buttons/red_k200.png" position="140,788" size="200,38" alphatest="blend" conditional="key_red"/>
 		<widget name="key_red" position="140,788" size="200,38" font="Medium;24" foregroundColor="white" backgroundColor="black" transparent="1" halign="center" valign="center" noWrap="1" zPosition="1" objectTypes="key_red,Button,Label"/>
 		<widget source="key_red" render="Label" position="140,788" size="200,38" font="Medium;24" foregroundColor="white" backgroundColor="black" transparent="1" halign="center" valign="center" noWrap="1" zPosition="1" objectTypes="key_red,StaticText"/>
@@ -1732,7 +1723,7 @@
 		<eLabel position="30,558" size="836,1" backgroundColor="line"/>
 		<widget name="description" position="30,565" size="836,74" font="Regular;23" foregroundColor="fgDim" backgroundColor="bg" transparent="1"/>
 		<widget name="introduction" position="30,640" size="836,49" font="Regular;23" foregroundColor="gold" backgroundColor="bg" transparent="1"/>
-		<eLabel position="891,104" size="582,651" backgroundColor="bgCard" zPosition="-5"/>
+		<eLabel position="891,104" size="582,651" backgroundColor="bgCard" zPosition="-5" cornerRadius="16"/>
 		<eLabel text="قوة الإشارة" position="916,115" size="533,36" font="ArabicBold;27" foregroundColor="accent" backgroundColor="bgCard" transparent="1" halign="left"/>
 		<eLabel text="SNR" position="916,165" size="98,36" font="Medium;29" foregroundColor="fg" backgroundColor="bgCard" transparent="1" halign="left" valign="center"/>
 		<widget source="Frontend" render="Label" position="1309,165" size="148,36" font="Medium;34" foregroundColor="green" backgroundColor="bgCard" transparent="1" valign="center" noWrap="1" halign="right"><convert type="FrontendInfo">SNR</convert></widget>
@@ -1757,12 +1748,12 @@
 		<widget source="tsid" render="Label" position="1112,607" size="344,36" font="Medium;27" foregroundColor="fg" backgroundColor="bgCard" transparent="1" halign="right" valign="center" noWrap="1" objectTypes="tsid,StaticText"/>
 	</screen>
 	<screen name="ScanSetup" position="center,center" size="1503,849" backgroundColor="transparent" flags="wfNoBorder">
-		<eLabel position="0,0" size="1503,849" backgroundColor="bg" zPosition="-10"/>
+		<eLabel position="0,0" size="1503,849" backgroundColor="bg" zPosition="-10" cornerRadius="24"/>
 		<eLabel position="0,0" size="1503,3" backgroundColor="lineAccent" zPosition="-9"/>
 		<widget source="Title" render="Label" position="36,12" size="1203,64" font="Medium;38" foregroundColor="accent" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1"/>
 		<widget source="global.CurrentTime" render="Label" position="1247,12" size="220,64" font="Regular;40" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="right" valign="center" noWrap="1"><convert type="ClockToText">Format:%H:%M</convert></widget>
-		<eLabel position="0,88" size="1503,1" backgroundColor="line"/>
-		<eLabel position="0,765" size="1503,1" backgroundColor="line"/>
+		<eLabel position="24,88" size="1455,1" backgroundColor="line"/>
+		<eLabel position="24,765" size="1455,1" backgroundColor="line"/>
 		<ePixmap pixmap="NileGlass_FHD/buttons/red_k200.png" position="140,788" size="200,38" alphatest="blend" conditional="key_red"/>
 		<widget name="key_red" position="140,788" size="200,38" font="Medium;24" foregroundColor="white" backgroundColor="black" transparent="1" halign="center" valign="center" noWrap="1" zPosition="1" objectTypes="key_red,Button,Label"/>
 		<widget source="key_red" render="Label" position="140,788" size="200,38" font="Medium;24" foregroundColor="white" backgroundColor="black" transparent="1" halign="center" valign="center" noWrap="1" zPosition="1" objectTypes="key_red,StaticText"/>
@@ -1781,12 +1772,12 @@
 		<widget name="introduction" position="30,732" size="1443,25" font="Regular;22" foregroundColor="gold" backgroundColor="bg" transparent="1" noWrap="1"/>
 	</screen>
 	<screen name="ScanSimple" position="center,center" size="1503,849" backgroundColor="transparent" flags="wfNoBorder">
-		<eLabel position="0,0" size="1503,849" backgroundColor="bg" zPosition="-10"/>
+		<eLabel position="0,0" size="1503,849" backgroundColor="bg" zPosition="-10" cornerRadius="24"/>
 		<eLabel position="0,0" size="1503,3" backgroundColor="lineAccent" zPosition="-9"/>
 		<widget source="Title" render="Label" position="36,12" size="1203,64" font="Medium;38" foregroundColor="accent" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1"/>
 		<widget source="global.CurrentTime" render="Label" position="1247,12" size="220,64" font="Regular;40" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="right" valign="center" noWrap="1"><convert type="ClockToText">Format:%H:%M</convert></widget>
-		<eLabel position="0,88" size="1503,1" backgroundColor="line"/>
-		<eLabel position="0,765" size="1503,1" backgroundColor="line"/>
+		<eLabel position="24,88" size="1455,1" backgroundColor="line"/>
+		<eLabel position="24,765" size="1455,1" backgroundColor="line"/>
 		<ePixmap pixmap="NileGlass_FHD/buttons/red_k200.png" position="140,788" size="200,38" alphatest="blend" conditional="key_red"/>
 		<widget name="key_red" position="140,788" size="200,38" font="Medium;24" foregroundColor="white" backgroundColor="black" transparent="1" halign="center" valign="center" noWrap="1" zPosition="1" objectTypes="key_red,Button,Label"/>
 		<widget source="key_red" render="Label" position="140,788" size="200,38" font="Medium;24" foregroundColor="white" backgroundColor="black" transparent="1" halign="center" valign="center" noWrap="1" zPosition="1" objectTypes="key_red,StaticText"/>
@@ -1803,7 +1794,7 @@
 		<eLabel position="30,645" size="1443,1" backgroundColor="line"/>
 	</screen>
 	<screen name="NileGlassMotor" position="center,48" size="820,150" backgroundColor="transparent" flags="wfNoBorder" zPosition="5">
-		<eLabel position="0,0" size="820,150" backgroundColor="bg" zPosition="-10"/>
+		<eLabel position="0,0" size="820,150" backgroundColor="bg" zPosition="-10" cornerRadius="24"/>
 		<eLabel position="0,0" size="820,3" backgroundColor="lineAccent" zPosition="-9"/>
 		<widget name="title" position="24,10" size="560,40" font="Medium;28" foregroundColor="gold" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1"/>
 		<widget name="time" position="596,8" size="200,48" font="Medium;40" foregroundColor="accent" backgroundColor="bg" transparent="1" halign="right" valign="center" noWrap="1"/>
@@ -1813,12 +1804,12 @@
 		<widget name="info" position="24,114" size="772,30" font="Regular;22" foregroundColor="fgMute" backgroundColor="bg" transparent="1" halign="center" valign="center" noWrap="1"/>
 	</screen>
 	<screen name="NileGlassReaderEdit" position="center,center" size="1503,849" backgroundColor="transparent" flags="wfNoBorder">
-		<eLabel position="0,0" size="1503,849" backgroundColor="bg" zPosition="-10"/>
+		<eLabel position="0,0" size="1503,849" backgroundColor="bg" zPosition="-10" cornerRadius="24"/>
 		<eLabel position="0,0" size="1503,3" backgroundColor="lineAccent" zPosition="-9"/>
 		<widget source="Title" render="Label" position="36,12" size="1203,64" font="Medium;38" foregroundColor="accent" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1"/>
 		<widget source="global.CurrentTime" render="Label" position="1247,12" size="220,64" font="Regular;40" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="right" valign="center" noWrap="1"><convert type="ClockToText">Format:%H:%M</convert></widget>
-		<eLabel position="0,88" size="1503,1" backgroundColor="line"/>
-		<eLabel position="0,765" size="1503,1" backgroundColor="line"/>
+		<eLabel position="24,88" size="1455,1" backgroundColor="line"/>
+		<eLabel position="24,765" size="1455,1" backgroundColor="line"/>
 		<ePixmap pixmap="NileGlass_FHD/buttons/red_k260.png" position="327,788" size="260,38" alphatest="blend" conditional="key_red"/>
 		<widget name="key_red" position="327,788" size="260,38" font="Medium;24" foregroundColor="white" backgroundColor="black" transparent="1" halign="center" valign="center" noWrap="1" zPosition="1" objectTypes="key_red,Button,Label"/>
 		<widget source="key_red" render="Label" position="327,788" size="260,38" font="Medium;24" foregroundColor="white" backgroundColor="black" transparent="1" halign="center" valign="center" noWrap="1" zPosition="1" objectTypes="key_red,StaticText"/>
@@ -1831,7 +1822,7 @@
 		<widget name="footnote" position="30,673" size="1443,33" font="Regular;22" foregroundColor="fgDim" backgroundColor="bg" transparent="1" noWrap="1"/>
 	</screen>
 	<screen name="NileGlassCamBar" position="center,40" size="1100,420" backgroundColor="transparent" flags="wfNoBorder">
-		<eLabel position="0,0" size="1100,420" backgroundColor="bg" zPosition="-10"/>
+		<eLabel position="0,0" size="1100,420" backgroundColor="bg" zPosition="-10" cornerRadius="24"/>
 		<eLabel position="0,0" size="1100,3" backgroundColor="lineAccent" zPosition="-9"/>
 		<eLabel text="الإيمو" position="30,14" size="300,40" font="Medium;28" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center"/>
 		<widget name="state" position="560,14" size="510,40" font="Regular;26" foregroundColor="green" backgroundColor="bg" transparent="1" halign="right" valign="center" noWrap="1"/>
@@ -1869,12 +1860,12 @@
 		<eLabel position="80,218" size="1760,1" backgroundColor="line"/>
 		<widget source="list" render="Listbox" position="80,226" size="1760,416" backgroundColor="bg" foregroundColor="fg" foregroundColorSelected="white" backgroundColorSelected="bgSel" scrollbarMode="showOnDemand" scrollbarWidth="6" scrollbarSliderForegroundColor="accent" transparent="1"><convert type="TemplatedMultiContent">{"template": [MultiContentEntryText(pos=(14, 0), size=(400, 52), font=0, flags=RT_HALIGN_LEFT|RT_VALIGN_CENTER, text=0), MultiContentEntryText(pos=(420, 0), size=(200, 52), font=1, flags=RT_HALIGN_LEFT|RT_VALIGN_CENTER, text=1, color="#f0c419", color_sel="#ffffff"), MultiContentEntryText(pos=(630, 0), size=(560, 52), font=1, flags=RT_HALIGN_LEFT|RT_VALIGN_CENTER, text=2), MultiContentEntryText(pos=(1200, 0), size=(300, 52), font=1, flags=RT_HALIGN_LEFT|RT_VALIGN_CENTER, text=3, color="#9aa3ae", color_sel="#ffffff"), MultiContentEntryText(pos=(1510, 0), size=(236, 52), font=1, flags=RT_HALIGN_RIGHT|RT_VALIGN_CENTER, text=4, color=MultiContentTemplateColor(6), color_sel="#ffffff")], "fonts": [gFont("Medium", 30), gFont("Regular", 26)], "itemHeight": 52}</convert></widget>
 		<eLabel position="80,652" size="1760,1" backgroundColor="line"/>
-		<eLabel position="80,662" size="1760,236" backgroundColor="bgCard" zPosition="-5"/>
+		<eLabel position="80,662" size="1760,236" backgroundColor="bgCard" zPosition="-5" cornerRadius="16"/>
 		<widget name="details" position="100,670" size="1720,222" font="Regular;24" foregroundColor="#c8ced6" backgroundColor="bgCard" transparent="1" halign="left" valign="top"/>
 		<widget name="hint" position="80,906" size="1760,40" font="Regular;22" foregroundColor="fgMute" backgroundColor="bg" transparent="1" halign="center" valign="center" noWrap="1"/>
 	</screen>
 	<screen name="NileGlassBitrate" position="center,center" size="960,420" backgroundColor="transparent" flags="wfNoBorder">
-		<eLabel position="0,0" size="960,420" backgroundColor="bg" zPosition="-10"/>
+		<eLabel position="0,0" size="960,420" backgroundColor="bg" zPosition="-10" cornerRadius="24"/>
 		<eLabel position="0,0" size="960,3" backgroundColor="lineAccent" zPosition="-9"/>
 		<eLabel text="معدل البت (kb/s)" position="30,20" size="560,56" font="Medium;36" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="left" valign="center"/>
 		<widget source="session.CurrentService" render="Label" position="590,20" size="340,56" font="Regular;26" foregroundColor="gold" backgroundColor="bg" transparent="1" halign="right" valign="center" noWrap="1"><convert type="ServiceName">Name</convert></widget>
@@ -1900,12 +1891,12 @@
 		<eLabel text="بيتحدث كل ثانية  ·  OK / EXIT للإغلاق" position="30,376" size="900,32" font="Regular;22" foregroundColor="fgMute" backgroundColor="bg" transparent="1" halign="center" valign="center"/>
 	</screen>
 	<screen name="PositionerSetup" position="center,center" size="1503,849" backgroundColor="transparent" flags="wfNoBorder">
-		<eLabel position="0,0" size="1503,849" backgroundColor="bg" zPosition="-10"/>
+		<eLabel position="0,0" size="1503,849" backgroundColor="bg" zPosition="-10" cornerRadius="24"/>
 		<eLabel position="0,0" size="1503,3" backgroundColor="lineAccent" zPosition="-9"/>
 		<widget source="Title" render="Label" position="36,12" size="1203,64" font="Medium;38" foregroundColor="accent" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1"/>
 		<widget source="global.CurrentTime" render="Label" position="1247,12" size="220,64" font="Regular;40" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="right" valign="center" noWrap="1"><convert type="ClockToText">Format:%H:%M</convert></widget>
-		<eLabel position="0,88" size="1503,1" backgroundColor="line"/>
-		<eLabel position="0,765" size="1503,1" backgroundColor="line"/>
+		<eLabel position="24,88" size="1455,1" backgroundColor="line"/>
+		<eLabel position="24,765" size="1455,1" backgroundColor="line"/>
 		<ePixmap pixmap="NileGlass_FHD/buttons/red_k200.png" position="140,788" size="200,38" alphatest="blend" conditional="key_red"/>
 		<widget name="key_red" position="140,788" size="200,38" font="Medium;24" foregroundColor="white" backgroundColor="black" transparent="1" halign="center" valign="center" noWrap="1" zPosition="1" objectTypes="key_red,Button,Label"/>
 		<widget source="key_red" render="Label" position="140,788" size="200,38" font="Medium;24" foregroundColor="white" backgroundColor="black" transparent="1" halign="center" valign="center" noWrap="1" zPosition="1" objectTypes="key_red,StaticText"/>
@@ -1922,7 +1913,7 @@
 		<eLabel position="30,647" size="836,1" backgroundColor="line"/>
 		<widget name="status_bar" position="30,653" size="836,49" font="Regular;23" foregroundColor="gold" backgroundColor="bg" transparent="1" halign="left" valign="center"/>
 		<widget name="rotorstatus" position="30,704" size="836,49" font="Medium;25" foregroundColor="accent" backgroundColor="bg" transparent="1" halign="left" valign="center"/>
-		<eLabel position="891,104" size="582,651" backgroundColor="bgCard" zPosition="-5"/>
+		<eLabel position="891,104" size="582,651" backgroundColor="bgCard" zPosition="-5" cornerRadius="16"/>
 		<eLabel text="الإشارة" position="916,115" size="344,36" font="ArabicBold;27" foregroundColor="accent" backgroundColor="bgCard" transparent="1" halign="left"/>
 		<ePixmap pixmap="NileGlass_FHD/icons/lock_off.png" position="1404,111" size="52,52" alphatest="blend"/>
 		<widget name="lock_on" pixmap="NileGlass_FHD/icons/lock_on.png" position="1404,111" size="52,52" alphatest="blend" zPosition="1"/>
@@ -1954,12 +1945,12 @@
 		<widget source="key_menu" render="Label" position="1211,706" size="246,33" font="Regular;22" foregroundColor="fgMute" backgroundColor="bgCard" transparent="1" halign="right" valign="center"/>
 	</screen>
 	<screen name="TunerScreen" position="center,center" size="1240,820" backgroundColor="transparent" flags="wfNoBorder">
-		<eLabel position="0,0" size="1240,820" backgroundColor="bg" zPosition="-10"/>
+		<eLabel position="0,0" size="1240,820" backgroundColor="bg" zPosition="-10" cornerRadius="24"/>
 		<eLabel position="0,0" size="1240,3" backgroundColor="lineAccent" zPosition="-9"/>
 		<widget source="Title" render="Label" position="36,12" size="940,64" font="Medium;38" foregroundColor="accent" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1"/>
 		<widget source="global.CurrentTime" render="Label" position="984,12" size="220,64" font="Regular;40" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="right" valign="center" noWrap="1"><convert type="ClockToText">Format:%H:%M</convert></widget>
-		<eLabel position="0,88" size="1240,1" backgroundColor="line"/>
-		<eLabel position="0,736" size="1240,1" backgroundColor="line"/>
+		<eLabel position="24,88" size="1192,1" backgroundColor="line"/>
+		<eLabel position="24,736" size="1192,1" backgroundColor="line"/>
 		<ePixmap pixmap="NileGlass_FHD/buttons/red_k260.png" position="240,759" size="260,38" alphatest="blend" conditional="key_red"/>
 		<widget name="key_red" position="240,759" size="260,38" font="Medium;24" foregroundColor="white" backgroundColor="black" transparent="1" halign="center" valign="center" noWrap="1" zPosition="1" objectTypes="key_red,Button,Label"/>
 		<widget source="key_red" render="Label" position="240,759" size="260,38" font="Medium;24" foregroundColor="white" backgroundColor="black" transparent="1" halign="center" valign="center" noWrap="1" zPosition="1" objectTypes="key_red,StaticText"/>
@@ -1970,11 +1961,11 @@
 		<widget name="introduction" position="40,620" size="1160,100" font="Regular;26" foregroundColor="gold" backgroundColor="bg" transparent="1" halign="left" valign="top"/>
 	</screen>
 	<screen name="RotorNimSelection" position="center,center" size="1000,500" backgroundColor="transparent" flags="wfNoBorder">
-		<eLabel position="0,0" size="1000,500" backgroundColor="bg" zPosition="-10"/>
+		<eLabel position="0,0" size="1000,500" backgroundColor="bg" zPosition="-10" cornerRadius="24"/>
 		<eLabel position="0,0" size="1000,3" backgroundColor="lineAccent" zPosition="-9"/>
 		<widget source="Title" render="Label" position="36,12" size="700,64" font="Medium;38" foregroundColor="accent" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1"/>
 		<widget source="global.CurrentTime" render="Label" position="744,12" size="220,64" font="Regular;40" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="right" valign="center" noWrap="1"><convert type="ClockToText">Format:%H:%M</convert></widget>
-		<eLabel position="0,88" size="1000,1" backgroundColor="line"/>
+		<eLabel position="24,88" size="952,1" backgroundColor="line"/>
 		<widget name="nimlist" position="30,104" size="940,370" itemHeight="62" font="Regular;30" backgroundColor="bg" foregroundColor="fg" foregroundColorSelected="white" backgroundColorSelected="bgSel" scrollbarMode="showOnDemand" scrollbarWidth="6" scrollbarSliderForegroundColor="accent" transparent="1"/>
 	</screen>
 	<screen name="PositionerSetupLog" position="0,0" size="1920,1080" backgroundColor="transparent" flags="wfNoBorder">
@@ -1982,16 +1973,16 @@
 		<widget name="list" position="80,146" size="1760,790" font="Regular;26" foregroundColor="fg" backgroundColor="bg" transparent="1"/>
 	</screen>
 	<screen name="Nab_DoStartCam" position="center,center" size="760,230" backgroundColor="transparent" flags="wfNoBorder" title="الإيمو">
-		<eLabel position="0,0" size="760,230" backgroundColor="bg" zPosition="-10"/>
+		<eLabel position="0,0" size="760,230" backgroundColor="bg" zPosition="-10" cornerRadius="24"/>
 		<eLabel position="0,0" size="760,3" backgroundColor="lineAccent" zPosition="-9"/>
 		<widget source="Title" render="Label" position="36,12" size="460,64" font="Medium;38" foregroundColor="accent" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1"/>
 		<widget source="global.CurrentTime" render="Label" position="504,12" size="220,64" font="Regular;40" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="right" valign="center" noWrap="1"><convert type="ClockToText">Format:%H:%M</convert></widget>
-		<eLabel position="0,88" size="760,1" backgroundColor="line"/>
+		<eLabel position="24,88" size="712,1" backgroundColor="line"/>
 		<widget name="connect" position="40,116" size="64,64" pixmaps="NileGlass_FHD/icons/camstart_0.png,NileGlass_FHD/icons/camstart_1.png,NileGlass_FHD/icons/camstart_2.png,NileGlass_FHD/icons/camstart_3.png" alphatest="blend"/>
 		<widget name="lab1" position="130,100" size="600,100" font="Regular;30" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="left" valign="center"/>
 	</screen>
 	<screen name="PVRState" position="60,50" size="620,104" backgroundColor="transparent" flags="wfNoBorder">
-		<eLabel position="0,0" size="620,104" backgroundColor="bg" zPosition="-10"/>
+		<eLabel position="0,0" size="620,104" backgroundColor="bg" zPosition="-10" cornerRadius="18"/>
 		<eLabel position="0,0" size="620,3" backgroundColor="lineAccent" zPosition="-9"/>
 		<widget name="statusicon" position="20,20" size="64,64" pixmaps="NileGlass_FHD/icons/pvr_0.png,NileGlass_FHD/icons/pvr_1.png,NileGlass_FHD/icons/pvr_2.png,NileGlass_FHD/icons/pvr_3.png,NileGlass_FHD/icons/pvr_4.png,NileGlass_FHD/icons/pvr_5.png,NileGlass_FHD/icons/pvr_6.png" alphatest="blend"/>
 		<widget name="state" position="100,10" size="300,48" font="Medium;34" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="left" valign="center"/>
@@ -1999,7 +1990,7 @@
 		<widget name="eventname" position="100,58" size="500,36" font="Regular;24" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1"/>
 	</screen>
 	<screen name="TimeshiftState" position="60,50" size="620,104" backgroundColor="transparent" flags="wfNoBorder">
-		<eLabel position="0,0" size="620,104" backgroundColor="bg" zPosition="-10"/>
+		<eLabel position="0,0" size="620,104" backgroundColor="bg" zPosition="-10" cornerRadius="18"/>
 		<eLabel position="0,0" size="620,3" backgroundColor="lineAccent" zPosition="-9"/>
 		<widget name="statusicon" position="20,20" size="64,64" pixmaps="NileGlass_FHD/icons/pvr_0.png,NileGlass_FHD/icons/pvr_1.png,NileGlass_FHD/icons/pvr_2.png,NileGlass_FHD/icons/pvr_3.png,NileGlass_FHD/icons/pvr_4.png,NileGlass_FHD/icons/pvr_5.png,NileGlass_FHD/icons/pvr_6.png" alphatest="blend"/>
 		<widget name="state" position="100,10" size="300,48" font="Medium;34" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="left" valign="center"/>
@@ -2009,7 +2000,7 @@
 		<widget name="PTSSeekPointer" position="0,0" size="1,1" transparent="1"/>
 	</screen>
 	<screen name="VideoMode" position="1250,56" size="630,90" backgroundColor="transparent" flags="wfNoBorder">
-		<eLabel position="0,0" size="630,90" backgroundColor="bg" zPosition="-10"/>
+		<eLabel position="0,0" size="630,90" backgroundColor="bg" zPosition="-10" cornerRadius="18"/>
 		<eLabel position="0,0" size="630,3" backgroundColor="lineAccent" zPosition="-9"/>
 		<widget name="videomode" position="24,14" size="582,64" font="Medium;34" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="center" valign="center"/>
 	</screen>
@@ -2017,16 +2008,16 @@
 		<widget name="UnhandledKeyPixmap" pixmap="NileGlass_FHD/icons/unhandled_key.png" position="0,0" size="64,64" alphatest="blend"/>
 	</screen>
 	<screen name="SubservicesQuickzap" position="1250,56" size="630,90" backgroundColor="transparent" flags="wfNoBorder">
-		<eLabel position="0,0" size="630,90" backgroundColor="bg" zPosition="-10"/>
+		<eLabel position="0,0" size="630,90" backgroundColor="bg" zPosition="-10" cornerRadius="18"/>
 		<eLabel position="0,0" size="630,3" backgroundColor="lineAccent" zPosition="-9"/>
 		<widget name="CurrentSubserviceNumber" position="24,14" size="582,64" font="Medium;34" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="center" valign="center"/>
 	</screen>
 	<screen name="MinuteInput" position="center,center" size="600,230" backgroundColor="transparent" flags="wfNoBorder" title="دقائق">
-		<eLabel position="0,0" size="600,230" backgroundColor="bg" zPosition="-10"/>
+		<eLabel position="0,0" size="600,230" backgroundColor="bg" zPosition="-10" cornerRadius="24"/>
 		<eLabel position="0,0" size="600,3" backgroundColor="lineAccent" zPosition="-9"/>
 		<widget source="Title" render="Label" position="36,12" size="300,64" font="Medium;38" foregroundColor="accent" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1"/>
 		<widget source="global.CurrentTime" render="Label" position="344,12" size="220,64" font="Regular;40" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="right" valign="center" noWrap="1"><convert type="ClockToText">Format:%H:%M</convert></widget>
-		<eLabel position="0,88" size="600,1" backgroundColor="line"/>
+		<eLabel position="24,88" size="552,1" backgroundColor="line"/>
 		<widget name="minutes" position="40,110" size="520,80" font="Medium;54" foregroundColor="accent" backgroundColor="bg" transparent="1" halign="center" valign="center"/>
 	</screen>
 	<screen name="TextBox" position="0,0" size="1920,1080" backgroundColor="transparent" flags="wfNoBorder">
@@ -2038,9 +2029,9 @@
 		<widget name="text" position="80,146" size="1760,790" font="Regular;26" foregroundColor="fg" backgroundColor="bg" transparent="1"/>
 	</screen>
 	<screen name="ServiceScan" position="center,center" size="1500,800" backgroundColor="transparent" flags="wfNoBorder">
-		<eLabel position="0,0" size="1500,800" backgroundColor="bg" zPosition="-10"/>
+		<eLabel position="0,0" size="1500,800" backgroundColor="bg" zPosition="-10" cornerRadius="24"/>
 		<eLabel position="0,0" size="1500,3" backgroundColor="lineAccent" zPosition="-9"/>
-		<eLabel position="0,88" size="1500,1" backgroundColor="line" zPosition="-9"/>
+		<eLabel position="24,88" size="1452,1" backgroundColor="line" zPosition="-9"/>
 		<widget name="Title" position="36,12" size="1100,64" font="Medium;36" foregroundColor="accent" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1"/>
 		<widget source="global.CurrentTime" render="Label" position="1244,12" size="220,64" font="Regular;40" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="right" valign="center" noWrap="1"><convert type="ClockToText">Format:%H:%M</convert></widget>
 		<eLabel position="36,112" size="1428,12" backgroundColor="bgBar"/>
@@ -2051,19 +2042,19 @@
 		<widget name="pass" position="36,226" size="1428,36" font="Regular;24" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1"/>
 		<eLabel position="36,270" size="1428,1" backgroundColor="line"/>
 		<widget name="servicelist" position="36,280" size="1428,416" itemHeight="52" font="Regular;28" backgroundColor="bg" foregroundColor="fg" foregroundColorSelected="white" backgroundColorSelected="bgSel" scrollbarMode="showOnDemand" scrollbarWidth="6" scrollbarSliderForegroundColor="accent" transparent="1"/>
-		<eLabel position="0,716" size="1500,1" backgroundColor="line" zPosition="-9"/>
+		<eLabel position="24,716" size="1452,1" backgroundColor="line" zPosition="-9"/>
 		<ePixmap pixmap="NileGlass_FHD/buttons/red_k260.png" position="36,739" size="260,38" alphatest="blend" conditional="key_red"/>
 		<widget name="key_red" position="36,739" size="260,38" font="Medium;24" foregroundColor="white" backgroundColor="black" transparent="1" halign="center" valign="center" noWrap="1" zPosition="1"/>
 		<ePixmap pixmap="NileGlass_FHD/buttons/green_k260.png" position="406,739" size="260,38" alphatest="blend" conditional="key_green"/>
 		<widget name="key_green" position="406,739" size="260,38" font="Medium;24" foregroundColor="white" backgroundColor="black" transparent="1" halign="center" valign="center" noWrap="1" zPosition="1"/>
 	</screen>
 	<screen name="AutoDiseqc" position="center,center" size="1240,760" backgroundColor="transparent" flags="wfNoBorder">
-		<eLabel position="0,0" size="1240,760" backgroundColor="bg" zPosition="-10"/>
+		<eLabel position="0,0" size="1240,760" backgroundColor="bg" zPosition="-10" cornerRadius="24"/>
 		<eLabel position="0,0" size="1240,3" backgroundColor="lineAccent" zPosition="-9"/>
 		<widget source="Title" render="Label" position="36,12" size="940,64" font="Medium;38" foregroundColor="accent" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1"/>
 		<widget source="global.CurrentTime" render="Label" position="984,12" size="220,64" font="Regular;40" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="right" valign="center" noWrap="1"><convert type="ClockToText">Format:%H:%M</convert></widget>
-		<eLabel position="0,88" size="1240,1" backgroundColor="line"/>
-		<eLabel position="0,676" size="1240,1" backgroundColor="line"/>
+		<eLabel position="24,88" size="1192,1" backgroundColor="line"/>
+		<eLabel position="24,676" size="1192,1" backgroundColor="line"/>
 		<ePixmap pixmap="NileGlass_FHD/buttons/red_k260.png" position="490,699" size="260,38" alphatest="blend" conditional="key_red"/>
 		<widget name="key_red" position="490,699" size="260,38" font="Medium;24" foregroundColor="white" backgroundColor="black" transparent="1" halign="center" valign="center" noWrap="1" zPosition="1" objectTypes="key_red,Button,Label"/>
 		<widget source="key_red" render="Label" position="490,699" size="260,38" font="Medium;24" foregroundColor="white" backgroundColor="black" transparent="1" halign="center" valign="center" noWrap="1" zPosition="1" objectTypes="key_red,StaticText"/>
@@ -2072,12 +2063,12 @@
 		<widget source="tunerstatusbar" render="Label" position="40,556" size="1160,100" font="Regular;26" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="top"/>
 	</screen>
 	<screen name="CiSelection" position="center,center" size="1240,640" backgroundColor="transparent" flags="wfNoBorder">
-		<eLabel position="0,0" size="1240,640" backgroundColor="bg" zPosition="-10"/>
+		<eLabel position="0,0" size="1240,640" backgroundColor="bg" zPosition="-10" cornerRadius="24"/>
 		<eLabel position="0,0" size="1240,3" backgroundColor="lineAccent" zPosition="-9"/>
 		<widget source="Title" render="Label" position="36,12" size="940,64" font="Medium;38" foregroundColor="accent" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1"/>
 		<widget source="global.CurrentTime" render="Label" position="984,12" size="220,64" font="Regular;40" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="right" valign="center" noWrap="1"><convert type="ClockToText">Format:%H:%M</convert></widget>
-		<eLabel position="0,88" size="1240,1" backgroundColor="line"/>
-		<eLabel position="0,556" size="1240,1" backgroundColor="line"/>
+		<eLabel position="24,88" size="1192,1" backgroundColor="line"/>
+		<eLabel position="24,556" size="1192,1" backgroundColor="line"/>
 		<ePixmap pixmap="NileGlass_FHD/buttons/red_k260.png" position="490,579" size="260,38" alphatest="blend" conditional="key_red"/>
 		<widget name="key_red" position="490,579" size="260,38" font="Medium;24" foregroundColor="white" backgroundColor="black" transparent="1" halign="center" valign="center" noWrap="1" zPosition="1" objectTypes="key_red,Button,Label"/>
 		<widget source="key_red" render="Label" position="490,579" size="260,38" font="Medium;24" foregroundColor="white" backgroundColor="black" transparent="1" halign="center" valign="center" noWrap="1" zPosition="1" objectTypes="key_red,StaticText"/>
@@ -2085,11 +2076,11 @@
 		<widget name="text" position="40,452" size="1160,80" font="Regular;28" foregroundColor="gold" backgroundColor="bg" transparent="1" halign="left" valign="center"/>
 	</screen>
 	<screen name="MMIDialog" position="center,center" size="1240,860" backgroundColor="transparent" flags="wfNoBorder">
-		<eLabel position="0,0" size="1240,860" backgroundColor="bg" zPosition="-10"/>
+		<eLabel position="0,0" size="1240,860" backgroundColor="bg" zPosition="-10" cornerRadius="24"/>
 		<eLabel position="0,0" size="1240,3" backgroundColor="lineAccent" zPosition="-9"/>
 		<widget source="Title" render="Label" position="36,12" size="940,64" font="Medium;38" foregroundColor="accent" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1"/>
 		<widget source="global.CurrentTime" render="Label" position="984,12" size="220,64" font="Regular;40" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="right" valign="center" noWrap="1"><convert type="ClockToText">Format:%H:%M</convert></widget>
-		<eLabel position="0,88" size="1240,1" backgroundColor="line"/>
+		<eLabel position="24,88" size="1192,1" backgroundColor="line"/>
 		<widget name="title" position="40,100" size="1160,44" font="Medium;30" foregroundColor="accent" backgroundColor="bg" transparent="1" halign="left" valign="center"/>
 		<widget name="subtitle" position="40,148" size="1160,40" font="Regular;26" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center"/>
 		<widget name="entries" position="30,196" size="1180,504" itemHeight="56" font="Regular;30" secondfont="Regular;30" backgroundColor="bg" foregroundColor="fg" foregroundColorSelected="white" backgroundColorSelected="bgSel" scrollbarMode="showOnDemand" scrollbarWidth="6" scrollbarSliderForegroundColor="accent" transparent="1"/>
@@ -2097,12 +2088,12 @@
 		<widget source="key_menu" render="Label" position="40,780" size="300,50" font="Regular;24" foregroundColor="fgMute" backgroundColor="bg" transparent="1" halign="left" valign="center"/>
 	</screen>
 	<screen name="JobView" position="center,center" size="1240,560" backgroundColor="transparent" flags="wfNoBorder">
-		<eLabel position="0,0" size="1240,560" backgroundColor="bg" zPosition="-10"/>
+		<eLabel position="0,0" size="1240,560" backgroundColor="bg" zPosition="-10" cornerRadius="24"/>
 		<eLabel position="0,0" size="1240,3" backgroundColor="lineAccent" zPosition="-9"/>
 		<widget source="Title" render="Label" position="36,12" size="940,64" font="Medium;38" foregroundColor="accent" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1"/>
 		<widget source="global.CurrentTime" render="Label" position="984,12" size="220,64" font="Regular;40" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="right" valign="center" noWrap="1"><convert type="ClockToText">Format:%H:%M</convert></widget>
-		<eLabel position="0,88" size="1240,1" backgroundColor="line"/>
-		<eLabel position="0,476" size="1240,1" backgroundColor="line"/>
+		<eLabel position="24,88" size="1192,1" backgroundColor="line"/>
+		<eLabel position="24,476" size="1192,1" backgroundColor="line"/>
 		<ePixmap pixmap="NileGlass_FHD/buttons/red_k260.png" position="115,499" size="260,38" alphatest="blend" conditional="key_red"/>
 		<widget name="key_red" position="115,499" size="260,38" font="Medium;24" foregroundColor="white" backgroundColor="black" transparent="1" halign="center" valign="center" noWrap="1" zPosition="1" objectTypes="key_red,Button,Label"/>
 		<widget source="key_red" render="Label" position="115,499" size="260,38" font="Medium;24" foregroundColor="white" backgroundColor="black" transparent="1" halign="center" valign="center" noWrap="1" zPosition="1" objectTypes="key_red,StaticText"/>
@@ -2121,21 +2112,20 @@
 		<widget name="config" position="40,380" size="1160,56" itemHeight="56" font="Regular;30" secondfont="Regular;30" foregroundColor="fg" backgroundColor="bg" foregroundColorSelected="white" backgroundColorSelected="bgSel" scrollbarMode="showOnDemand" scrollbarWidth="6" scrollbarSliderForegroundColor="accent" transparent="1"/>
 	</screen>
 	<screen name="BouquetSelector" position="center,center" size="1000,820" backgroundColor="transparent" flags="wfNoBorder">
-		<eLabel position="0,0" size="1000,820" backgroundColor="bg" zPosition="-10"/>
+		<eLabel position="0,0" size="1000,820" backgroundColor="bg" zPosition="-10" cornerRadius="24"/>
 		<eLabel position="0,0" size="1000,3" backgroundColor="lineAccent" zPosition="-9"/>
 		<widget source="Title" render="Label" position="36,12" size="700,64" font="Medium;38" foregroundColor="accent" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1"/>
 		<widget source="global.CurrentTime" render="Label" position="744,12" size="220,64" font="Regular;40" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="right" valign="center" noWrap="1"><convert type="ClockToText">Format:%H:%M</convert></widget>
-		<eLabel position="0,88" size="1000,1" backgroundColor="line"/>
+		<eLabel position="24,88" size="952,1" backgroundColor="line"/>
 		<widget name="menu" position="30,104" size="940,672" itemHeight="56" font="Regular;30" backgroundColor="bg" foregroundColor="fg" foregroundColorSelected="white" backgroundColorSelected="bgSel" scrollbarMode="showOnDemand" scrollbarWidth="6" scrollbarSliderForegroundColor="accent" transparent="1"/>
 	</screen>
 	<screen name="ServiceInfo" position="0,0" size="1920,1080" backgroundColor="transparent" flags="wfNoBorder">
-		<eLabel position="40,40" size="1840,1000" backgroundColor="bg" zPosition="-10"/>
-		<eLabel position="40,40" size="1840,2" backgroundColor="lineAccent" zPosition="-9"/>
-		<eLabel position="40,128" size="1840,1" backgroundColor="line" zPosition="-9"/>
+		<eLabel position="40,40" size="1840,1000" backgroundColor="bg" zPosition="-10" cornerRadius="24"/>
+		<eLabel position="64,128" size="1792,1" backgroundColor="line" zPosition="-9"/>
 		<widget source="Title" render="Label" position="80,52" size="1160,66" font="Medium;38" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1"/>
 		<widget source="global.CurrentTime" render="Label" position="1660,52" size="190,66" font="Regular;48" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="right" valign="center" noWrap="1"><convert type="ClockToText">Format:%H:%M</convert></widget>
 		<widget name="infolist" position="80,146" size="1760,800" itemHeight="50" font="Regular;28" backgroundColor="bg" foregroundColor="fg" foregroundColorSelected="white" backgroundColorSelected="bgSel" scrollbarMode="showOnDemand" scrollbarWidth="6" scrollbarSliderForegroundColor="accent" transparent="1"/>
-		<eLabel position="40,958" size="1840,1" backgroundColor="line" zPosition="-9"/>
+		<eLabel position="64,958" size="1792,1" backgroundColor="line" zPosition="-9"/>
 		<ePixmap pixmap="NileGlass_FHD/buttons/red_k300.png" position="80,980" size="300,38" alphatest="blend"/>
 		<widget name="red" position="80,980" size="300,38" font="Medium;24" foregroundColor="white" backgroundColor="black" transparent="1" halign="center" valign="center" noWrap="1" zPosition="1"/>
 		<ePixmap pixmap="NileGlass_FHD/buttons/green_k300.png" position="566,980" size="300,38" alphatest="blend"/>
