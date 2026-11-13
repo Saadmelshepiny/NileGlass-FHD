@@ -1,12 +1,12 @@
 {
-  "version": "2.8.2",
-  "ipk": "https://raw.githubusercontent.com/Saadmelshepiny/NileGlass-FHD/main/releases/enigma2-plugin-skins-nileglass-fhd_2.8.2_all.ipk",
-  "sha256": "fac2435ff40b3b99d5fba7fc7c6f7cd2e7169145948d297eb6c2740247479315",
-  "notes_ar": "المربعات جنب القوائم والإعدادات بتتغير حسب الموضوع: شبكة، موالفات وطبق، صوت وصورة، أو النظام. شاشات الإعدادات أضيق وأقصر وجنبها المربعات. 60 شاشة من شاشات الصورة اللي كانت بتظهر بالشكل الافتراضي (فيها صورة القناة أو في النص) بقت لوحات NileGlass على اليسار، منها ضبط المؤالف واختيار السكين وضبط المفاتيح وتحديث البرنامج والأجهزة المدخلة. شاشات البلج إنز والمؤقتات والمساعدة والنصوص بقت على اليسار.",
-  "notes_en": "Cards beside menus and settings follow the subject (network, tuners/dish, picture/sound, system). Narrower, shorter settings panels with cards. 60 image screens that fell back to the default look are now NileGlass left panels (tuner setup, skin selector, button setup, software update, input devices...). Plugin browser, timers, help and text screens moved to the left.",
+  "version": "2.8.3",
+  "ipk": "https://raw.githubusercontent.com/Saadmelshepiny/NileGlass-FHD/main/releases/enigma2-plugin-skins-nileglass-fhd_2.8.3_all.ipk",
+  "sha256": "6db223e76d8604f0b6eb20588b7d4281e4d54dfe1502e83350c0a9cf5fdf6785",
+  "notes_ar": "الانفوبار الثاني لوحة أصغر وجنبها البرامج الأربعة القادمة في مربعات بالوقت والاسم والوصف. قائمة القنوات 16 سطر ومربع كبير للبرنامج الحالي و4 مربعات للقادم بوصفها. اللوحة الزرقاء لوحة يسار ومربعات فك التشفير. حماية من كراش ضبط المفاتيح لما بلج إن متعرّف غلط.",
+  "notes_en": "Second infobar: smaller panel with the next four events as cards (time, title, description). Channel list: 16 rows, a big card for the running event and four event cards. Blue Panel: left panel plus decoding cards. Button setup no longer crashes on a badly declared plugin.",
   "previous": {
-    "version": "2.8.1",
-    "ipk": "https://raw.githubusercontent.com/Saadmelshepiny/NileGlass-FHD/main/releases/enigma2-plugin-skins-nileglass-fhd_2.8.1_all.ipk",
-    "sha256": "ba809e8396c8b7a9e9598f5c74cbe7d080a6cdb514c5e56992d989eb3dd2924b"
+    "version": "2.8.2",
+    "ipk": "https://raw.githubusercontent.com/Saadmelshepiny/NileGlass-FHD/main/releases/enigma2-plugin-skins-nileglass-fhd_2.8.2_all.ipk",
+    "sha256": "fac2435ff40b3b99d5fba7fc7c6f7cd2e7169145948d297eb6c2740247479315"
   }
 }

@@ -987,6 +987,11 @@ def sessionstart(reason, session=None, **kwargs):
 				installTranslations()
 				patchSecondInfoBar()
 				try:
+					from .safety import install as installSafety
+					installSafety()
+				except Exception as err:
+					print("[NileGlass] safety:", err)
+				try:
 					from .sessionguard import install as installGuard
 					installGuard(session)
 				except Exception as err:

@@ -630,6 +630,25 @@ def upcomingEvents(refstr):
 	return events
 
 
+_details = {}
+
+
+def upcomingDetails(refstr):
+	"""[(begin, duration, title, short description, extended description)] of the next 24 h, cached."""
+	key = (refstr, int(time.time() // 60))
+	hit = _details.get(key)
+	if hit is not None:
+		return hit
+	try:
+		from enigma import eEPGCache
+		events = eEPGCache.getInstance().lookupEvent(["BDTSE", (refstr, 0, -1, 24 * 60)]) or []
+	except Exception:
+		events = []
+	if len(_details) > 48:
+		_details.clear()
+	_details[key] = events
+	return events
+
 
 class PosterService:
 	"""Posters, backdrops and TMDB metadata for EPG events.

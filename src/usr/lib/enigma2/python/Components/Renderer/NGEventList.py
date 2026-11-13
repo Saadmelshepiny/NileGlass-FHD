@@ -12,6 +12,8 @@
 #   timeColor="..."    colour of the start time
 #   showDuration="1"   append the duration in minutes
 #   timeBreak="1"      time on its own line above the title (narrow captions)
+#   fields="time"      only "21:45 - 23:45" of the event; "title" only its name;
+#   fields="desc"      only its description (short one, else the long one) - for event cards
 #
 # Data comes from enigma2's in-memory EPG cache (C++), so it is instant and
 # needs no disk or network access.
@@ -21,7 +23,7 @@ from time import localtime, strftime, time
 from enigma import eEPGCache, eLabel, eServiceReference
 
 from Components.Renderer.Renderer import Renderer
-from Components.NileGlassCore import upcomingEvents
+from Components.NileGlassCore import upcomingDetails, upcomingEvents
 from Components.VariableText import VariableText
 from skin import parseColor
 from Tools.Hex2strColor import Hex2strColor
@@ -43,6 +45,7 @@ class NGEventList(Renderer, VariableText):
 		self.timeColor = ""
 		self.textColor = ""
 		self.lastKey = None
+		self.fields = ""
 
 	def applySkin(self, desktop, parent):
 		attribs = []
@@ -51,6 +54,8 @@ class NGEventList(Renderer, VariableText):
 				self.items = max(1, int(value))
 			elif attrib == "timeBreak":
 				self.timeBreak = value == "1"
+			elif attrib == "fields":
+				self.fields = value.strip().lower()
 			elif attrib == "start":
 				self.start = max(0, int(value))
 			elif attrib == "skipNow":
@@ -91,6 +96,9 @@ class NGEventList(Renderer, VariableText):
 			self.text = ""
 			self.lastKey = None
 			return
+		if self.fields in ("time", "title", "desc"):
+			self.showFields(ref)
+			return
 		events = upcomingEvents(ref.toString())
 		if self.skipNow and events and events[0][0] <= time():  # first one is running now
 			events = events[1:]
@@ -104,6 +112,27 @@ class NGEventList(Renderer, VariableText):
 			lines.append(line)
 		text = "\n".join(lines)
 		if text != self.lastKey:  # CurrentService fires many events per zap - only repaint on change
+			self.lastKey = text
+			self.text = text
+
+	def showFields(self, ref):
+		events = upcomingDetails(ref.toString())
+		if self.skipNow and events and events[0][0] <= time():
+			events = events[1:]
+		lines = []
+		for ev in events[self.start:self.start + self.items]:
+			begin, duration, title = ev[0], ev[1] or 0, (ev[2] or "").strip()
+			if self.fields == "time":
+				lines.append("%s - %s" % (strftime("%H:%M", localtime(begin)), strftime("%H:%M", localtime(begin + duration))))
+			elif self.fields == "title":
+				lines.append(title)
+			else:
+				short = (ev[3] or "").strip() if len(ev) > 3 else ""
+				ext = (ev[4] or "").strip() if len(ev) > 4 else ""
+				desc = short if short and short != title else ext
+				lines.append(desc.replace("\x8a", "\n"))
+		text = "\n".join(lines)
+		if text != self.lastKey:
 			self.lastKey = text
 			self.text = text
 
