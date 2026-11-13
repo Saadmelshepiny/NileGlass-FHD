@@ -1,12 +1,12 @@
 {
-  "version": "2.7.3",
-  "ipk": "https://raw.githubusercontent.com/Saadmelshepiny/NileGlass-FHD/main/releases/enigma2-plugin-skins-nileglass-fhd_2.7.3_all.ipk",
-  "sha256": "1c08965ab1208241485af7a9d7670d1c040abc2750e7b082fe5f733925210fb3",
-  "notes_ar": "إصلاح: طول لوحة القوائم بقى فعلًا على قد عدد السطور (كان مبيتطبقش على القوائم).",
-  "notes_en": "Fix: menu panels really take the height of their rows (the menu list was not found).",
+  "version": "2.7.4",
+  "ipk": "https://raw.githubusercontent.com/Saadmelshepiny/NileGlass-FHD/main/releases/enigma2-plugin-skins-nileglass-fhd_2.7.4_all.ipk",
+  "sha256": "ac5f403476a0151b7196b1d9d1dcd7687ff95a4a6dbeb8b25fd18315cc733fb0",
+  "notes_ar": "طول لوحات القوائم: بيتظبط بعد رسم الشاشة مباشرة (أضمن)، وبيتسجل في تقرير السرعة (بند 4) علشان نعرف لو في مشكلة.",
+  "notes_en": "Menu panel height fitted right after the screen is drawn; result logged in the speed report (item 4).",
   "previous": {
-    "version": "2.7.2",
-    "ipk": "https://raw.githubusercontent.com/Saadmelshepiny/NileGlass-FHD/main/releases/enigma2-plugin-skins-nileglass-fhd_2.7.2_all.ipk",
-    "sha256": "aa3855ed415f51487ce8fe26aa706ca264b27e97397f115876a15d4befd525c4"
+    "version": "2.7.3",
+    "ipk": "https://raw.githubusercontent.com/Saadmelshepiny/NileGlass-FHD/main/releases/enigma2-plugin-skins-nileglass-fhd_2.7.3_all.ipk",
+    "sha256": "1c08965ab1208241485af7a9d7670d1c040abc2750e7b082fe5f733925210fb3"
   }
 }

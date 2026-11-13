@@ -108,10 +108,13 @@ def report():
 		lines = open(LOG).read().splitlines()
 	except Exception:
 		return "مفيش حاجة بطيئة متسجلة لسه.\nاستخدم الجهاز شوية وافتح التقرير تاني."
-	keys, skins, guards = {}, {}, []
+	keys, skins, guards, fits = {}, {}, [], []
 	for line in lines:
 		p = line.split()
 		try:
+			if p[1] == "fit":
+				fits.append("   " + " ".join(p[2:]))
+				continue
 			if p[1] == "guard":
 				guards.append("   %s  %s  (فوقها: %s)" % (p[0], p[3], p[4]))
 				continue
@@ -140,5 +143,7 @@ def report():
 	out += table(skins) or ["   مفيش - السكين سريع في كل الشاشات"]
 	if guards:
 		out += ["", "3) شاشات حاولت تقفل وهي مش في الواجهة (اتمنع القفل الغلط):"] + guards[-6:]
+	if fits:
+		out += ["", "4) طول القوائم:"] + fits[-4:]
 	out += ["", "لو الرقم في (1) كبير وفي (2) صغير للشاشة نفسها، البطء من البلوجين مش من السكين."]
 	return "\n".join(out)

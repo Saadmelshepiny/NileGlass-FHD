@@ -37,6 +37,15 @@ def _instances(screen):
 	return out
 
 
+def _log(text):
+	print("[NileGlass] fit:", text)
+	try:
+		from .perfwatch import write
+		write("fit " + text)
+	except Exception:
+		pass
+
+
 class _Fit:
 	def __init__(self, screen, listWidget, rows, itemHeight):
 		self.screen, self.listWidget, self.rows, self.itemHeight = screen, listWidget, rows, itemHeight
@@ -45,7 +54,11 @@ class _Fit:
 		s = self.screen
 		win = getattr(s, "instance", None)
 		lst = getattr(self.listWidget(), "instance", None)
-		if win is None or lst is None or win.size().width() >= FULL:
+		name = s.__class__.__name__
+		if win is None or lst is None:
+			_log("%s skipped: %s" % (name, "no window" if win is None else "list not found"))
+			return
+		if win.size().width() >= FULL:
 			return
 		dw, dh = getDesktop(0).size().width(), getDesktop(0).size().height()
 		ly, lh = lst.position().y(), lst.size().height()
@@ -68,19 +81,10 @@ class _Fit:
 			elif p.y() <= ly and p.y() + inst.size().height() >= bottom - 2:   # spans the panel (background, divider)
 				inst.resize(eSize(inst.size().width(), inst.size().height() + delta))
 		lst.resize(eSize(lst.size().width(), newH))
+		_log("%s %d rows: list %d -> %d" % (name, self.rows(), lh, newH))
 		H = H0 + delta
 		win.resize(eSize(win.size().width(), H))
 		win.move(ePoint(LEFT, max(MARGIN, (dh - H) // 2)))
-
-
-# enigma2 runs an onLayoutFinish entry directly only if it has the type of the
-# screen's close(); anything else goes through exec() with "self" = screen.
-_RUN_MENU = compile("self._ngFitMenu()", "<NileGlass menu fit>", "exec")
-_RUN_SETUP = compile("self._ngFitSetup()", "<NileGlass setup fit>", "exec")
-
-
-def _attach(screen, func, code):
-	screen.onLayoutFinish.append(func if isinstance(func, type(screen.close)) else code)
 
 
 def _menuList(screen):
@@ -96,7 +100,32 @@ def _menuList(screen):
 	return None
 
 
+def _patchApplySkin():
+	"""Fit right after the screen is laid out (end of applySkin), whatever
+	other plugins do with onLayoutFinish or close()."""
+	from Screens.Screen import Screen
+	if getattr(Screen, "_ngFitHook", False):
+		return
+	original = Screen.applySkin
+
+	def applySkin(self, *args, **kwargs):
+		result = original(self, *args, **kwargs)
+		fit = getattr(self, "_ngFitNow", None)
+		if fit is not None:
+			try:
+				fit()
+			except Exception as err:
+				_log("%s failed: %s" % (self.__class__.__name__, err))
+		return result
+	Screen.applySkin = applySkin
+	Screen._ngFitHook = True
+
+
 def install():
+	try:
+		_patchApplySkin()
+	except Exception as err:
+		print("[NileGlass] fit hook:", err)
 	try:
 		from Screens.Menu import Menu
 		if not getattr(Menu, "_ngFit", False):
@@ -106,8 +135,7 @@ def install():
 				original(self, *args, **kwargs)
 				try:
 					fit = _Fit(self, lambda: _menuList(self), lambda: len(self["menu"].list or []), 66)
-					self._ngFitMenu = fit.run
-					_attach(self, fit.run, _RUN_MENU)
+					self._ngFitNow = fit.run
 				except Exception as err:
 					print("[NileGlass] menu fit:", err)
 			Menu.__init__ = __init__
@@ -124,8 +152,7 @@ def install():
 				originalInit(self, *args, **kwargs)
 				try:
 					fit = _Fit(self, lambda: self["config"], lambda: len(self["config"].list or []), _itemHeight(self["config"], 54))
-					self._ngFitSetup = fit.run
-					_attach(self, fit.run, _RUN_SETUP)
+					self._ngFitNow = self._ngFitSetup = fit.run
 				except Exception as err:
 					print("[NileGlass] setup fit:", err)
 
