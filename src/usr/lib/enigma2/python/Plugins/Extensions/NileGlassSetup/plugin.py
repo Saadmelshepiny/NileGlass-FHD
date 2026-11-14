@@ -692,6 +692,10 @@ class NileGlassSetup(Setup):
 		s = st["stats"]
 		lines.append("     %s %d   %s %d   %s %d   %s %d" % (T("downloaded", "تم تحميل"), s["downloads"], T("not found", "غير موجود"), s["notfound"],
 			T("errors", "أخطاء"), s["errors"], T("waiting", "في الانتظار"), st["pending"]))
+		tried = s["downloads"] + s["notfound"]
+		if tried:
+			lines.append("     %s %d%%   %s %d   %s %d" % (T("found", "نسبة النجاح"), round(100.0 * s["downloads"] / tried),
+				T("by translated title", "بالاسم المترجم"), s.get("translated", 0), T("from TVmaze", "من TVmaze"), s.get("tvmaze", 0)))
 		et = epgTitles.status() if epgTitles else {}
 		if et.get("enabled"):
 			good = et.get("titles", 0) > 0

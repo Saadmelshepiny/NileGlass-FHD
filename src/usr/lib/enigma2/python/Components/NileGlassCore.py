@@ -368,6 +368,10 @@ _reSpaces = re.compile(r"\s+")
 _reUnsafe = re.compile(r"[\\/:*?\"<>|]+")
 
 
+def _reArabicOnly(text):
+	return bool(re.search("[\u0600-\u06ff]", text or ""))
+
+
 def cleanTitle(name):
 	"""Turn an EPG event name into a searchable title. '' means: no poster."""
 	if not name:
@@ -385,7 +389,13 @@ def cleanTitle(name):
 			if head.strip().lower() in PREFIXES and tail.strip():
 				t = tail
 			elif len(head.strip()) >= 2:
-				t = head
+				# a short subtitle is often part of the real title ("Mission: Impossible",
+				# "Moja wina: Londyn"); keep it - the search falls back to the head alone
+				words = tail.split()
+				if sep == ":" and 0 < len(words) <= 4 and not _reArabicOnly(tail):
+					t = "%s: %s" % (head.strip(), tail.strip())
+				else:
+					t = head
 			break
 	t = _reSpaces.sub(" ", t).strip(" -–.,:!؟?\"'")
 	low = t.lower()
@@ -439,6 +449,8 @@ def formatInfo(meta, fields=("year", "genres", "rating"), arabic=True, sep="  �
 	for f in fields:
 		if f == "year" and meta.get("year"):
 			out.append(str(meta["year"]))
+		elif f == "genres" and meta.get("genreNames"):          # TVmaze: genre names, not TMDB ids
+			out.append(", ".join(meta["genreNames"][:3]))
 		elif f == "genres" and meta.get("genres"):
 			names = GENRES_AR if arabic else GENRES_EN
 			g = [names[i] for i in meta["genres"] if i in names][:3]
@@ -657,6 +669,7 @@ class PosterService:
 	One TMDB search per title gives poster + metadata; a backdrop is only
 	downloaded when a screen actually shows one."""
 	NEGATIVE_TTL = 12 * 3600      # don't ask TMDB again for an unknown title for 12h
+	NEGATIVE_VERSION = 2          # bumped when the search gets better
 	REINDEX_EVERY = 15 * 60       # rescan foreign poster folders every 15 min
 	KINDS = ("poster", "backdrop", "meta", "details", "thumb")
 
@@ -892,7 +905,9 @@ class PosterService:
 			with open(self._negativeFile(), "r", encoding="utf-8") as f:
 				data = json.load(f)
 			now = time.time()
-			self.negative = {k: v for k, v in data.items() if now - v < self.NEGATIVE_TTL}
+			if data.pop("_v", 0) != self.NEGATIVE_VERSION:      # older search: give every title a new try
+				data = {}
+			self.negative = {k: v for k, v in data.items() if isinstance(v, (int, float)) and now - v < self.NEGATIVE_TTL}
 		except Exception:
 			pass
 
@@ -902,7 +917,7 @@ class PosterService:
 				self.negative = dict(sorted(self.negative.items(), key=lambda kv: kv[1])[-2000:])
 			tmp = self._negativeFile() + ".tmp"
 			with open(tmp, "w", encoding="utf-8") as f:
-				json.dump(self.negative, f, ensure_ascii=False)
+				json.dump(dict(self.negative, _v=self.NEGATIVE_VERSION), f, ensure_ascii=False)
 			os.replace(tmp, self._negativeFile())
 		except Exception:
 			pass
@@ -1070,7 +1085,7 @@ class PosterService:
 						downloads += 1
 						self.stats["downloads"] += 1
 				if meta and meta.get("poster") and not self._posterPath(title):  # e.g. removed by the cache cleaner
-					pp = self._saveImage("https://image.tmdb.org/t/p/%s" % self.quality + quote(meta["poster"]), os.path.join(self.cacheDir, fileNameFor(title)), 1024 * 1024)
+					pp = self._saveImage(self.imageUrl(meta, "poster", self.quality), os.path.join(self.cacheDir, fileNameFor(title)), 1024 * 1024)
 					if pp:
 						self.index[os.path.basename(pp).lower()] = pp
 				with self.lock:
@@ -1078,9 +1093,9 @@ class PosterService:
 				if meta and "details" in needs and "details" not in meta:
 					meta = self._details(title, meta)
 				if meta and "thumb" in needs and meta.get("poster") and not self._thumbPath(title):
-					self._saveImage("https://image.tmdb.org/t/p/w185" + quote(meta["poster"]), os.path.join(self.thumbDir, fileNameFor(title)), 300 * 1024)
+					self._saveImage(meta.get("thumbUrl") or self.imageUrl(meta, "poster", "w185"), os.path.join(self.thumbDir, fileNameFor(title)), 300 * 1024)
 				if meta and "backdrop" in needs and meta.get("backdrop") and not self._backdropPath(title):
-					self._saveImage("https://image.tmdb.org/t/p/w1280" + quote(meta["backdrop"]), os.path.join(self.backdropDir, fileNameFor(title)), 3 * 1024 * 1024)
+					self._saveImage(self.imageUrl(meta, "backdrop", "w1280"), os.path.join(self.backdropDir, fileNameFor(title)), 3 * 1024 * 1024)
 				if downloads and downloads % 25 == 0:
 					self._trimCache()
 			except Exception as err:
@@ -1154,7 +1169,7 @@ class PosterService:
 		"""Arabic EPG titles often differ from TMDB's main title. Check the
 		translated / alternative titles of the two best candidates."""
 		want = self._norm(title)
-		for r in [r for r in results if r.get("media_type") in ("movie", "tv") and r.get("poster_path")][:2]:
+		for r in [r for r in results if r.get("media_type") in ("movie", "tv") and r.get("poster_path")][:3]:
 			try:
 				extra = "translations,alternative_titles"
 				d = self._tmdb("%s/%d" % (r["media_type"], r["id"]), {"append_to_response": extra})
@@ -1172,9 +1187,60 @@ class PosterService:
 		return None
 
 	def _search(self, title, year=None):
+		meta = self._searchTmdb(title, year)
+		if meta is None and ": " in title:                     # "Moja wina: Londyn" -> "Moja wina"
+			meta = self._searchTmdb(title.split(": ", 1)[0], year, saveAs=title)
+		if meta is None and not _reArabic.search(title):        # series TMDB does not know: TVmaze (free, no key)
+			meta = self._searchTvmaze(title, year)
+		return meta
+
+	def _searchTvmaze(self, title, year=None):
+		try:
+			res = json.loads(httpGet("https://api.tvmaze.com/search/shows?" + urlencode({"q": title}), timeout=7).decode("utf-8")) or []
+		except Exception:
+			return None
+		want = self._norm(title)
+		best, bestScore = None, -1
+		for r in res[:6]:
+			show = r.get("show") or {}
+			img = show.get("image") or {}
+			if not img.get("original"):
+				continue
+			score = self._score(want, [show.get("name") or ""])
+			prem = (show.get("premiered") or "")[:4]
+			if score and year and prem.isdigit() and int(prem) == year:
+				score += 25
+			if score > bestScore:
+				best, bestScore = show, score
+		if not best or bestScore < 100:      # TVmaze has no translations: only an exact name counts
+			return None
+		img = best.get("image") or {}
+		summary = re.sub(r"<[^>]+>", "", best.get("summary") or "").strip()
+		meta = {"id": best.get("id"), "type": "tv", "source": "tvmaze", "name": best.get("name") or "",
+			"year": int(best["premiered"][:4]) if (best.get("premiered") or "")[:4].isdigit() else None,
+			"rating": float((best.get("rating") or {}).get("average") or 0), "genres": [], "genreNames": best.get("genres") or [],
+			"overview": summary, "poster": img.get("original") or "", "thumbUrl": img.get("medium") or "", "backdrop": ""}
+		self.stats["tvmaze"] = self.stats.get("tvmaze", 0) + 1
+		return self._store(title, meta)
+
+	def _store(self, title, meta):
+		if not self._posterPath(title) and meta.get("poster"):
+			p = self._saveImage(self.imageUrl(meta, "poster", self.quality), os.path.join(self.cacheDir, fileNameFor(title)), 1024 * 1024)
+			if p:
+				self.index[os.path.basename(p).lower()] = p
+		tmp = self._metaPath(title) + ".tmp"
+		with open(tmp, "w", encoding="utf-8") as f:
+			json.dump(meta, f, ensure_ascii=False)
+		os.replace(tmp, self._metaPath(title))
+		self._memo(title, meta)
+		return meta
+
+	def _searchTmdb(self, title, year=None, saveAs=None):
+		saveAs = saveAs or title
 		params = {"query": title, "language": self.language, "include_adult": "false", "page": 1}
 		results = self._tmdb("search/multi", params).get("results") or []
 		hit = self._pick(title, results, year)
+		resultsEn = []
 		if not hit and self.language != "en":
 			params["language"] = "en"
 			resultsEn = self._tmdb("search/multi", params).get("results") or []
@@ -1185,8 +1251,8 @@ class PosterService:
 			en = epgTitles.lookup(title)
 			if en:  # English title from the SaadEPG guide
 				params.update(query=en, language="en")
-				resultsEn = self._tmdb("search/multi", params).get("results") or []
-				hit = self._pick(en, resultsEn, year)
+				resultsEn2 = self._tmdb("search/multi", params).get("results") or []
+				hit = self._pick(en, resultsEn2, year)
 				if hit and self.language != "en":  # Arabic overview / title when TMDB has one
 					try:
 						loc = self._tmdb("%s/%d" % (hit.get("media_type") or "movie", hit["id"]), {"language": self.language})
@@ -1198,8 +1264,12 @@ class PosterService:
 						pass
 				if hit:
 					self.stats["epg"] = self.stats.get("epg", 0) + 1
-		if not hit and _reArabic.search(title) and results:
-			hit = self._pickByTranslations(title, results, year)
+		if not hit and (results or resultsEn):
+			# the EPG title is in another language (Arabic, Polish, German ...): TMDB found the
+			# film by one of its translated / alternative titles - check those of the best candidates
+			hit = self._pickByTranslations(title, results or resultsEn, year)
+			if hit:
+				self.stats["translated"] = self.stats.get("translated", 0) + 1
 		if not hit:
 			return None
 		meta = {
@@ -1213,20 +1283,13 @@ class PosterService:
 			"poster": hit.get("poster_path") or "",
 			"backdrop": hit.get("backdrop_path") or "",
 		}
-		if not self._posterPath(title) and meta["poster"]:
-			p = self._saveImage("https://image.tmdb.org/t/p/%s" % self.quality + quote(meta["poster"]), os.path.join(self.cacheDir, fileNameFor(title)), 1024 * 1024)
-			if p:
-				self.index[os.path.basename(p).lower()] = p
-		tmp = self._metaPath(title) + ".tmp"
-		with open(tmp, "w", encoding="utf-8") as f:
-			json.dump(meta, f, ensure_ascii=False)
-		os.replace(tmp, self._metaPath(title))
-		self._memo(title, meta)
-		return meta
+		return self._store(saveAs, meta)
 
 	def _details(self, title, meta):
 		"""Director / writer, country, main cast, runtime (one extra request,
 		only for screens that show them)."""
+		if meta.get("source") == "tvmaze":        # not a TMDB id
+			return meta
 		try:
 			d = self._tmdb("%s/%d" % (meta.get("type") or "movie", int(meta["id"])), {"language": self.language, "append_to_response": "credits,external_ids"})
 		except Exception as err:
@@ -1268,6 +1331,14 @@ class PosterService:
 			pass
 		self._memo(title, meta)
 		return meta
+
+	@staticmethod
+	def imageUrl(meta, key, size):
+		"""poster / backdrop url: TMDB path, or a full url from another source (TVmaze)"""
+		v = meta.get(key) or ""
+		if v.startswith("http"):
+			return v
+		return "https://image.tmdb.org/t/p/%s" % size + quote(v)
 
 	@staticmethod
 	def _saveImage(url, path, maxBytes):
