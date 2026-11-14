@@ -139,7 +139,10 @@ class NGEcm(Poll, Converter):
 			return self._caids(info) if crypted else ""
 		mtime, ecm, raw = readEcm()
 		now = time.time()
-		fresh = mtime is not None and mtime >= self.zapTime - 2 and now - mtime < 90  # emu restarted or stopped = stale
+		# ecm.info belongs to this channel when it was written after the zap, or (panel opened
+		# later, or a BISS / constant-key channel the emu writes only once) when its CAID is one
+		# the channel is sent with
+		fresh = mtime is not None and (mtime >= self.zapTime - 2 or self._caidMatches(ecm, info))
 		if self.type == "state":
 			if not crypted:
 				return "قناة مفتوحة (FTA)"
@@ -170,6 +173,23 @@ class NGEcm(Poll, Converter):
 			("hops " + ecm["hops"]) if ecm.get("hops") else "", self._time(ecm)) if x)
 
 	text = property(getText)
+
+	@staticmethod
+	def _caidMatches(ecm, info):
+		raw = (ecm.get("caid") or "").strip().lower()
+		if not raw:
+			m = re.search(r"caid\s+(0x[0-9a-f]+)", ecm.get("system", "").lower())
+			raw = m.group(1) if m else ""
+		try:
+			caid = int(raw, 16)
+		except ValueError:
+			return False
+		if caid >> 8 == 0x26:                      # BISS: not listed by the channel, the emu adds it
+			return True
+		try:
+			return caid in (info.getInfoObject(iServiceInformation.sCAIDs) or [])
+		except Exception:
+			return False
 
 	@staticmethod
 	def _caids(info):

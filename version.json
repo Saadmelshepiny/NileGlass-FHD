@@ -1,12 +1,12 @@
 {
-  "version": "2.8.8",
-  "ipk": "https://raw.githubusercontent.com/Saadmelshepiny/NileGlass-FHD/main/releases/enigma2-plugin-skins-nileglass-fhd_2.8.8_all.ipk",
-  "sha256": "2aee210bc789b4874afd1781dc0196970fed4461292ba3531477cb99bf4baed3",
-  "notes_ar": "قائمة القنوات: لما تقف على أي قناة يظهر ترددها (التردد والاستقطاب والسيمبول ريت والـFEC ونوع البث والقمر) والمزود ونوعها (HD/SD) وأرقامها، حتى لو مش مفتوحة ومن غير دليل. قنوات IPTV بيظهر عنوان السيرفر.",
-  "notes_en": "Channel list: the channel under the cursor shows its transponder (frequency, polarisation, symbol rate, FEC, system, satellite), provider, HD/SD and ids, even when it is not playing and has no EPG. IPTV: the server address.",
+  "version": "2.8.9",
+  "ipk": "https://raw.githubusercontent.com/Saadmelshepiny/NileGlass-FHD/main/releases/enigma2-plugin-skins-nileglass-fhd_2.8.9_all.ipk",
+  "sha256": "70d23e5d2bc96b885d07cbef6762a952306ea5d95d445fbfe18896f2cf0eee6d",
+  "notes_ar": "اللوحة الزرقاء أطول ومربع معلومات تشفير الإيموهات بقى يعرض كل السطور مرة واحدة. إصلاح «بانتظار فك التشفير» والتفاصيل الفاضية لما تفتح اللوحة بعد ما القناة تشتغل بفترة أو على قنوات BISS.",
+  "notes_en": "Blue Panel taller, the ecm.info card shows every line at once. Fixed 'waiting for decryption' and empty details when the panel is opened a while after zapping or on BISS channels.",
   "previous": {
-    "version": "2.8.7",
-    "ipk": "https://raw.githubusercontent.com/Saadmelshepiny/NileGlass-FHD/main/releases/enigma2-plugin-skins-nileglass-fhd_2.8.7_all.ipk",
-    "sha256": "cc4ef0aa8163fd013216ea9bb60bc1401558296673ee2cc5b50c3d83d34daecf"
+    "version": "2.8.8",
+    "ipk": "https://raw.githubusercontent.com/Saadmelshepiny/NileGlass-FHD/main/releases/enigma2-plugin-skins-nileglass-fhd_2.8.8_all.ipk",
+    "sha256": "2aee210bc789b4874afd1781dc0196970fed4461292ba3531477cb99bf4baed3"
   }
 }

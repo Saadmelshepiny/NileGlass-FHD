@@ -1436,9 +1436,9 @@
 			<!-- NG-DASH net cards -->
 		<panel position="1260,0" size="570,464"><panel name="NG_Dash_net_85"/></panel>
 	</screen>
-	<screen name="DeliteBluePanel" position="40,center" size="1840,880" backgroundColor="transparent" flags="wfNoBorder" title="OpenBh Blue Panel">
+	<screen name="DeliteBluePanel" position="40,center" size="1840,1000" backgroundColor="transparent" flags="wfNoBorder" title="OpenBh Blue Panel">
 		<!-- left: softcams and the channel; right: decoding cards -->
-		<eLabel position="0,0" size="800,880" backgroundColor="bg" cornerRadius="24" zPosition="-10"/>
+		<eLabel position="0,0" size="800,1000" backgroundColor="bg" cornerRadius="24" zPosition="-10"/>
 		<ePixmap pixmap="NileGlass_FHD/ui/ng_logo.png" position="22,24" size="40,40" alphatest="blend" zPosition="1"/>
 		<widget source="Title" render="Label" position="74,16" size="540,56" font="Medium;32" foregroundColor="accent" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1"/>
 		<widget source="global.CurrentTime" render="Label" position="620,16" size="156,56" font="Regular;40" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="right" valign="center" noWrap="1"><convert type="ClockToText">Format:%H:%M</convert></widget>
@@ -1460,15 +1460,15 @@
 		<widget source="session.CurrentService" render="Label" position="274,570" size="500,40" font="Regular;24" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1"><convert type="PliExtraInfo">TransponderInfo</convert></widget>
 		<widget source="session.CurrentService" render="Label" position="274,614" size="500,40" font="Regular;22" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1"><convert type="PliExtraInfo">PIDInfo</convert></widget>
 		<widget source="session.CurrentService" render="Label" position="32,672" size="736,36" font="Regular;24" foregroundColor="gold" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1"><convert type="NGCodec">Full</convert></widget>
-		<eLabel position="24,726" size="752,1" backgroundColor="line" zPosition="-8"/>
-		<ePixmap pixmap="NileGlass_FHD/buttons/red_k300.png" position="32,744" size="360,44" alphatest="blend" scale="1"/>
-		<widget name="key_red" position="32,744" size="360,44" font="Medium;26" foregroundColor="white" backgroundColor="black" transparent="1" halign="center" valign="center" noWrap="1" zPosition="1"/>
-		<ePixmap pixmap="NileGlass_FHD/buttons/green_k300.png" position="408,744" size="360,44" alphatest="blend" scale="1"/>
-		<widget name="key_green" position="408,744" size="360,44" font="Medium;26" foregroundColor="white" backgroundColor="black" transparent="1" halign="center" valign="center" noWrap="1" zPosition="1"/>
-		<ePixmap pixmap="NileGlass_FHD/buttons/yellow_k300.png" position="32,800" size="360,44" alphatest="blend" scale="1"/>
-		<widget name="key_yellow" position="32,800" size="360,44" font="Medium;26" foregroundColor="white" backgroundColor="black" transparent="1" halign="center" valign="center" noWrap="1" zPosition="1"/>
-		<ePixmap pixmap="NileGlass_FHD/buttons/blue_k300.png" position="408,800" size="360,44" alphatest="blend" scale="1"/>
-		<widget name="key_blue" position="408,800" size="360,44" font="Medium;26" foregroundColor="white" backgroundColor="black" transparent="1" halign="center" valign="center" noWrap="1" zPosition="1"/>
+		<eLabel position="24,846" size="752,1" backgroundColor="line" zPosition="-8"/>
+		<ePixmap pixmap="NileGlass_FHD/buttons/red_k300.png" position="32,864" size="360,44" alphatest="blend" scale="1"/>
+		<widget name="key_red" position="32,864" size="360,44" font="Medium;26" foregroundColor="white" backgroundColor="black" transparent="1" halign="center" valign="center" noWrap="1" zPosition="1"/>
+		<ePixmap pixmap="NileGlass_FHD/buttons/green_k300.png" position="408,864" size="360,44" alphatest="blend" scale="1"/>
+		<widget name="key_green" position="408,864" size="360,44" font="Medium;26" foregroundColor="white" backgroundColor="black" transparent="1" halign="center" valign="center" noWrap="1" zPosition="1"/>
+		<ePixmap pixmap="NileGlass_FHD/buttons/yellow_k300.png" position="32,920" size="360,44" alphatest="blend" scale="1"/>
+		<widget name="key_yellow" position="32,920" size="360,44" font="Medium;26" foregroundColor="white" backgroundColor="black" transparent="1" halign="center" valign="center" noWrap="1" zPosition="1"/>
+		<ePixmap pixmap="NileGlass_FHD/buttons/blue_k300.png" position="408,920" size="360,44" alphatest="blend" scale="1"/>
+		<widget name="key_blue" position="408,920" size="360,44" font="Medium;26" foregroundColor="white" backgroundColor="black" transparent="1" halign="center" valign="center" noWrap="1" zPosition="1"/>
 		<eLabel position="820,0" size="330,110" backgroundColor="bg" cornerRadius="18" zPosition="-9"/>
 		<eLabel text="الحالة" position="838,8" size="294,28" font="Regular;20" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1"/>
 		<widget source="session.CurrentService" render="Label" position="838,38" size="294,44" font="Medium;30" foregroundColor="gold" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1"><convert type="NGEcm">State</convert></widget>
@@ -1481,31 +1481,31 @@
 		<eLabel text="Hops" position="1526,8" size="294,28" font="Regular;20" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1"/>
 		<widget source="session.CurrentService" render="Label" position="1526,38" size="294,44" font="Medium;30" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1"><convert type="NGEcm">Hops</convert></widget>
 		<eLabel text="عدد القفزات" position="1526,80" size="294,24" font="Regular;17" foregroundColor="fgMute" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1"/>
-		<eLabel position="820,124" size="1020,354" backgroundColor="bg" cornerRadius="18" zPosition="-9"/>
+		<eLabel position="820,124" size="1020,336" backgroundColor="bg" cornerRadius="18" zPosition="-9"/>
 		<eLabel text="تفاصيل فك التشفير" position="842,134" size="400,36" font="ArabicBold;26" foregroundColor="accent" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1"/>
 		<eLabel text="الإيمو" position="842,180" size="200,34" font="Regular;22" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1"/>
 		<widget source="session.CurrentService" render="Label" position="1050,180" size="768,34" font="Regular;24" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1"><convert type="NGEcm">Cam</convert></widget>
-		<eLabel text="الشفرة" position="842,216" size="200,34" font="Regular;22" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1"/>
-		<widget source="session.CurrentService" render="Label" position="1050,216" size="768,34" font="Regular;24" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1"><convert type="NGEcm">Caid</convert></widget>
-		<eLabel text="الريدر" position="842,252" size="200,34" font="Regular;22" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1"/>
-		<widget source="session.CurrentService" render="Label" position="1050,252" size="768,34" font="Regular;24" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1"><convert type="NGEcm">Reader</convert></widget>
-		<eLabel text="السيرفر" position="842,288" size="200,34" font="Regular;22" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1"/>
-		<widget source="session.CurrentService" render="Label" position="1050,288" size="768,34" font="Regular;24" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1"><convert type="NGEcm">From</convert></widget>
-		<eLabel text="البروتوكول" position="842,324" size="200,34" font="Regular;22" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1"/>
-		<widget source="session.CurrentService" render="Label" position="1050,324" size="768,34" font="Regular;24" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1"><convert type="NGEcm">Protocol</convert></widget>
-		<eLabel text="ECM PID" position="842,360" size="200,34" font="Regular;22" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1"/>
-		<widget source="session.CurrentService" render="Label" position="1050,360" size="768,34" font="Regular;24" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1"><convert type="NGEcm">Pid</convert></widget>
-		<eLabel text="Provider" position="842,396" size="200,34" font="Regular;22" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1"/>
-		<widget source="session.CurrentService" render="Label" position="1050,396" size="768,34" font="Regular;24" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1"><convert type="NGEcm">Prov</convert></widget>
-		<eLabel text="ChID" position="842,432" size="200,34" font="Regular;22" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1"/>
-		<widget source="session.CurrentService" render="Label" position="1050,432" size="768,34" font="Regular;24" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1"><convert type="NGEcm">Chid</convert></widget>
-		<eLabel position="820,490" size="1020,112" backgroundColor="bg" cornerRadius="18" zPosition="-9"/>
-		<eLabel text="أنظمة التشفير في القناة" position="842,498" size="400,30" font="Regular;20" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1"/>
-		<widget source="session.CurrentService" render="Label" position="842,530" size="976,34" font="Regular;26" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1"><convert type="PliExtraInfo">CryptoBar</convert></widget>
-		<widget source="session.CurrentService" render="Label" position="842,564" size="976,32" font="Regular;22" foregroundColor="gold" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1"><convert type="NGEcm">Caids</convert></widget>
-		<eLabel position="820,614" size="1020,266" backgroundColor="bg" cornerRadius="18" zPosition="-9"/>
-		<eLabel text="ecm.info" position="842,622" size="400,30" font="Medium;22" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1"/>
-		<widget name="Ecmtext" position="842,654" size="976,216" font="Regular;20" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left"/>
+		<eLabel text="الشفرة" position="842,214" size="200,34" font="Regular;22" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1"/>
+		<widget source="session.CurrentService" render="Label" position="1050,214" size="768,34" font="Regular;24" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1"><convert type="NGEcm">Caid</convert></widget>
+		<eLabel text="الريدر" position="842,248" size="200,34" font="Regular;22" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1"/>
+		<widget source="session.CurrentService" render="Label" position="1050,248" size="768,34" font="Regular;24" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1"><convert type="NGEcm">Reader</convert></widget>
+		<eLabel text="السيرفر" position="842,282" size="200,34" font="Regular;22" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1"/>
+		<widget source="session.CurrentService" render="Label" position="1050,282" size="768,34" font="Regular;24" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1"><convert type="NGEcm">From</convert></widget>
+		<eLabel text="البروتوكول" position="842,316" size="200,34" font="Regular;22" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1"/>
+		<widget source="session.CurrentService" render="Label" position="1050,316" size="768,34" font="Regular;24" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1"><convert type="NGEcm">Protocol</convert></widget>
+		<eLabel text="ECM PID" position="842,350" size="200,34" font="Regular;22" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1"/>
+		<widget source="session.CurrentService" render="Label" position="1050,350" size="768,34" font="Regular;24" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1"><convert type="NGEcm">Pid</convert></widget>
+		<eLabel text="Provider" position="842,384" size="200,34" font="Regular;22" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1"/>
+		<widget source="session.CurrentService" render="Label" position="1050,384" size="768,34" font="Regular;24" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1"><convert type="NGEcm">Prov</convert></widget>
+		<eLabel text="ChID" position="842,418" size="200,34" font="Regular;22" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1"/>
+		<widget source="session.CurrentService" render="Label" position="1050,418" size="768,34" font="Regular;24" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1"><convert type="NGEcm">Chid</convert></widget>
+		<eLabel position="820,472" size="1020,112" backgroundColor="bg" cornerRadius="18" zPosition="-9"/>
+		<eLabel text="أنظمة التشفير في القناة" position="842,480" size="400,30" font="Regular;20" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1"/>
+		<widget source="session.CurrentService" render="Label" position="842,512" size="976,34" font="Regular;26" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1"><convert type="PliExtraInfo">CryptoBar</convert></widget>
+		<widget source="session.CurrentService" render="Label" position="842,546" size="976,32" font="Regular;22" foregroundColor="gold" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1"><convert type="NGEcm">Caids</convert></widget>
+		<eLabel position="820,596" size="1020,404" backgroundColor="bg" cornerRadius="18" zPosition="-9"/>
+		<eLabel text="ecm.info" position="842,604" size="400,30" font="Medium;22" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1"/>
+		<widget name="Ecmtext" position="842,636" size="976,354" font="Regular;19" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left"/>
 	</screen>
 	<screen name="Volume" position="1250,56" size="630,104" backgroundColor="transparent" flags="wfNoBorder">
 		<eLabel position="0,0" size="630,104" backgroundColor="bg" zPosition="-10" cornerRadius="18"/>
@@ -4133,7 +4133,7 @@ self["list"].instance.setItemHeight(40)
 			<!-- NG-DASH system cards -->
 		<panel position="920,0" size="670,464"><panel name="NG_Dash_system_100"/></panel>
 	</screen>
-			<!-- NG-DASHPANELS BEGIN -->
+				<!-- NG-DASHPANELS BEGIN -->
 	<!-- card sets beside the panels (tools/gen_dash.py): positions from the panel that includes them -->
 	<screen name="NG_Dash_system_100">
 		<widget source="session.CurrentService" render="FixedLabel" text="" position="0,0" size="214,96" backgroundColor="bg" cornerRadius="18" zPosition="41"/>

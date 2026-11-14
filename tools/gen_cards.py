@@ -161,7 +161,7 @@ def channels(old):
 # ------------------------------------------------------------------ DeliteBluePanel
 def blue(old):
 	P = "bg"
-	LW, LH = 800, 880
+	LW, LH = 800, 1000
 	o = ['\t<screen name="DeliteBluePanel" position="40,center" size="1840,%d" backgroundColor="transparent" flags="wfNoBorder" title="OpenBh Blue Panel">' % LH,
 		'\t\t<!-- left: softcams and the channel; right: decoding cards -->',
 		card(0, 0, LW, LH, P, 24, -10),
@@ -201,10 +201,10 @@ def blue(old):
 	y = 124
 	rows = (("الإيمو", "Cam"), ("الشفرة", "Caid"), ("الريدر", "Reader"), ("السيرفر", "From"), ("البروتوكول", "Protocol"),
 		("ECM PID", "Pid"), ("Provider", "Prov"), ("ChID", "Chid"))
-	h = 56 + len(rows) * 36 + 10
+	h = 56 + len(rows) * 34 + 8
 	o += [card(X, y, CW, h, P, 18), T("تفاصيل فك التشفير", X + 22, y + 10, 400, 36, "ArabicBold;26", "accent", P)]
 	for i, (lab, conv) in enumerate(rows):
-		yy = y + 56 + i * 36
+		yy = y + 56 + i * 34
 		o += [T(lab, X + 22, yy, 200, 34, "Regular;22", "fgDim", P), W(CS, "Label", X + 230, yy, CW - 252, 34, "", [("NGEcm", conv)], "Regular;24", "fg", P)]
 	y += h + 12
 	o += [card(X, y, CW, 112, P, 18), T("أنظمة التشفير في القناة", X + 22, y + 8, 400, 30, "Regular;20", "fgDim", P),
@@ -212,7 +212,7 @@ def blue(old):
 		W(CS, "Label", X + 22, y + 74, CW - 44, 32, "", [("NGEcm", "Caids")], "Regular;22", "gold", P)]
 	y += 124
 	o += [card(X, y, CW, LH - y, P, 18), T("ecm.info", X + 22, y + 8, 400, 30, "Medium;22", "fgDim", P),
-		'\t\t<widget name="Ecmtext" position="%d,%d" size="%d,%d" font="Regular;20" foregroundColor="fgDim" backgroundColor="%s" transparent="1" halign="left"/>' % (X + 22, y + 40, CW - 44, LH - y - 50, P),
+		'\t\t<widget name="Ecmtext" position="%d,%d" size="%d,%d" font="Regular;19" foregroundColor="fgDim" backgroundColor="%s" transparent="1" halign="left"/>' % (X + 22, y + 40, CW - 44, LH - y - 50, P),
 		'\t</screen>']
 	return "\n".join(o)
 
