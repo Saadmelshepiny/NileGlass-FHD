@@ -112,6 +112,8 @@ auto = {update_auto}
 hijri = {hijri}
 hijri_offset = {hijri_offset}
 cast = {cast}
+dash = {dash}
+cl_posters = {cl_posters}
 lcd = {lcd}
 lcd_prev = {lcd_prev}
 
@@ -332,6 +334,8 @@ class NileGlassSetup(Setup):
 			off = 0
 		self.hijriOffset = NoSave(ConfigSelection(default=str(off), choices=[("-2", "-2"), ("-1", "-1"), ("0", "0"), ("1", "+1"), ("2", "+2")]))
 		self.cast = NoSave(ConfigYesNo(default=confBool("extras", "cast", False)))
+		self.dash = NoSave(ConfigYesNo(default=confBool("extras", "dash", True)))
+		self.clPosters = NoSave(ConfigYesNo(default=confBool("extras", "cl_posters", True)))
 		self.lcdOld = confBool("extras", "lcd", False)
 		self.lcd = NoSave(ConfigYesNo(default=self.lcdOld))
 		self.latitude = confGet("weather", "latitude", "")
@@ -456,6 +460,10 @@ class NileGlassSetup(Setup):
 		if self.hijri.value:
 			items.append((i + T("Hijri date correction (days)", "تصحيح التاريخ الهجري (أيام)"), self.hijriOffset, T("The calendar is calculated; if it differs from the sighting in your country by a day, correct it here.", "التاريخ محسوب حسابيًا؛ لو مختلف يوم عن الرؤية في بلدك صححه من هنا.")))
 		items.append((i + T("Cast in the INFO screen", "الأبطال في شاشة INFO"), self.cast, T("Photos and names of the main actors of a film in the INFO screen (one extra TMDB request per film).", "صور وأسماء أبطال الفيلم في شاشة INFO (طلب زيادة من TMDB لكل فيلم).")))
+		items += [
+			(i + T("Cards beside menus and settings", "المربعات جنب القوائم والإعدادات"), self.dash, T("System, network, tuner and picture/sound cards beside the menus. Off: plain panels, faster menus.", "مربعات النظام والشبكة والموالفات والصوت والصورة جنب القوائم. لو قفلتها القوائم بتبقى لوحة بس وأسرع.")),
+			(i + T("Posters in the channel list", "البوسترات في قائمة القنوات"), self.clPosters, T("Posters of the running and next programmes in the channel list. Off: faster browsing of the channels.", "بوسترات البرنامج الحالي والقادم في قائمة القنوات. لو قفلتها التنقل بين القنوات أسرع.")),
+		]
 		if hasLcd():
 			items.append((i + T("Front display in NileGlass style", "الشاشة الأمامية بشكل NileGlass"), self.lcd, T("The receiver's front display shows the channel, logo, programme, progress and clock in the NileGlass style (GUI restart). Off: back to the display skin you had.", "شاشة الجهاز الأمامية تعرض القناة واللوجو والبرنامج والتقدم والساعة بشكل NileGlass (بعد إعادة تشغيل الواجهة). لو قفلته بيرجع شكل الشاشة اللي كان عندك.")))
 		items += [
@@ -583,6 +591,8 @@ class NileGlassSetup(Setup):
 			"hijri": 1 if self.hijri.value else 0,
 			"hijri_offset": self.hijriOffset.value,
 			"cast": 1 if self.cast.value else 0,
+			"dash": 1 if self.dash.value else 0,
+			"cl_posters": 1 if self.clPosters.value else 0,
 			"lcd": 1 if self.lcd.value else 0,
 			"lcd_prev": self.lcdPrev(),
 		}

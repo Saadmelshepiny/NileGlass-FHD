@@ -37,6 +37,27 @@ _cpuPrev = [0, 0]  # shared between all instances: (idle, total)
 _cpuLast = [0.0, 0]  # (timestamp, percent)
 
 
+# Many widgets show the same facts (the menu and settings dashboards have
+# dozens): each fact is read once and shared for a few seconds.
+_memo = {}
+
+
+def shared(ttl):
+	def wrap(fn):
+		def call(*args):
+			key = (fn.__name__,) + args
+			now = time.monotonic()
+			hit = _memo.get(key)
+			if hit is not None and now - hit[0] < ttl:
+				return hit[1]
+			value = fn(*args)
+			_memo[key] = (now, value)
+			return value
+		call.__name__ = fn.__name__
+		return call
+	return wrap
+
+
 def _readFirstLine(path):
 	try:
 		with open(path, "r") as f:
@@ -45,6 +66,7 @@ def _readFirstLine(path):
 		return ""
 
 
+@shared(3)
 def cpuTemp():
 	for path in ("/proc/stb/sensors/temp0/value", "/proc/stb/sensors/temp/value", "/proc/stb/fp/temp_sensor_avs", "/proc/stb/fp/temp_sensor"):
 		v = _readFirstLine(path)
@@ -75,6 +97,7 @@ def cpuLoad():
 	return _cpuLast[1]
 
 
+@shared(3)
 def memInfo():
 	info = {}
 	try:
@@ -89,6 +112,7 @@ def memInfo():
 	return total, max(0, total - avail)
 
 
+@shared(10)
 def diskInfo(path):
 	try:
 		st = os.statvfs(path)
@@ -106,6 +130,7 @@ def human(n):
 		n /= 1024.0
 
 
+@shared(10)
 def interfaces():
 	"""Network interfaces of the box, wired first (any name: eth0, end0, enp1s0, wlan0, ra0 ...)."""
 	try:
@@ -150,6 +175,7 @@ def _ifUp(ifname):
 	return state in ("unknown", "dormant", "") and _readFirstLine("/sys/class/net/%s/carrier" % ifname) == "1"
 
 
+@shared(5)
 def ipAddress():
 	for ifname in interfaces():
 		ip = _ifAddress(ifname)
@@ -173,6 +199,7 @@ def uptime():
 	return "%dm" % m
 
 
+@shared(3600)
 def boxName():
 	try:
 		from Components.SystemInfo import getBoxDisplayName
@@ -182,6 +209,7 @@ def boxName():
 		return _readFirstLine("/proc/stb/info/vumodel") or _readFirstLine("/proc/stb/info/model")
 
 
+@shared(3600)
 def imageName():
 	try:
 		from Components.SystemInfo import BoxInfo
@@ -190,11 +218,13 @@ def imageName():
 		return "OpenBh"
 
 
+@shared(3)
 def loadAvg():
 	v = _readFirstLine("/proc/loadavg").split()
 	return v[0] if v else ""
 
 
+@shared(5)
 def fanSpeed():
 	for path in ("/proc/stb/fp/fan_speed", "/proc/stb/fp/fanspeed"):
 		v = _readFirstLine(path)
@@ -234,6 +264,7 @@ def kbits(v):
 	return "%.1f Mbit/s" % (v / 1000.0) if v >= 1000 else "%d kbit/s" % v
 
 
+@shared(5)
 def mainInterface():
 	"""The interface that carries the box's address (wired first); else the first one that is up."""
 	names = interfaces()
@@ -247,6 +278,7 @@ def mainInterface():
 	return ""
 
 
+@shared(5)
 def netType():
 	ifname = mainInterface()
 	return "%s · %s" % ("Wi-Fi" if _isWifi(ifname) else "Ethernet", ifname) if ifname else ""
@@ -262,6 +294,7 @@ def _ioctlAddr(ifname, req):
 		s.close()
 
 
+@shared(10)
 def gateway():
 	try:
 		with open("/proc/net/route") as f:
@@ -274,6 +307,7 @@ def gateway():
 	return ""
 
 
+@shared(30)
 def dnsServers():
 	out = []
 	try:
@@ -287,6 +321,7 @@ def dnsServers():
 	return "  ·  ".join(out[:2])
 
 
+@shared(10)
 def linkSpeed(ifname):
 	if not ifname or _isWifi(ifname):
 		return "Wi-Fi" if ifname else ""
@@ -322,6 +357,7 @@ def rotorPosition():
 	return "%.1f°W" % ((3600 - pos) / 10.0) if pos > 1800 else "%.1f°E" % (pos / 10.0)
 
 
+@shared(600)
 def nimSockets():
 	"""[(slot letter, name, type)] from /proc/bus/nim_sockets"""
 	out, cur = [], None
@@ -343,11 +379,13 @@ def nimSockets():
 AC3 = {"downmix": "تحويل ستيريو", "passthrough": "تمرير رقمي", "multichannel": "متعدد القنوات", "force_ac3": "تحويل AC3", "use_hdmi_caps": "حسب الشاشة"}
 
 
+@shared(5)
 def videoOutput():
 	mode = _readFirstLine("/proc/stb/video/videomode")
 	return mode.replace("multi", "").strip() if mode else ""
 
 
+@shared(10)
 def hdmiColour():
 	cs = _readFirstLine("/proc/stb/video/hdmi_colorspace")
 	cd = _readFirstLine("/proc/stb/video/hdmi_colordepth")
@@ -363,6 +401,7 @@ def volume():
 		return ""
 
 
+@shared(10)
 def usbPath():
 	try:
 		for name in sorted(os.listdir("/media")):

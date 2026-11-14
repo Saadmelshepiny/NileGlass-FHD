@@ -49,13 +49,13 @@ def key(color, x, y, w=200, objtype=None):
 	return o
 
 
-def eventCard(src, i, x, y, w, h, bg, thumb=(116, 174), descLines=4, titleFont="Medium;28", descFont="Regular;22"):
+def eventCard(src, i, x, y, w, h, bg, thumb=(134, 200), descLines=4, titleFont="Medium;28", descFont="Regular;22"):
 	"""one upcoming event: poster thumb, time, title, description"""
 	tw, th = thumb
 	tx = x + 16 + tw + 16
 	ww = w - (tx - x) - 16
 	return [card(x, y, w, h, bg),
-		'\t\t<widget source="%s" render="NGPoster" kind="thumb" eventIndex="%d" position="%d,%d" size="%d,%d" delay="400" fallback="NileGlass_FHD/ui/noposter.png" borderWidth="1" borderColor="posterBorder" zPosition="2"/>' % (src, i + 1, x + 16, y + (h - th) // 2, tw, th),
+		'\t\t<widget source="%s" render="NGPoster" kind="thumb" eventIndex="%d" position="%d,%d" size="%d,%d" delay="400" picon="1" fallback="NileGlass_FHD/ui/noposter.png" borderWidth="1" borderColor="posterBorder" zPosition="2"/>' % (src, i + 1, x + 16, y + (h - th) // 2, tw, th),
 		'\t\t<widget source="%s" render="NGEventList" items="1" start="%d" fields="time" position="%d,%d" size="%d,30" font="Regular;22" foregroundColor="gold" backgroundColor="%s" transparent="1" halign="left" valign="center" noWrap="1"/>' % (src, i, tx, y + 12, ww, bg),
 		'\t\t<widget source="%s" render="NGEventList" items="1" start="%d" fields="title" position="%d,%d" size="%d,38" font="%s" foregroundColor="fg" backgroundColor="%s" transparent="1" halign="left" valign="center" noWrap="1"/>' % (src, i, tx, y + 42, ww, titleFont, bg),
 		'\t\t<widget source="%s" render="NGEventList" items="1" start="%d" fields="desc" position="%d,%d" size="%d,%d" font="%s" foregroundColor="fgDim" backgroundColor="%s" transparent="1" halign="left" valign="top"/>' % (src, i, tx, y + 84, ww, h - 96, descFont, bg)]
@@ -121,40 +121,42 @@ def sib():
 # ------------------------------------------------------------------ ChannelSelection
 def channels(old):
 	listEl = re.search(r'<widget name="list".*?/>', old, re.S).group(0)
-	listEl = listEl.replace('size="1100,784" itemHeight="56" serviceItemHeight="56" selectionPixmap="NileGlass_FHD/ui/sel_channel56.png"',
-		'size="1100,800" itemHeight="50" serviceItemHeight="50" selectionPixmap="NileGlass_FHD/ui/sel_channel50.png"')
+	listEl = re.sub(r'size="[^"]*" itemHeight="\d+" serviceItemHeight="\d+" selectionPixmap="[^"]*"',
+		'size="960,800" itemHeight="50" serviceItemHeight="50" selectionPixmap="NileGlass_FHD/ui/sel_channel50.png"', listEl, count=1)
 	listEl = listEl.replace('serviceNumberFont="Regular;26" serviceNameFont="Regular;28" serviceInfoFont="Regular;23" serviceRemainingInfoFont="Regular;21"',
 		'serviceNumberFont="Regular;25" serviceNameFont="Regular;27" serviceInfoFont="Regular;22" serviceRemainingInfoFont="Regular;20"')
-	assert "sel_channel50" in listEl
+	assert "sel_channel50" in listEl and 'size="960,800"' in listEl
 	SE = "ServiceEvent"
-	X, Y, CW = 1190, 140, 670
+	X, Y, CW = 1046, 140, 814
+	LC = CW - 236            # text column beside the poster
 	o = ['\t<screen name="ChannelSelection" position="0,0" size="1920,1080" backgroundColor="transparent" flags="wfNoBorder">',
 		'\t\t<panel name="NG_Frame"/>', "\t\t" + listEl,
-		'\t\t<!-- selected channel: running programme card, then four upcoming programme cards -->',
-		card(X, Y, CW, 470),
-		W(SE, "NGPoster", X + CW - 226, Y + 16, 210, 315, 'delay="300" fallback="NileGlass_FHD/ui/noposter.png" borderWidth="2" borderColor="posterBorder" zPosition="3"'),
-		W(SE, "Label", X + 20, Y + 12, 410, 38, "", [("ServiceName", "Name")], "Medium;26", "fgDim", "bgCard"),
-		W(SE, "Label", X + 20, Y + 52, 410, 80, "", [("EventName", "Name")], "Medium;30", "accent", "bgCard", valign="top", wrap=True),
-		W(SE, "Label", X + 20, Y + 140, 110, 32, "", [("EventTime", "StartTime"), ("ClockToText", "Format:%H:%M")], "Regular;26", "fg", "bgCard"),
-		W(SE, "Label", X + 320, Y + 140, 110, 32, "", [("EventTime", "EndTime"), ("ClockToText", "Format:%H:%M")], "Regular;26", "fg", "bgCard", halign="right"),
-		'\t\t<eLabel position="%d,%d" size="410,8" backgroundColor="bgBar" cornerRadius="4" zPosition="-7"/>' % (X + 20, Y + 178),
-		W(SE, "Progress", X + 20, Y + 178, 410, 8, 'pixmap="NileGlass_FHD/ui/progress_sib.png" transparent="1" zPosition="1"', [("EventTime", "Progress")]),
-		W(SE, "Label", X + 20, Y + 192, 410, 32, "", [("EventTime", "Remaining"), ("RemainingToText", "InMinutes")], "Regular;24", "fgDim", "bgCard"),
-		W(SE, "NGEventInfo", X + 20, Y + 228, 410, 32, 'fields="year,genres"', (), "Regular;24", "gold", "bgCard"),
-		W(SE, "NGStars", X + 20, Y + 266, 200, 36, 'backgroundPixmap="NileGlass_FHD/ui/stars_bg.png" pixmap="NileGlass_FHD/ui/stars.png" transparent="1" zPosition="1"'),
-		W(SE, "Label", X + 20, Y + 340, CW - 40, 120, "", [("EventName", "FullDescription"), ("NGTranslate", "")], "Regular;23", "#d6dbe1", "bgCard", valign="top", wrap=True),
+		'\t\t<!-- selected channel: running programme card (poster, times, full description), then four upcoming programme cards -->',
+		card(X, Y, CW, 440),
+		W(SE, "NGPoster", X + CW - 196, Y + 16, 180, 270, 'delay="300" picon="1" fallback="NileGlass_FHD/ui/noposter.png" borderWidth="2" borderColor="posterBorder" zPosition="3"'),
+		W(SE, "Label", X + 20, Y + 12, LC, 36, "", [("ServiceName", "Name")], "Medium;26", "fgDim", "bgCard"),
+		W(SE, "Label", X + 20, Y + 50, LC, 76, "", [("EventName", "Name")], "Medium;30", "accent", "bgCard", valign="top", wrap=True),
+		W(SE, "Label", X + 20, Y + 132, 110, 32, "", [("EventTime", "StartTime"), ("ClockToText", "Format:%H:%M")], "Regular;26", "fg", "bgCard"),
+		W(SE, "Label", X + 20 + LC - 110, Y + 132, 110, 32, "", [("EventTime", "EndTime"), ("ClockToText", "Format:%H:%M")], "Regular;26", "fg", "bgCard", halign="right"),
+		'\t\t<eLabel position="%d,%d" size="%d,8" backgroundColor="bgBar" cornerRadius="4" zPosition="-7"/>' % (X + 20, Y + 170, LC),
+		W(SE, "Progress", X + 20, Y + 170, LC, 8, 'pixmap="NileGlass_FHD/ui/progress_sib.png" transparent="1" zPosition="1"', [("EventTime", "Progress")]),
+		W(SE, "Label", X + 20, Y + 184, 260, 32, "", [("EventTime", "Remaining"), ("RemainingToText", "InMinutes")], "Regular;24", "fgDim", "bgCard"),
+		W(SE, "NGEventInfo", X + 20, Y + 220, LC, 32, 'fields="year,genres"', (), "Regular;24", "gold", "bgCard"),
+		W(SE, "NGStars", X + 20, Y + 254, 200, 32, 'backgroundPixmap="NileGlass_FHD/ui/stars_bg.png" pixmap="NileGlass_FHD/ui/stars.png" transparent="1" zPosition="1"'),
+		W(SE, "Label", X + 20, Y + 298, CW - 40, 132, "", [("EventName", "FullDescription"), ("NGTranslate", "")], "Regular;23", "#d6dbe1", "bgCard", valign="top", wrap=True),
 	]
+	hw = (CW - 12) // 2
 	for i in range(4):
-		cx = X + (i % 2) * (CW // 2 + 6)
-		cy = Y + 482 + (i // 2) * 160
-		o += eventCard(SE, i, cx, cy, CW // 2 - 6, 152, "bgCard", thumb=(74, 111), titleFont="Medium;22", descFont="Regular;18")
+		cx = X + (i % 2) * (hw + 12)
+		cy = Y + 452 + (i // 2) * 183
+		o += eventCard(SE, i, cx, cy, hw, 171, "bgCard", thumb=(104, 156), titleFont="Medium;22", descFont="Regular;19")
 	o.append('\t</screen>')
-	return "\n".join(o).replace('fields="time" position', 'fields="time" position', 1)
+	return "\n".join(o)
 
 
 # ------------------------------------------------------------------ DeliteBluePanel
 def blue(old):
-	P = "#0b0f1722"
+	P = "bg"
 	LW, LH = 800, 880
 	o = ['\t<screen name="DeliteBluePanel" position="40,center" size="1840,%d" backgroundColor="transparent" flags="wfNoBorder" title="OpenBh Blue Panel">' % LH,
 		'\t\t<!-- left: softcams and the channel; right: decoding cards -->',
@@ -193,14 +195,20 @@ def blue(old):
 			W(CS, "Label", x + 18, 38, sw - 36, 44, "", [("NGEcm", conv)], "Medium;30", col, P),
 			T(sub, x + 18, 80, sw - 36, 24, "Regular;17", "fgMute", P)]
 	y = 124
-	o += [card(X, y, CW, 290, P, 18), T("فك التشفير", X + 22, y + 10, 400, 36, "ArabicBold;26", "accent", P),
-		W(CS, "Label", X + 22, y + 52, CW - 44, 40, "", [("PliExtraInfo", "CryptoBar")], "Regular;28", "fgDim", P)]
-	for i, (lab, conv) in enumerate((("الإيمو", "Cam"), ("الشفرة", "Caid"), ("المصدر", "Source"), ("البروتوكول", "Protocol"))):
-		yy = y + 104 + i * 42
-		o += [T(lab, X + 22, yy, 220, 38, "Regular;24", "fgDim", P), W(CS, "Label", X + 250, yy, CW - 272, 38, "", [("NGEcm", conv)], "Regular;26", "fg", P)]
-	y = 428
-	o += [card(X, y, CW, LH - y, P, 18), T("ecm.info", X + 22, y + 10, 400, 32, "Medium;22", "fgDim", P),
-		'\t\t<widget name="Ecmtext" position="%d,%d" size="%d,%d" font="Regular;22" foregroundColor="fgDim" backgroundColor="%s" transparent="1" halign="left"/>' % (X + 22, y + 46, CW - 44, LH - y - 60, P),
+	rows = (("الإيمو", "Cam"), ("الشفرة", "Caid"), ("الريدر", "Reader"), ("السيرفر", "From"), ("البروتوكول", "Protocol"),
+		("ECM PID", "Pid"), ("Provider", "Prov"), ("ChID", "Chid"))
+	h = 56 + len(rows) * 36 + 10
+	o += [card(X, y, CW, h, P, 18), T("تفاصيل فك التشفير", X + 22, y + 10, 400, 36, "ArabicBold;26", "accent", P)]
+	for i, (lab, conv) in enumerate(rows):
+		yy = y + 56 + i * 36
+		o += [T(lab, X + 22, yy, 200, 34, "Regular;22", "fgDim", P), W(CS, "Label", X + 230, yy, CW - 252, 34, "", [("NGEcm", conv)], "Regular;24", "fg", P)]
+	y += h + 12
+	o += [card(X, y, CW, 112, P, 18), T("أنظمة التشفير في القناة", X + 22, y + 8, 400, 30, "Regular;20", "fgDim", P),
+		W(CS, "Label", X + 22, y + 40, CW - 44, 34, "", [("PliExtraInfo", "CryptoBar")], "Regular;26", "fgDim", P),
+		W(CS, "Label", X + 22, y + 74, CW - 44, 32, "", [("NGEcm", "Caids")], "Regular;22", "gold", P)]
+	y += 124
+	o += [card(X, y, CW, LH - y, P, 18), T("ecm.info", X + 22, y + 8, 400, 30, "Medium;22", "fgDim", P),
+		'\t\t<widget name="Ecmtext" position="%d,%d" size="%d,%d" font="Regular;20" foregroundColor="fgDim" backgroundColor="%s" transparent="1" halign="left"/>' % (X + 22, y + 40, CW - 44, LH - y - 50, P),
 		'\t</screen>']
 	return "\n".join(o)
 

@@ -3,7 +3,7 @@
 dashboard beside it, settings as a rounded panel. argv: SKINDIR"""
 import os, re, sys
 SK = sys.argv[1]
-PANEL = "#0b0f1722"   # = ui/pn_*.png fill (alpha 244)
+PANEL = "bg"          # same panel colour (and transparency setting) as every other screen
 UI = "NileGlass_FHD/ui/"
 
 def lab(x, y, w, h, src, conv, font, color, halign="left", extra=""):
@@ -17,9 +17,7 @@ def pix(x, y, w, h, name, z=0):
 	return '\t\t<ePixmap pixmap="%s%s" position="%d,%d" size="%d,%d" alphatest="blend" zPosition="%d"/>' % (UI, name, x, y, w, h, z)
 
 def panel(w, top, bottom, tag=""):
-	return [pix(0, top, w, 24, "pn_top%s.png" % tag, -9),
-		'\t\t<eLabel position="0,%d" size="%d,%d" backgroundColor="%s" zPosition="-10"/>' % (top + 24, w, bottom - top - 48, PANEL),
-		pix(0, bottom - 24, w, 24, "pn_bot%s.png" % tag, -9)]
+	return ['\t\t<eLabel position="0,%d" size="%d,%d" backgroundColor="%s" cornerRadius="24" zPosition="-10"/>' % (top, w, bottom - top, PANEL)]
 
 def header(w):
 	return [pix(22, 22, 40, 40, "ng_logo.png", 1),
@@ -42,6 +40,9 @@ class Dash:
 		self.out = []
 
 	def pix(self, x, y, w, h, name, front=False):
+		if name.startswith("card_"):          # card: a rounded panel-coloured label (hidden with its set)
+			self.out.append('\t\t<widget source="%s" render="FixedLabel" text="" position="%d,%d" size="%d,%d" backgroundColor="%s" cornerRadius="18" zPosition="%d"/>' % (SYS, x, y, w, h, PANEL, self.bz))
+			return
 		self.out.append('\t\t<widget source="%s" render="Pixmap" pixmap="%s%s" position="%d,%d" size="%d,%d" alphatest="blend" zPosition="%d"/>' % (SYS, UI, name, x, y, w, h, self.fz if front else self.bz))
 
 	def text(self, x, y, w, h, t, font, color, halign="left"):
@@ -202,7 +203,7 @@ menu = panel(600, 0, PB) + header(600) + [
 	lab(76, LB + 54, 180, 26, SYS, [("NGSysInfo", "Image")], "Regular;18", "fgDim"),
 	lab(262, LB + 54, 200, 26, SYS, [("NGSysInfo", "BoxName")], "Regular;18", "fgMute"),
 	lab(462, LB + 34, 114, 34, SYS, [("NGSysInfo", "SkinVersion")], "Medium;22", "gold", "right"),
-	pix(0, PB + 14, 600, 52, "keybar.png", -9),
+	'\t\t<eLabel position="0,%d" size="600,52" backgroundColor="%s" cornerRadius="20" zPosition="-9"/>' % (PB + 14, PANEL),
 	pix(22, PB + 25, 64, 30, "key_ok.png", 1), text(94, PB + 14, 90, 52, "فتح", "Regular;24", "fg"),
 	pix(212, PB + 25, 64, 30, "key_exit.png", 1), text(284, PB + 14, 90, 52, "رجوع", "Regular;24", "fg"),
 	pix(400, PB + 25, 64, 30, "key_menu.png", 1), text(472, PB + 14, 110, 52, "إغلاق", "Regular;24", "fg"),

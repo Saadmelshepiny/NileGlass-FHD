@@ -69,6 +69,7 @@ class NGPoster(Renderer):
 		self.kind = "poster"
 		self.eventIndex = 0
 		self.fallback = None
+		self.piconFallback = False   # no poster: the channel's picon instead of the empty frame
 		self.sportAware = True
 		self.wantedName = None     # raw event name we want to show
 		self.wantedTitle = None    # cleaned title we asked the service for
@@ -91,6 +92,8 @@ class NGPoster(Renderer):
 					self.eventIndex = max(0, int(value))
 				except ValueError:
 					pass
+			elif attrib == "picon":
+				self.piconFallback = value.lower() in ("1", "true", "yes")
 			elif attrib == "fallback":
 				path = resolveFilename(SCOPE_CURRENT_SKIN, value)
 				self.fallback = path if path and os.path.isfile(path) else None
@@ -162,8 +165,43 @@ class NGPoster(Renderer):
 		except Exception:
 			return ""
 
+	def serviceRef(self):
+		try:
+			src = self.source
+			ref = getattr(src, "serviceref", None) or getattr(src, "service", None)
+			if not isinstance(ref, eServiceReference):
+				import NavigationInstance
+				ref = NavigationInstance.instance.getCurrentlyPlayingServiceReference()
+			return ref
+		except Exception:
+			return None
+
+	def piconPath(self):
+		if not self.piconFallback:
+			return None
+		try:
+			from Components.Renderer.Picon import getPiconName
+			ref = self.serviceRef()
+			return getPiconName(ref.toString()) if ref else None
+		except Exception:
+			return None
+
+	def offHere(self):
+		"""posters of the channel list turned off in the settings (faster browsing)"""
+		if self.source.__class__.__name__ != "ServiceEvent":
+			return False
+		try:
+			from Components.NileGlassCore import confBool
+			return not confBool("extras", "cl_posters", True)
+		except Exception:
+			return False
+
 	def changed(self, what):
 		if not self.instance:
+			return
+		if self.offHere():
+			self.timer.stop()
+			self.instance.hide()
 			return
 		if what[0] == self.CHANGED_CLEAR:
 			self.timer.stop()
@@ -218,9 +256,9 @@ class NGPoster(Renderer):
 		if not self.instance or title != self.wantedTitle:
 			return
 		if not path:
-			if self.fallback and not self.prefetch:
-				path = self.fallback
-			else:
+			if (self.fallback or self.piconFallback) and not self.prefetch:
+				path = self.piconPath() or self.fallback
+			if not path:
 				self.hidePoster()
 				return
 		if path != self.shownPath:
@@ -239,9 +277,10 @@ class NGPoster(Renderer):
 		self.wantedTitle = None
 		if not self.instance:
 			return
-		if self.fallback and not self.prefetch and self.wantedName:
-			if self.shownPath != self.fallback:
-				self.setPicture(self.fallback)
+		fb = (self.piconPath() or (self.fallback if self.wantedName else None)) if not self.prefetch else None
+		if fb:
+			if self.shownPath != fb:
+				self.setPicture(fb)
 			self.instance.show()
 		else:
 			self.instance.hide()

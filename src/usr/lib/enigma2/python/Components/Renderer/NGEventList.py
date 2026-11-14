@@ -20,7 +20,7 @@
 
 from time import localtime, strftime, time
 
-from enigma import eEPGCache, eLabel, eServiceReference
+from enigma import eEPGCache, eLabel, eServiceReference, eTimer
 
 from Components.Renderer.Renderer import Renderer
 from Components.NileGlassCore import upcomingDetails, upcomingEvents
@@ -46,6 +46,8 @@ class NGEventList(Renderer, VariableText):
 		self.textColor = ""
 		self.lastKey = None
 		self.fields = ""
+		self.delay = None          # ms; channel list: waits until the cursor rests
+		self.timer = None
 
 	def applySkin(self, desktop, parent):
 		attribs = []
@@ -54,6 +56,8 @@ class NGEventList(Renderer, VariableText):
 				self.items = max(1, int(value))
 			elif attrib == "timeBreak":
 				self.timeBreak = value == "1"
+			elif attrib == "delay":
+				self.delay = max(0, int(value))
 			elif attrib == "fields":
 				self.fields = value.strip().lower()
 			elif attrib == "start":
@@ -89,6 +93,15 @@ class NGEventList(Renderer, VariableText):
 			return
 		if self.suspended:  # screen hidden (e.g. second infobar): no EPG work until it is shown
 			self.pending = True
+			return
+		delay = self.delay
+		if delay is None:
+			delay = 200 if self.source.__class__.__name__ == "ServiceEvent" else 0
+		if delay and what[0] != "now":
+			if self.timer is None:
+				self.timer = eTimer()
+				self.timer.callback.append(lambda: self.changed(("now",)))
+			self.timer.start(delay, True)
 			return
 		self.pending = False
 		ref = self.serviceRef()
@@ -135,6 +148,12 @@ class NGEventList(Renderer, VariableText):
 		if text != self.lastKey:
 			self.lastKey = text
 			self.text = text
+
+	def destroy(self):
+		if self.timer is not None:
+			self.timer.stop()
+			self.timer = None
+		Renderer.destroy(self)
 
 	def onShow(self):
 		Renderer.onShow(self)

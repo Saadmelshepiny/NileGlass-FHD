@@ -406,7 +406,7 @@ class NileGlassReaders(Screen):
 			if not self.sf:
 				self.session.open(MessageBox, "مفيش ملف سطور مفتوح.\n%s" % (self["details"].getText() or "شغّل OScam أو NCam الأول."), MessageBox.TYPE_INFO, timeout=8)
 				return
-			if action.__name__ not in ("addMenu", "menu") and self.current()[1] is None:
+			if action.__name__ not in ("addMenu", "menu", "backupsMenu", "<lambda>") and self.current()[1] is None:
 				self.session.open(MessageBox, "اختار ريدر من القائمة الأول.", MessageBox.TYPE_INFO, timeout=5)
 				return
 			try:
@@ -482,7 +482,7 @@ class NileGlassReaders(Screen):
 		if rows:
 			self["list"].setIndex(min(idx, len(rows) - 1))
 		n = len(rows)
-		self["hint"].setText("%d %s   ·   INFO: إظهار الباسورد   ·   MENU: النسخ الاحتياطية" % (n, "ريدر" if n == 1 else "ريدرات"))
+		self["hint"].setText("%d %s   ·   INFO: إظهار الباسورد   ·   MENU: أدوات أكتر (تكرار، سطر C، تشغيل/إيقاف الكل، النسخ الاحتياطية)" % (n, "ريدر" if n == 1 else "ريدرات"))
 		self.showDetails()
 
 	def current(self):
@@ -681,6 +681,71 @@ class NileGlassReaders(Screen):
 	def menu(self):
 		if not self.sf:
 			return
+		idx, r = self.current()
+		items = []
+		if r is not None:
+			items.append(("تكرار «%s» (نسخة منه باسم جديد)" % r.label, self.duplicate))
+			if r.get("protocol").lower() == "cccam":
+				items.append(("تعديل «%s» كسطر C" % r.label, self.editAsCLine))
+		if self.sf.readers:
+			items += [("تشغيل كل الريدرات", lambda: self.askAll("1")), ("إيقاف كل الريدرات", lambda: self.askAll("0"))]
+		items.append(("النسخ الاحتياطية (استرجاع)", self.backupsMenu))
+		self.session.openWithCallback(lambda c: c and self.safe(c[1])(), ChoiceBox, title="أدوات السطور", list=items)
+
+	def duplicate(self):
+		idx, r = self.current()
+		if r is None or not self.guard():
+			return
+		fields = [(k, v) for k, v, _i in r.fields]
+		fields = [("label", self.freeLabel(r.label + "_2")) if k == "label" else (k, v) for k, v in fields]
+		if "label" not in dict(fields):
+			fields.insert(0, ("label", self.freeLabel("reader")))
+		self.askAdd(fields)
+
+	def editAsCLine(self):
+		idx, r = self.current()
+		if r is None or not self.guard():
+			return
+		dev = r.get("device").replace(":", ",").split(",")
+		line = "C: %s %s %s %s" % (dev[0] if dev else "", dev[1] if len(dev) > 1 else "", r.get("user"), r.get("password"))
+		self.keyboard("عدّل السطر C:", line, lambda text: self.gotEditedCLine(idx, r.label, text))
+
+	def gotEditedCLine(self, idx, label, text):
+		if not text:
+			return
+		m = re.match(r"^\s*[Cc]\s*:\s*(\S+)\s+(\d+)\s+(\S+)\s+(\S+)", text)
+		if not m:
+			self.session.open(MessageBox, "السطر مش بالشكل ده:\nC: host port user pass", MessageBox.TYPE_ERROR, timeout=8)
+			return
+		host, port, user, pwd = m.groups()
+		r = self.sf.readers[idx]
+		changes = {}
+		for k, v in (("device", "%s,%s" % (host, port)), ("user", user), ("password", pwd)):
+			if r.get(k) != v:
+				changes[k] = v
+		if not changes:
+			self.session.open(MessageBox, "مفيش حاجة اتغيرت.", MessageBox.TYPE_INFO, timeout=4)
+			return
+		self.edited(idx, label, changes)
+
+	def askAll(self, value):
+		if not self.guard():
+			return
+		todo = [i for i, r in enumerate(self.sf.readers) if (r.get("enable", "1").strip() != "0") != (value == "1")]
+		if not todo:
+			self.session.open(MessageBox, "كل الريدرات %s بالفعل." % ("شغالة" if value == "1" else "متوقفة"), MessageBox.TYPE_INFO, timeout=5)
+			return
+		names = ", ".join(self.sf.readers[i].label for i in todo)
+		txt = "تشغيل" if value == "1" else "إيقاف"
+		self.session.openWithCallback(lambda yes: yes and self.doAll(todo, value, txt), MessageBox,
+			"%s %d ريدر؟\n%s" % (txt, len(todo), names), MessageBox.TYPE_YESNO, default=False)
+
+	def doAll(self, todo, value, txt):
+		for i in todo:
+			self.sf.setField(i, "enable", value)
+		self.commit("تم %s %d ريدر." % (txt, len(todo)))
+
+	def backupsMenu(self):
 		backs = self.sf.backups()
 		if not backs:
 			self.session.open(MessageBox, "مفيش نسخ احتياطية لسه.\nبتتعمل لوحدها قبل أي حفظ.", MessageBox.TYPE_INFO, timeout=6)
@@ -716,37 +781,99 @@ FIELD_NAMES = {"label": "الاسم (label)", "protocol": "البروتوكول"
 	"group": "group", "caid": "caid", "enable": "شغال (enable)"}
 
 
+COMMON_FIELDS = ("inactivitytimeout", "reconnecttimeout", "cccversion", "ccckeepalive", "cccmaxhops", "caid", "ident", "services",
+	"key", "audisabled", "disablecrccws", "lb_weight", "fallback", "ecmwhitelist", "emmcache", "blockemm-unknown", "connectoninit")
+
+
 class NileGlassReaderEdit(ConfigListScreen, Screen):
 	"""All the fields of one reader. OK on a text field opens the keyboard,
-	green saves (the readers screen still asks before writing), red cancels."""
+	the number keys type directly, yellow adds a field, blue removes the
+	field under the cursor, green saves (the readers screen still asks before
+	writing), red cancels."""
 
 	def __init__(self, session, title, fields, isNew=False):
 		Screen.__init__(self, session)
 		self.skinName = ["NileGlassReaderEdit", "Setup"]
 		self.setTitle(title)
-		self["description"] = Label("OK على أي حقل للكتابة  ·  الأخضر حفظ  ·  الأحمر إلغاء")
+		self["description"] = Label("OK: كتابة بالكيبورد  ·  الأرقام: كتابة مباشرة  ·  الأصفر: إضافة حقل  ·  الأزرق: حذف الحقل")
 		self["footnote"] = Label("")
 		self.isNew = isNew
 		self.orig = {}
 		self.items = []
+		self.removed = set()
 		values = dict(fields)
 		order = [k for k in MAIN_FIELDS if k in values] + [k for k, _v in fields if k not in MAIN_FIELDS]
 		for key in order:
 			value = values.get(key, "")
 			self.orig[key] = value
-			if key == "protocol":
-				choices = list(PROTOCOLS) + ([value] if value and value not in PROTOCOLS else [])
-				el = ConfigSelection(default=value if value in choices else "cccam", choices=[(c, c) for c in choices])
-			elif key == "enable":
-				el = ConfigYesNo(default=value.strip() != "0")
-			else:
-				el = ConfigText(default=value, fixed_size=False, visible_width=40)
-			self.items.append((key, el))
-		lst = [getConfigListEntry(FIELD_NAMES.get(k, k), el) for k, el in self.items]
-		ConfigListScreen.__init__(self, lst, session=session, fullUI=True)
+			self.items.append((key, self.element(key, value)))
+		ConfigListScreen.__init__(self, self.entries(), session=session, fullUI=True,
+			yellow_button={"text": "إضافة حقل", "function": self.addField},
+			blue_button={"text": "حذف الحقل", "function": self.removeField})
 		self["key_red"].setText("إلغاء")
 		self["key_green"].setText("حفظ")
+		try:
+			self["editConfigActions"].setEnabled(True)    # number keys type into the field
+		except Exception:
+			pass
 		log("edit screen", title, len(self.items))
+
+	@staticmethod
+	def element(key, value):
+		if key == "protocol":
+			choices = list(PROTOCOLS) + ([value] if value and value not in PROTOCOLS else [])
+			return ConfigSelection(default=value if value in choices else "cccam", choices=[(c, c) for c in choices])
+		if key == "enable":
+			return ConfigYesNo(default=value.strip() != "0")
+		return ConfigText(default=value, fixed_size=False, visible_width=40)
+
+	def entries(self):
+		return [getConfigListEntry(FIELD_NAMES.get(k, k), el) for k, el in self.items]
+
+	def refresh(self, index=None):
+		self["config"].list = self.entries()
+		if index is not None:
+			self["config"].setCurrentIndex(max(0, min(index, len(self.items) - 1)))
+
+	def addField(self):
+		have = {k for k, _el in self.items}
+		lst = [(k, k) for k in COMMON_FIELDS if k not in have] + [("اسم تاني ...", None)]
+		self.session.openWithCallback(self.gotField, ChoiceBox, title="إضافة حقل للريدر", list=lst)
+
+	def gotField(self, choice):
+		if not choice:
+			return
+		if choice[1] is None:
+			from Screens.VirtualKeyBoard import VirtualKeyBoard
+			self.session.openWithCallback(lambda name: name and self.newField(name), VirtualKeyBoard, title="اسم الحقل", text="")
+			return
+		self.newField(choice[1])
+
+	def newField(self, name):
+		name = re.sub(r"[^A-Za-z0-9_\-]", "", name.strip().lower())
+		if not name:
+			return
+		if any(k == name for k, _el in self.items):
+			self.refresh([k for k, _el in self.items].index(name))
+			return
+		self.removed.discard(name)
+		self.items.append((name, self.element(name, "")))
+		self.refresh(len(self.items) - 1)
+		log("edit screen add field", name)
+
+	def removeField(self):
+		i = self["config"].getCurrentIndex()
+		if i is None or not 0 <= i < len(self.items):
+			return
+		key = self.items[i][0]
+		if key in ("label", "protocol", "device"):
+			self.session.open(MessageBox, "الحقل «%s» أساسي ومينفعش يتشال." % key, MessageBox.TYPE_INFO, timeout=5)
+			return
+		del self.items[i]
+		if key in self.orig:
+			self.removed.add(key)
+		self.refresh(i)
+		log("edit screen remove field", key)
 
 	def valueOf(self, key, el):
 		if key == "enable":
@@ -757,7 +884,9 @@ class NileGlassReaderEdit(ConfigListScreen, Screen):
 		if self.isNew:
 			result = {k: self.valueOf(k, el) for k, el in self.items}
 		else:
-			result = {k: self.valueOf(k, el) for k, el in self.items if self.valueOf(k, el) != self.orig[k].strip()}
+			result = {k: self.valueOf(k, el) for k, el in self.items if self.valueOf(k, el) != self.orig.get(k, "").strip()}
+			for k in self.removed:
+				result[k] = ""          # empty = the line is removed (asked again before writing)
 		log("edit screen save", sorted(result))
 		self.close(result)
 

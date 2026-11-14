@@ -16,6 +16,8 @@
 #   Line     everything in one line
 #   Raw      the whole ecm.info file
 #   Cam      name of the running softcam (from the image's settings)
+#   Reader / From / Pid / Prov / Chid   those lines of ecm.info (reader name, server address, ECM PID ...)
+#   Caids    every encryption system the channel is sent with ("Conax · Nagra · Viaccess")
 #
 # /tmp is a RAM disk, so reading the small file once a second costs nothing;
 # it is only parsed again when it changed.
@@ -96,7 +98,7 @@ def currentCam():
 
 
 class NGEcm(Poll, Converter):
-	TYPES = ("state", "caid", "source", "protocol", "hops", "time", "line", "raw", "cam")
+	TYPES = ("state", "caid", "source", "protocol", "hops", "time", "line", "raw", "cam", "reader", "from", "pid", "prov", "chid", "caids")
 
 	def __init__(self, type):
 		Converter.__init__(self, type)
@@ -133,6 +135,8 @@ class NGEcm(Poll, Converter):
 			self.lastRef = ref
 			self.zapTime = time.time()
 		crypted = self._crypted(info)
+		if self.type == "caids":
+			return self._caids(info) if crypted else ""
 		mtime, ecm, raw = readEcm()
 		now = time.time()
 		fresh = mtime is not None and mtime >= self.zapTime - 2 and now - mtime < 90  # emu restarted or stopped = stale
@@ -156,10 +160,29 @@ class NGEcm(Poll, Converter):
 			return ecm.get("hops", "")
 		if self.type == "time":
 			return self._time(ecm)
+		if self.type == "reader":
+			return ecm.get("reader") or ecm.get("source") or ecm.get("using") or ""
+		if self.type == "from":
+			return ecm.get("from") or ecm.get("address") or ""
+		if self.type in ("pid", "prov", "chid"):
+			return ecm.get(self.type) or ecm.get(self.type + "id", "") or ""
 		return "   ".join(x for x in (self._caid(ecm), self._source(ecm), ecm.get("protocol", ""),
 			("hops " + ecm["hops"]) if ecm.get("hops") else "", self._time(ecm)) if x)
 
 	text = property(getText)
+
+	@staticmethod
+	def _caids(info):
+		try:
+			caids = info.getInfoObject(iServiceInformation.sCAIDs) or []
+		except Exception:
+			return ""
+		names = []
+		for c in caids:
+			n = systemName(c) or "0x%04X" % c
+			if n not in names:
+				names.append(n)
+		return "  ·  ".join(names)
 
 	@staticmethod
 	def _caid(ecm):
