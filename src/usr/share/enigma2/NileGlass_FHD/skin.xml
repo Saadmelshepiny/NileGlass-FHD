@@ -439,7 +439,8 @@
 		<widget source="ServiceEvent" render="Label" position="1474,234" size="196,26" font="Regular;20" foregroundColor="fgDim" backgroundColor="bgCard" transparent="1" halign="right" valign="center" noWrap="1"><convert type="EventTime">Remaining</convert><convert type="RemainingToText">InMinutes</convert></widget>
 		<widget source="ServiceEvent" render="NGEventInfo" position="1066,270" size="394,30" font="Regular;22" foregroundColor="gold" backgroundColor="bgCard" transparent="1" halign="left" valign="center" noWrap="1" fields="year,genres"/>
 		<widget source="ServiceEvent" render="NGStars" position="1470,268" size="200,32" backgroundPixmap="NileGlass_FHD/ui/stars_bg.png" pixmap="NileGlass_FHD/ui/stars.png" transparent="1" zPosition="1"/>
-		<widget source="ServiceEvent" render="NGEventInfo" position="1066,310" size="604,70" font="Regular;20" foregroundColor="fgDim" backgroundColor="bgCard" transparent="1" halign="left" valign="top" fields="type,rating"/>
+		<widget source="ServiceEvent" render="Label" position="1066,310" size="604,30" font="Regular;21" foregroundColor="accent" backgroundColor="bgCard" transparent="1" halign="left" valign="center" noWrap="1"><convert type="NGServiceTp">Line</convert></widget>
+		<widget source="ServiceEvent" render="Label" position="1066,344" size="604,30" font="Regular;20" foregroundColor="fgDim" backgroundColor="bgCard" transparent="1" halign="left" valign="center" noWrap="1"><convert type="NGServiceTp">Details</convert></widget>
 		<widget source="ServiceEvent" render="Label" position="1066,390" size="774,182" font="Regular;22" foregroundColor="#d6dbe1" backgroundColor="bgCard" transparent="1" halign="left" valign="top"><convert type="EventName">FullDescription</convert><convert type="NGTranslate"></convert></widget>
 		<eLabel position="1046,592" size="401,171" backgroundColor="bgCard" cornerRadius="18" zPosition="-9"/>
 		<widget source="ServiceEvent" render="NGPoster" kind="thumb" eventIndex="1" position="1062,599" size="104,156" delay="400" picon="1" fallback="NileGlass_FHD/ui/noposter.png" borderWidth="1" borderColor="posterBorder" zPosition="2"/>
@@ -4132,7 +4133,7 @@ self["list"].instance.setItemHeight(40)
 			<!-- NG-DASH system cards -->
 		<panel position="920,0" size="670,464"><panel name="NG_Dash_system_100"/></panel>
 	</screen>
-		<!-- NG-DASHPANELS BEGIN -->
+			<!-- NG-DASHPANELS BEGIN -->
 	<!-- card sets beside the panels (tools/gen_dash.py): positions from the panel that includes them -->
 	<screen name="NG_Dash_system_100">
 		<widget source="session.CurrentService" render="FixedLabel" text="" position="0,0" size="214,96" backgroundColor="bg" cornerRadius="18" zPosition="41"/>

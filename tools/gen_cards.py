@@ -144,7 +144,9 @@ def channels(old):
 		W(SE, "Label", RX, Y + 94, 196, 26, "", [("EventTime", "Remaining"), ("RemainingToText", "InMinutes")], "Regular;20", "fgDim", "bgCard", halign="right"),
 		W(SE, "NGEventInfo", X + 20, Y + 130, LC - 210, 30, 'fields="year,genres"', (), "Regular;22", "gold", "bgCard"),
 		W(SE, "NGStars", X + 20 + LC - 200, Y + 128, 200, 32, 'backgroundPixmap="NileGlass_FHD/ui/stars_bg.png" pixmap="NileGlass_FHD/ui/stars.png" transparent="1" zPosition="1"'),
-		W(SE, "NGEventInfo", X + 20, Y + 170, LC, 70, 'fields="type,rating"', (), "Regular;20", "fgDim", "bgCard", valign="top", wrap=True),
+		# where the channel is sent: shown for the channel under the cursor, played or not, EPG or not
+		W(SE, "Label", X + 20, Y + 170, LC, 30, "", [("NGServiceTp", "Line")], "Regular;21", "accent", "bgCard"),
+		W(SE, "Label", X + 20, Y + 204, LC, 30, "", [("NGServiceTp", "Details")], "Regular;20", "fgDim", "bgCard"),
 		W(SE, "Label", X + 20, Y + 250, CW - 40, 182, "", [("EventName", "FullDescription"), ("NGTranslate", "")], "Regular;22", "#d6dbe1", "bgCard", valign="top", wrap=True),
 	]
 	hw = (CW - 12) // 2

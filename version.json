@@ -1,12 +1,12 @@
 {
-  "version": "2.8.7",
-  "ipk": "https://raw.githubusercontent.com/Saadmelshepiny/NileGlass-FHD/main/releases/enigma2-plugin-skins-nileglass-fhd_2.8.7_all.ipk",
-  "sha256": "cc4ef0aa8163fd013216ea9bb60bc1401558296673ee2cc5b50c3d83d34daecf",
-  "notes_ar": "بوسترات أكتر: الأسماء اللي فيها عنوان فرعي (زي Moja wina: Londyn) بتتدور كاملة، الأسماء بأي لغة (بولندي، ألماني، إيطالي...) بتتطابق بترجماتها في TMDB، والمسلسلات اللي مش في TMDB بتتجاب من TVmaze. الأسماء اللي ملهاش بوستر قبل كده هتتجرب تاني. نسبة النجاح ظاهرة في فحص السكين.",
-  "notes_en": "More posters: titles with a subtitle are searched whole, foreign-language EPG titles match TMDB translations, series unknown to TMDB come from TVmaze. Titles that failed before are tried again. Success rate shown in the diagnostics.",
+  "version": "2.8.8",
+  "ipk": "https://raw.githubusercontent.com/Saadmelshepiny/NileGlass-FHD/main/releases/enigma2-plugin-skins-nileglass-fhd_2.8.8_all.ipk",
+  "sha256": "2aee210bc789b4874afd1781dc0196970fed4461292ba3531477cb99bf4baed3",
+  "notes_ar": "قائمة القنوات: لما تقف على أي قناة يظهر ترددها (التردد والاستقطاب والسيمبول ريت والـFEC ونوع البث والقمر) والمزود ونوعها (HD/SD) وأرقامها، حتى لو مش مفتوحة ومن غير دليل. قنوات IPTV بيظهر عنوان السيرفر.",
+  "notes_en": "Channel list: the channel under the cursor shows its transponder (frequency, polarisation, symbol rate, FEC, system, satellite), provider, HD/SD and ids, even when it is not playing and has no EPG. IPTV: the server address.",
   "previous": {
-    "version": "2.8.6",
-    "ipk": "https://raw.githubusercontent.com/Saadmelshepiny/NileGlass-FHD/main/releases/enigma2-plugin-skins-nileglass-fhd_2.8.6_all.ipk",
-    "sha256": "0226933229d39a3456c75ce994986f48cbd30fa2cf5a74b9606ddc0b33a48c88"
+    "version": "2.8.7",
+    "ipk": "https://raw.githubusercontent.com/Saadmelshepiny/NileGlass-FHD/main/releases/enigma2-plugin-skins-nileglass-fhd_2.8.7_all.ipk",
+    "sha256": "cc4ef0aa8163fd013216ea9bb60bc1401558296673ee2cc5b50c3d83d34daecf"
   }
 }
