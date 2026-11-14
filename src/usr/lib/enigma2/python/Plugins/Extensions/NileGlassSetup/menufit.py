@@ -195,6 +195,11 @@ def _patchApplySkin():
 				fit()
 			except Exception as err:
 				_log("%s failed: %s" % (self.__class__.__name__, err))
+		try:
+			from .dashctx import attach
+			attach(self)
+		except Exception as err:
+			print("[NileGlass] dash attach:", err)
 		return result
 	Screen.applySkin = applySkin
 	Screen._ngFitHook = True
@@ -234,8 +239,6 @@ def install():
 				try:
 					fit = _Fit(self, lambda: self["config"], lambda: len(self["config"].list or []), _itemHeight(self["config"], 54), SETUP_MIN_ROWS)
 					self._ngFitNow = self._ngFitSetup = fit.run
-					from .dashctx import attachSetup
-					attachSetup(self)
 				except Exception as err:
 					print("[NileGlass] setup fit:", err)
 
@@ -245,6 +248,8 @@ def install():
 					fit = getattr(self, "_ngFitSetup", None)
 					if fit and getattr(self, "instance", None) is not None:
 						fit()
+						from .dashctx import refresh
+						refresh(self)
 				except Exception as err:
 					print("[NileGlass] setup fit:", err)
 				return result

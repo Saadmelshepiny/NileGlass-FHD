@@ -1,10 +1,13 @@
 # -*- coding: utf-8 -*-
 # NileGlass FHD - the cards beside menus and settings follow the subject.
 #
-# The skin has one set of cards per subject beside the Menu / Setup panel,
-# each set on its own zPosition decade (1x network, 2x tuners & dish,
-# 3x picture & sound, 4x system).  Here the set that fits the menu entry under
-# the cursor (or the open menu / settings screen) is shown, the others hidden.
+# Each card set (network, tuners & dish, picture & sound, system) is a small
+# window of its own (skin screens NileGlassDash_<subject>), built once and
+# kept: a menu or settings panel only carries a marker saying where the cards
+# go.  A moment after the panel is on screen the set that fits the menu entry
+# under the cursor (or the open settings screen) is put beside it.  So a menu
+# opens as fast as a plain panel, the cards are never built twice, and only
+# the visible set reads the box (hidden windows are suspended by enigma2).
 
 GROUPS = {"net": 1, "tuner": 2, "av": 3, "system": 4}
 
@@ -29,65 +32,48 @@ def subject(*keys):
 	return None
 
 
-def _group(comp):
-	for attrib, value in getattr(comp, "skinAttributes", None) or []:
-		if attrib == "zPosition":
-			try:
-				z = int(value)
-			except ValueError:
-				return None
-			return z // 10 if 11 <= z <= 43 and z % 10 in (1, 2, 3) else None
-	return None
+MARKER_Z = "-77"       # zPosition of the marker label in the skin (tools/gen_menus_popup.py)
+DASH_W, DASH_H = 670, 464
+SHOW_DELAY, HIDE_DELAY = 90, 160     # ms: after the panel shows / after it went away
 
-
-def _pollers(comp):
-	"""converters of a widget that read the box on a timer"""
-	out, src, depth = [], getattr(comp, "source", None), 0
-	while src is not None and depth < 5:
-		if hasattr(src, "poll_enabled"):
-			out.append(src)
-		src, depth = getattr(src, "source", None), depth + 1
-	return out
+_session = None
+_dialogs = {}          # subject -> (dialog or None, skin element it was built from)
+_want = None           # the screen that should have cards beside it now
+_timer = None
+_Dash = None
+_warm = None
 
 
 def enabled():
 	try:
 		from Components.NileGlassCore import confBool
-		return confBool("extras", "dash", True)
+		return confBool("extras", "dash", True) and not confBool("style", "lite", False)
 	except Exception:
 		return True
 
 
-def show(screen, name):
-	"""show the card set 'name', hide the others; hidden sets stop reading
-	the box (only the visible cards poll).  Cards turned off in the settings:
-	nothing shown, nothing read."""
-	want = GROUPS.get(name, GROUPS["system"]) if enabled() else None
-	parts = getattr(screen, "_ngDashParts", None)
-	if parts is None:
-		parts = []
-		for comp in list(getattr(screen, "renderer", [])) + list(screen.values()):
-			g = _group(comp)
-			if g in GROUPS.values() and getattr(comp, "instance", None) is not None:
-				parts.append((g, comp.instance, _pollers(comp)))
-		screen._ngDashParts = parts
-	if getattr(screen, "_ngDashNow", -1) == want:
-		return
-	screen._ngDashNow = want
-	for g, inst, pollers in parts:
-		on = g == want
-		for p in pollers:
+def setSession(session):
+	"""Called once at start.  A while later, when the box is idle, the card
+	windows are built one by one (hidden), so the first menu does not wait."""
+	global _session, _warm
+	_session = session
+	try:
+		from enigma import eTimer
+		todo = ["system", "net", "tuner", "av"]
+
+		def step():
 			try:
-				if p.poll_enabled != on:
-					p.poll_enabled = on
-					if on:
-						p.poll()          # fresh values right away
-			except Exception:
-				pass
-		if on:
-			inst.show()
-		else:
-			inst.hide()
+				if enabled() and todo:
+					_dialog(todo.pop(0))
+					if todo:
+						_warm.start(1500, True)
+			except Exception as err:
+				print("[NileGlass] dash warm-up:", err)
+		_warm = eTimer()
+		_warm.callback.append(step)
+		_warm.start(20000, True)
+	except Exception as err:
+		print("[NileGlass] dash warm-up:", err)
 
 
 def menuSubject(screen):
@@ -108,43 +94,151 @@ def setupSubject(screen):
 		" ".join(screen.skinName) if isinstance(getattr(screen, "skinName", None), list) else getattr(screen, "skinName", "")) or "system"
 
 
-def attachMenu(screen):
-	def update():
+def _marker(screen):
+	for w in getattr(screen, "additionalWidgets", None) or []:
+		for attrib, value in getattr(w, "skinAttributes", None) or []:
+			if attrib == "zPosition" and str(value) == MARKER_Z:
+				return w
+	return None
+
+
+def _skinElement(name):
+	try:
+		from skin import domScreens
+		return domScreens.get("NileGlassDash_" + name)
+	except Exception:
+		return None
+
+
+def _dialog(name):
+	"""the window of a card set: built on first use, rebuilt after a skin reload"""
+	global _Dash
+	element = _skinElement(name)
+	have = _dialogs.get(name)
+	if have is not None and have[1] is element:
+		return have[0]
+	if have is not None and have[0] is not None:      # skin reloaded: the old window has the old look
 		try:
-			show(screen, menuSubject(screen))
+			_session.deleteDialog(have[0])
 		except Exception as err:
 			print("[NileGlass] dash:", err)
-	screen._ngDashUpdate = update
+	dialog = None
+	if element is not None and _session is not None:
+		try:
+			if _Dash is None:
+				from Screens.Screen import Screen
+
+				class NileGlassDash(Screen):
+					def __init__(self, session, subject):
+						Screen.__init__(self, session)
+						self.skinName = "NileGlassDash_" + subject
+				_Dash = NileGlassDash
+			dialog = _session.instantiateDialog(_Dash, name)
+		except Exception as err:
+			print("[NileGlass] dash:", err)
+			dialog = None
+	_dialogs[name] = (dialog, element)
+	return dialog
+
+
+def _alive(screen):
+	return screen is not None and getattr(screen, "instance", None) is not None and getattr(screen, "shown", False) and getattr(screen, "already_shown", False)
+
+
+def _tick():
+	name = None
 	try:
-		screen["menu"].onSelectionChanged.append(update)
+		host = _want
+		if _alive(host) and enabled():
+			try:
+				name = host._ngDashSubject()
+			except Exception:
+				name = None
+			if name not in GROUPS:
+				name = "system"
+			dialog = _dialog(name)
+			marker = getattr(host._ngDashMarker, "instance", None)
+			if dialog is None or marker is None:
+				name = None
+			else:
+				from enigma import ePoint, getDesktop
+				desk = getDesktop(0).size()
+				at = host.instance.position()
+				x = at.x() + marker.position().x()
+				y = max(20, min(at.y() + marker.position().y(), desk.height() - 20 - DASH_H))
+				if x + DASH_W > desk.width():
+					name = None
+				else:
+					now = dialog.instance.position()
+					if now.x() != x or now.y() != y:
+						dialog.instance.move(ePoint(x, y))
+					dialog.show()
+	except Exception as err:
+		print("[NileGlass] dash:", err)
+		name = None
+	for key, (dialog, element) in list(_dialogs.items()):
+		if key != name and dialog is not None:
+			try:
+				dialog.hide()
+			except Exception:
+				pass
+
+
+def _start(ms):
+	global _timer
+	try:
+		if _timer is None:
+			from enigma import eTimer
+			_timer = eTimer()
+			_timer.callback.append(_tick)
+		_timer.start(ms, True)
+	except Exception as err:
+		print("[NileGlass] dash:", err)
+
+
+def request(screen):
+	"""cards beside this screen, a moment from now (so the panel itself comes up first)"""
+	global _want
+	_want = screen
+	_start(SHOW_DELAY)
+
+
+def release(screen):
+	global _want
+	if _want is screen:
+		_want = None
+		_start(HIDE_DELAY)      # not at once: the next menu usually wants the same cards
+
+
+def attach(screen):
+	"""End of applySkin of any screen: if its skin has the cards marker (the
+	Menu / Setup panels and every screen borrowing them), look after its cards."""
+	if getattr(screen, "_ngDashMarker", None) is not None or _session is None:
+		return
+	marker = _marker(screen)
+	if marker is None:
+		return
+	screen._ngDashMarker = marker
+	if not hasattr(screen, "_ngDashSubject"):
+		screen._ngDashSubject = lambda: setupSubject(screen)
+	screen.onShow.append(lambda: request(screen))
+	screen.onHide.append(lambda: release(screen))
+
+	def closed():
+		release(screen)
+		screen._ngDashMarker = screen._ngDashSubject = None
+	screen.onClose.append(closed)
+
+
+def refresh(screen):
+	"""the panel changed size or subject: put the cards where they belong"""
+	if _want is screen:
+		_start(SHOW_DELAY)
+
+
+def attachMenu(screen):
+	screen._ngDashSubject = lambda: menuSubject(screen)
+	try:
+		screen["menu"].onSelectionChanged.append(lambda: refresh(screen))
 	except Exception:
 		pass
-
-
-def attachSetup(screen):
-	def update():
-		try:
-			show(screen, setupSubject(screen))
-		except Exception as err:
-			print("[NileGlass] dash:", err)
-	screen._ngDashUpdate = update
-
-
-def autoAttach(screen):
-	"""A screen that borrows the Setup / Menu skin (plugins, the readers editor):
-	it has the card sets too, so show the one that fits and hide the rest."""
-	groups = set()
-	for comp in list(getattr(screen, "renderer", [])):
-		g = _group(comp)
-		if g in GROUPS.values():
-			groups.add(g)
-			if len(groups) >= 3:
-				break
-	if not groups:
-		return
-	if len(groups) < 3:                 # one fixed card set (info screens, plugins' panels)
-		only = [k for k, v in GROUPS.items() if v in groups][0]
-		screen._ngDashUpdate = lambda: show(screen, only)
-	else:
-		attachSetup(screen)
-	screen._ngDashUpdate()

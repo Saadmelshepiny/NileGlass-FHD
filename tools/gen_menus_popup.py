@@ -29,6 +29,9 @@ import sys as _s, os as _o
 _s.path.insert(0, _o.path.dirname(_o.path.abspath(__file__)))
 from dashlib import *  # noqa: F401,F403 (Dash, dashboard, SYS, FE ...)
 
+# where the card set goes: the cards are a window of their own, put there once the panel is up (dashctx.py)
+MARK = '\t\t<eLabel position="%d,0" size="1,1" backgroundColor="transparent" zPosition="-77"/>'
+
 TEMPLATE = '''			<convert type="TemplatedMultiContent">
 				{"template": [
 					MultiContentEntryPixmapAlphaBlend(pos=(500, 9), size=(40, 40), png=5, flags=BT_SCALE),
@@ -40,7 +43,7 @@ TEMPLATE = '''			<convert type="TemplatedMultiContent">
 			</convert>'''
 
 # ---- Menu: panel 600 wide + dashboard; list 9 rows (fitted at run time)
-W, LIST_Y, ROWS = 1290, 96, 9
+W, LIST_Y, ROWS = 622, 96, 9
 LB = LIST_Y + ROWS * 58          # 618
 PB = LB + 106                     # panel bottom 724
 menu = panel(600, 0, PB) + header(600) + [
@@ -55,7 +58,7 @@ menu = panel(600, 0, PB) + header(600) + [
 	pix(22, PB + 25, 64, 30, "key_ok.png", 1), text(94, PB + 14, 90, 52, "فتح", "Regular;24", "fg"),
 	pix(212, PB + 25, 64, 30, "key_exit.png", 1), text(284, PB + 14, 90, 52, "رجوع", "Regular;24", "fg"),
 	pix(400, PB + 25, 64, 30, "key_menu.png", 1), text(472, PB + 14, 110, 52, "إغلاق", "Regular;24", "fg"),
-] + dashboard(620)
+] + [MARK % 620]
 H = PB + 66
 
 # ---- Setup: panel 1280 wide
@@ -75,8 +78,8 @@ for k, c in enumerate(("red", "green", "yellow", "blue")):
 		'\t\t<widget name="key_%s" position="%d,%d" size="200,38" font="Medium;22" foregroundColor="white" backgroundColor="black" transparent="1" halign="center" valign="center" noWrap="1" zPosition="1" objectTypes="key_%s,Button,Label"/>' % (c, x, y, c),
 		'\t\t<widget source="key_%s" render="Label" position="%d,%d" size="200,38" font="Medium;22" foregroundColor="white" backgroundColor="black" transparent="1" halign="center" valign="center" noWrap="1" zPosition="1" objectTypes="key_%s,StaticText"/>' % (c, x, y, c)]
 
-setup += dashboard(SW + 20)
-SWW = SW + 20 + 670
+setup += [MARK % (SW + 20)]
+SWW = SW + 22
 skin = open(os.path.join(SK, "skin.xml")).read()
 menus = re.findall(r'<screen name="(menu_[^"]+)"[^>]*><panel name="Menu"/></screen>', skin)
 out = ['<skin>', '\t<!-- Menus: rounded panel at the left + system dashboard; settings: rounded panel (style option "menus = popup") -->',

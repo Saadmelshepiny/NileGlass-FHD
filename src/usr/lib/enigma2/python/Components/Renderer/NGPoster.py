@@ -192,7 +192,7 @@ class NGPoster(Renderer):
 			return False
 		try:
 			from Components.NileGlassCore import confBool
-			return not confBool("extras", "cl_posters", True)
+			return not confBool("extras", "cl_posters", True) or confBool("style", "lite", False)
 		except Exception:
 			return False
 

@@ -137,6 +137,7 @@ opaque_screens = {opaque_screens}
 text_finish = {text_finish}
 ok_upcoming = {ok_upcoming}
 lite = {lite}
+square_corners = {square_corners}
 icons = {icons}
 ib_color = {ib_color}
 """
@@ -278,6 +279,7 @@ class NileGlassSetup(Setup):
 		self.lite = NoSave(ConfigYesNo(default=bool(style.get("lite", False))))
 		self.okUpcoming = NoSave(ConfigYesNo(default=bool(style.get("ok_upcoming", True))))
 		self.opaque = NoSave(ConfigYesNo(default=bool(style.get("opaque_screens", False))))
+		self.squareCorners = NoSave(ConfigYesNo(default=bool(style.get("square_corners", False))))
 		self.finish = NoSave(ConfigSelection(default=style.get("text_finish", "normal"), choices=[
 			("normal", T("Normal", "عادي")), ("glossy", T("Glossy (bright + shadow)", "لامع (أوضح + ظل)")), ("matte", T("Matte (soft)", "مطفي (هادي)"))]))
 		iconNames = getattr(Style, "ICON_STYLE_NAMES_AR", {}) if Style else {}
@@ -397,7 +399,7 @@ class NileGlassSetup(Setup):
 		i = "   "
 		items = [
 			(T("— Look —", "— المظهر —"),),
-			(i + T("Lite mode (fastest)", "الوضع الخفيف (أقصى سرعة)"), self.lite, T("One switch for the fastest box: no posters, no description translation, no weather, no pictures behind menus, no text shadows. Your settings for each are kept and come back when you switch it off.", "مفتاح واحد لأقصى سرعة: يقفل البوسترات وترجمة الوصف والطقس والصور ورا القوائم وظل الخط. إعدادات كل حاجة بتتحفظ وترجع زي ما هي لما تقفله.")),
+			(i + T("Lite mode (fastest)", "الوضع الخفيف (أقصى سرعة)"), self.lite, T("One switch for the fastest box: no posters, no description translation, no weather, no pictures behind menus, no text shadows, no cards beside the menus, square solid panels. Your settings for each are kept and come back when you switch it off.", "مفتاح واحد لأقصى سرعة: يقفل البوسترات وترجمة الوصف والطقس والصور ورا القوائم وظل الخط والمربعات جنب القوائم، ويخلي اللوحات معتمة بأركان حادة. إعدادات كل حاجة بتتحفظ وترجع زي ما هي لما تقفله.")),
 			(i + T("Ready-made style", "ستايل جاهز"), self.preset, T("Sets colour, transparency, font and text colour in one go.", "يغيّر اللون والشفافية والخط ولون النص مرة واحدة.")),
 			(i + T("Channel list", "شكل قائمة القنوات"), self.channels, ""),
 			(i + T("Second infobar", "شكل الإنفوبار الثاني"), self.sib, ""),
@@ -407,6 +409,7 @@ class NileGlassSetup(Setup):
 			(i + T("Infobar background colour", "لون أرضية الإنفوبار"), self.ibColor, T("Colour of the infobar and second-infobar background (with the transparency chosen above). The preview on the right shows it over a picture.", "لون أرضية الإنفوبار والإنفوبار الثاني (بدرجة الشفافية اللي فوق). المعاينة على اليمين بتوريك اللون فوق صورة.")),
 			(i + T("Icon style", "شكل الأيقونات"), self.iconStyle, T("Look of the TXT / SUB / DOLBY / 16:9 / HD / CA / REC icons in the infobar. The preview on the right shows the chosen style.", "شكل أيقونات TXT و SUB و DOLBY و 16:9 و HD و CA و REC في الإنفوبار. المعاينة على اليمين بتوريك الشكل اللي اخترته.")),
 			(i + T("Accent colour", "لون التمييز"), self.accent, T("Colour of selection bars, progress bars and highlights.", "لون شريط التحديد وأشرطة التقدم والعناوين.")),
+			(i + T("Square corners (faster)", "أركان حادة (أسرع)"), self.squareCorners, T("Panels and cards with square corners instead of rounded ones: less drawing work, screens come up faster.", "اللوحات والمربعات بأركان حادة بدل المدوّرة: رسم أقل والشاشات بتفتح أسرع.")),
 			(i + T("Solid menus (no TV behind)", "قوائم معتمة تمامًا (بدون صورة القناة)"), self.opaque, T("Menus and plugin screens get a solid background; the infobar stays glassy.", "القوائم وشاشات الإضافات خلفيتها معتمة تمامًا، والإنفوبار يفضل شفاف.")),
 			(i + T("Background transparency", "شفافية الخلفية"), self.transparency, T("How much of the picture shows through the bars and panels.", "مدى ظهور الصورة من خلف الإنفوبار والقوائم.")),
 			(i + T("Font", "الخط"), self.font, T("Font used for all text.", "الخط المستخدم في كل النصوص.")),
@@ -585,6 +588,7 @@ class NileGlassSetup(Setup):
 			"text_finish": self.finish.value,
 			"ok_upcoming": 1 if self.okUpcoming.value else 0,
 			"lite": 1 if self.lite.value else 0,
+			"square_corners": 1 if self.squareCorners.value else 0,
 			"icons": self.iconStyle.value,
 			"ib_color": self.ibColor.value,
 			"omdb_key": self.omdbKey.value.strip(),
@@ -1006,6 +1010,11 @@ def sessionstart(reason, session=None, **kwargs):
 					installSafety()
 				except Exception as err:
 					print("[NileGlass] safety:", err)
+				try:
+					from .dashctx import setSession as dashSession
+					dashSession(session)
+				except Exception as err:
+					print("[NileGlass] dash:", err)
 				try:
 					from .sessionguard import install as installGuard
 					installGuard(session)

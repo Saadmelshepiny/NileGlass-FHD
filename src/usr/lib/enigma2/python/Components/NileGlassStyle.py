@@ -181,7 +181,7 @@ DIRECTIONS = ("auto", "rtl", "ltr")
 DEFAULTS = {"accent": "blue", "transparency": "20", "font": "ubuntu", "font_size": "100", "infobar": "full",
 	"infobar_size": "100", "text_color": "white", "bold_titles": "1", "outline": "0", "direction": "auto", "translate": "1",
 	"channels": "posters", "sib": "cinema", "menu_backdrop": "1", "opaque_screens": "0", "text_finish": "normal", "ok_upcoming": "1", "lite": "0",
-	"icons": "classic", "ib_color": "graphite", "menus": "popup"}
+	"icons": "classic", "ib_color": "graphite", "menus": "popup", "square_corners": "0"}
 TEXT_FINISHES = ("normal", "glossy", "matte")
 # infobar status icon sets (variants/icons/<name>)
 ICON_STYLES = ("classic", "glass", "badge", "line", "neon", "minimal")
@@ -253,7 +253,7 @@ def readStyle(confFile=CONF_FILE):
 		style["text_finish"] = "normal"
 	if style["icons"] not in ICON_STYLES:
 		style["icons"] = "classic"
-	for k in ("bold_titles", "outline", "translate", "menu_backdrop", "opaque_screens", "ok_upcoming", "lite"):
+	for k in ("bold_titles", "outline", "translate", "menu_backdrop", "opaque_screens", "ok_upcoming", "lite", "square_corners"):
 		style[k] = str(style[k]).strip().lower() in ("1", "yes", "true", "on")
 	return style
 
@@ -449,6 +449,16 @@ def _dropMenuBackdrops(scr):
 	return changed
 
 
+def _dropCorners(scr):
+	"""Square panels and cards: rounded corners are drawn in software on every
+	repaint, so without them the screens come up faster."""
+	changed = False
+	for el in scr.iter():
+		if el.attrib.pop("cornerRadius", None) is not None:
+			changed = True
+	return changed
+
+
 def _transformedScreens(style, skinDir, language=None):
 	ibFactor = style.get("infobar_size", 100) / 100.0
 	outline = bool(style.get("outline"))
@@ -468,9 +478,12 @@ def _transformedScreens(style, skinDir, language=None):
 			scr = layouts[name]
 		done.add(name)
 		lite = bool(style.get("lite"))
+		square = lite or bool(style.get("square_corners"))
 		changed = transformScreen(scr, ibFactor, outline, rtl, style.get("text_finish") == "glossy" and not lite)
 		if lite or not style.get("menu_backdrop", True):
 			changed = _dropMenuBackdrops(scr) or changed
+		if square:
+			changed = _dropCorners(scr) or changed
 		if lite:  # lite mode: no rows of posters (the heaviest part while zapping)
 			for parent in list(scr.iter()):
 				for el in list(parent):
@@ -482,6 +495,8 @@ def _transformedScreens(style, skinDir, language=None):
 	for name, scr in layouts.items():  # layout screens that skin.xml does not have
 		if name not in done:
 			transformScreen(scr, ibFactor, outline, rtl, style.get("text_finish") == "glossy")
+			if style.get("lite") or style.get("square_corners"):
+				_dropCorners(scr)
 			out.append("\t" + ET.tostring(scr, encoding="unicode").strip())
 	return "\n".join(out) + ("\n" if out else "")
 
@@ -504,8 +519,9 @@ def buildXml(style, skinDir=SKIN_DIR, language=None):
 	bgA = _alpha(t * 0.5)        # main panels  (20% -> 10% transparent)
 	deepA = _alpha(t * 0.35)
 	cardA = _alpha(min(60, t * 0.5 + 9))
-	if style.get("opaque_screens") or not t:  # menus and plugin screens fully solid: no TV picture behind them
+	if style.get("opaque_screens") or style.get("lite") or not t:  # menus and plugin screens fully solid: no TV picture behind them (lite mode: nothing to blend)
 		bgA = cardA = "00"
+	screens = _transformedScreens(style, skinDir, language)
 	fonts = []
 	fontSet = dict(fontSet_(style["font"]))
 	if not style.get("bold_titles", True):
@@ -539,7 +555,7 @@ def buildXml(style, skinDir=SKIN_DIR, language=None):
 	</parameters>
 {screens}</skin>
 """.format(accent=accent, dark=dark, line=line, bgA=bgA, deepA=deepA, cardA=cardA, fonts="\n".join(fonts),
-		fg=_finish(TEXT_COLORS[style["text_color"]][0], style), fgDim=_finish(TEXT_COLORS[style["text_color"]][1], style), screens=_transformedScreens(style, skinDir, language))
+		fg=_finish(TEXT_COLORS[style["text_color"]][0], style), fgDim=_finish(TEXT_COLORS[style["text_color"]][1], style), screens=screens)
 
 
 def _xmlProblems(xml, skinDir=SKIN_DIR, fontsDir=FONTS_DIR):

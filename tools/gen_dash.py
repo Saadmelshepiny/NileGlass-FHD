@@ -75,6 +75,10 @@ def panels():
 			out.append('\t<screen name="%s">' % panelName(subject, s))
 			out += scaled(build(0), 0, s)
 			out.append("\t</screen>")
+	# the same sets as windows of their own: shown beside the menus / settings a moment after they open
+	for subject in BUILDERS:
+		out.append('\t<screen name="NileGlassDash_%s" position="1240,300" size="%d,%d" backgroundColor="transparent" flags="wfNoBorder"><panel name="%s"/></screen>' % (
+			subject, DASH_W, DASH_H, panelName(subject, 1.0)))
 	out.append("\t" + PEND)
 	return "\n".join(out) + "\n"
 
