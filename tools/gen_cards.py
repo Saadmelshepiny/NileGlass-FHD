@@ -212,7 +212,7 @@ def blue(old):
 		W(CS, "Label", X + 22, y + 74, CW - 44, 32, "", [("NGEcm", "Caids")], "Regular;22", "gold", P)]
 	y += 124
 	o += [card(X, y, CW, LH - y, P, 18), T("ecm.info", X + 22, y + 8, 400, 30, "Medium;22", "fgDim", P),
-		'\t\t<widget name="Ecmtext" position="%d,%d" size="%d,%d" font="Regular;19" foregroundColor="fgDim" backgroundColor="%s" transparent="1" halign="left"/>' % (X + 22, y + 40, CW - 44, LH - y - 50, P),
+		'\t\t<widget name="Ecmtext" position="%d,%d" size="%d,%d" font="Regular;24" foregroundColor="fg" backgroundColor="%s" transparent="1" halign="left"/>' % (X + 22, y + 38, CW - 44, LH - y - 44, P),
 		'\t</screen>']
 	return "\n".join(o)
 

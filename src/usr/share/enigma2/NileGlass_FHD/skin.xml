@@ -1505,7 +1505,7 @@
 		<widget source="session.CurrentService" render="Label" position="842,546" size="976,32" font="Regular;22" foregroundColor="gold" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1"><convert type="NGEcm">Caids</convert></widget>
 		<eLabel position="820,596" size="1020,404" backgroundColor="bg" cornerRadius="18" zPosition="-9"/>
 		<eLabel text="ecm.info" position="842,604" size="400,30" font="Medium;22" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1"/>
-		<widget name="Ecmtext" position="842,636" size="976,354" font="Regular;19" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left"/>
+		<widget name="Ecmtext" position="842,634" size="976,360" font="Regular;24" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="left"/>
 	</screen>
 	<screen name="Volume" position="1250,56" size="630,104" backgroundColor="transparent" flags="wfNoBorder">
 		<eLabel position="0,0" size="630,104" backgroundColor="bg" zPosition="-10" cornerRadius="18"/>
@@ -4133,7 +4133,7 @@ self["list"].instance.setItemHeight(40)
 			<!-- NG-DASH system cards -->
 		<panel position="920,0" size="670,464"><panel name="NG_Dash_system_100"/></panel>
 	</screen>
-				<!-- NG-DASHPANELS BEGIN -->
+					<!-- NG-DASHPANELS BEGIN -->
 	<!-- card sets beside the panels (tools/gen_dash.py): positions from the panel that includes them -->
 	<screen name="NG_Dash_system_100">
 		<widget source="session.CurrentService" render="FixedLabel" text="" position="0,0" size="214,96" backgroundColor="bg" cornerRadius="18" zPosition="41"/>
