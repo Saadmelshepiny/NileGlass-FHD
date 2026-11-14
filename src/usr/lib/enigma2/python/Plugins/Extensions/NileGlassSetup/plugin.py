@@ -138,6 +138,7 @@ text_finish = {text_finish}
 ok_upcoming = {ok_upcoming}
 lite = {lite}
 square_corners = {square_corners}
+look = {look}
 icons = {icons}
 ib_color = {ib_color}
 """
@@ -279,6 +280,10 @@ class NileGlassSetup(Setup):
 		self.lite = NoSave(ConfigYesNo(default=bool(style.get("lite", False))))
 		self.okUpcoming = NoSave(ConfigYesNo(default=bool(style.get("ok_upcoming", True))))
 		self.opaque = NoSave(ConfigYesNo(default=bool(style.get("opaque_screens", False))))
+		looks = getattr(Style, "LOOKS", {"classic": None}) if Style else {"classic": None}
+		lookNames = getattr(Style, "LOOK_NAMES_AR", {}) if Style else {}
+		self.look = NoSave(ConfigSelection(default=style.get("look", "classic") if style.get("look", "classic") in looks else "classic",
+			choices=[(k, lookNames.get(k, k) if isArabic() else k.title()) for k in looks]))
 		self.squareCorners = NoSave(ConfigYesNo(default=bool(style.get("square_corners", False))))
 		self.finish = NoSave(ConfigSelection(default=style.get("text_finish", "normal"), choices=[
 			("normal", T("Normal", "عادي")), ("glossy", T("Glossy (bright + shadow)", "لامع (أوضح + ظل)")), ("matte", T("Matte (soft)", "مطفي (هادي)"))]))
@@ -400,6 +405,7 @@ class NileGlassSetup(Setup):
 		items = [
 			(T("— Look —", "— المظهر —"),),
 			(i + T("Lite mode (fastest)", "الوضع الخفيف (أقصى سرعة)"), self.lite, T("One switch for the fastest box: no posters, no description translation, no weather, no pictures behind menus, no text shadows, no cards beside the menus, square solid panels. Your settings for each are kept and come back when you switch it off.", "مفتاح واحد لأقصى سرعة: يقفل البوسترات وترجمة الوصف والطقس والصور ورا القوائم وظل الخط والمربعات جنب القوائم، ويخلي اللوحات معتمة بأركان حادة. إعدادات كل حاجة بتتحفظ وترجع زي ما هي لما تقفله.")),
+			(i + T("Look", "المظهر"), self.look, T("Classic: the navy panels. Carbon: near-black panels with a thin outline, outlined glowing selection, gradient progress bars. Pictures and colours only - same speed.", "كلاسيك: اللوحات الكحلي. كربون: لوحات شبه سودا بحدود رفيعة، تحديد بإطار مضيء، وأشرطة تقدم متدرجة. صور وألوان بس - نفس السرعة.")),
 			(i + T("Ready-made style", "ستايل جاهز"), self.preset, T("Sets colour, transparency, font and text colour in one go.", "يغيّر اللون والشفافية والخط ولون النص مرة واحدة.")),
 			(i + T("Channel list", "شكل قائمة القنوات"), self.channels, ""),
 			(i + T("Second infobar", "شكل الإنفوبار الثاني"), self.sib, ""),
@@ -589,6 +595,7 @@ class NileGlassSetup(Setup):
 			"ok_upcoming": 1 if self.okUpcoming.value else 0,
 			"lite": 1 if self.lite.value else 0,
 			"square_corners": 1 if self.squareCorners.value else 0,
+			"look": self.look.value,
 			"icons": self.iconStyle.value,
 			"ib_color": self.ibColor.value,
 			"omdb_key": self.omdbKey.value.strip(),

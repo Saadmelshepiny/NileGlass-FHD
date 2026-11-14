@@ -1,12 +1,12 @@
 {
-  "version": "2.8.11",
-  "ipk": "https://raw.githubusercontent.com/Saadmelshepiny/NileGlass-FHD/main/releases/enigma2-plugin-skins-nileglass-fhd_2.8.11_all.ipk",
-  "sha256": "f202a6d5903d354168257258d3819894eac528c0cd483e418b9497c292cb467a",
-  "notes_ar": "استجابة أسرع للريموت: القوائم والإعدادات بتفتح كلوحة خفيفة والمربعات بتظهر جنبها بعد لحظة ومبتتبنيش غير مرة واحدة، اختيار «أركان حادة (أسرع)»، والوضع الخفيف بقى يقفل المربعات ويخلي اللوحات معتمة بأركان حادة.",
-  "notes_en": "Faster remote response: menus and settings open as a light panel, the cards appear beside them a moment later and are built only once; new option 'Square corners (faster)'; lite mode now also turns the cards off and uses solid square panels.",
+  "version": "2.8.12",
+  "ipk": "https://raw.githubusercontent.com/Saadmelshepiny/NileGlass-FHD/main/releases/enigma2-plugin-skins-nileglass-fhd_2.8.12_all.ipk",
+  "sha256": "5d33fdbf9fe86a922b78511b17e00f3af973ae3ddc2af2524a92b86db08de5f3",
+  "notes_ar": "مظهر اختياري جديد «كربون»: لوحات شبه سودا بحدود رفيعة، تحديد بشريط مضيء، أشرطة تقدم متدرجة وحلقات بعلامات تدريج. يتفعّل من إعدادات السكين (المظهر)، والكلاسيك زي ما هو.",
+  "notes_en": "New optional look 'Carbon': near-black outlined panels, glowing selection bar, gradient progress bars, ring gauges with ticks. Choose it in the skin settings (Look); Classic is unchanged.",
   "previous": {
-    "version": "2.8.10",
-    "ipk": "https://raw.githubusercontent.com/Saadmelshepiny/NileGlass-FHD/main/releases/enigma2-plugin-skins-nileglass-fhd_2.8.10_all.ipk",
-    "sha256": "e197800eb568ed7afb8a068df01e3767b9851b55aa6171708a2bd03b69fad9ec"
+    "version": "2.8.11",
+    "ipk": "https://raw.githubusercontent.com/Saadmelshepiny/NileGlass-FHD/main/releases/enigma2-plugin-skins-nileglass-fhd_2.8.11_all.ipk",
+    "sha256": "f202a6d5903d354168257258d3819894eac528c0cd483e418b9497c292cb467a"
   }
 }

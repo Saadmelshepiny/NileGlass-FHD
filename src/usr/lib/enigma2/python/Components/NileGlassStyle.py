@@ -181,7 +181,7 @@ DIRECTIONS = ("auto", "rtl", "ltr")
 DEFAULTS = {"accent": "blue", "transparency": "20", "font": "ubuntu", "font_size": "100", "infobar": "full",
 	"infobar_size": "100", "text_color": "white", "bold_titles": "1", "outline": "0", "direction": "auto", "translate": "1",
 	"channels": "posters", "sib": "cinema", "menu_backdrop": "1", "opaque_screens": "0", "text_finish": "normal", "ok_upcoming": "1", "lite": "0",
-	"icons": "classic", "ib_color": "graphite", "menus": "popup", "square_corners": "0"}
+	"icons": "classic", "ib_color": "graphite", "menus": "popup", "square_corners": "0", "look": "classic"}
 TEXT_FINISHES = ("normal", "glossy", "matte")
 # infobar status icon sets (variants/icons/<name>)
 ICON_STYLES = ("classic", "glass", "badge", "line", "neon", "minimal")
@@ -193,6 +193,9 @@ IB_COLOR_NAMES_AR = {"graphite": "رمادي غامق (الأصلي)", "black": 
 	"royal": "أزرق ملكي", "petrol": "بترولي", "teal": "تركواز غامق", "emerald": "زمردي", "olive": "زيتوني",
 	"purple": "بنفسجي", "plum": "برقوقي", "burgundy": "عنابي", "red": "أحمر قاني", "brown": "بني",
 	"gold": "ذهبي غامق", "silver": "فضي"}
+# looks: panel colours (main, deep, card) and the outline of panels / cards (None: no outline)
+LOOKS = {"classic": ("0f1722", "0b1119", "1a2535", None), "carbon": ("080d14", "060a10", "0b121b", "2c3e50")}
+LOOK_NAMES_AR = {"classic": "كلاسيك (الأصلي)", "carbon": "كربون (داكن بحدود رفيعة)"}
 LAYOUT_FILES = {("channels", "simple"): "channels_simple.xml", ("sib", "classic"): "sib_classic.xml", ("infobar", "compact"): "infobar_compact.xml", ("menus", "popup"): "menus_popup.xml"}
 # ready-made looks: (accent, transparency, font, text colour)
 PRESETS = {
@@ -239,6 +242,8 @@ def readStyle(confFile=CONF_FILE):
 		style["infobar_size"] = 100
 	if style["text_color"] not in TEXT_COLORS:
 		style["text_color"] = "white"
+	if style["look"] not in LOOKS:
+		style["look"] = "classic"
 	if style["menus"] not in ("popup", "full"):
 		style["menus"] = "popup"
 	if style["ib_color"] not in IB_COLORS:
@@ -459,6 +464,29 @@ def _dropCorners(scr):
 	return changed
 
 
+PANEL_COLORS = ("bg", "background", "bgCard", "bgDeep")
+
+
+def _outlinePanels(scr):
+	"""Carbon look: the rounded panels and cards get a thin outline (drawn by
+	the widget itself together with its background - no extra widget)."""
+	changed = False
+	for el in scr.iter():
+		if not el.get("cornerRadius") or el.get("backgroundColor") not in PANEL_COLORS or el.get("text") or el.get("widgetBorderWidth"):
+			continue
+		if el.tag != "eLabel" and el.get("render") != "FixedLabel":
+			continue
+		try:
+			w, h = (int(v) for v in el.get("size", "").split(","))
+		except ValueError:
+			continue
+		if w >= 120 and h >= 44:
+			el.set("widgetBorderWidth", "1")
+			el.set("widgetBorderColor", "panelLine")
+			changed = True
+	return changed
+
+
 def _transformedScreens(style, skinDir, language=None):
 	ibFactor = style.get("infobar_size", 100) / 100.0
 	outline = bool(style.get("outline"))
@@ -479,9 +507,12 @@ def _transformedScreens(style, skinDir, language=None):
 		done.add(name)
 		lite = bool(style.get("lite"))
 		square = lite or bool(style.get("square_corners"))
+		outlined = LOOKS[style.get("look", "classic")][3] is not None
 		changed = transformScreen(scr, ibFactor, outline, rtl, style.get("text_finish") == "glossy" and not lite)
 		if lite or not style.get("menu_backdrop", True):
 			changed = _dropMenuBackdrops(scr) or changed
+		if outlined:
+			changed = _outlinePanels(scr) or changed
 		if square:
 			changed = _dropCorners(scr) or changed
 		if lite:  # lite mode: no rows of posters (the heaviest part while zapping)
@@ -495,6 +526,8 @@ def _transformedScreens(style, skinDir, language=None):
 	for name, scr in layouts.items():  # layout screens that skin.xml does not have
 		if name not in done:
 			transformScreen(scr, ibFactor, outline, rtl, style.get("text_finish") == "glossy")
+			if LOOKS[style.get("look", "classic")][3] is not None:
+				_outlinePanels(scr)
 			if style.get("lite") or style.get("square_corners"):
 				_dropCorners(scr)
 			out.append("\t" + ET.tostring(scr, encoding="unicode").strip())
@@ -522,6 +555,11 @@ def buildXml(style, skinDir=SKIN_DIR, language=None):
 	if style.get("opaque_screens") or style.get("lite") or not t:  # menus and plugin screens fully solid: no TV picture behind them (lite mode: nothing to blend)
 		bgA = cardA = "00"
 	screens = _transformedScreens(style, skinDir, language)
+	cBg, cDeep, cCard, cLine = LOOKS[style.get("look", "classic")]
+	if cLine:      # lists without a selection picture: the same faint accent tint as the pictures of this look
+		dark = "".join("%02x" % int(int(dark[i:i + 2], 16) * 0.5 + int(cBg[i:i + 2], 16) * 0.5) for i in (0, 2, 4))
+	if cLine and cardA != "00":      # outlined cards: as solid as the panels, the outline sets them apart
+		cardA = bgA
 	fonts = []
 	fontSet = dict(fontSet_(style["font"]))
 	if not style.get("bold_titles", True):
@@ -539,10 +577,11 @@ def buildXml(style, skinDir=SKIN_DIR, language=None):
 		<color name="bgSelNow" value="#{dark}"/>
 		<color name="lineAccent" value="#58{line}"/>
 		<color name="posterBorder" value="#50{line}"/>
-		<color name="background" value="#{bgA}0f1722"/>
-		<color name="bg" value="#{bgA}0f1722"/>
-		<color name="bgDeep" value="#{deepA}0b1119"/>
-		<color name="bgCard" value="#{cardA}1a2535"/>
+		<color name="background" value="#{bgA}{cBg}"/>
+		<color name="bg" value="#{bgA}{cBg}"/>
+		<color name="bgDeep" value="#{deepA}{cDeep}"/>
+		<color name="bgCard" value="#{cardA}{cCard}"/>
+		<color name="panelLine" value="#00{cLine}"/>
 		<color name="fg" value="#00{fg}"/>
 		<color name="foreground" value="#00{fg}"/>
 		<color name="fgDim" value="#00{fgDim}"/>
@@ -554,7 +593,7 @@ def buildXml(style, skinDir=SKIN_DIR, language=None):
 		<parameter name="FrontendInfoColors" value="#00{accent},#00f2c94c,#00d6dbe1"/>
 	</parameters>
 {screens}</skin>
-""".format(accent=accent, dark=dark, line=line, bgA=bgA, deepA=deepA, cardA=cardA, fonts="\n".join(fonts),
+""".format(accent=accent, dark=dark, line=line, bgA=bgA, deepA=deepA, cardA=cardA, cBg=cBg, cDeep=cDeep, cCard=cCard, cLine=cLine or "28364a", fonts="\n".join(fonts),
 		fg=_finish(TEXT_COLORS[style["text_color"]][0], style), fgDim=_finish(TEXT_COLORS[style["text_color"]][1], style), screens=screens)
 
 
@@ -613,6 +652,11 @@ def apply(confFile=CONF_FILE, skinDir=SKIN_DIR, userXml=USER_XML):
 	style = readStyle(confFile)
 	copied = _copyTree(os.path.join(skinDir, "variants", "accent", style["accent"]), skinDir)
 	copied += _copyTree(os.path.join(skinDir, "variants", "glass", str(style["transparency"] or 10)), skinDir)
+	# the look's own pictures (selection bars, progress bars, infobar panels, rings); "classic" puts the rings back
+	look = os.path.join(skinDir, "variants", "look", style["look"])
+	copied += _copyTree(os.path.join(look, "accent", style["accent"]), skinDir)
+	copied += _copyTree(os.path.join(look, "glass", str(style["transparency"] or 10)), skinDir)
+	copied += _copyTree(os.path.join(look, "ui"), os.path.join(skinDir, "ui"))
 	if style["ib_color"] != "graphite":
 		copied += _copyTree(os.path.join(skinDir, "variants", "ibcolor", style["ib_color"], str(style["transparency"] or 10)), skinDir)
 	icons = os.path.join(skinDir, "variants", "icons", style["icons"])
