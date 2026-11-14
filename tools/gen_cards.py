@@ -215,6 +215,75 @@ def blue(old):
 	return "\n".join(o)
 
 
+# ------------------------------------------------------------------ info screens (cards come from gen_dash.py)
+def header(w):
+	return ['\t\t<eLabel position="0,0" size="%d,%%d" backgroundColor="bg" cornerRadius="24" zPosition="-10"/>' % w,
+		'\t\t<ePixmap pixmap="NileGlass_FHD/ui/ng_logo.png" position="22,24" size="40,40" alphatest="blend" zPosition="1"/>',
+		'\t\t<widget source="Title" render="Label" position="74,16" size="%d,56" font="Medium;30" foregroundColor="accent" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1"/>' % (w - 254),
+		W("global.CurrentTime", "Label", w - 180, 16, 156, 56, "", [("ClockToText", "Format:%H:%M")], "Regular;38", "fg", halign="right"),
+		line(24, 84, w - 48)]
+
+
+def sysinfo2():
+	PW, PH = 1150, 880
+	o = ['\t<screen name="BhsysInfo2" position="40,center" size="%d,%d" backgroundColor="transparent" flags="wfNoBorder" title="OpenBh System Info">' % (PW, PH)]
+	o += [h.replace("%d", str(PH)) if "%d" in h else h for h in header(PW)]
+	# services: on/off dots (the screen hides the one that does not apply)
+	o += [card(24, 100, PW - 48, 96), T("الخدمات", 44, 104, 300, 30, "Regular;20")]
+	names = (("Ssh", ("spy1",), ()), ("Telnet", ("spy3",), ("spy2",)), ("Ftp", ("spy5",), ("spy4",)), ("Vpn", ("spy7",), ("spy6",)),
+		("Samba", ("spy9",), ("spy8",)), ("Nfs", ("spy11",), ("spy10",)))
+	for i, (label, on, off) in enumerate(names):
+		x = 44 + i * 180
+		for n in on:
+			o.append('\t\t<widget name="%s" position="%d,146" size="22,22" pixmap="NileGlass_FHD/ui/dot_on.png" alphatest="blend" zPosition="2"/>' % (n, x))
+		for n in off:
+			o.append('\t\t<widget name="%s" position="%d,146" size="22,22" pixmap="NileGlass_FHD/ui/dot_off.png" alphatest="blend" zPosition="1"/>' % (n, x))
+		o.append(T(label, x + 32, 140, 140, 34, "Medium;24", "fg"))
+	o += [card(24, 208, PW - 48, 120), T("الهارد والتخزين", 44, 212, 400, 30, "Regular;20"),
+		N("smallmon", 44, 244, PW - 88, 80, "Regular;22", "fg", "bgCard", valign="top", wrap=True),
+		card(24, 340, PW - 48, 440),
+		T("اضغط الأحمر للذاكرة · الأخضر للمساحة · الأصفر للمعالج · الأزرق للعمليات", 44, 344, PW - 88, 30, "Regular;20"),
+		N("moni2", 44, 380, PW - 88, 390, "Regular;20", "fg", "bgCard", valign="top", wrap=True),
+		'\t\t<widget name="moni" position="0,0" size="0,0" backgroundColor="bg" transparent="1"/>',
+		'\t\t<widget name="monipix" position="0,0" size="0,0" transparent="1"/>',
+		T("1  الإعدادات      2  معلومات القناة      3  حول", 44, 790, PW - 88, 30, "Regular;20", "fgMute")]
+	for g in ("ramg", "swapg", "memtg", "spacetg", "mmcfg", "usbg", "hddg", "flashg", "hddtempg"):
+		o.append('\t\t<widget name="%s" position="0,0" size="0,0" transparent="1"/>' % g)
+	o.append(line(24, PH - 74, PW - 48))
+	for i, c in enumerate(("red", "green", "yellow", "blue")):
+		x = 24 + i * ((PW - 48 - 200) // 3)
+		o += ['\t\t<ePixmap pixmap="NileGlass_FHD/buttons/%s_k200.png" position="%d,%d" size="200,38" alphatest="blend"/>' % (c, x, PH - 56),
+			W("key_" + c, "Label", x, PH - 56, 200, 38, 'zPosition="1"', (), "Medium;22", "white", "black", halign="center")]
+	o.append('\t</screen>')
+	return "\n".join(o)
+
+
+def serviceinfo(old):
+	PW, PH = 1150, 1000
+	lst = re.search(r'<widget name="infolist".*?/>', old, re.S).group(0)
+	lst = re.sub(r'position="[^"]*" size="[^"]*"', 'position="30,100" size="%d,800"' % (PW - 60), lst, count=1)
+	o = ['\t<screen name="ServiceInfo" position="40,center" size="%d,%d" backgroundColor="transparent" flags="wfNoBorder">' % (PW, PH)]
+	o += [h.replace("%d", str(PH)) if "%d" in h else h for h in header(PW)]
+	o += ["\t\t" + lst, line(24, PH - 74, PW - 48)]
+	for i, c in enumerate(("red", "green", "yellow", "blue")):
+		x = 24 + i * ((PW - 48 - 260) // 3)
+		o += ['\t\t<ePixmap pixmap="NileGlass_FHD/buttons/%s_k260.png" position="%d,%d" size="260,38" alphatest="blend"/>' % (c, x, PH - 56),
+			N(c, x, PH - 56, 260, 38, "Medium;22", "white", "black", halign="center", extra='zPosition="1"')]
+	o.append('\t</screen>')
+	return "\n".join(o)
+
+
+def greenpanel(old):
+	"""1600 wide centred -> 1150 at the left (cards beside it come from gen_dash.py)"""
+	new = old.replace('position="center,center" size="1600,960"', 'position="40,center" size="1150,960"')
+	new = new.replace('size="1600,960" backgroundColor="bg"', 'size="1150,960" backgroundColor="bg"')
+	new = new.replace('size="1552,1"', 'size="1102,1"').replace('position="1340,14" size="220,62"', 'position="890,14" size="220,62"')
+	new = new.replace('size="1520,756"', 'size="1070,756"').replace("size=(1280, 48)", "size=(840, 48)").replace("size=(1280, 36)", "size=(840, 36)")
+	for a, b in (("60,894", "40,894"), ("440,894", "320,894"), ("820,894", "600,894"), ("1200,894", "880,894")):
+		new = new.replace('position="%s"' % a, 'position="%s"' % b)
+	return new
+
+
 path = os.path.join(SK, "skin.xml")
 text = open(path, encoding="utf-8").read()
 
@@ -229,6 +298,9 @@ cs_old = re.search(r'<screen name="ChannelSelection".*?</screen>', text, re.S).g
 replace("SecondInfoBar", sib())
 replace("ChannelSelection", channels(cs_old))
 replace("DeliteBluePanel", blue(None))
+replace("BhsysInfo2", sysinfo2())
+replace("ServiceInfo", serviceinfo(re.search(r'<screen name="ServiceInfo".*?</screen>', text, re.S).group(0)))
+replace("DeliteGreenPanel", greenpanel(re.search(r'\t<screen name="DeliteGreenPanel".*?</screen>', text, re.S).group(0)))
 open(path, "w", encoding="utf-8").write(text)
 
 # 50 px channel selection bar (every accent colour): the 56 px one, shorter
@@ -239,4 +311,10 @@ for src in glob.glob(os.path.join(SK, "ui", "sel_channel56.png")) + glob.glob(os
 	new = Image.new("RGBA", (w, 50))
 	new.paste(top, (0, 0)); new.paste(bot, (0, 25))
 	new.save(src.replace("sel_channel56", "sel_channel50"), optimize=True)
+# service on/off dots for the system info screen
+from PIL import ImageDraw
+for name, col in (("dot_on.png", (63, 201, 106, 255)), ("dot_off.png", (120, 128, 140, 255))):
+	im = Image.new("RGBA", (88, 88), (0, 0, 0, 0))
+	ImageDraw.Draw(im).ellipse([4, 4, 83, 83], fill=col)
+	im.resize((22, 22), Image.LANCZOS).save(os.path.join(SK, "ui", name), optimize=True)
 print("card screens ok")

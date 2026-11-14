@@ -1,12 +1,12 @@
 {
-  "version": "2.8.5",
-  "ipk": "https://raw.githubusercontent.com/Saadmelshepiny/NileGlass-FHD/main/releases/enigma2-plugin-skins-nileglass-fhd_2.8.5_all.ipk",
-  "sha256": "46ae775a6f133eb28abaaa5ba981c365192a8495ba6a7b332abb4dd386b8afb6",
-  "notes_ar": "إصلاح كراش ضبط المفاتيح. قائمة القنوات: شريط تقدم صغير جنب اسم البرنامج والوصف بقى أعلى وأطول. قائمة الإضافات (الضغطة الطويلة على الأزرق) على اليسار، وتقرير السرعة بقى أوضح وبيقول هل الضغطة الطويلة بتوصل للجهاز.",
-  "notes_en": "Button setup crash fixed. Channel list: small progress block beside the title, description higher and longer. Extensions list (blue held) on the left; clearer speed report that also shows whether the long blue press reaches the box.",
+  "version": "2.8.6",
+  "ipk": "https://raw.githubusercontent.com/Saadmelshepiny/NileGlass-FHD/main/releases/enigma2-plugin-skins-nileglass-fhd_2.8.6_all.ipk",
+  "sha256": "0226933229d39a3456c75ce994986f48cbd30fa2cf5a74b9606ddc0b33a48c88",
+  "notes_ar": "نظام عرض واحد لكل الشاشات: لوحة على اليسار وجنبها المربعات المناسبة لموضوعها (نظام، شبكة، موالفات، صوت وصورة) في أكتر من 115 شاشة، منها قائمة الإضافات (الأزرق المطوّل) ومعلومات النظام والقناة واللوحة الخضرا وشاشات البلج إنز والسجلات. شاشة معلومات النظام اتعملت من جديد بالمربعات.",
+  "notes_en": "One layout for every screen: a left panel with the card set of its subject (system, network, tuners, picture/sound) beside it, on 115+ screens, including the extensions list (blue held), system and service info, the green panel, plugin and log screens. System info screen rebuilt with cards.",
   "previous": {
-    "version": "2.8.4",
-    "ipk": "https://raw.githubusercontent.com/Saadmelshepiny/NileGlass-FHD/main/releases/enigma2-plugin-skins-nileglass-fhd_2.8.4_all.ipk",
-    "sha256": "34fb9979d15983f0fd15c3538bc0657ba9b4aaec492e9df5628e17be2916e09b"
+    "version": "2.8.5",
+    "ipk": "https://raw.githubusercontent.com/Saadmelshepiny/NileGlass-FHD/main/releases/enigma2-plugin-skins-nileglass-fhd_2.8.5_all.ipk",
+    "sha256": "46ae775a6f133eb28abaaa5ba981c365192a8495ba6a7b332abb4dd386b8afb6"
   }
 }

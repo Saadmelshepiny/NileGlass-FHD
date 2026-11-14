@@ -355,7 +355,7 @@
 	<screen name="menu_epg" position="40,center" size="1290,790" backgroundColor="transparent" flags="wfNoBorder"><panel name="Menu"/></screen>
 	<screen name="menu_osd_menu" position="40,center" size="1290,790" backgroundColor="transparent" flags="wfNoBorder"><panel name="Menu"/></screen>
 	<screen name="menu_video" position="40,center" size="1290,790" backgroundColor="transparent" flags="wfNoBorder"><panel name="Menu"/></screen>
-	<screen name="PluginBrowser" position="40,center" size="1100,990" backgroundColor="transparent" flags="wfNoBorder">
+	<screen name="PluginBrowser" position="40,center" size="1790,990" backgroundColor="transparent" flags="wfNoBorder">
 		<eLabel position="0,0" size="1100,990" backgroundColor="bg" cornerRadius="24" zPosition="-10"/>
 		<ePixmap pixmap="NileGlass_FHD/ui/ng_logo.png" position="22,24" size="40,40" alphatest="blend" zPosition="1"/>
 		<widget source="Title" render="Label" position="74,16" size="846,56" font="Medium;30" foregroundColor="accent" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1"/>
@@ -386,8 +386,10 @@
 		<ePixmap pixmap="NileGlass_FHD/buttons/blue_k200.png" position="876,934" size="200,38" alphatest="blend" conditional="key_blue"/>
 		<widget name="key_blue" position="876,934" size="200,38" font="Medium;22" foregroundColor="white" backgroundColor="black" transparent="1" halign="center" valign="center" noWrap="1" zPosition="1" objectTypes="key_blue,Button,Label"/>
 		<widget source="key_blue" render="Label" position="876,934" size="200,38" font="Medium;22" foregroundColor="white" backgroundColor="black" transparent="1" halign="center" valign="center" noWrap="1" zPosition="1" objectTypes="key_blue,StaticText"/>
+			<!-- NG-DASH system cards -->
+		<panel position="1120,0" size="670,464"><panel name="NG_Dash_system_100"/></panel>
 	</screen>
-	<screen name="PluginDownloadBrowser" position="40,center" size="1100,990" backgroundColor="transparent" flags="wfNoBorder">
+	<screen name="PluginDownloadBrowser" position="40,center" size="1790,990" backgroundColor="transparent" flags="wfNoBorder">
 		<eLabel position="0,0" size="1100,990" backgroundColor="bg" cornerRadius="24" zPosition="-10"/>
 		<ePixmap pixmap="NileGlass_FHD/ui/ng_logo.png" position="22,24" size="40,40" alphatest="blend" zPosition="1"/>
 		<widget source="Title" render="Label" position="74,16" size="846,56" font="Medium;30" foregroundColor="accent" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1"/>
@@ -408,8 +410,10 @@
 		<ePixmap pixmap="NileGlass_FHD/buttons/blue_k200.png" position="876,934" size="200,38" alphatest="blend" conditional="key_blue"/>
 		<widget name="key_blue" position="876,934" size="200,38" font="Medium;22" foregroundColor="white" backgroundColor="black" transparent="1" halign="center" valign="center" noWrap="1" zPosition="1" objectTypes="key_blue,Button,Label"/>
 		<widget source="key_blue" render="Label" position="876,934" size="200,38" font="Medium;22" foregroundColor="white" backgroundColor="black" transparent="1" halign="center" valign="center" noWrap="1" zPosition="1" objectTypes="key_blue,StaticText"/>
+			<!-- NG-DASH system cards -->
+		<panel position="1120,0" size="670,464"><panel name="NG_Dash_system_100"/></panel>
 	</screen>
-	<screen name="TimerEditList" position="40,center" size="1300,996" backgroundColor="transparent" flags="wfNoBorder">
+	<screen name="TimerEditList" position="40,center" size="1822,996" backgroundColor="transparent" flags="wfNoBorder">
 		<eLabel position="0,0" size="1300,996" backgroundColor="bg" cornerRadius="24" zPosition="-10"/>
 		<ePixmap pixmap="NileGlass_FHD/ui/ng_logo.png" position="22,24" size="40,40" alphatest="blend" zPosition="1"/>
 		<widget source="Title" render="Label" position="74,16" size="1046,56" font="Medium;30" foregroundColor="accent" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1"/>
@@ -430,8 +434,10 @@
 		<ePixmap pixmap="NileGlass_FHD/buttons/blue_k200.png" position="1074,940" size="200,38" alphatest="blend" conditional="key_blue"/>
 		<widget name="key_blue" position="1074,940" size="200,38" font="Medium;22" foregroundColor="white" backgroundColor="black" transparent="1" halign="center" valign="center" noWrap="1" zPosition="1" objectTypes="key_blue,Button,Label"/>
 		<widget source="key_blue" render="Label" position="1074,940" size="200,38" font="Medium;22" foregroundColor="white" backgroundColor="black" transparent="1" halign="center" valign="center" noWrap="1" zPosition="1" objectTypes="key_blue,StaticText"/>
+			<!-- NG-DASH system cards -->
+		<panel position="1320,0" size="502,464"><panel name="NG_Dash_system_75"/></panel>
 	</screen>
-	<screen name="PowerTimerEditList" position="40,center" size="1300,996" backgroundColor="transparent" flags="wfNoBorder">
+	<screen name="PowerTimerEditList" position="40,center" size="1822,996" backgroundColor="transparent" flags="wfNoBorder">
 		<eLabel position="0,0" size="1300,996" backgroundColor="bg" cornerRadius="24" zPosition="-10"/>
 		<ePixmap pixmap="NileGlass_FHD/ui/ng_logo.png" position="22,24" size="40,40" alphatest="blend" zPosition="1"/>
 		<widget source="Title" render="Label" position="74,16" size="1046,56" font="Medium;30" foregroundColor="accent" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1"/>
@@ -452,8 +458,10 @@
 		<ePixmap pixmap="NileGlass_FHD/buttons/blue_k200.png" position="1074,940" size="200,38" alphatest="blend" conditional="key_blue"/>
 		<widget name="key_blue" position="1074,940" size="200,38" font="Medium;22" foregroundColor="white" backgroundColor="black" transparent="1" halign="center" valign="center" noWrap="1" zPosition="1" objectTypes="key_blue,Button,Label"/>
 		<widget source="key_blue" render="Label" position="1074,940" size="200,38" font="Medium;22" foregroundColor="white" backgroundColor="black" transparent="1" halign="center" valign="center" noWrap="1" zPosition="1" objectTypes="key_blue,StaticText"/>
+			<!-- NG-DASH system cards -->
+		<panel position="1320,0" size="502,464"><panel name="NG_Dash_system_75"/></panel>
 	</screen>
-	<screen name="HelpMenu" position="40,center" size="1100,990" backgroundColor="transparent" flags="wfNoBorder">
+	<screen name="HelpMenu" position="40,center" size="1790,990" backgroundColor="transparent" flags="wfNoBorder">
 		<eLabel position="0,0" size="1100,990" backgroundColor="bg" cornerRadius="24" zPosition="-10"/>
 		<ePixmap pixmap="NileGlass_FHD/ui/ng_logo.png" position="22,24" size="40,40" alphatest="blend" zPosition="1"/>
 		<widget source="Title" render="Label" position="74,16" size="846,56" font="Medium;30" foregroundColor="accent" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1"/>
@@ -473,8 +481,10 @@
 		<ePixmap pixmap="NileGlass_FHD/buttons/blue_k200.png" position="876,934" size="200,38" alphatest="blend" conditional="key_blue"/>
 		<widget name="key_blue" position="876,934" size="200,38" font="Medium;22" foregroundColor="white" backgroundColor="black" transparent="1" halign="center" valign="center" noWrap="1" zPosition="1" objectTypes="key_blue,Button,Label"/>
 		<widget source="key_blue" render="Label" position="876,934" size="200,38" font="Medium;22" foregroundColor="white" backgroundColor="black" transparent="1" halign="center" valign="center" noWrap="1" zPosition="1" objectTypes="key_blue,StaticText"/>
+			<!-- NG-DASH system cards -->
+		<panel position="1120,0" size="670,464"><panel name="NG_Dash_system_100"/></panel>
 	</screen>
-	<screen name="AboutOE" position="40,center" size="1250,984" backgroundColor="transparent" flags="wfNoBorder">
+	<screen name="AboutOE" position="40,center" size="1840,984" backgroundColor="transparent" flags="wfNoBorder">
 		<eLabel position="0,0" size="1250,984" backgroundColor="bg" cornerRadius="24" zPosition="-10"/>
 		<ePixmap pixmap="NileGlass_FHD/ui/ng_logo.png" position="22,24" size="40,40" alphatest="blend" zPosition="1"/>
 		<widget source="Title" render="Label" position="74,16" size="996,56" font="Medium;30" foregroundColor="accent" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1"/>
@@ -497,8 +507,10 @@
 		<ePixmap pixmap="NileGlass_FHD/buttons/blue_k200.png" position="1026,928" size="200,38" alphatest="blend" conditional="key_blue"/>
 		<widget name="key_blue" position="1026,928" size="200,38" font="Medium;22" foregroundColor="white" backgroundColor="black" transparent="1" halign="center" valign="center" noWrap="1" zPosition="1" objectTypes="key_blue,Button,Label"/>
 		<widget source="key_blue" render="Label" position="1026,928" size="200,38" font="Medium;22" foregroundColor="white" backgroundColor="black" transparent="1" halign="center" valign="center" noWrap="1" zPosition="1" objectTypes="key_blue,StaticText"/>
+			<!-- NG-DASH system cards -->
+		<panel position="1270,0" size="570,464"><panel name="NG_Dash_system_85"/></panel>
 	</screen>
-	<screen name="TextBox" position="40,center" size="1250,980" backgroundColor="transparent" flags="wfNoBorder">
+	<screen name="TextBox" position="40,center" size="1840,980" backgroundColor="transparent" flags="wfNoBorder">
 		<eLabel position="0,0" size="1250,980" backgroundColor="bg" cornerRadius="24" zPosition="-10"/>
 		<ePixmap pixmap="NileGlass_FHD/ui/ng_logo.png" position="22,24" size="40,40" alphatest="blend" zPosition="1"/>
 		<widget source="Title" render="Label" position="74,16" size="996,56" font="Medium;30" foregroundColor="accent" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1"/>
@@ -518,8 +530,10 @@
 		<ePixmap pixmap="NileGlass_FHD/buttons/blue_k200.png" position="1026,924" size="200,38" alphatest="blend" conditional="key_blue"/>
 		<widget name="key_blue" position="1026,924" size="200,38" font="Medium;22" foregroundColor="white" backgroundColor="black" transparent="1" halign="center" valign="center" noWrap="1" zPosition="1" objectTypes="key_blue,Button,Label"/>
 		<widget source="key_blue" render="Label" position="1026,924" size="200,38" font="Medium;22" foregroundColor="white" backgroundColor="black" transparent="1" halign="center" valign="center" noWrap="1" zPosition="1" objectTypes="key_blue,StaticText"/>
+			<!-- NG-DASH system cards -->
+		<panel position="1270,0" size="570,464"><panel name="NG_Dash_system_85"/></panel>
 	</screen>
-	<screen name="Console" position="40,center" size="1250,980" backgroundColor="transparent" flags="wfNoBorder">
+	<screen name="Console" position="40,center" size="1840,980" backgroundColor="transparent" flags="wfNoBorder">
 		<eLabel position="0,0" size="1250,980" backgroundColor="bg" cornerRadius="24" zPosition="-10"/>
 		<ePixmap pixmap="NileGlass_FHD/ui/ng_logo.png" position="22,24" size="40,40" alphatest="blend" zPosition="1"/>
 		<widget source="Title" render="Label" position="74,16" size="996,56" font="Medium;30" foregroundColor="accent" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1"/>
@@ -539,8 +553,10 @@
 		<ePixmap pixmap="NileGlass_FHD/buttons/blue_k200.png" position="1026,924" size="200,38" alphatest="blend" conditional="key_blue"/>
 		<widget name="key_blue" position="1026,924" size="200,38" font="Medium;22" foregroundColor="white" backgroundColor="black" transparent="1" halign="center" valign="center" noWrap="1" zPosition="1" objectTypes="key_blue,Button,Label"/>
 		<widget source="key_blue" render="Label" position="1026,924" size="200,38" font="Medium;22" foregroundColor="white" backgroundColor="black" transparent="1" halign="center" valign="center" noWrap="1" zPosition="1" objectTypes="key_blue,StaticText"/>
+			<!-- NG-DASH system cards -->
+		<panel position="1270,0" size="570,464"><panel name="NG_Dash_system_85"/></panel>
 	</screen>
-	<screen name="OscamInfoMenu" position="40,center" size="1100,970" backgroundColor="transparent" flags="wfNoBorder">
+	<screen name="OscamInfoMenu" position="40,center" size="1790,970" backgroundColor="transparent" flags="wfNoBorder">
 		<eLabel position="0,0" size="1100,970" backgroundColor="bg" cornerRadius="24" zPosition="-10"/>
 		<ePixmap pixmap="NileGlass_FHD/ui/ng_logo.png" position="22,24" size="40,40" alphatest="blend" zPosition="1"/>
 		<widget source="Title" render="Label" position="74,16" size="846,56" font="Medium;30" foregroundColor="accent" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1"/>
@@ -560,8 +576,10 @@
 		<ePixmap pixmap="NileGlass_FHD/buttons/blue_k200.png" position="876,914" size="200,38" alphatest="blend" conditional="key_blue"/>
 		<widget name="key_blue" position="876,914" size="200,38" font="Medium;22" foregroundColor="white" backgroundColor="black" transparent="1" halign="center" valign="center" noWrap="1" zPosition="1" objectTypes="key_blue,Button,Label"/>
 		<widget source="key_blue" render="Label" position="876,914" size="200,38" font="Medium;22" foregroundColor="white" backgroundColor="black" transparent="1" halign="center" valign="center" noWrap="1" zPosition="1" objectTypes="key_blue,StaticText"/>
+			<!-- NG-DASH system cards -->
+		<panel position="1120,0" size="670,464"><panel name="NG_Dash_system_100"/></panel>
 	</screen>
-	<screen name="oscInfo" position="40,center" size="1250,980" backgroundColor="transparent" flags="wfNoBorder">
+	<screen name="oscInfo" position="40,center" size="1840,980" backgroundColor="transparent" flags="wfNoBorder">
 		<eLabel position="0,0" size="1250,980" backgroundColor="bg" cornerRadius="24" zPosition="-10"/>
 		<ePixmap pixmap="NileGlass_FHD/ui/ng_logo.png" position="22,24" size="40,40" alphatest="blend" zPosition="1"/>
 		<widget source="Title" render="Label" position="74,16" size="996,56" font="Medium;30" foregroundColor="accent" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1"/>
@@ -581,8 +599,10 @@
 		<ePixmap pixmap="NileGlass_FHD/buttons/blue_k200.png" position="1026,924" size="200,38" alphatest="blend" conditional="key_blue"/>
 		<widget name="key_blue" position="1026,924" size="200,38" font="Medium;22" foregroundColor="white" backgroundColor="black" transparent="1" halign="center" valign="center" noWrap="1" zPosition="1" objectTypes="key_blue,Button,Label"/>
 		<widget source="key_blue" render="Label" position="1026,924" size="200,38" font="Medium;22" foregroundColor="white" backgroundColor="black" transparent="1" halign="center" valign="center" noWrap="1" zPosition="1" objectTypes="key_blue,StaticText"/>
+			<!-- NG-DASH system cards -->
+		<panel position="1270,0" size="570,464"><panel name="NG_Dash_system_85"/></panel>
 	</screen>
-	<screen name="oscECMInfo" position="40,center" size="1250,970" backgroundColor="transparent" flags="wfNoBorder">
+	<screen name="oscECMInfo" position="40,center" size="1840,970" backgroundColor="transparent" flags="wfNoBorder">
 		<eLabel position="0,0" size="1250,970" backgroundColor="bg" cornerRadius="24" zPosition="-10"/>
 		<ePixmap pixmap="NileGlass_FHD/ui/ng_logo.png" position="22,24" size="40,40" alphatest="blend" zPosition="1"/>
 		<widget source="Title" render="Label" position="74,16" size="996,56" font="Medium;30" foregroundColor="accent" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1"/>
@@ -602,8 +622,10 @@
 		<ePixmap pixmap="NileGlass_FHD/buttons/blue_k200.png" position="1026,914" size="200,38" alphatest="blend" conditional="key_blue"/>
 		<widget name="key_blue" position="1026,914" size="200,38" font="Medium;22" foregroundColor="white" backgroundColor="black" transparent="1" halign="center" valign="center" noWrap="1" zPosition="1" objectTypes="key_blue,Button,Label"/>
 		<widget source="key_blue" render="Label" position="1026,914" size="200,38" font="Medium;22" foregroundColor="white" backgroundColor="black" transparent="1" halign="center" valign="center" noWrap="1" zPosition="1" objectTypes="key_blue,StaticText"/>
+			<!-- NG-DASH system cards -->
+		<panel position="1270,0" size="570,464"><panel name="NG_Dash_system_85"/></panel>
 	</screen>
-	<screen name="PositionerSetupLog" position="40,center" size="1250,980" backgroundColor="transparent" flags="wfNoBorder">
+	<screen name="PositionerSetupLog" position="40,center" size="1840,980" backgroundColor="transparent" flags="wfNoBorder">
 		<eLabel position="0,0" size="1250,980" backgroundColor="bg" cornerRadius="24" zPosition="-10"/>
 		<ePixmap pixmap="NileGlass_FHD/ui/ng_logo.png" position="22,24" size="40,40" alphatest="blend" zPosition="1"/>
 		<widget source="Title" render="Label" position="74,16" size="996,56" font="Medium;30" foregroundColor="accent" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1"/>
@@ -623,5 +645,7 @@
 		<ePixmap pixmap="NileGlass_FHD/buttons/blue_k200.png" position="1026,924" size="200,38" alphatest="blend" conditional="key_blue"/>
 		<widget name="key_blue" position="1026,924" size="200,38" font="Medium;22" foregroundColor="white" backgroundColor="black" transparent="1" halign="center" valign="center" noWrap="1" zPosition="1" objectTypes="key_blue,Button,Label"/>
 		<widget source="key_blue" render="Label" position="1026,924" size="200,38" font="Medium;22" foregroundColor="white" backgroundColor="black" transparent="1" halign="center" valign="center" noWrap="1" zPosition="1" objectTypes="key_blue,StaticText"/>
+			<!-- NG-DASH tuner cards -->
+		<panel position="1270,0" size="570,464"><panel name="NG_Dash_tuner_85"/></panel>
 	</screen>
 </skin>

@@ -36,7 +36,7 @@ def _group(comp):
 				z = int(value)
 			except ValueError:
 				return None
-			return z // 10 if z >= 10 else None
+			return z // 10 if 11 <= z <= 43 and z % 10 in (1, 2, 3) else None
 	return None
 
 
@@ -140,7 +140,11 @@ def autoAttach(screen):
 			groups.add(g)
 			if len(groups) >= 3:
 				break
-	if len(groups) < 3:
+	if not groups:
 		return
-	attachSetup(screen)
+	if len(groups) < 3:                 # one fixed card set (info screens, plugins' panels)
+		only = [k for k, v in GROUPS.items() if v in groups][0]
+		screen._ngDashUpdate = lambda: show(screen, only)
+	else:
+		attachSetup(screen)
 	screen._ngDashUpdate()

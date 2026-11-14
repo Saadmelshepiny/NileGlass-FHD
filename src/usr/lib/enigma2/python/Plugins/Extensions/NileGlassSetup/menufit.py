@@ -75,16 +75,21 @@ class _Fit:
 			win.move(ePoint(LEFT, max(MARGIN, (dh - H0) // 2)))
 			return
 		bottom = ly + lh
+		panelRight = lst.position().x() + lst.size().width() + 60
+		cards = 0                                  # bottom of the card set beside the panel (not moved)
 		for inst in _instances(s):
 			if inst is lst or inst is win:
 				continue
 			p = inst.position()
+			if p.x() >= panelRight:
+				cards = max(cards, p.y() + inst.size().height())
+				continue
 			if p.y() >= bottom - 2:                # under the list: follows it
 				inst.move(ePoint(p.x(), p.y() + delta))
 			elif p.y() <= ly and p.y() + inst.size().height() >= bottom - 2:   # spans the panel (background, divider)
 				inst.resize(eSize(inst.size().width(), inst.size().height() + delta))
 		lst.resize(eSize(lst.size().width(), newH))
-		H = H0 + delta
+		H = max(H0 + delta, cards)
 		win.resize(eSize(win.size().width(), H))
 		win.move(ePoint(LEFT, max(MARGIN, (dh - H) // 2)))
 
@@ -106,6 +111,7 @@ def _menuList(screen):
 # class name -> (list widget, row height, minimum rows)
 OTHER = {
 	"PluginBrowser": ("list", 0, 6),
+	"ExtensionsList": ("list", 58, 6),
 	"NimSelection": ("nimlist", 0, 3),
 	"InputDeviceSelection": ("list", 0, 4),
 	"HarddiskSelection": ("hddlist", 0, 3),
