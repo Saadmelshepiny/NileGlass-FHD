@@ -128,22 +128,24 @@ def channels(old):
 	assert "sel_channel50" in listEl and 'size="960,800"' in listEl
 	SE = "ServiceEvent"
 	X, Y, CW = 1046, 140, 814
-	LC = CW - 236            # text column beside the poster
+	LC = CW - 40 - 170       # text column beside the poster
+	RX = X + 20 + LC - 196   # small time / progress block at the right of the title
 	o = ['\t<screen name="ChannelSelection" position="0,0" size="1920,1080" backgroundColor="transparent" flags="wfNoBorder">',
 		'\t\t<panel name="NG_Frame"/>', "\t\t" + listEl,
-		'\t\t<!-- selected channel: running programme card (poster, times, full description), then four upcoming programme cards -->',
+		'\t\t<!-- selected channel: running programme card (poster, title with a small progress block, full description), then four upcoming programme cards -->',
 		card(X, Y, CW, 440),
-		W(SE, "NGPoster", X + CW - 196, Y + 16, 180, 270, 'delay="300" picon="1" fallback="NileGlass_FHD/ui/noposter.png" borderWidth="2" borderColor="posterBorder" zPosition="3"'),
-		W(SE, "Label", X + 20, Y + 12, LC, 36, "", [("ServiceName", "Name")], "Medium;26", "fgDim", "bgCard"),
-		W(SE, "Label", X + 20, Y + 50, LC, 76, "", [("EventName", "Name")], "Medium;30", "accent", "bgCard", valign="top", wrap=True),
-		W(SE, "Label", X + 20, Y + 132, 110, 32, "", [("EventTime", "StartTime"), ("ClockToText", "Format:%H:%M")], "Regular;26", "fg", "bgCard"),
-		W(SE, "Label", X + 20 + LC - 110, Y + 132, 110, 32, "", [("EventTime", "EndTime"), ("ClockToText", "Format:%H:%M")], "Regular;26", "fg", "bgCard", halign="right"),
-		'\t\t<eLabel position="%d,%d" size="%d,8" backgroundColor="bgBar" cornerRadius="4" zPosition="-7"/>' % (X + 20, Y + 170, LC),
-		W(SE, "Progress", X + 20, Y + 170, LC, 8, 'pixmap="NileGlass_FHD/ui/progress_sib.png" transparent="1" zPosition="1"', [("EventTime", "Progress")]),
-		W(SE, "Label", X + 20, Y + 184, 260, 32, "", [("EventTime", "Remaining"), ("RemainingToText", "InMinutes")], "Regular;24", "fgDim", "bgCard"),
-		W(SE, "NGEventInfo", X + 20, Y + 220, LC, 32, 'fields="year,genres"', (), "Regular;24", "gold", "bgCard"),
-		W(SE, "NGStars", X + 20, Y + 254, 200, 32, 'backgroundPixmap="NileGlass_FHD/ui/stars_bg.png" pixmap="NileGlass_FHD/ui/stars.png" transparent="1" zPosition="1"'),
-		W(SE, "Label", X + 20, Y + 298, CW - 40, 132, "", [("EventName", "FullDescription"), ("NGTranslate", "")], "Regular;23", "#d6dbe1", "bgCard", valign="top", wrap=True),
+		W(SE, "NGPoster", X + CW - 166, Y + 16, 150, 225, 'delay="300" picon="1" fallback="NileGlass_FHD/ui/noposter.png" borderWidth="2" borderColor="posterBorder" zPosition="3"'),
+		W(SE, "Label", X + 20, Y + 12, LC, 34, "", [("ServiceName", "Name")], "Medium;24", "fgDim", "bgCard"),
+		W(SE, "Label", X + 20, Y + 48, LC - 210, 76, "", [("EventName", "Name")], "Medium;30", "accent", "bgCard", valign="top", wrap=True),
+		W(SE, "Label", RX, Y + 48, 90, 28, "", [("EventTime", "StartTime"), ("ClockToText", "Format:%H:%M")], "Regular;22", "fg", "bgCard"),
+		W(SE, "Label", RX + 96, Y + 48, 100, 28, "", [("EventTime", "EndTime"), ("ClockToText", "Format:%H:%M")], "Regular;22", "fg", "bgCard", halign="right"),
+		'\t\t<eLabel position="%d,%d" size="196,6" backgroundColor="bgBar" cornerRadius="3" zPosition="-7"/>' % (RX, Y + 82),
+		W(SE, "Progress", RX, Y + 82, 196, 6, 'pixmap="NileGlass_FHD/ui/progress_sib.png" transparent="1" zPosition="1"', [("EventTime", "Progress")]),
+		W(SE, "Label", RX, Y + 94, 196, 26, "", [("EventTime", "Remaining"), ("RemainingToText", "InMinutes")], "Regular;20", "fgDim", "bgCard", halign="right"),
+		W(SE, "NGEventInfo", X + 20, Y + 130, LC - 210, 30, 'fields="year,genres"', (), "Regular;22", "gold", "bgCard"),
+		W(SE, "NGStars", X + 20 + LC - 200, Y + 128, 200, 32, 'backgroundPixmap="NileGlass_FHD/ui/stars_bg.png" pixmap="NileGlass_FHD/ui/stars.png" transparent="1" zPosition="1"'),
+		W(SE, "NGEventInfo", X + 20, Y + 170, LC, 70, 'fields="type,rating"', (), "Regular;20", "fgDim", "bgCard", valign="top", wrap=True),
+		W(SE, "Label", X + 20, Y + 250, CW - 40, 182, "", [("EventName", "FullDescription"), ("NGTranslate", "")], "Regular;22", "#d6dbe1", "bgCard", valign="top", wrap=True),
 	]
 	hw = (CW - 12) // 2
 	for i in range(4):

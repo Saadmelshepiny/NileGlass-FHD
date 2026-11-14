@@ -51,6 +51,8 @@ class PerfWatch:
 		eActionMap.getInstance().bindAction("", -0x7FFFFFFF, self.key)
 
 	def key(self, key, flag):
+		if key == 401 and flag == 3:             # blue held: is the long press reaching the box?
+			write("bluelong %s" % screenName(getattr(self.session, "current_dialog", None)))
 		if flag in (0, 2) and self.t0 is None:   # make / repeat
 			self.t0 = time.monotonic()
 			self.screen = screenName(getattr(self.session, "current_dialog", None))
@@ -108,12 +110,18 @@ def report():
 		lines = open(LOG).read().splitlines()
 	except Exception:
 		return "مفيش حاجة بطيئة متسجلة لسه.\nاستخدم الجهاز شوية وافتح التقرير تاني."
-	keys, skins, guards, fits = {}, {}, [], []
+	keys, skins, guards, fits, blues, exts = {}, {}, [], [], [], []
 	for line in lines:
 		p = line.split()
 		try:
 			if p[1] == "fit":
 				fits.append("   " + " ".join(p[2:]))
+				continue
+			if p[1] == "bluelong":
+				blues.append(p[2] if len(p) > 2 else "?")
+				continue
+			if p[1] == "extensions":
+				exts.append(" ".join(p[2:]))
 				continue
 			if p[1] == "guard":
 				guards.append("   %s  %s  (فوقها: %s)" % (p[0], p[3], p[4]))
@@ -134,16 +142,21 @@ def report():
 		s[2] = max(s[2], ms)
 
 	def table(d):
+		# Latin first on every row (screen name, then the numbers): no Arabic on
+		# these lines, so the text direction can't shuffle them
 		rows = sorted(d.items(), key=lambda kv: -kv[1][2])[:8]
-		return ["%5d ms  (×%d)   %s" % (worst, n, name) for name, (n, _t, worst) in rows]
+		return ["   %-28s %5d ms   x%d" % (name[:28], worst, n) for name, (n, _t, worst) in rows]
 
-	out = ["1) ضغطات أبطأ من %d ms - الشاشة اللي اتفتحت:" % KEY_SLOW]
-	out += table(keys) or ["   مفيش"]
-	out += ["", "2) وقت رسم الشاشة بالسكين (أكتر من %d ms):" % SKIN_SLOW]
-	out += table(skins) or ["   مفيش - السكين سريع في كل الشاشات"]
+	out = ["الضغطات البطيئة (أبطأ من %d ms) والشاشة اللي ظهرت بعدها:" % KEY_SLOW]
+	out += table(keys) or ["   مفيش ضغطات بطيئة"]
+	out += ["", "وقت تجهيز الشاشات (أكتر من %d ms):" % SKIN_SLOW]
+	out += table(skins) or ["   مفيش، كل الشاشات سريعة"]
 	if guards:
-		out += ["", "3) شاشات حاولت تقفل وهي مش في الواجهة (اتمنع القفل الغلط):"] + guards[-6:]
+		out += ["", "شاشات حاولت تقفل وهي مش ظاهرة (اتمنع القفل الغلط):"] + guards[-6:]
 	if fits:
-		out += ["", "4) طول القوائم:"] + fits[-4:]
-	out += ["", "لو الرقم في (1) كبير وفي (2) صغير للشاشة نفسها، البطء من البلوجين مش من السكين."]
+		out += ["", "طول القوائم:"] + fits[-4:]
+	out += ["", "الضغطة الطويلة على الأزرق:"]
+	out += ["   long press  x%d   (%s)" % (len(blues), blues[-1])] if blues else ["   الجهاز ما استلمش ولا ضغطة طويلة على الأزرق"]
+	out += ["   extensions: %s" % e for e in exts[-3:]]
+	out += ["", "لو الضغطة بطيئة والشاشة نفسها سريعة في التجهيز، البطء من البلج إن مش من السكين."]
 	return "\n".join(out)

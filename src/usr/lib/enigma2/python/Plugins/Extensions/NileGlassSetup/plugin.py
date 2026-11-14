@@ -751,7 +751,8 @@ class NileGlassSetup(Setup):
 			startWizard(self.session)
 		elif action == "perf":
 			from .perfwatch import report
-			self.session.open(MessageBox, report(), MessageBox.TYPE_INFO)
+			from Screens.TextBox import TextBox
+			self.session.open(TextBox, report(), "تقرير السرعة")
 		elif action == "prefetch":
 			n = posters.prefetch(collectBouquetTitles()) if posters else 0
 			self.session.open(MessageBox, T("%d programmes queued. Posters are downloaded in the background.", "تمت إضافة %d برنامج. البوسترات تُحمّل في الخلفية.") % n, MessageBox.TYPE_INFO, timeout=6)

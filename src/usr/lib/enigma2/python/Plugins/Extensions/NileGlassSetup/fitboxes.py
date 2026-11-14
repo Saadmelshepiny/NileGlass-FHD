@@ -120,7 +120,7 @@ def fitChoiceBox(box):
 				d.resize(eSize(W - 2 * d.position().x(), d.size().height()))
 		H = y + rows * ih + max(bottomArea, 24)
 		inst.resize(eSize(W, H))
-		inst.move(ePoint((dw - W) // 2, (dh - H) // 2))
+		inst.move(ePoint(40, (dh - H) // 2))          # choice lists: left panel like the menus
 		return shift
 	except Exception as err:
 		print("[NileGlass] fit choice box:", err)
