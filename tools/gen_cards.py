@@ -135,7 +135,9 @@ def channels(old):
 		'\t\t<!-- selected channel: running programme card (poster, title with a small progress block, full description), then four upcoming programme cards -->',
 		card(X, Y, CW, 440),
 		W(SE, "NGPoster", X + CW - 166, Y + 16, 150, 225, 'delay="300" picon="1" fallback="NileGlass_FHD/ui/noposter.png" borderWidth="2" borderColor="posterBorder" zPosition="3"'),
-		W(SE, "Label", X + 20, Y + 12, LC, 34, "", [("ServiceName", "Name")], "Medium;24", "fgDim", "bgCard"),
+		W(SE, "Label", X + 20, Y + 12, LC - 290, 34, "", [("ServiceName", "Name")], "Medium;24", "fgDim", "bgCard"),
+		# how much you watched this channel this week (Components/NileGlassWatch.py)
+		W(SE, "Label", X + 20 + LC - 286, Y + 14, 282, 30, "", [("NGWatch", "Text")], "Regular;19", "gold", "bgCard", halign="right"),
 		W(SE, "Label", X + 20, Y + 48, LC - 210, 76, "", [("EventName", "Name")], "Medium;30", "accent", "bgCard", valign="top", wrap=True),
 		W(SE, "Label", RX, Y + 48, 90, 28, "", [("EventTime", "StartTime"), ("ClockToText", "Format:%H:%M")], "Regular;22", "fg", "bgCard"),
 		W(SE, "Label", RX + 96, Y + 48, 100, 28, "", [("EventTime", "EndTime"), ("ClockToText", "Format:%H:%M")], "Regular;22", "fg", "bgCard", halign="right"),

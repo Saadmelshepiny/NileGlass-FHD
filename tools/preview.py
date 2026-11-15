@@ -416,6 +416,7 @@ common = {
 	"session.FrontendStatus|FrontendInfo:SNRdB": "13.2 dB",
 	"session.CurrentService|PliExtraInfo:PIDInfo": "V:4001 A:4002 PCR:4001 PMT:0100",
 	"session.CurrentService|NGSysInfo:BoxName": "Vu+ Ultimo4K",
+	"session.CurrentService|NGSysInfo:StorageWarn": "الفلاش 93%",
 	"session.CurrentService|NGSysInfo:Image": "OpenBh 5.6",
 	"session.CurrentService|NGSysInfo:CpuLoad": "34%",
 	"session.CurrentService|NGSysInfo:CpuTemp": "67°C",
@@ -536,6 +537,7 @@ def channelList(canvas, el):
 cs = dict(common)
 cs.update({
 	"ServiceEvent|ServiceName:Name": "MBC MASR HD",
+	"ServiceEvent|NGWatch:Text": "الأكثر مشاهدة #2 · 5 س 20 د",
 	"ServiceEvent|NGServiceTp:Line": "11862 H 27500 5/6  ·  DVB-S2 8PSK  ·  7.0°W Nilesat", "ServiceEvent|NGServiceTp:Details": "MBC  ·  HD  ·  SID 1005  ·  TS 20700  ·  ON 366",
 	"ServiceEvent|EventTime:StartTime|ClockToText:Format:%H:%M": "22:30",
 	"ServiceEvent|EventTime:EndTime|ClockToText:Format:%H:%M": "00:50",
@@ -576,7 +578,8 @@ mn.update({"session.CurrentService|NGSysInfo:CpuTemp": "64°C", "session.Current
 	"session.CurrentService|NGSysInfo:HddPercent": "34", "session.CurrentService|NGSysInfo:UsbFree": "—", "session.CurrentService|NGSysInfo:UsbPercent": "0",
 	"session.CurrentService|NGSysInfo:Online": "متصل", "session.CurrentService|NGSysInfo:IP": "192.168.1.20", "session.CurrentService|NGSysInfo:NetType": "Wi-Fi · wlan0",
 	"session.CurrentService|NGSysInfo:NetDown": "213 kbit/s", "session.CurrentService|NGSysInfo:NetUp": "14 kbit/s", "session.CurrentService|NGSysInfo:Image": "OpenBh 6.0",
-	"session.CurrentService|NGSysInfo:BoxName": "Vu+ Ultimo4K", "session.CurrentService|NGSysInfo:SkinVersion": "v2.8.0"})
+	"session.CurrentService|NGSysInfo:BoxName": "Vu+ Ultimo4K",
+	"session.CurrentService|NGSysInfo:StorageWarn": "الفلاش 93%", "session.CurrentService|NGSysInfo:SkinVersion": "v2.8.0"})
 S_ = "session.CurrentService|"
 mn.update({S_ + "NGSysInfo:OnlineYes": "متصل", S_ + "NGSysInfo:Gateway": "192.168.1.1", S_ + "NGSysInfo:Netmask": "255.255.255.0",
 	S_ + "NGSysInfo:Dns": "192.168.1.1  ·  8.8.8.8", S_ + "NGSysInfo:Mac": "00:1D:EC:0A:12:7F", S_ + "NGSysInfo:LinkSpeed": "100 Mb/s",
@@ -985,6 +988,22 @@ def rdList(canvas, el):
 render("NileGlassReaders", rdd, bg, {"list": rdList})
 
 
+MORE_SAMPLE = {
+	"session.CurrentService|NGTimerInfo:NextIn": "بعد 2 س 10 د", "session.CurrentService|NGTimerInfo:Count": "5", "session.CurrentService|NGTimerInfo:Conflicts": "مفيش",
+	"session.CurrentService|NGTimerInfo:NextName": "الدوري الإسباني: ريال مدريد × برشلونة", "session.CurrentService|NGTimerInfo:NextWhen": "النهارده 22:00",
+	"session.CurrentService|NGTimerInfo:NextChannel": "beIN SPORTS 1 HD", "session.CurrentService|NGTimerInfo:NextLength": "120 دقيقة",
+	"session.CurrentService|NGTimerInfo:Recording": "", "session.CurrentService|NGTimerInfo:Path": "/media/hdd/movie",
+	"session.CurrentService|NGTimerInfo:FreeSpace": "212 GB فاضي", "session.CurrentService|NGTimerInfo:FreeHours": "تكفي حوالي 66 ساعة HD", "session.CurrentService|NGTimerInfo:UsedPercent": "58",
+	"ng_sel|NGPluginInfo:PkgSize": "1.9 MB", "ng_sel|NGPluginInfo:PkgState": "جديدة", "ng_sel|NGPluginInfo:Free": "812 MB",
+	"ng_sel|NGPluginInfo:PkgName": "enigma2-plugin-extensions-e2iplayer", "ng_sel|NGPluginInfo:PkgDescription": "مشغل محتوى من مواقع كتير على الإنترنت",
+	"ng_sel|NGPluginInfo:PkgVersion": "2026.11.02", "ng_sel|NGPluginInfo:Section": "extra", "ng_sel|NGPluginInfo:After": "يفضل حوالي 806 MB",
+	"ng_sel|NGPluginInfo:Depends": "هتنزل معاها 2: python3-pycurl, rtmpdump", "ng_sel|NGPluginInfo:PkgMaker": "SSS",
+	"Service|MovieInfo:RecordServiceName": "MBC 2", "Service|ServiceName:Name": "فيلم: الممر", "Service|NGMovieInfo:Recorded": "14/11/2026  22:30",
+	"Service|NGMovieInfo:Length": "1:52:10", "Service|NGMovieInfo:Size": "3.84 GB", "Service|NGMovieInfo:Quality": "HD تقريبًا · 4.6 Mbit/s",
+	"Service|NGMovieInfo:Watched": "وقفت عند 45:10 من 1:52:10", "Service|NGMovieInfo:WatchedPct": "40", "Service|NGMovieInfo:Left": "فاضل 67 د",
+	"Service|EventName:FullDescription": "ضابط مصري يقود مجموعة من الجنود في مهمة خلف خطوط العدو خلال حرب الاستنزاف، فيلم حربي مأخوذ عن أحداث حقيقية.",
+}
+
 # ---- any other screens, with placeholder rows (NG_EXTRA=Name1,Name2)
 for _n in filter(None, os.environ.get("NG_EXTRA", "").split(",")):
 	if _n not in screens:
@@ -995,6 +1014,7 @@ for _n in filter(None, os.environ.get("NG_EXTRA", "").split(",")):
 		if _el.tag == "widget" and (_el.get("render") == "Listbox" or _el.get("name") in ("list", "config", "choosen", "hddlist", "languages", "timerlist", "mainmenu")):
 			_ex[_el.get("source") or _el.get("name")] = _rows
 	_d = dict(common)
+	_d.update(MORE_SAMPLE)
 	_d.update({"Title|@Label": _n, "key_red|@Label": "إلغاء", "key_green|@Label": "حفظ", "key_red|": "إلغاء", "key_green|": "حفظ",
 		"description|": "وصف العنصر المختار يظهر هنا.", "introduction|": "اضغط OK لتعديل الإعدادات.", "status|": "جاري التحديث…"})
 	_render(_n, _d, bg, _ex)

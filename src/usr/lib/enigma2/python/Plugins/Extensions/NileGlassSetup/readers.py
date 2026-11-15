@@ -328,12 +328,51 @@ def readerStates(name, cdir, timeout=3):
 	except Exception as err:
 		print("[NileGlass] readers webif:", err)
 		return {}
-	out = {}
+	out, times = {}, {}
 	for c in root.iter("client"):
 		if c.get("type") in ("p", "r"):
 			conn = c.find("connection")
-			out[c.get("name", "")] = (conn.text or "").strip() if conn is not None else ""
+			name = c.get("name", "")
+			out[name] = (conn.text or "").strip() if conn is not None else ""
+			req = c.find("request")
+			try:
+				ms = int((req.get("ecmtime") if req is not None else "") or 0)
+			except ValueError:
+				ms = 0
+			if ms > 0:
+				times[name] = ms
+	out[TIMES] = times
 	return out
+
+
+TIMES = "__ecm_times__"
+
+
+def summary(readers, states):
+	"""one line over the list: how many work, which are down, the fastest one, scrambled channels opened today"""
+	if not readers:
+		return ""
+	on = [r for r in readers if r.enabled]
+	ok = [r for r in on if stateText(r, states) in ("متصل", "شغال")]
+	down = [r for r in on if stateText(r, states) in ("مقطوع", "خطأ")]
+	parts = []
+	if states:
+		parts.append("شغال %d من %d" % (len(ok), len(on)))
+		if down:
+			parts.append("واقع: %s" % "، ".join(r.label for r in down[:3]) + (" +%d" % (len(down) - 3) if len(down) > 3 else ""))
+		times = states.get(TIMES) or {}
+		fast = sorted((times[r.label], r.label) for r in ok if r.label in times)
+		if fast:
+			parts.append("الأسرع: %s (%d ms)" % (fast[0][1], fast[0][0]))
+	else:
+		parts.append("%d مفعّل من %d" % (len(on), len(readers)))
+	try:
+		from Components.NileGlassWatch import cryptToday
+		n = cryptToday()
+		parts.append("قنوات مشفرة اتفتحت النهارده: %d" % n)
+	except Exception:
+		pass
+	return "   ·   ".join(parts)
 
 
 STATE_AR = {"CONNECTED": "متصل", "CARDOK": "شغال", "OFF": "موقوف", "DISCONNECTED": "مقطوع", "NEEDINIT": "بيتصل ...", "UNKNOWN": "غير معروف", "ERROR": "خطأ"}
@@ -344,7 +383,7 @@ def stateText(reader, states):
 		return "موقوف"
 	s = states.get(reader.label)
 	if s is None:
-		return "—" if states else ""
+		return "—" if [k for k in states if k != TIMES] else ""
 	key = s.split()[0].upper() if s else "UNKNOWN"
 	return STATE_AR.get(key, s.title())
 
@@ -370,6 +409,7 @@ class NileGlassReaders(Screen):
 		self["details"] = Label("")
 		self["file"] = Label("")
 		self["hint"] = Label("")
+		self["summary"] = Label("")
 		self["key_red"] = StaticText("حذف")
 		self["key_green"] = StaticText("إيقاف / تشغيل")
 		self["key_yellow"] = StaticText("تعديل")
@@ -481,6 +521,7 @@ class NileGlassReaders(Screen):
 		self["list"].setList(rows)
 		if rows:
 			self["list"].setIndex(min(idx, len(rows) - 1))
+		self["summary"].setText(summary(self.sf.readers if self.sf else [], self.states))
 		n = len(rows)
 		self["hint"].setText("%d %s   ·   INFO: إظهار الباسورد   ·   MENU: أدوات أكتر (تكرار، سطر C، تشغيل/إيقاف الكل، النسخ الاحتياطية)" % (n, "ريدر" if n == 1 else "ريدرات"))
 		self.showDetails()

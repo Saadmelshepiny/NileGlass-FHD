@@ -133,7 +133,7 @@ def leftify(name, w, maxX=1880):
 	return o + keys(w, h) + ['\t</screen>']
 
 
-for _n, _w, _mx in (("PluginBrowser", 1100, 1880), ("PluginDownloadBrowser", 1100, 1880), ("TimerEditList", 1300, 1880), ("PowerTimerEditList", 1300, 1880),
+for _n, _w, _mx in (("PluginBrowser", 1100, 1880), ("PluginDownloadBrowser", 1100, 1880), ("TimerEditList", 1150, 1880), ("PowerTimerEditList", 1300, 1880),
 		("HelpMenu", 1100, 1880), ("AboutOE", 1250, 1300), ("TextBox", 1250, 1880), ("Console", 1250, 1880), ("OscamInfoMenu", 1100, 1880),
 		("oscInfo", 1250, 1880), ("oscECMInfo", 1250, 1880), ("PositionerSetupLog", 1250, 1880)):
 	out += leftify(_n, _w, _mx)

@@ -4,6 +4,7 @@
 	<screen name="InfoBar" position="0,0" size="1920,1080" backgroundColor="transparent" flags="wfNoBorder">
 		<ePixmap pixmap="NileGlass_FHD/ui/ib_top_left.png" position="15,886" size="1090,54" alphatest="blend" zPosition="-5" />
 		<ePixmap pixmap="NileGlass_FHD/ui/ib_top_right.png" position="1130,886" size="775,54" alphatest="blend" zPosition="-5" />
+		<widget source="session.CurrentService" render="Label" position="1266,886" size="118,54" font="Medium;19" foregroundColor="orange" backgroundColor="bgDeep" transparent="1" halign="center" valign="center" noWrap="1" zPosition="3"><convert type="NGSysInfo">StorageWarn</convert></widget><!-- NG-MORE storage -->
 		<ePixmap pixmap="NileGlass_FHD/ui/ib_main_compact.png" position="15,940" size="1890,120" alphatest="blend" zPosition="-5" />
 		<widget source="session.CurrentService" render="Label" position="30,886" size="496,54" font="Medium;32" foregroundColor="fg" backgroundColor="bgDeep" transparent="1" halign="left" valign="center" noWrap="1">
 			<convert type="ServiceName">Name</convert>

@@ -1092,6 +1092,13 @@ def sessionstart(reason, session=None, **kwargs):
 				except Exception as err:
 					print("[NileGlass] plugin usage:", err)
 				try:
+					from .screenhooks import install as installHooks
+					installHooks()
+					from Components.NileGlassWatch import start as watchStart
+					watchStart(session)
+				except Exception as err:
+					print("[NileGlass] hooks:", err)
+				try:
 					from .dashctx import setSession as dashSession
 					dashSession(session)
 				except Exception as err:

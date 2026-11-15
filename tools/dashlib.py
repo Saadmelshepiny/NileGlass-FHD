@@ -12,7 +12,7 @@ FE = "session.FrontendStatus"
 # one is shown for the menu or setting in use (Plugins/.../dashctx.py).  Each
 # set lives on its own zPosition decade: 1x network, 2x tuners, 3x picture &
 # sound, 4x system (x1 card backgrounds, x2 contents).
-GROUPS = {"net": 1, "tuner": 2, "av": 3, "system": 4, "plugins": 5}
+GROUPS = {"net": 1, "tuner": 2, "av": 3, "system": 4, "plugins": 5, "timers": 6, "pkgs": 7}
 
 
 class Dash:
@@ -197,6 +197,58 @@ def dashPlugins(x0):
 	d.text(x0 + 22, y + 82, 190, 30, "بيظهر في", "Regular;20", "fgDim")
 	wrap(x0 + 214, y + 82, 434, 70, "Places", "Regular;22", "fg")
 	return d.out
+
+
+def dashTimers(x0):
+	"""beside the timer list: the next recording, conflicts, room on the disk (Converter/NGTimerInfo.py)"""
+	d = Dash("timers")
+	T = lambda f: [("NGTimerInfo", f)]
+	for i, (t, f, col, sub) in enumerate((("التسجيل الجاي", "NextIn", "gold", "من دلوقتي"), ("المجدول", "Count", "accent", "تسجيل جاي"),
+			("التعارض", "Conflicts", "fg", "بين المؤقتات"))):
+		d.small(x0 + i * 228, t, [(("NGTimerInfo", f), col)], None, sub)
+	y = 108
+	d.pix(x0, y, 670, 220, "card_l.png")
+	d.text(x0 + 22, y + 10, 300, 28, "التسجيل الجاي", "Regular;20", "fgDim")
+	d.lab(x0 + 22, y + 40, 626, 44, T("NextName"), "Medium;30", "fg")
+	d.rows(x0, y + 92, [("الموعد", T("NextWhen"), SYS), ("القناة", T("NextChannel"), SYS), ("المدة", T("NextLength"), SYS)], lw=110)
+	d.lab(x0 + 22, y + 92 + 3 * 34, 626, 26, T("Recording"), "Medium;20", "red")
+	y = 340
+	d.pix(x0, y, 670, 124, "card_m.png")
+	d.text(x0 + 22, y + 10, 200, 26, "مكان التسجيل", "Regular;20", "fgDim")
+	d.lab(x0 + 230, y + 10, 418, 26, T("Path"), "Regular;18", "fgMute", "right")
+	d.lab(x0 + 22, y + 40, 300, 40, T("FreeSpace"), "Medium;28", "fg")
+	d.lab(x0 + 330, y + 44, 318, 34, T("FreeHours"), "Regular;22", "gold", "right")
+	d.progress(x0 + 22, y + 94, 626, T("UsedPercent"), "bar_green.png")
+	return d.out
+
+
+SEL = "ng_sel"
+
+
+def dashPkgs(x0):
+	"""beside the package list (download / remove): the package under the cursor"""
+	d = Dash("pkgs")
+	P = lambda f: [("NGPluginInfo", f)]
+	for i, (t, f, col, sub) in enumerate((("حجم التحميل", "PkgSize", "accent", "من الفيد"), ("الحالة", "PkgState", "gold", "على الجهاز"),
+			("الفلاش الفاضي", "Free", "fg", "دلوقتي"))):
+		d.small(x0 + i * 228, t, [(("NGPluginInfo", f), col)], None, sub, src=SEL)
+	y = 108
+	d.pix(x0, y, 670, 296, "card_l.png")
+	d.text(x0 + 22, y + 10, 300, 28, "الحزمة", "Regular;20", "fgDim")
+	d.lab(x0 + 22, y + 40, 626, 44, P("PkgName"), "Medium;28", "fg", src=SEL)
+	d.out.append('\t\t<widget source="%s" render="Label" position="%d,%d" size="626,104" font="Regular;24" foregroundColor="fgDim" backgroundColor="%s" transparent="1" halign="left" valign="top" zPosition="%d"><convert type="NGPluginInfo">PkgDescription</convert></widget>' % (SEL, x0 + 22, y + 90, PANEL, d.fz))
+	d.line(x0 + 22, y + 206, 626, 1)
+	d.rows(x0, y + 216, [("الإصدار", P("PkgVersion"), SEL), ("القسم", P("Section"), SEL)], lw=130)
+	y = 416
+	d.pix(x0, y, 670, 160, "card_m.png")
+	d.text(x0 + 22, y + 10, 300, 28, "قبل ما تثبّت", "Regular;20", "fgDim")
+	d.rows(x0, y + 44, [("بعد التثبيت", P("After"), SEL), ("المطلوب معاها", P("Depends"), SEL), ("المطوّر", P("PkgMaker"), SEL)], lw=170)
+	return d.out
+
+
+SPECIAL = {"DeliteGreenPanel": "plugins", "PluginBrowser": "plugins", "TimerEditList": "timers", "PluginDownloadBrowser": "pkgs"}
+SPECIAL_BUILDERS = {"plugins": dashPlugins, "timers": dashTimers, "pkgs": dashPkgs}
+SPECIAL_H = {"plugins": PLUGIN_H, "timers": DASH_H, "pkgs": 576}
 
 
 BUILDERS = {"system": dashSystem, "net": dashNet, "tuner": dashTuner, "av": dashAv}

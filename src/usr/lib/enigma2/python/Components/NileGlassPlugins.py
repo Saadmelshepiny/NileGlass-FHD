@@ -27,8 +27,10 @@ _lock = threading.Lock()
 _index = None          # plugin folder -> package name
 _status = {}           # package -> {"Version": .., "Installed-Time": ..}
 _feed = {}             # package -> version offered by the feeds
+_feedFields = {}       # package -> all fields of the feed entry (size, depends ...)
 _sizes = {}            # folder -> bytes
 _loading = False
+_loadedAt = 0
 _listeners = []
 _usage = None
 _usageDirty = False
@@ -98,6 +100,7 @@ def _readStanzas(text):
 
 def _readFeeds():
 	feed = {}
+	fields_ = {}
 	for path in glob.glob(os.path.join(OPKG_LISTS, "*")):
 		try:
 			with open(path, "rb") as f:
@@ -107,8 +110,11 @@ def _readFeeds():
 			for pkg, fields in _readStanzas(raw.decode("utf-8", "ignore")).items():
 				if fields.get("Version"):
 					feed[pkg] = fields["Version"]
+					fields_[pkg] = {k: fields[k] for k in ("Version", "Size", "Installed-Size", "Depends", "Section", "Description", "Maintainer") if k in fields}
 		except Exception:
 			pass
+	_feedFields.clear()
+	_feedFields.update(fields_)
 	return feed
 
 
@@ -124,7 +130,7 @@ def _folderSize(folder):
 
 
 def _load(folders):
-	global _index, _status, _feed, _loading
+	global _index, _status, _feed, _loading, _loadedAt
 	try:
 		index = _readIndex()
 		try:
@@ -135,6 +141,7 @@ def _load(folders):
 		feed = _readFeeds()
 		with _lock:
 			_index, _status, _feed = index, status, feed
+			_loadedAt = time.time()
 		_notify()
 		for folder in folders:
 			if folder not in _sizes:
@@ -164,7 +171,12 @@ def _notify():
 def prepare(folders=None):
 	"""start reading the package data in the background (once per GUI start);
 	folders None: the folders of every plugin"""
-	global _loading
+	global _loading, _index
+	try:   # the feeds were updated (download browser): read again
+		if _index is not None and os.path.getmtime(OPKG_LISTS) > _loadedAt + 1:
+			_index = None
+	except Exception:
+		pass
 	if folders is None:
 		folders = sorted(set(p.path for p in _allPlugins() if getattr(p, "path", None)))
 	if _loading or (_index is not None and all(f in _sizes for f in folders)):
@@ -403,3 +415,62 @@ def _allPlugins():
 		return plugins.pluginList
 	except Exception:
 		return []
+
+
+# ---------------------------------------------------------------- packages not installed yet (download browser)
+def _pkgName(desc):
+	name = getattr(desc, "name", "") or ""
+	for cand in (name, "enigma2-plugin-" + name, "enigma2-plugin-extensions-" + name, "enigma2-plugin-systemplugins-" + name):
+		if cand in _feedFields or cand in _status:
+			return cand
+	return name
+
+
+def _installed(pkg):
+	st = _status.get(pkg, {})
+	return "installed" in st.get("Status", "") or (st.get("Version") and "Status" not in st)
+
+
+def _freeFlash():
+	try:
+		s = os.statvfs("/")
+		return s.f_bavail * s.f_frsize
+	except Exception:
+		return 0
+
+
+def pkgInfo(desc):
+	"""what the cards beside the package list show for the package under the cursor"""
+	ar = _ar()
+	pkg = _pkgName(desc)
+	f = _feedFields.get(pkg, {})
+	out = {"name": pkg or "—", "description": f.get("Description") or getattr(desc, "description", "") or ""}
+	out["pkgversion"] = _shortVersion(f["Version"]) if f.get("Version") else "—"
+	size = int(f["Size"]) if f.get("Size", "").isdigit() else 0
+	inst = int(f["Installed-Size"]) if f.get("Installed-Size", "").isdigit() else 0
+	out["pkgsize"] = _size(size) if size else ("…" if _index is None else "—")
+	if _installed(pkg):
+		v = _status.get(pkg, {}).get("Version", "")
+		out["pkgstate"] = ("متثبتة %s" % _shortVersion(v)) if ar else ("installed %s" % _shortVersion(v))
+	else:
+		out["pkgstate"] = "جديدة" if ar else "new"
+	free = _freeFlash()
+	out["free"] = _size(free) if free else "—"
+	need = inst or size * 3          # unpacked, roughly
+	if not size and not inst:
+		out["after"] = "—"
+	elif free and need >= free:
+		out["after"] = "المساحة مش هتكفي" if ar else "not enough space"
+	else:
+		out["after"] = (("يفضل حوالي %s" if ar else "about %s left") % _size(free - need)) if free else "—"
+	deps = [d.strip().split(" ")[0] for d in f.get("Depends", "").split(",") if d.strip()]
+	missing = [d for d in deps if not _installed(d)]
+	if not deps:
+		out["depends"] = "مفيش" if ar else "none"
+	elif not missing:
+		out["depends"] = ("%d حزمة، كلها متثبتة" if ar else "%d, all installed") % len(deps)
+	else:
+		out["depends"] = (("هتنزل معاها %d: %s" if ar else "brings %d: %s") % (len(missing), ", ".join(m.replace("enigma2-plugin-", "")[:24] for m in missing[:3])))
+	out["section"] = f.get("Section", "—") or "—"
+	out["maker"] = (f.get("Maintainer") or "").split("<")[0].strip()[:40] or "—"
+	return out

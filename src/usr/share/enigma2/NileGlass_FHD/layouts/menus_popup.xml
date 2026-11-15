@@ -100,7 +100,7 @@
 		<ePixmap pixmap="NileGlass_FHD/buttons/blue_k200.png" position="876,934" size="200,38" alphatest="blend" conditional="key_blue"/>
 		<widget name="key_blue" position="876,934" size="200,38" font="Medium;22" foregroundColor="white" backgroundColor="black" transparent="1" halign="center" valign="center" noWrap="1" zPosition="1" objectTypes="key_blue,Button,Label"/>
 		<widget source="key_blue" render="Label" position="876,934" size="200,38" font="Medium;22" foregroundColor="white" backgroundColor="black" transparent="1" halign="center" valign="center" noWrap="1" zPosition="1" objectTypes="key_blue,StaticText"/>
-		<!-- NG-DASH plugins cards -->
+			<!-- NG-DASH plugins cards -->
 		<panel position="1120,0" size="670,820"><panel name="NG_Dash_plugins_100"/></panel>
 	</screen>
 	<screen name="PluginDownloadBrowser" position="40,center" size="1790,990" backgroundColor="transparent" flags="wfNoBorder">
@@ -124,32 +124,32 @@
 		<ePixmap pixmap="NileGlass_FHD/buttons/blue_k200.png" position="876,934" size="200,38" alphatest="blend" conditional="key_blue"/>
 		<widget name="key_blue" position="876,934" size="200,38" font="Medium;22" foregroundColor="white" backgroundColor="black" transparent="1" halign="center" valign="center" noWrap="1" zPosition="1" objectTypes="key_blue,Button,Label"/>
 		<widget source="key_blue" render="Label" position="876,934" size="200,38" font="Medium;22" foregroundColor="white" backgroundColor="black" transparent="1" halign="center" valign="center" noWrap="1" zPosition="1" objectTypes="key_blue,StaticText"/>
-			<!-- NG-DASH system cards -->
-		<panel position="1120,0" size="670,464"><panel name="NG_Dash_system_100"/></panel>
+			<!-- NG-DASH pkgs cards -->
+		<panel position="1120,0" size="670,576"><panel name="NG_Dash_pkgs_100"/></panel>
 	</screen>
-	<screen name="TimerEditList" position="40,center" size="1822,996" backgroundColor="transparent" flags="wfNoBorder">
-		<eLabel position="0,0" size="1300,996" backgroundColor="bg" cornerRadius="24" zPosition="-10"/>
+	<screen name="TimerEditList" position="40,center" size="1840,996" backgroundColor="transparent" flags="wfNoBorder">
+		<eLabel position="0,0" size="1150,996" backgroundColor="bg" cornerRadius="24" zPosition="-10"/>
 		<ePixmap pixmap="NileGlass_FHD/ui/ng_logo.png" position="22,24" size="40,40" alphatest="blend" zPosition="1"/>
-		<widget source="Title" render="Label" position="74,16" size="1046,56" font="Medium;30" foregroundColor="accent" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1"/>
-		<widget source="global.CurrentTime" render="Label" position="1120,16" size="156,56" font="Regular;38" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="right" valign="center" noWrap="1"><convert type="ClockToText">Format:%H:%M</convert></widget>
-		<eLabel position="24,84" size="1252,1" backgroundColor="line" zPosition="-8"/>
-		<widget name="timerlist" position="24,100" size="1252,700" itemHeight="100" backgroundColor="bg" foregroundColor="fg" foregroundColorSelected="white" backgroundColorSelected="bgSel" scrollbarMode="showOnDemand" scrollbarWidth="6" scrollbarSliderForegroundColor="accent" transparent="1"/>
-		<widget name="description" position="24,822" size="1252,84" font="Regular;26" foregroundColor="fgDim" backgroundColor="bg" transparent="1"/>
-		<eLabel position="24,922" size="1252,1" backgroundColor="line" zPosition="-8"/>
+		<widget source="Title" render="Label" position="74,16" size="896,56" font="Medium;30" foregroundColor="accent" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1"/>
+		<widget source="global.CurrentTime" render="Label" position="970,16" size="156,56" font="Regular;38" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="right" valign="center" noWrap="1"><convert type="ClockToText">Format:%H:%M</convert></widget>
+		<eLabel position="24,84" size="1102,1" backgroundColor="line" zPosition="-8"/>
+		<widget name="timerlist" position="24,100" size="1102,700" itemHeight="100" backgroundColor="bg" foregroundColor="fg" foregroundColorSelected="white" backgroundColorSelected="bgSel" scrollbarMode="showOnDemand" scrollbarWidth="6" scrollbarSliderForegroundColor="accent" transparent="1"/>
+		<widget name="description" position="24,822" size="1102,84" font="Regular;26" foregroundColor="fgDim" backgroundColor="bg" transparent="1"/>
+		<eLabel position="24,922" size="1102,1" backgroundColor="line" zPosition="-8"/>
 		<ePixmap pixmap="NileGlass_FHD/buttons/red_k200.png" position="24,940" size="200,38" alphatest="blend" conditional="key_red"/>
 		<widget name="key_red" position="24,940" size="200,38" font="Medium;22" foregroundColor="white" backgroundColor="black" transparent="1" halign="center" valign="center" noWrap="1" zPosition="1" objectTypes="key_red,Button,Label"/>
 		<widget source="key_red" render="Label" position="24,940" size="200,38" font="Medium;22" foregroundColor="white" backgroundColor="black" transparent="1" halign="center" valign="center" noWrap="1" zPosition="1" objectTypes="key_red,StaticText"/>
-		<ePixmap pixmap="NileGlass_FHD/buttons/green_k200.png" position="374,940" size="200,38" alphatest="blend" conditional="key_green"/>
-		<widget name="key_green" position="374,940" size="200,38" font="Medium;22" foregroundColor="white" backgroundColor="black" transparent="1" halign="center" valign="center" noWrap="1" zPosition="1" objectTypes="key_green,Button,Label"/>
-		<widget source="key_green" render="Label" position="374,940" size="200,38" font="Medium;22" foregroundColor="white" backgroundColor="black" transparent="1" halign="center" valign="center" noWrap="1" zPosition="1" objectTypes="key_green,StaticText"/>
-		<ePixmap pixmap="NileGlass_FHD/buttons/yellow_k200.png" position="724,940" size="200,38" alphatest="blend" conditional="key_yellow"/>
-		<widget name="key_yellow" position="724,940" size="200,38" font="Medium;22" foregroundColor="white" backgroundColor="black" transparent="1" halign="center" valign="center" noWrap="1" zPosition="1" objectTypes="key_yellow,Button,Label"/>
-		<widget source="key_yellow" render="Label" position="724,940" size="200,38" font="Medium;22" foregroundColor="white" backgroundColor="black" transparent="1" halign="center" valign="center" noWrap="1" zPosition="1" objectTypes="key_yellow,StaticText"/>
-		<ePixmap pixmap="NileGlass_FHD/buttons/blue_k200.png" position="1074,940" size="200,38" alphatest="blend" conditional="key_blue"/>
-		<widget name="key_blue" position="1074,940" size="200,38" font="Medium;22" foregroundColor="white" backgroundColor="black" transparent="1" halign="center" valign="center" noWrap="1" zPosition="1" objectTypes="key_blue,Button,Label"/>
-		<widget source="key_blue" render="Label" position="1074,940" size="200,38" font="Medium;22" foregroundColor="white" backgroundColor="black" transparent="1" halign="center" valign="center" noWrap="1" zPosition="1" objectTypes="key_blue,StaticText"/>
-			<!-- NG-DASH system cards -->
-		<panel position="1320,0" size="502,464"><panel name="NG_Dash_system_75"/></panel>
+		<ePixmap pixmap="NileGlass_FHD/buttons/green_k200.png" position="324,940" size="200,38" alphatest="blend" conditional="key_green"/>
+		<widget name="key_green" position="324,940" size="200,38" font="Medium;22" foregroundColor="white" backgroundColor="black" transparent="1" halign="center" valign="center" noWrap="1" zPosition="1" objectTypes="key_green,Button,Label"/>
+		<widget source="key_green" render="Label" position="324,940" size="200,38" font="Medium;22" foregroundColor="white" backgroundColor="black" transparent="1" halign="center" valign="center" noWrap="1" zPosition="1" objectTypes="key_green,StaticText"/>
+		<ePixmap pixmap="NileGlass_FHD/buttons/yellow_k200.png" position="624,940" size="200,38" alphatest="blend" conditional="key_yellow"/>
+		<widget name="key_yellow" position="624,940" size="200,38" font="Medium;22" foregroundColor="white" backgroundColor="black" transparent="1" halign="center" valign="center" noWrap="1" zPosition="1" objectTypes="key_yellow,Button,Label"/>
+		<widget source="key_yellow" render="Label" position="624,940" size="200,38" font="Medium;22" foregroundColor="white" backgroundColor="black" transparent="1" halign="center" valign="center" noWrap="1" zPosition="1" objectTypes="key_yellow,StaticText"/>
+		<ePixmap pixmap="NileGlass_FHD/buttons/blue_k200.png" position="924,940" size="200,38" alphatest="blend" conditional="key_blue"/>
+		<widget name="key_blue" position="924,940" size="200,38" font="Medium;22" foregroundColor="white" backgroundColor="black" transparent="1" halign="center" valign="center" noWrap="1" zPosition="1" objectTypes="key_blue,Button,Label"/>
+		<widget source="key_blue" render="Label" position="924,940" size="200,38" font="Medium;22" foregroundColor="white" backgroundColor="black" transparent="1" halign="center" valign="center" noWrap="1" zPosition="1" objectTypes="key_blue,StaticText"/>
+			<!-- NG-DASH timers cards -->
+		<panel position="1170,0" size="670,464"><panel name="NG_Dash_timers_100"/></panel>
 	</screen>
 	<screen name="PowerTimerEditList" position="40,center" size="1822,996" backgroundColor="transparent" flags="wfNoBorder">
 		<eLabel position="0,0" size="1300,996" backgroundColor="bg" cornerRadius="24" zPosition="-10"/>

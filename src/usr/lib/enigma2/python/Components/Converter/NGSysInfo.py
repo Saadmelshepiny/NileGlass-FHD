@@ -123,6 +123,21 @@ def diskInfo(path):
 		return 0, 0
 
 
+FLASH_WARN, DISK_WARN = 90, 95
+
+
+def storageWarning(hdd=None):
+	out = []
+	total, free = diskInfo("/")
+	if total and 100 * (total - free) / total >= FLASH_WARN:
+		out.append("الفلاش %d%%" % round(100 * (total - free) / total))
+	if hdd:
+		total, free = diskInfo(hdd)
+		if total and 100 * (total - free) / total >= DISK_WARN:
+			out.append("الهارد %d%%" % round(100 * (total - free) / total))
+	return out[0] if out else ""   # the infobar has room for one
+
+
 def human(n):
 	for unit in ("B", "KB", "MB", "GB", "TB"):
 		if n < 1024 or unit == "TB":
@@ -416,7 +431,7 @@ def usbPath():
 class NGSysInfo(Poll, Converter):
 	SLOW_TYPES = ("FlashFree", "HddFree", "FlashPercent", "HddPercent", "IP", "BoxName", "Image",
 		"HddFreeOnly", "UsbFree", "UsbPercent", "NetType", "Online", "OnlineYes", "OnlineNo", "SkinVersion", "Gateway", "Dns",
-		"Mac", "Netmask", "LinkSpeed", "TunerCount", "TunerName", "TunerTypes", "VideoOut", "HdmiColour", "Aspect", "Ac3")
+		"Mac", "Netmask", "LinkSpeed", "StorageWarn", "TunerCount", "TunerName", "TunerTypes", "VideoOut", "HdmiColour", "Aspect", "Ac3")
 	FAST_TYPES = ("NetDown", "NetUp", "Volume")
 
 	def __init__(self, type):
@@ -436,6 +451,8 @@ class NGSysInfo(Poll, Converter):
 	@cached
 	def getText(self):
 		t = self.type
+		if t == "StorageWarn":      # infobar: only when the flash or the disk is almost full
+			return storageWarning(self._hddPath())
 		if t == "CpuTemp":
 			v = cpuTemp()
 			return "%d°C" % v if v is not None else ""

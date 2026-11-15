@@ -14,7 +14,9 @@ try:
 except Exception:
 	Info = None
 
-FIELDS = {"version", "runs", "last", "name", "description", "package", "maker", "installed", "size", "feed", "kind", "places", "background", "folder"}
+FIELDS = {"version", "runs", "last", "name", "description", "package", "maker", "installed", "size", "feed", "kind", "places", "background", "folder",
+	"pkgname", "pkgdescription", "pkgversion", "pkgsize", "pkgstate", "free", "after", "depends", "section", "pkgmaker"}
+PKG = {"pkgname": "name", "pkgdescription": "description", "pkgmaker": "maker"}
 
 
 def descriptorOf(entry):
@@ -57,6 +59,9 @@ class NGPluginInfo(Converter):
 		if desc is None:
 			return ""
 		try:
+			if self.field.startswith("pkg") or self.field in ("free", "after", "depends", "section"):
+				Info.prepare([])
+				return Info.pkgInfo(desc).get(PKG.get(self.field, self.field), "")
 			if self.field in ("package", "installed", "feed", "size", "maker", "version"):
 				Info.prepare()
 			return Info.info(desc).get(self.field, "")
