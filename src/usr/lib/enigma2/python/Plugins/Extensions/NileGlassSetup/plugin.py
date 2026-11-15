@@ -117,6 +117,17 @@ cl_posters = {cl_posters}
 lcd = {lcd}
 lcd_prev = {lcd_prev}
 
+[lcd]
+layout = {lcd_layout}
+picon = {lcd_picon}
+channel_size = {lcd_channel_size}
+channel_color = {lcd_channel_color}
+event_size = {lcd_event_size}
+event_color = {lcd_event_color}
+bar_color = {lcd_bar_color}
+clock_color = {lcd_clock_color}
+dates = {lcd_dates}
+
 [style]
 infobar = {infobar}
 accent = {accent}
@@ -345,6 +356,31 @@ class NileGlassSetup(Setup):
 		self.clPosters = NoSave(ConfigYesNo(default=confBool("extras", "cl_posters", True)))
 		self.lcdOld = confBool("extras", "lcd", False)
 		self.lcd = NoSave(ConfigYesNo(default=self.lcdOld))
+		# front display: layout, sizes and colours (written into its display skin on save)
+		try:
+			from Components import NileGlassLcd as Lcd
+		except Exception:
+			Lcd = None
+		self.lcdMod = Lcd
+		self.lcdItems = {}
+		if Lcd:
+			lo = Lcd.read(CONF_FILE)
+			self.lcdOldOpts = lo
+			ar = isArabic()
+			name = lambda pair: pair[1] if ar else pair[0]
+			sizes = [(k, name(v)) for k, v in Lcd.SIZES.items()]
+			colors = [(k, name(v[1:])) for k, v in Lcd.COLORS.items()]
+			self.lcdItems = {
+				"layout": NoSave(ConfigSelection(default=lo["layout"], choices=[(k, name(v)) for k, v in Lcd.LAYOUTS.items()])),
+				"picon": NoSave(ConfigSelection(default=lo["picon"], choices=sizes)),
+				"channel_size": NoSave(ConfigSelection(default=lo["channel_size"], choices=sizes)),
+				"channel_color": NoSave(ConfigSelection(default=lo["channel_color"], choices=colors)),
+				"event_size": NoSave(ConfigSelection(default=lo["event_size"], choices=sizes)),
+				"event_color": NoSave(ConfigSelection(default=lo["event_color"], choices=colors)),
+				"bar_color": NoSave(ConfigSelection(default=lo["bar_color"], choices=[("event", T("Like the programme name", "زي اسم الحدث"))] + colors)),
+				"clock_color": NoSave(ConfigSelection(default=lo["clock_color"], choices=colors)),
+				"dates": NoSave(ConfigYesNo(default=lo["dates"] == "1")),
+			}
 		self.latitude = confGet("weather", "latitude", "")
 		self.longitude = confGet("weather", "longitude", "")
 		Setup.__init__(self, session, setup=None,
@@ -475,6 +511,22 @@ class NileGlassSetup(Setup):
 		]
 		if hasLcd():
 			items.append((i + T("Front display in NileGlass style", "الشاشة الأمامية بشكل NileGlass"), self.lcd, T("The receiver's front display shows the channel, logo, programme, progress and clock in the NileGlass style (GUI restart). Off: back to the display skin you had.", "شاشة الجهاز الأمامية تعرض القناة واللوجو والبرنامج والتقدم والساعة بشكل NileGlass (بعد إعادة تشغيل الواجهة). لو قفلته بيرجع شكل الشاشة اللي كان عندك.")))
+			if self.lcd.value and self.lcdItems:
+				d = self.lcdItems
+				ii = i + "   "
+				note = T(" Shown after a GUI restart.", " بيظهر بعد إعادة تشغيل الواجهة.")
+				items.append((ii + T("Front display layout", "شكل الشاشة الأمامية"), d["layout"], T("Logo + clock on top, a big logo, a big clock, or big text without the logo.", "اللوجو والساعة فوق، أو لوجو كبير، أو ساعة كبيرة، أو كتابة كبيرة من غير لوجو.") + note))
+				if d["layout"].value == "standard":
+					items.append((ii + T("Channel logo size", "حجم اللوجو"), d["picon"], T("With large letters the logo is kept a little smaller so everything fits.", "مع الخط الكبير اللوجو بيصغر شوية عشان كله يبان.") + note))
+				items += [
+					(ii + T("Channel name size", "حجم اسم القناة"), d["channel_size"], note.strip()),
+					(ii + T("Channel name colour", "لون اسم القناة"), d["channel_color"], note.strip()),
+					(ii + T("Programme name size", "حجم اسم الحدث"), d["event_size"], note.strip()),
+					(ii + T("Programme name colour", "لون اسم الحدث"), d["event_color"], T("Amber, yellow and white read best from a distance.", "الكهرماني والأصفر والأبيض أوضح من بعيد.") + note),
+					(ii + T("Progress bar colour", "لون شريط التقدم"), d["bar_color"], note.strip()),
+					(ii + T("Clock colour", "لون الساعة"), d["clock_color"], note.strip()),
+					(ii + T("Date and Hijri date", "التاريخ والهجري"), d["dates"], note.strip()),
+				]
 		items += [
 			(T("— Updates —", "— التحديثات —"),),
 			(i + T("Check for updates daily", "التحقق من التحديثات يوميًا"), self.updateAuto, T("Installed version: %s. Updates come from GitHub; your settings are kept.", "النسخة المثبتة: %s. التحديثات من GitHub وإعداداتك لا تتغير.") % (updater.installedVersion() if updater else "?")),
@@ -554,7 +606,7 @@ class NileGlassSetup(Setup):
 		custom = self.cityId.value == "custom"
 		cityText = self.city.value.strip() or "Alexandria"
 		keepCoords = custom and cityText == confGet("weather", "city", "") and confGet("weather", "city_id", "") == "custom"
-		return {
+		values = {
 			"api_key": self.apiKey.value.strip(),
 			"language": self.language.value,
 			"tmdb_enabled": 1 if self.posters.value else 0,
@@ -607,6 +659,17 @@ class NileGlassSetup(Setup):
 			"lcd": 1 if self.lcd.value else 0,
 			"lcd_prev": self.lcdPrev(),
 		}
+		lo = self.lcdOptions()
+		for k, v in lo.items():
+			values["lcd_" + k] = v
+		return values
+
+	def lcdOptions(self):
+		if not self.lcdItems:
+			return dict(self.lcdMod.read(CONF_FILE)) if self.lcdMod else {"layout": "standard", "picon": "normal", "channel_size": "normal", "channel_color": "white",
+				"event_size": "normal", "event_color": "amber", "bar_color": "event", "clock_color": "white", "dates": "1"}
+		return dict((k, ("1" if c.value else "0") if k == "dates" else c.value) for k, c in self.lcdItems.items())
+
 
 	def lcdPrev(self):
 		"""The display skin to go back to when the NileGlass front display is switched off."""
@@ -648,6 +711,12 @@ class NileGlassSetup(Setup):
 		needRestart = lookChanged
 		if self.lcd.value != self.lcdOld:
 			needRestart = applyLcd(self.lcd.value) or needRestart
+		if self.lcd.value and self.lcdMod:
+			try:
+				if self.lcdMod.write(self.lcdOptions()):
+					needRestart = True
+			except Exception as err:
+				print("[NileGlass] front display:", err)
 		try:
 			from Components.NileGlassCore import reloadSettings
 			needRestart = reloadSettings() or needRestart

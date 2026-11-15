@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!-- NileGlass FHD - front display (800x480). Every screen not defined here comes from the image's default display skin. -->
+<!-- NileGlass FHD - front display (800x480), written from the skin settings (Components/NileGlassLcd.py). Screens not defined here come from the image's default display skin. -->
 <skin>
 	<include filename="/usr/share/enigma2/display/skin_default/skin_display_templates.xml"/>
 	<fonts>
@@ -12,36 +12,36 @@
 		<widget source="session.CurrentService" render="LcdPicon" position="40,26" size="250,150" alphatest="blend" zPosition="2">
 			<convert type="ServiceName">Reference</convert>
 		</widget>
-		<widget source="global.CurrentTime" render="Label" position="320,18" size="440,96" font="NGLcd;88" foregroundColor="#ffffff" halign="right" valign="center" noWrap="1">
+		<widget source="global.CurrentTime" render="Label" position="310,18" size="450,96" font="NGLcd;88" foregroundColor="#ffffff" halign="right" valign="center" noWrap="1">
 			<convert type="ClockToText">Format:%H:%M</convert>
 		</widget>
-		<widget source="global.CurrentTime" render="Label" position="320,116" size="440,36" font="NGLcdLight;30" foregroundColor="#e6eaef" halign="right" valign="center" noWrap="1">
+		<widget source="global.CurrentTime" render="Label" position="310,116" size="450,36" font="NGLcdLight;30" foregroundColor="#e6eaef" halign="right" valign="center" noWrap="1">
 			<convert type="NGDate">{A} {d} {B}</convert>
 		</widget>
-		<widget source="global.CurrentTime" render="Label" position="320,152" size="440,30" font="NGLcdLight;25" foregroundColor="#9aa3ae" halign="right" valign="center" noWrap="1">
+		<widget source="global.CurrentTime" render="Label" position="310,152" size="450,30" font="NGLcdLight;24" foregroundColor="#9aa3ae" halign="right" valign="center" noWrap="1">
 			<convert type="NGHijri"/>
 		</widget>
-		<widget source="session.RecordState" render="FixedLabel" text="REC" position="302,26" size="90,36" font="NGLcd;30" foregroundColor="#ff4040" halign="left" valign="center" zPosition="3">
+		<widget source="session.RecordState" render="FixedLabel" text="REC" position="670,140" size="90,36" font="NGLcd;30" foregroundColor="#ff4040" halign="right" valign="center" zPosition="3">
 			<convert type="ConditionalShowHide"/>
 		</widget>
-		<eLabel position="40,194" size="720,2" backgroundColor="#1d2633" zPosition="1"/>
-		<widget source="session.CurrentService" render="Label" position="40,204" size="720,62" font="NGLcd;50" foregroundColor="#ffffff" halign="center" valign="center" noWrap="1">
+		<eLabel position="40,194" size="720,2" backgroundColor="#2a3646" zPosition="1"/>
+		<widget source="session.CurrentService" render="Label" position="40,202" size="720,62" font="NGLcd;50" foregroundColor="#ffffff" halign="center" valign="center" noWrap="1">
 			<convert type="ServiceName">Name</convert>
 		</widget>
-		<widget source="session.Event_Now" render="Label" position="40,270" size="720,104" font="NGLcd;44" foregroundColor="#ffc83d" halign="center" valign="center">
+		<widget source="session.Event_Now" render="Label" position="40,268" size="720,110" font="NGLcd;44" foregroundColor="#ffc83d" halign="center" valign="center">
 			<convert type="EventName">Name</convert>
 		</widget>
-		<eLabel position="40,386" size="720,14" backgroundColor="#1d2633" zPosition="1"/>
-		<widget source="session.Event_Now" render="Progress" position="40,386" size="720,14" foregroundColor="#ffc83d" backgroundColor="#1d2633" zPosition="2">
+		<eLabel position="40,388" size="720,14" backgroundColor="#1d2633" zPosition="1"/>
+		<widget source="session.Event_Now" render="Progress" position="40,388" size="720,14" foregroundColor="#ffc83d" backgroundColor="#1d2633" zPosition="2">
 			<convert type="EventTime">Progress</convert>
 		</widget>
-		<widget source="session.Event_Now" render="Label" position="40,408" size="170,56" font="NGLcd;38" foregroundColor="#9aa3ae" halign="left" valign="center" noWrap="1">
+		<widget source="session.Event_Now" render="Label" position="40,412" size="170,54" font="NGLcd;38" foregroundColor="#9aa3ae" halign="left" valign="center" noWrap="1">
 			<convert type="EventTime">StartTime</convert><convert type="ClockToText">Format:%H:%M</convert>
 		</widget>
-		<widget source="session.Event_Now" render="Label" position="220,408" size="360,56" font="NGLcd;38" foregroundColor="#ffffff" halign="center" valign="center" noWrap="1">
+		<widget source="session.Event_Now" render="Label" position="220,412" size="360,54" font="NGLcd;38" foregroundColor="#ffffff" halign="center" valign="center" noWrap="1">
 			<convert type="EventTime">VFDRemaining</convert><convert type="RemainingToText">VFD</convert>
 		</widget>
-		<widget source="session.Event_Now" render="Label" position="590,408" size="170,56" font="NGLcd;38" foregroundColor="#9aa3ae" halign="right" valign="center" noWrap="1">
+		<widget source="session.Event_Now" render="Label" position="590,412" size="170,54" font="NGLcd;38" foregroundColor="#9aa3ae" halign="right" valign="center" noWrap="1">
 			<convert type="EventTime">EndTime</convert><convert type="ClockToText">Format:%H:%M</convert>
 		</widget>
 	</screen>
@@ -51,36 +51,36 @@
 		<widget source="parent.ServiceEvent" render="LcdPicon" position="40,26" size="250,150" alphatest="blend" zPosition="2">
 			<convert type="ServiceName">Reference</convert>
 		</widget>
-		<widget source="global.CurrentTime" render="Label" position="320,18" size="440,96" font="NGLcd;88" foregroundColor="#ffffff" halign="right" valign="center" noWrap="1">
+		<widget source="global.CurrentTime" render="Label" position="310,18" size="450,96" font="NGLcd;88" foregroundColor="#ffffff" halign="right" valign="center" noWrap="1">
 			<convert type="ClockToText">Format:%H:%M</convert>
 		</widget>
-		<widget source="global.CurrentTime" render="Label" position="320,116" size="440,36" font="NGLcdLight;30" foregroundColor="#e6eaef" halign="right" valign="center" noWrap="1">
+		<widget source="global.CurrentTime" render="Label" position="310,116" size="450,36" font="NGLcdLight;30" foregroundColor="#e6eaef" halign="right" valign="center" noWrap="1">
 			<convert type="NGDate">{A} {d} {B}</convert>
 		</widget>
-		<widget source="global.CurrentTime" render="Label" position="320,152" size="440,30" font="NGLcdLight;25" foregroundColor="#9aa3ae" halign="right" valign="center" noWrap="1">
+		<widget source="global.CurrentTime" render="Label" position="310,152" size="450,30" font="NGLcdLight;24" foregroundColor="#9aa3ae" halign="right" valign="center" noWrap="1">
 			<convert type="NGHijri"/>
 		</widget>
-		<widget source="session.RecordState" render="FixedLabel" text="REC" position="302,26" size="90,36" font="NGLcd;30" foregroundColor="#ff4040" halign="left" valign="center" zPosition="3">
+		<widget source="session.RecordState" render="FixedLabel" text="REC" position="670,140" size="90,36" font="NGLcd;30" foregroundColor="#ff4040" halign="right" valign="center" zPosition="3">
 			<convert type="ConditionalShowHide"/>
 		</widget>
-		<eLabel position="40,194" size="720,2" backgroundColor="#1d2633" zPosition="1"/>
-		<widget source="parent.ServiceEvent" render="Label" position="40,204" size="720,62" font="NGLcd;50" foregroundColor="#ffffff" halign="center" valign="center" noWrap="1">
+		<eLabel position="40,194" size="720,2" backgroundColor="#2a3646" zPosition="1"/>
+		<widget source="parent.ServiceEvent" render="Label" position="40,202" size="720,62" font="NGLcd;50" foregroundColor="#ffffff" halign="center" valign="center" noWrap="1">
 			<convert type="ServiceName">Name</convert>
 		</widget>
-		<widget source="parent.ServiceEvent" render="Label" position="40,270" size="720,104" font="NGLcd;44" foregroundColor="#ffc83d" halign="center" valign="center">
+		<widget source="parent.ServiceEvent" render="Label" position="40,268" size="720,110" font="NGLcd;44" foregroundColor="#ffc83d" halign="center" valign="center">
 			<convert type="EventName">Name</convert>
 		</widget>
-		<eLabel position="40,386" size="720,14" backgroundColor="#1d2633" zPosition="1"/>
-		<widget source="parent.ServiceEvent" render="Progress" position="40,386" size="720,14" foregroundColor="#ffc83d" backgroundColor="#1d2633" zPosition="2">
+		<eLabel position="40,388" size="720,14" backgroundColor="#1d2633" zPosition="1"/>
+		<widget source="parent.ServiceEvent" render="Progress" position="40,388" size="720,14" foregroundColor="#ffc83d" backgroundColor="#1d2633" zPosition="2">
 			<convert type="EventTime">Progress</convert>
 		</widget>
-		<widget source="parent.ServiceEvent" render="Label" position="40,408" size="170,56" font="NGLcd;38" foregroundColor="#9aa3ae" halign="left" valign="center" noWrap="1">
+		<widget source="parent.ServiceEvent" render="Label" position="40,412" size="170,54" font="NGLcd;38" foregroundColor="#9aa3ae" halign="left" valign="center" noWrap="1">
 			<convert type="EventTime">StartTime</convert><convert type="ClockToText">Format:%H:%M</convert>
 		</widget>
-		<widget source="parent.ServiceEvent" render="Label" position="220,408" size="360,56" font="NGLcd;38" foregroundColor="#ffffff" halign="center" valign="center" noWrap="1">
+		<widget source="parent.ServiceEvent" render="Label" position="220,412" size="360,54" font="NGLcd;38" foregroundColor="#ffffff" halign="center" valign="center" noWrap="1">
 			<convert type="EventTime">VFDRemaining</convert><convert type="RemainingToText">VFD</convert>
 		</widget>
-		<widget source="parent.ServiceEvent" render="Label" position="590,408" size="170,56" font="NGLcd;38" foregroundColor="#9aa3ae" halign="right" valign="center" noWrap="1">
+		<widget source="parent.ServiceEvent" render="Label" position="590,412" size="170,54" font="NGLcd;38" foregroundColor="#9aa3ae" halign="right" valign="center" noWrap="1">
 			<convert type="EventTime">EndTime</convert><convert type="ClockToText">Format:%H:%M</convert>
 		</widget>
 	</screen>
@@ -90,36 +90,36 @@
 		<widget source="parent.ServiceEvent" render="LcdPicon" position="40,26" size="250,150" alphatest="blend" zPosition="2">
 			<convert type="ServiceName">Reference</convert>
 		</widget>
-		<widget source="global.CurrentTime" render="Label" position="320,18" size="440,96" font="NGLcd;88" foregroundColor="#ffffff" halign="right" valign="center" noWrap="1">
+		<widget source="global.CurrentTime" render="Label" position="310,18" size="450,96" font="NGLcd;88" foregroundColor="#ffffff" halign="right" valign="center" noWrap="1">
 			<convert type="ClockToText">Format:%H:%M</convert>
 		</widget>
-		<widget source="global.CurrentTime" render="Label" position="320,116" size="440,36" font="NGLcdLight;30" foregroundColor="#e6eaef" halign="right" valign="center" noWrap="1">
+		<widget source="global.CurrentTime" render="Label" position="310,116" size="450,36" font="NGLcdLight;30" foregroundColor="#e6eaef" halign="right" valign="center" noWrap="1">
 			<convert type="NGDate">{A} {d} {B}</convert>
 		</widget>
-		<widget source="global.CurrentTime" render="Label" position="320,152" size="440,30" font="NGLcdLight;25" foregroundColor="#9aa3ae" halign="right" valign="center" noWrap="1">
+		<widget source="global.CurrentTime" render="Label" position="310,152" size="450,30" font="NGLcdLight;24" foregroundColor="#9aa3ae" halign="right" valign="center" noWrap="1">
 			<convert type="NGHijri"/>
 		</widget>
-		<widget source="session.RecordState" render="FixedLabel" text="REC" position="302,26" size="90,36" font="NGLcd;30" foregroundColor="#ff4040" halign="left" valign="center" zPosition="3">
+		<widget source="session.RecordState" render="FixedLabel" text="REC" position="670,140" size="90,36" font="NGLcd;30" foregroundColor="#ff4040" halign="right" valign="center" zPosition="3">
 			<convert type="ConditionalShowHide"/>
 		</widget>
-		<eLabel position="40,194" size="720,2" backgroundColor="#1d2633" zPosition="1"/>
-		<widget source="parent.ServiceEvent" render="Label" position="40,204" size="720,62" font="NGLcd;50" foregroundColor="#ffffff" halign="center" valign="center" noWrap="1">
+		<eLabel position="40,194" size="720,2" backgroundColor="#2a3646" zPosition="1"/>
+		<widget source="parent.ServiceEvent" render="Label" position="40,202" size="720,62" font="NGLcd;50" foregroundColor="#ffffff" halign="center" valign="center" noWrap="1">
 			<convert type="ServiceName">Name</convert>
 		</widget>
-		<widget source="parent.ServiceEvent" render="Label" position="40,270" size="720,104" font="NGLcd;44" foregroundColor="#ffc83d" halign="center" valign="center">
+		<widget source="parent.ServiceEvent" render="Label" position="40,268" size="720,110" font="NGLcd;44" foregroundColor="#ffc83d" halign="center" valign="center">
 			<convert type="EventName">Name</convert>
 		</widget>
-		<eLabel position="40,386" size="720,14" backgroundColor="#1d2633" zPosition="1"/>
-		<widget source="parent.ServiceEvent" render="Progress" position="40,386" size="720,14" foregroundColor="#ffc83d" backgroundColor="#1d2633" zPosition="2">
+		<eLabel position="40,388" size="720,14" backgroundColor="#1d2633" zPosition="1"/>
+		<widget source="parent.ServiceEvent" render="Progress" position="40,388" size="720,14" foregroundColor="#ffc83d" backgroundColor="#1d2633" zPosition="2">
 			<convert type="EventTime">Progress</convert>
 		</widget>
-		<widget source="parent.ServiceEvent" render="Label" position="40,408" size="170,56" font="NGLcd;38" foregroundColor="#9aa3ae" halign="left" valign="center" noWrap="1">
+		<widget source="parent.ServiceEvent" render="Label" position="40,412" size="170,54" font="NGLcd;38" foregroundColor="#9aa3ae" halign="left" valign="center" noWrap="1">
 			<convert type="EventTime">StartTime</convert><convert type="ClockToText">Format:%H:%M</convert>
 		</widget>
-		<widget source="parent.ServiceEvent" render="Label" position="220,408" size="360,56" font="NGLcd;38" foregroundColor="#ffffff" halign="center" valign="center" noWrap="1">
+		<widget source="parent.ServiceEvent" render="Label" position="220,412" size="360,54" font="NGLcd;38" foregroundColor="#ffffff" halign="center" valign="center" noWrap="1">
 			<convert type="EventTime">VFDRemaining</convert><convert type="RemainingToText">VFD</convert>
 		</widget>
-		<widget source="parent.ServiceEvent" render="Label" position="590,408" size="170,56" font="NGLcd;38" foregroundColor="#9aa3ae" halign="right" valign="center" noWrap="1">
+		<widget source="parent.ServiceEvent" render="Label" position="590,412" size="170,54" font="NGLcd;38" foregroundColor="#9aa3ae" halign="right" valign="center" noWrap="1">
 			<convert type="EventTime">EndTime</convert><convert type="ClockToText">Format:%H:%M</convert>
 		</widget>
 	</screen>
@@ -129,36 +129,36 @@
 		<widget source="parent.Service" render="LcdPicon" position="40,26" size="250,150" alphatest="blend" zPosition="2">
 			<convert type="ServiceName">Reference</convert>
 		</widget>
-		<widget source="global.CurrentTime" render="Label" position="320,18" size="440,96" font="NGLcd;88" foregroundColor="#ffffff" halign="right" valign="center" noWrap="1">
+		<widget source="global.CurrentTime" render="Label" position="310,18" size="450,96" font="NGLcd;88" foregroundColor="#ffffff" halign="right" valign="center" noWrap="1">
 			<convert type="ClockToText">Format:%H:%M</convert>
 		</widget>
-		<widget source="global.CurrentTime" render="Label" position="320,116" size="440,36" font="NGLcdLight;30" foregroundColor="#e6eaef" halign="right" valign="center" noWrap="1">
+		<widget source="global.CurrentTime" render="Label" position="310,116" size="450,36" font="NGLcdLight;30" foregroundColor="#e6eaef" halign="right" valign="center" noWrap="1">
 			<convert type="NGDate">{A} {d} {B}</convert>
 		</widget>
-		<widget source="global.CurrentTime" render="Label" position="320,152" size="440,30" font="NGLcdLight;25" foregroundColor="#9aa3ae" halign="right" valign="center" noWrap="1">
+		<widget source="global.CurrentTime" render="Label" position="310,152" size="450,30" font="NGLcdLight;24" foregroundColor="#9aa3ae" halign="right" valign="center" noWrap="1">
 			<convert type="NGHijri"/>
 		</widget>
-		<widget source="session.RecordState" render="FixedLabel" text="REC" position="302,26" size="90,36" font="NGLcd;30" foregroundColor="#ff4040" halign="left" valign="center" zPosition="3">
+		<widget source="session.RecordState" render="FixedLabel" text="REC" position="670,140" size="90,36" font="NGLcd;30" foregroundColor="#ff4040" halign="right" valign="center" zPosition="3">
 			<convert type="ConditionalShowHide"/>
 		</widget>
-		<eLabel position="40,194" size="720,2" backgroundColor="#1d2633" zPosition="1"/>
-		<widget source="parent.Service" render="Label" position="40,204" size="720,62" font="NGLcd;50" foregroundColor="#ffffff" halign="center" valign="center" noWrap="1">
+		<eLabel position="40,194" size="720,2" backgroundColor="#2a3646" zPosition="1"/>
+		<widget source="parent.Service" render="Label" position="40,202" size="720,62" font="NGLcd;50" foregroundColor="#ffffff" halign="center" valign="center" noWrap="1">
 			<convert type="ServiceName">Name</convert>
 		</widget>
-		<widget source="parent.Event" render="Label" position="40,270" size="720,104" font="NGLcd;44" foregroundColor="#ffc83d" halign="center" valign="center">
+		<widget source="parent.Event" render="Label" position="40,268" size="720,110" font="NGLcd;44" foregroundColor="#ffc83d" halign="center" valign="center">
 			<convert type="EventName">Name</convert>
 		</widget>
-		<eLabel position="40,386" size="720,14" backgroundColor="#1d2633" zPosition="1"/>
-		<widget source="parent.Event" render="Progress" position="40,386" size="720,14" foregroundColor="#ffc83d" backgroundColor="#1d2633" zPosition="2">
+		<eLabel position="40,388" size="720,14" backgroundColor="#1d2633" zPosition="1"/>
+		<widget source="parent.Event" render="Progress" position="40,388" size="720,14" foregroundColor="#ffc83d" backgroundColor="#1d2633" zPosition="2">
 			<convert type="EventTime">Progress</convert>
 		</widget>
-		<widget source="parent.Event" render="Label" position="40,408" size="170,56" font="NGLcd;38" foregroundColor="#9aa3ae" halign="left" valign="center" noWrap="1">
+		<widget source="parent.Event" render="Label" position="40,412" size="170,54" font="NGLcd;38" foregroundColor="#9aa3ae" halign="left" valign="center" noWrap="1">
 			<convert type="EventTime">StartTime</convert><convert type="ClockToText">Format:%H:%M</convert>
 		</widget>
-		<widget source="parent.Event" render="Label" position="220,408" size="360,56" font="NGLcd;38" foregroundColor="#ffffff" halign="center" valign="center" noWrap="1">
+		<widget source="parent.Event" render="Label" position="220,412" size="360,54" font="NGLcd;38" foregroundColor="#ffffff" halign="center" valign="center" noWrap="1">
 			<convert type="EventTime">VFDRemaining</convert><convert type="RemainingToText">VFD</convert>
 		</widget>
-		<widget source="parent.Event" render="Label" position="590,408" size="170,56" font="NGLcd;38" foregroundColor="#9aa3ae" halign="right" valign="center" noWrap="1">
+		<widget source="parent.Event" render="Label" position="590,412" size="170,54" font="NGLcd;38" foregroundColor="#9aa3ae" halign="right" valign="center" noWrap="1">
 			<convert type="EventTime">EndTime</convert><convert type="ClockToText">Format:%H:%M</convert>
 		</widget>
 	</screen>
@@ -168,36 +168,36 @@
 		<widget source="parent.Service" render="LcdPicon" position="40,26" size="250,150" alphatest="blend" zPosition="2">
 			<convert type="ServiceName">Reference</convert>
 		</widget>
-		<widget source="global.CurrentTime" render="Label" position="320,18" size="440,96" font="NGLcd;88" foregroundColor="#ffffff" halign="right" valign="center" noWrap="1">
+		<widget source="global.CurrentTime" render="Label" position="310,18" size="450,96" font="NGLcd;88" foregroundColor="#ffffff" halign="right" valign="center" noWrap="1">
 			<convert type="ClockToText">Format:%H:%M</convert>
 		</widget>
-		<widget source="global.CurrentTime" render="Label" position="320,116" size="440,36" font="NGLcdLight;30" foregroundColor="#e6eaef" halign="right" valign="center" noWrap="1">
+		<widget source="global.CurrentTime" render="Label" position="310,116" size="450,36" font="NGLcdLight;30" foregroundColor="#e6eaef" halign="right" valign="center" noWrap="1">
 			<convert type="NGDate">{A} {d} {B}</convert>
 		</widget>
-		<widget source="global.CurrentTime" render="Label" position="320,152" size="440,30" font="NGLcdLight;25" foregroundColor="#9aa3ae" halign="right" valign="center" noWrap="1">
+		<widget source="global.CurrentTime" render="Label" position="310,152" size="450,30" font="NGLcdLight;24" foregroundColor="#9aa3ae" halign="right" valign="center" noWrap="1">
 			<convert type="NGHijri"/>
 		</widget>
-		<widget source="session.RecordState" render="FixedLabel" text="REC" position="302,26" size="90,36" font="NGLcd;30" foregroundColor="#ff4040" halign="left" valign="center" zPosition="3">
+		<widget source="session.RecordState" render="FixedLabel" text="REC" position="670,140" size="90,36" font="NGLcd;30" foregroundColor="#ff4040" halign="right" valign="center" zPosition="3">
 			<convert type="ConditionalShowHide"/>
 		</widget>
-		<eLabel position="40,194" size="720,2" backgroundColor="#1d2633" zPosition="1"/>
-		<widget source="parent.Service" render="Label" position="40,204" size="720,62" font="NGLcd;50" foregroundColor="#ffffff" halign="center" valign="center" noWrap="1">
+		<eLabel position="40,194" size="720,2" backgroundColor="#2a3646" zPosition="1"/>
+		<widget source="parent.Service" render="Label" position="40,202" size="720,62" font="NGLcd;50" foregroundColor="#ffffff" halign="center" valign="center" noWrap="1">
 			<convert type="ServiceName">Name</convert>
 		</widget>
-		<widget source="parent.Event" render="Label" position="40,270" size="720,104" font="NGLcd;44" foregroundColor="#ffc83d" halign="center" valign="center">
+		<widget source="parent.Event" render="Label" position="40,268" size="720,110" font="NGLcd;44" foregroundColor="#ffc83d" halign="center" valign="center">
 			<convert type="EventName">Name</convert>
 		</widget>
-		<eLabel position="40,386" size="720,14" backgroundColor="#1d2633" zPosition="1"/>
-		<widget source="parent.Event" render="Progress" position="40,386" size="720,14" foregroundColor="#ffc83d" backgroundColor="#1d2633" zPosition="2">
+		<eLabel position="40,388" size="720,14" backgroundColor="#1d2633" zPosition="1"/>
+		<widget source="parent.Event" render="Progress" position="40,388" size="720,14" foregroundColor="#ffc83d" backgroundColor="#1d2633" zPosition="2">
 			<convert type="EventTime">Progress</convert>
 		</widget>
-		<widget source="parent.Event" render="Label" position="40,408" size="170,56" font="NGLcd;38" foregroundColor="#9aa3ae" halign="left" valign="center" noWrap="1">
+		<widget source="parent.Event" render="Label" position="40,412" size="170,54" font="NGLcd;38" foregroundColor="#9aa3ae" halign="left" valign="center" noWrap="1">
 			<convert type="EventTime">StartTime</convert><convert type="ClockToText">Format:%H:%M</convert>
 		</widget>
-		<widget source="parent.Event" render="Label" position="220,408" size="360,56" font="NGLcd;38" foregroundColor="#ffffff" halign="center" valign="center" noWrap="1">
+		<widget source="parent.Event" render="Label" position="220,412" size="360,54" font="NGLcd;38" foregroundColor="#ffffff" halign="center" valign="center" noWrap="1">
 			<convert type="EventTime">VFDRemaining</convert><convert type="RemainingToText">VFD</convert>
 		</widget>
-		<widget source="parent.Event" render="Label" position="590,408" size="170,56" font="NGLcd;38" foregroundColor="#9aa3ae" halign="right" valign="center" noWrap="1">
+		<widget source="parent.Event" render="Label" position="590,412" size="170,54" font="NGLcd;38" foregroundColor="#9aa3ae" halign="right" valign="center" noWrap="1">
 			<convert type="EventTime">EndTime</convert><convert type="ClockToText">Format:%H:%M</convert>
 		</widget>
 	</screen>
@@ -207,36 +207,36 @@
 		<widget source="parent.Service" render="LcdPicon" position="40,26" size="250,150" alphatest="blend" zPosition="2">
 			<convert type="ServiceName">Reference</convert>
 		</widget>
-		<widget source="global.CurrentTime" render="Label" position="320,18" size="440,96" font="NGLcd;88" foregroundColor="#ffffff" halign="right" valign="center" noWrap="1">
+		<widget source="global.CurrentTime" render="Label" position="310,18" size="450,96" font="NGLcd;88" foregroundColor="#ffffff" halign="right" valign="center" noWrap="1">
 			<convert type="ClockToText">Format:%H:%M</convert>
 		</widget>
-		<widget source="global.CurrentTime" render="Label" position="320,116" size="440,36" font="NGLcdLight;30" foregroundColor="#e6eaef" halign="right" valign="center" noWrap="1">
+		<widget source="global.CurrentTime" render="Label" position="310,116" size="450,36" font="NGLcdLight;30" foregroundColor="#e6eaef" halign="right" valign="center" noWrap="1">
 			<convert type="NGDate">{A} {d} {B}</convert>
 		</widget>
-		<widget source="global.CurrentTime" render="Label" position="320,152" size="440,30" font="NGLcdLight;25" foregroundColor="#9aa3ae" halign="right" valign="center" noWrap="1">
+		<widget source="global.CurrentTime" render="Label" position="310,152" size="450,30" font="NGLcdLight;24" foregroundColor="#9aa3ae" halign="right" valign="center" noWrap="1">
 			<convert type="NGHijri"/>
 		</widget>
-		<widget source="session.RecordState" render="FixedLabel" text="REC" position="302,26" size="90,36" font="NGLcd;30" foregroundColor="#ff4040" halign="left" valign="center" zPosition="3">
+		<widget source="session.RecordState" render="FixedLabel" text="REC" position="670,140" size="90,36" font="NGLcd;30" foregroundColor="#ff4040" halign="right" valign="center" zPosition="3">
 			<convert type="ConditionalShowHide"/>
 		</widget>
-		<eLabel position="40,194" size="720,2" backgroundColor="#1d2633" zPosition="1"/>
-		<widget source="parent.Service" render="Label" position="40,204" size="720,62" font="NGLcd;50" foregroundColor="#ffffff" halign="center" valign="center" noWrap="1">
+		<eLabel position="40,194" size="720,2" backgroundColor="#2a3646" zPosition="1"/>
+		<widget source="parent.Service" render="Label" position="40,202" size="720,62" font="NGLcd;50" foregroundColor="#ffffff" halign="center" valign="center" noWrap="1">
 			<convert type="ServiceName">Name</convert>
 		</widget>
-		<widget source="parent.Event" render="Label" position="40,270" size="720,104" font="NGLcd;44" foregroundColor="#ffc83d" halign="center" valign="center">
+		<widget source="parent.Event" render="Label" position="40,268" size="720,110" font="NGLcd;44" foregroundColor="#ffc83d" halign="center" valign="center">
 			<convert type="EventName">Name</convert>
 		</widget>
-		<eLabel position="40,386" size="720,14" backgroundColor="#1d2633" zPosition="1"/>
-		<widget source="parent.Event" render="Progress" position="40,386" size="720,14" foregroundColor="#ffc83d" backgroundColor="#1d2633" zPosition="2">
+		<eLabel position="40,388" size="720,14" backgroundColor="#1d2633" zPosition="1"/>
+		<widget source="parent.Event" render="Progress" position="40,388" size="720,14" foregroundColor="#ffc83d" backgroundColor="#1d2633" zPosition="2">
 			<convert type="EventTime">Progress</convert>
 		</widget>
-		<widget source="parent.Event" render="Label" position="40,408" size="170,56" font="NGLcd;38" foregroundColor="#9aa3ae" halign="left" valign="center" noWrap="1">
+		<widget source="parent.Event" render="Label" position="40,412" size="170,54" font="NGLcd;38" foregroundColor="#9aa3ae" halign="left" valign="center" noWrap="1">
 			<convert type="EventTime">StartTime</convert><convert type="ClockToText">Format:%H:%M</convert>
 		</widget>
-		<widget source="parent.Event" render="Label" position="220,408" size="360,56" font="NGLcd;38" foregroundColor="#ffffff" halign="center" valign="center" noWrap="1">
+		<widget source="parent.Event" render="Label" position="220,412" size="360,54" font="NGLcd;38" foregroundColor="#ffffff" halign="center" valign="center" noWrap="1">
 			<convert type="EventTime">VFDRemaining</convert><convert type="RemainingToText">VFD</convert>
 		</widget>
-		<widget source="parent.Event" render="Label" position="590,408" size="170,56" font="NGLcd;38" foregroundColor="#9aa3ae" halign="right" valign="center" noWrap="1">
+		<widget source="parent.Event" render="Label" position="590,412" size="170,54" font="NGLcd;38" foregroundColor="#9aa3ae" halign="right" valign="center" noWrap="1">
 			<convert type="EventTime">EndTime</convert><convert type="ClockToText">Format:%H:%M</convert>
 		</widget>
 	</screen>
@@ -246,36 +246,36 @@
 		<widget source="parent.Service" render="LcdPicon" position="40,26" size="250,150" alphatest="blend" zPosition="2">
 			<convert type="ServiceName">Reference</convert>
 		</widget>
-		<widget source="global.CurrentTime" render="Label" position="320,18" size="440,96" font="NGLcd;88" foregroundColor="#ffffff" halign="right" valign="center" noWrap="1">
+		<widget source="global.CurrentTime" render="Label" position="310,18" size="450,96" font="NGLcd;88" foregroundColor="#ffffff" halign="right" valign="center" noWrap="1">
 			<convert type="ClockToText">Format:%H:%M</convert>
 		</widget>
-		<widget source="global.CurrentTime" render="Label" position="320,116" size="440,36" font="NGLcdLight;30" foregroundColor="#e6eaef" halign="right" valign="center" noWrap="1">
+		<widget source="global.CurrentTime" render="Label" position="310,116" size="450,36" font="NGLcdLight;30" foregroundColor="#e6eaef" halign="right" valign="center" noWrap="1">
 			<convert type="NGDate">{A} {d} {B}</convert>
 		</widget>
-		<widget source="global.CurrentTime" render="Label" position="320,152" size="440,30" font="NGLcdLight;25" foregroundColor="#9aa3ae" halign="right" valign="center" noWrap="1">
+		<widget source="global.CurrentTime" render="Label" position="310,152" size="450,30" font="NGLcdLight;24" foregroundColor="#9aa3ae" halign="right" valign="center" noWrap="1">
 			<convert type="NGHijri"/>
 		</widget>
-		<widget source="session.RecordState" render="FixedLabel" text="REC" position="302,26" size="90,36" font="NGLcd;30" foregroundColor="#ff4040" halign="left" valign="center" zPosition="3">
+		<widget source="session.RecordState" render="FixedLabel" text="REC" position="670,140" size="90,36" font="NGLcd;30" foregroundColor="#ff4040" halign="right" valign="center" zPosition="3">
 			<convert type="ConditionalShowHide"/>
 		</widget>
-		<eLabel position="40,194" size="720,2" backgroundColor="#1d2633" zPosition="1"/>
-		<widget source="parent.Service" render="Label" position="40,204" size="720,62" font="NGLcd;50" foregroundColor="#ffffff" halign="center" valign="center" noWrap="1">
+		<eLabel position="40,194" size="720,2" backgroundColor="#2a3646" zPosition="1"/>
+		<widget source="parent.Service" render="Label" position="40,202" size="720,62" font="NGLcd;50" foregroundColor="#ffffff" halign="center" valign="center" noWrap="1">
 			<convert type="ServiceName">Name</convert>
 		</widget>
-		<widget source="parent.Event" render="Label" position="40,270" size="720,104" font="NGLcd;44" foregroundColor="#ffc83d" halign="center" valign="center">
+		<widget source="parent.Event" render="Label" position="40,268" size="720,110" font="NGLcd;44" foregroundColor="#ffc83d" halign="center" valign="center">
 			<convert type="EventName">Name</convert>
 		</widget>
-		<eLabel position="40,386" size="720,14" backgroundColor="#1d2633" zPosition="1"/>
-		<widget source="parent.Event" render="Progress" position="40,386" size="720,14" foregroundColor="#ffc83d" backgroundColor="#1d2633" zPosition="2">
+		<eLabel position="40,388" size="720,14" backgroundColor="#1d2633" zPosition="1"/>
+		<widget source="parent.Event" render="Progress" position="40,388" size="720,14" foregroundColor="#ffc83d" backgroundColor="#1d2633" zPosition="2">
 			<convert type="EventTime">Progress</convert>
 		</widget>
-		<widget source="parent.Event" render="Label" position="40,408" size="170,56" font="NGLcd;38" foregroundColor="#9aa3ae" halign="left" valign="center" noWrap="1">
+		<widget source="parent.Event" render="Label" position="40,412" size="170,54" font="NGLcd;38" foregroundColor="#9aa3ae" halign="left" valign="center" noWrap="1">
 			<convert type="EventTime">StartTime</convert><convert type="ClockToText">Format:%H:%M</convert>
 		</widget>
-		<widget source="parent.Event" render="Label" position="220,408" size="360,56" font="NGLcd;38" foregroundColor="#ffffff" halign="center" valign="center" noWrap="1">
+		<widget source="parent.Event" render="Label" position="220,412" size="360,54" font="NGLcd;38" foregroundColor="#ffffff" halign="center" valign="center" noWrap="1">
 			<convert type="EventTime">VFDRemaining</convert><convert type="RemainingToText">VFD</convert>
 		</widget>
-		<widget source="parent.Event" render="Label" position="590,408" size="170,56" font="NGLcd;38" foregroundColor="#9aa3ae" halign="right" valign="center" noWrap="1">
+		<widget source="parent.Event" render="Label" position="590,412" size="170,54" font="NGLcd;38" foregroundColor="#9aa3ae" halign="right" valign="center" noWrap="1">
 			<convert type="EventTime">EndTime</convert><convert type="ClockToText">Format:%H:%M</convert>
 		</widget>
 	</screen>
@@ -285,36 +285,36 @@
 		<widget source="parent.Service" render="LcdPicon" position="40,26" size="250,150" alphatest="blend" zPosition="2">
 			<convert type="ServiceName">Reference</convert>
 		</widget>
-		<widget source="global.CurrentTime" render="Label" position="320,18" size="440,96" font="NGLcd;88" foregroundColor="#ffffff" halign="right" valign="center" noWrap="1">
+		<widget source="global.CurrentTime" render="Label" position="310,18" size="450,96" font="NGLcd;88" foregroundColor="#ffffff" halign="right" valign="center" noWrap="1">
 			<convert type="ClockToText">Format:%H:%M</convert>
 		</widget>
-		<widget source="global.CurrentTime" render="Label" position="320,116" size="440,36" font="NGLcdLight;30" foregroundColor="#e6eaef" halign="right" valign="center" noWrap="1">
+		<widget source="global.CurrentTime" render="Label" position="310,116" size="450,36" font="NGLcdLight;30" foregroundColor="#e6eaef" halign="right" valign="center" noWrap="1">
 			<convert type="NGDate">{A} {d} {B}</convert>
 		</widget>
-		<widget source="global.CurrentTime" render="Label" position="320,152" size="440,30" font="NGLcdLight;25" foregroundColor="#9aa3ae" halign="right" valign="center" noWrap="1">
+		<widget source="global.CurrentTime" render="Label" position="310,152" size="450,30" font="NGLcdLight;24" foregroundColor="#9aa3ae" halign="right" valign="center" noWrap="1">
 			<convert type="NGHijri"/>
 		</widget>
-		<widget source="session.RecordState" render="FixedLabel" text="REC" position="302,26" size="90,36" font="NGLcd;30" foregroundColor="#ff4040" halign="left" valign="center" zPosition="3">
+		<widget source="session.RecordState" render="FixedLabel" text="REC" position="670,140" size="90,36" font="NGLcd;30" foregroundColor="#ff4040" halign="right" valign="center" zPosition="3">
 			<convert type="ConditionalShowHide"/>
 		</widget>
-		<eLabel position="40,194" size="720,2" backgroundColor="#1d2633" zPosition="1"/>
-		<widget source="parent.Service" render="Label" position="40,204" size="720,62" font="NGLcd;50" foregroundColor="#ffffff" halign="center" valign="center" noWrap="1">
+		<eLabel position="40,194" size="720,2" backgroundColor="#2a3646" zPosition="1"/>
+		<widget source="parent.Service" render="Label" position="40,202" size="720,62" font="NGLcd;50" foregroundColor="#ffffff" halign="center" valign="center" noWrap="1">
 			<convert type="ServiceName">Name</convert>
 		</widget>
-		<widget source="parent.Event" render="Label" position="40,270" size="720,104" font="NGLcd;44" foregroundColor="#ffc83d" halign="center" valign="center">
+		<widget source="parent.Event" render="Label" position="40,268" size="720,110" font="NGLcd;44" foregroundColor="#ffc83d" halign="center" valign="center">
 			<convert type="EventName">Name</convert>
 		</widget>
-		<eLabel position="40,386" size="720,14" backgroundColor="#1d2633" zPosition="1"/>
-		<widget source="parent.Event" render="Progress" position="40,386" size="720,14" foregroundColor="#ffc83d" backgroundColor="#1d2633" zPosition="2">
+		<eLabel position="40,388" size="720,14" backgroundColor="#1d2633" zPosition="1"/>
+		<widget source="parent.Event" render="Progress" position="40,388" size="720,14" foregroundColor="#ffc83d" backgroundColor="#1d2633" zPosition="2">
 			<convert type="EventTime">Progress</convert>
 		</widget>
-		<widget source="parent.Event" render="Label" position="40,408" size="170,56" font="NGLcd;38" foregroundColor="#9aa3ae" halign="left" valign="center" noWrap="1">
+		<widget source="parent.Event" render="Label" position="40,412" size="170,54" font="NGLcd;38" foregroundColor="#9aa3ae" halign="left" valign="center" noWrap="1">
 			<convert type="EventTime">StartTime</convert><convert type="ClockToText">Format:%H:%M</convert>
 		</widget>
-		<widget source="parent.Event" render="Label" position="220,408" size="360,56" font="NGLcd;38" foregroundColor="#ffffff" halign="center" valign="center" noWrap="1">
+		<widget source="parent.Event" render="Label" position="220,412" size="360,54" font="NGLcd;38" foregroundColor="#ffffff" halign="center" valign="center" noWrap="1">
 			<convert type="EventTime">VFDRemaining</convert><convert type="RemainingToText">VFD</convert>
 		</widget>
-		<widget source="parent.Event" render="Label" position="590,408" size="170,56" font="NGLcd;38" foregroundColor="#9aa3ae" halign="right" valign="center" noWrap="1">
+		<widget source="parent.Event" render="Label" position="590,412" size="170,54" font="NGLcd;38" foregroundColor="#9aa3ae" halign="right" valign="center" noWrap="1">
 			<convert type="EventTime">EndTime</convert><convert type="ClockToText">Format:%H:%M</convert>
 		</widget>
 	</screen>
