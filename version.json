@@ -1,12 +1,12 @@
 {
-  "version": "2.8.12",
-  "ipk": "https://raw.githubusercontent.com/Saadmelshepiny/NileGlass-FHD/main/releases/enigma2-plugin-skins-nileglass-fhd_2.8.12_all.ipk",
-  "sha256": "5d33fdbf9fe86a922b78511b17e00f3af973ae3ddc2af2524a92b86db08de5f3",
-  "notes_ar": "مظهر اختياري جديد «كربون»: لوحات شبه سودا بحدود رفيعة، تحديد بشريط مضيء، أشرطة تقدم متدرجة وحلقات بعلامات تدريج. يتفعّل من إعدادات السكين (المظهر)، والكلاسيك زي ما هو.",
-  "notes_en": "New optional look 'Carbon': near-black outlined panels, glowing selection bar, gradient progress bars, ring gauges with ticks. Choose it in the skin settings (Look); Classic is unchanged.",
+  "version": "2.8.13",
+  "ipk": "https://raw.githubusercontent.com/Saadmelshepiny/NileGlass-FHD/main/releases/enigma2-plugin-skins-nileglass-fhd_2.8.13_all.ipk",
+  "sha256": "a92323b046fe7ed61266e6d9e5a289f039a58dd770d9b7bc461a79467255bf37",
+  "notes_ar": "الشاشة الأمامية: كل حاجة بعيدة عن الحواف فمفيش حاجة بتتقص، اسم الحدث وشريط التقدم بلون كهرماني واضح من بعيد بدل الأزرق، وخط فاصل بين الساعة واسم القناة.",
+  "notes_en": "Front display: everything kept clear of the bezel edges, programme name and progress bar in a bright amber instead of blue, divider between clock and channel name.",
   "previous": {
-    "version": "2.8.11",
-    "ipk": "https://raw.githubusercontent.com/Saadmelshepiny/NileGlass-FHD/main/releases/enigma2-plugin-skins-nileglass-fhd_2.8.11_all.ipk",
-    "sha256": "f202a6d5903d354168257258d3819894eac528c0cd483e418b9497c292cb467a"
+    "version": "2.8.12",
+    "ipk": "https://raw.githubusercontent.com/Saadmelshepiny/NileGlass-FHD/main/releases/enigma2-plugin-skins-nileglass-fhd_2.8.12_all.ipk",
+    "sha256": "5d33fdbf9fe86a922b78511b17e00f3af973ae3ddc2af2524a92b86db08de5f3"
   }
 }
