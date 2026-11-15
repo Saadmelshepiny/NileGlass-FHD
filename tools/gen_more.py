@@ -75,9 +75,15 @@ skin = skin.replace("</skin>", "\n".join(movie) + "\n</skin>")
 WARN = '\t\t<widget source="session.CurrentService" render="Label" position="1266,%d" size="118,54" font="Medium;19" foregroundColor="orange" backgroundColor="bgDeep" transparent="1" halign="center" valign="center" noWrap="1" zPosition="3"><convert type="NGSysInfo">StorageWarn</convert></widget><!-- NG-MORE storage -->'
 
 
+# subtitle state from the subtitle plugin (/tmp/NileGlass/subs.json), beside the recording icon
+SUBS = '\t\t<widget source="session.CurrentService" render="Label" position="1140,%d" size="124,54" font="Medium;19" foregroundColor="%s" backgroundColor="bgDeep" transparent="1" halign="center" valign="center" noWrap="1" zPosition="4"><convert type="NGSubs">%s</convert></widget><!-- NG-MORE storage -->'
+SUBS_COLORS = (("Ok", "green"), ("Busy", "gold"), ("None", "fgDim"), ("Bad", "red"))
+
+
 def addWarn(text):
 	text = re.sub(r"\n[^\n]*<!-- NG-MORE storage -->", "", text)
-	return re.sub(r'(\n\t\t<ePixmap pixmap="NileGlass_FHD/ui/ib_top_right.png" position="1130,(\d+)"[^\n]*)', lambda m: m.group(1) + "\n" + WARN % int(m.group(2)), text)
+	return re.sub(r'(\n\t\t<ePixmap pixmap="NileGlass_FHD/ui/ib_top_right.png" position="1130,(\d+)"[^\n]*)',
+		lambda m: m.group(1) + "\n" + WARN % int(m.group(2)) + "".join("\n" + SUBS % (int(m.group(2)), c, k) for k, c in SUBS_COLORS), text)
 
 
 skin = addWarn(skin)

@@ -1,12 +1,12 @@
 {
-  "version": "2.8.19",
-  "ipk": "https://raw.githubusercontent.com/Saadmelshepiny/NileGlass-FHD/main/releases/enigma2-plugin-skins-nileglass-fhd_2.8.19_all.ipk",
-  "sha256": "23ad7798c900facd708cf17542778c627e916a70916ebdbe1dfecec566c8cd8b",
-  "notes_ar": "البوسترات بقت الأصلية: بوستر الفيلم بلغته الأصلية (أو الإنجليزي، أو من غير كتابة) بدل البوستر المترجم، وبيتحفظ على الهارد باسم الفيلم الحقيقي. البوسترات القديمة بتتبدل لوحدها وانت بتتفرج.",
-  "notes_en": "Real posters: the film's own poster (original language, else English, else textless) instead of a translated one, saved on the disk under the film's real name. Older posters are replaced as you browse.",
+  "version": "2.8.20",
+  "ipk": "https://raw.githubusercontent.com/Saadmelshepiny/NileGlass-FHD/main/releases/enigma2-plugin-skins-nileglass-fhd_2.8.20_all.ipk",
+  "sha256": "8bac172579a80d67919eb2e83d67977c1bd7f1b72d24376fd24665e82a7ede1a",
+  "notes_ar": "حالة الترجمة في الإنفوبار من إضافة Saad Auto Subssupport (2.8.5 وأحدث): ترجمة عربي / بيدوّر ترجمة / بتتظبط… / مفيش ترجمة / ترجمة مباشرة، وفرق التزامن للتسجيلات. بتظهر بس للقناة أو التسجيل الشغال.",
+  "notes_en": "Subtitle state in the infobar from Saad Auto Subssupport (2.8.5+): on / searching / adjusting / none / live, and the manual offset for recordings. Shown only for what is playing.",
   "previous": {
-    "version": "2.8.18",
-    "ipk": "https://raw.githubusercontent.com/Saadmelshepiny/NileGlass-FHD/main/releases/enigma2-plugin-skins-nileglass-fhd_2.8.18_all.ipk",
-    "sha256": "d13a64fc3793a2a9495cec0d265f1cad317d8b45c947288c2e1b3d5b8d26b515"
+    "version": "2.8.19",
+    "ipk": "https://raw.githubusercontent.com/Saadmelshepiny/NileGlass-FHD/main/releases/enigma2-plugin-skins-nileglass-fhd_2.8.19_all.ipk",
+    "sha256": "23ad7798c900facd708cf17542778c627e916a70916ebdbe1dfecec566c8cd8b"
   }
 }

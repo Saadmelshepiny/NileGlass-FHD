@@ -422,6 +422,7 @@ common = {
 	"session.CurrentService|PliExtraInfo:PIDInfo": "V:4001 A:4002 PCR:4001 PMT:0100",
 	"session.CurrentService|NGSysInfo:BoxName": "Vu+ Ultimo4K",
 	"session.CurrentService|NGSysInfo:StorageWarn": "الفلاش 93%",
+	"session.CurrentService|NGSubs:Ok": "ترجمة عربي",
 	"session.CurrentService|NGSysInfo:Image": "OpenBh 5.6",
 	"session.CurrentService|NGSysInfo:CpuLoad": "34%",
 	"session.CurrentService|NGSysInfo:CpuTemp": "67°C",
@@ -584,7 +585,8 @@ mn.update({"session.CurrentService|NGSysInfo:CpuTemp": "64°C", "session.Current
 	"session.CurrentService|NGSysInfo:Online": "متصل", "session.CurrentService|NGSysInfo:IP": "192.168.1.20", "session.CurrentService|NGSysInfo:NetType": "Wi-Fi · wlan0",
 	"session.CurrentService|NGSysInfo:NetDown": "213 kbit/s", "session.CurrentService|NGSysInfo:NetUp": "14 kbit/s", "session.CurrentService|NGSysInfo:Image": "OpenBh 6.0",
 	"session.CurrentService|NGSysInfo:BoxName": "Vu+ Ultimo4K",
-	"session.CurrentService|NGSysInfo:StorageWarn": "الفلاش 93%", "session.CurrentService|NGSysInfo:SkinVersion": "v2.8.0"})
+	"session.CurrentService|NGSysInfo:StorageWarn": "الفلاش 93%",
+	"session.CurrentService|NGSubs:Ok": "ترجمة عربي", "session.CurrentService|NGSysInfo:SkinVersion": "v2.8.0"})
 S_ = "session.CurrentService|"
 mn.update({S_ + "NGSysInfo:OnlineYes": "متصل", S_ + "NGSysInfo:Gateway": "192.168.1.1", S_ + "NGSysInfo:Netmask": "255.255.255.0",
 	S_ + "NGSysInfo:Dns": "192.168.1.1  ·  8.8.8.8", S_ + "NGSysInfo:Mac": "00:1D:EC:0A:12:7F", S_ + "NGSysInfo:LinkSpeed": "100 Mb/s",

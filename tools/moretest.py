@@ -197,5 +197,35 @@ k = lambda typ: (lambda x: (setattr(x, "source", ks), x.getText())[1])(K.NGSkinI
 check("skin facts", k("Name") == "MySkin" and k("Screens") == "2" and k("Fonts") == "Roboto-Bold", (k("Screens"), k("Fonts")))
 check("skin header", k("Author").startswith("Ahmed") and k("Version") == "1.4", (k("Author"), k("Version")))
 check("skin colours", k("Color1") == "#102030" and k("Color2") == "#ffffff" and k("Color3") == "#123456" and k("Color4") == "", (k("Color1"), k("Color2"), k("Color3")))
+# ---- subtitle state from the subtitle plugin
+SB = load("NGSubs", "Components/Converter/NGSubs.py")
+SB.FILE = os.path.join(d, "subs.json")
+cur = "1:0:19:3E9:3F8:FFFF:E080000:0:0:0:"
+SB.playingRef = lambda: cur
+def put(**kw):
+	import json as _j
+	time.sleep(0.01)
+	open(SB.FILE, "w").write(_j.dumps(dict({"lang": "ar", "source": "dl.subdl.com", "offset": 0.0, "ref": cur, "title": "X", "updated": 1}, **kw)))
+	os.utime(SB.FILE, (time.time() + len(str(kw)), time.time() + len(str(kw)) + put.n)); put.n += 1
+put.n = 1
+show = lambda: {k: SB.NGSubs(k).getText() for k in ("Ok", "Busy", "None", "Bad") if SB.NGSubs(k).getText()}
+put(state="searching")
+check("searching", show() == {"Busy": "بيدوّر ترجمة"}, show())
+put(state="on", sync="adjusting")
+check("adjusting", show() == {"Busy": "بتتظبط…"}, show())
+put(state="on", sync="exact")
+check("on and in sync", show() == {"Ok": "ترجمة عربي"}, show())
+put(state="on", sync="exact", offset=1.5, ref=cur)
+check("recording with a manual offset", show() == {"Ok": "ترجمة +1.5ث"}, show())
+put(state="on", sync="exact", source="live")
+check("live", show() == {"Ok": "ترجمة مباشرة"}, show())
+put(state="none")
+check("nothing found", show() == {"None": "مفيش ترجمة"}, show())
+put(state="idle", ref="")
+check("idle: nothing shown", show() == {})
+put(state="on", sync="exact", ref="1:0:19:1:1:1:E080000:0:0:0:")
+check("another channel: nothing shown", show() == {})
+os.remove(SB.FILE)
+check("no file: nothing", show() == {})
 print("ALL OK" if not fails else "FAILED: %s" % fails)
 sys.exit(1 if fails else 0)

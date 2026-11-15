@@ -182,6 +182,10 @@
 		<ePixmap pixmap="NileGlass_FHD/ui/ib_top_left.png" position="15,836" size="1090,54" alphatest="blend" zPosition="-5"/>
 		<ePixmap pixmap="NileGlass_FHD/ui/ib_top_right.png" position="1130,836" size="775,54" alphatest="blend" zPosition="-5"/>
 		<widget source="session.CurrentService" render="Label" position="1266,836" size="118,54" font="Medium;19" foregroundColor="orange" backgroundColor="bgDeep" transparent="1" halign="center" valign="center" noWrap="1" zPosition="3"><convert type="NGSysInfo">StorageWarn</convert></widget><!-- NG-MORE storage -->
+		<widget source="session.CurrentService" render="Label" position="1140,836" size="124,54" font="Medium;19" foregroundColor="green" backgroundColor="bgDeep" transparent="1" halign="center" valign="center" noWrap="1" zPosition="4"><convert type="NGSubs">Ok</convert></widget><!-- NG-MORE storage -->
+		<widget source="session.CurrentService" render="Label" position="1140,836" size="124,54" font="Medium;19" foregroundColor="gold" backgroundColor="bgDeep" transparent="1" halign="center" valign="center" noWrap="1" zPosition="4"><convert type="NGSubs">Busy</convert></widget><!-- NG-MORE storage -->
+		<widget source="session.CurrentService" render="Label" position="1140,836" size="124,54" font="Medium;19" foregroundColor="fgDim" backgroundColor="bgDeep" transparent="1" halign="center" valign="center" noWrap="1" zPosition="4"><convert type="NGSubs">None</convert></widget><!-- NG-MORE storage -->
+		<widget source="session.CurrentService" render="Label" position="1140,836" size="124,54" font="Medium;19" foregroundColor="red" backgroundColor="bgDeep" transparent="1" halign="center" valign="center" noWrap="1" zPosition="4"><convert type="NGSubs">Bad</convert></widget><!-- NG-MORE storage -->
 		<ePixmap pixmap="NileGlass_FHD/ui/ib_main.png" position="15,890" size="1890,170" alphatest="blend" zPosition="-5"/>
 
 		<!-- channel number + name -->
