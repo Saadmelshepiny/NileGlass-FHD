@@ -689,6 +689,7 @@ class PosterService:
 		self.backdropDir = None  # .../NileGlass/backdrop
 		self.metaDir = None      # .../NileGlass/meta
 		self.index = {}          # lower-case file name -> full path (posters)
+		self.upgraded = set()    # titles whose poster was changed to the real one this run
 		self.metaMemo = {}       # title -> dict (small in-memory cache)
 		self.negative = {}       # title -> timestamp of failed lookup
 		self.lastIndex = 0
@@ -924,7 +925,23 @@ class PosterService:
 
 	# local lookups (worker threads only)
 	def _posterPath(self, title):
+		meta = self.metaMemo.get(title)
+		if meta is None and self.metaDir and fileNameFor(title).lower() not in self.index:
+			meta = self._loadMeta(title)
+		if meta and meta.get("file"):            # saved under the film's real name
+			p = self.index.get(meta["file"].lower())
+			if p:
+				return p
 		return self.index.get(fileNameFor(title).lower())
+
+	def _posterFile(self, title, meta):
+		"""where a new poster goes: the film's real name (one file per film, whatever the channel calls it)"""
+		return os.path.join(self.cacheDir, meta.get("file") or fileNameFor(title))
+
+	def _needsOriginal(self, title):
+		"""a poster from before 2.8.19 (maybe a translated one, under the channel's title): fetch the real one once"""
+		meta = self.metaMemo.get(title) or self._loadMeta(title)
+		return bool(meta and meta.get("id") and meta.get("source") != "tvmaze" and "file" not in meta and title not in self.upgraded)
 
 	def _backdropPath(self, title):
 		if not self.backdropDir:
@@ -1023,6 +1040,14 @@ class PosterService:
 				found, value = self._local(kind, title)
 				if found:
 					self._deliver(kind, title, value)
+					if kind in ("poster", "thumb") and self.enabled and self.apiKey and self._needsOriginal(title):
+						with self.lock:
+							if title not in self.netPending:
+								self.netPending[title] = set()
+								try:
+									self.netQueue.put_nowait((title, None))
+								except queue.Full:
+									self.netPending.pop(title, None)
 					continue
 				if not self._canDownload(title):
 					self._deliver(kind, title, value if kind == "details" else None)
@@ -1084,8 +1109,10 @@ class PosterService:
 					else:
 						downloads += 1
 						self.stats["downloads"] += 1
+				if meta and self._needsOriginal(title):        # saved before 2.8.19: the real poster now
+					meta = self._upgrade(title, meta)
 				if meta and meta.get("poster") and not self._posterPath(title):  # e.g. removed by the cache cleaner
-					pp = self._saveImage(self.imageUrl(meta, "poster", self.quality), os.path.join(self.cacheDir, fileNameFor(title)), 1024 * 1024)
+					pp = self._saveImage(self.imageUrl(meta, "poster", self.quality), self._posterFile(title, meta), 1024 * 1024)
 					if pp:
 						self.index[os.path.basename(pp).lower()] = pp
 				with self.lock:
@@ -1219,13 +1246,15 @@ class PosterService:
 		meta = {"id": best.get("id"), "type": "tv", "source": "tvmaze", "name": best.get("name") or "",
 			"year": int(best["premiered"][:4]) if (best.get("premiered") or "")[:4].isdigit() else None,
 			"rating": float((best.get("rating") or {}).get("average") or 0), "genres": [], "genreNames": best.get("genres") or [],
-			"overview": summary, "poster": img.get("original") or "", "thumbUrl": img.get("medium") or "", "backdrop": ""}
+			"overview": summary, "poster": img.get("original") or "", "thumbUrl": img.get("medium") or "", "backdrop": "",
+			"realName": best.get("name") or "", "file": fileNameFor(best.get("name")) if best.get("name") else ""}
 		self.stats["tvmaze"] = self.stats.get("tvmaze", 0) + 1
 		return self._store(title, meta)
 
 	def _store(self, title, meta):
+		self._memo(title, meta)
 		if not self._posterPath(title) and meta.get("poster"):
-			p = self._saveImage(self.imageUrl(meta, "poster", self.quality), os.path.join(self.cacheDir, fileNameFor(title)), 1024 * 1024)
+			p = self._saveImage(self.imageUrl(meta, "poster", self.quality), self._posterFile(title, meta), 1024 * 1024)
 			if p:
 				self.index[os.path.basename(p).lower()] = p
 		tmp = self._metaPath(title) + ".tmp"
@@ -1275,6 +1304,7 @@ class PosterService:
 		meta = {
 			"id": hit.get("id"),
 			"type": hit.get("media_type") or "movie",
+			"original_language": hit.get("original_language") or "",
 			"name": hit.get("title") or hit.get("name") or "",
 			"year": self._year(hit),
 			"rating": round(float(hit.get("vote_average") or 0), 1) if (hit.get("vote_count") or 0) >= 5 else 0,
@@ -1283,7 +1313,80 @@ class PosterService:
 			"poster": hit.get("poster_path") or "",
 			"backdrop": hit.get("backdrop_path") or "",
 		}
+		self._original(meta)
 		return self._store(saveAs, meta)
+
+	_reLatin = re.compile(r"^[\x00-\u024f\s\W\d]+$")
+
+	def _original(self, meta):
+		"""The film's own poster (in its own language, else English, else without
+		text - never a translated one) and its real name, in one request."""
+		try:
+			lang = meta.get("original_language") or ""
+			d = self._tmdb("%s/%d" % (meta.get("type") or "movie", int(meta["id"])),
+				{"language": "en", "append_to_response": "images", "include_image_language": ",".join(x for x in (lang, "en", "null") if x)})
+		except Exception as err:
+			log("original poster:", err)
+			return meta
+		lang = lang or d.get("original_language") or ""
+		orig = d.get("original_title") or d.get("original_name") or ""
+		english = d.get("title") or d.get("name") or ""
+		real = orig if orig and (lang in ("en", "ar") or self._reLatin.match(orig)) else (english or orig)
+		posters = (d.get("images") or {}).get("posters") or []
+
+		def best(code):
+			group = [p for p in posters if (p.get("iso_639_1") or None) == code and p.get("file_path")]
+			group.sort(key=lambda p: (-(p.get("vote_average") or 0), -(p.get("vote_count") or 0)))
+			return group[0]["file_path"] if group else None
+		chosen = (lang and best(lang)) or best("en") or best(None)
+		if not chosen and (d.get("poster_path") or "") and lang in ("en", ""):
+			chosen = d["poster_path"]
+		if chosen:
+			meta["poster"] = chosen
+		if real:
+			meta["realName"] = real
+			meta["file"] = fileNameFor(real)
+		else:
+			meta["file"] = ""
+		return meta
+
+	def _upgrade(self, title, meta):
+		"""a poster saved before 2.8.19: the real one, under the real name; the old file goes"""
+		self.upgraded.add(title)
+		old = self._posterPath(title)
+		meta = dict(meta)
+		self._original(meta)
+		if "file" not in meta:
+			return meta
+		new = self._posterFile(title, meta)
+		if not os.path.isfile(new) and meta.get("poster"):
+			p = self._saveImage(self.imageUrl(meta, "poster", self.quality), new, 1024 * 1024)
+			if not p:
+				return meta
+			self.index[os.path.basename(p).lower()] = p
+		try:
+			tmp = self._metaPath(title) + ".tmp"
+			with open(tmp, "w", encoding="utf-8") as f:
+				json.dump(meta, f, ensure_ascii=False)
+			os.replace(tmp, self._metaPath(title))
+		except Exception:
+			pass
+		self._memo(title, meta)
+		# the old picture (maybe translated) under the channel's title: only our own copy is removed
+		if old and self.cacheDir and os.path.dirname(old) == self.cacheDir and os.path.abspath(old) != os.path.abspath(new):
+			try:
+				os.remove(old)
+				self.index.pop(os.path.basename(old).lower(), None)
+			except Exception:
+				pass
+		th = self._thumbPath(title)
+		if th:
+			try:
+				os.remove(th)
+			except Exception:
+				pass
+		self.stats["original"] = self.stats.get("original", 0) + 1
+		return meta
 
 	def _details(self, title, meta):
 		"""Director / writer, country, main cast, runtime (one extra request,

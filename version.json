@@ -1,12 +1,12 @@
 {
-  "version": "2.8.18",
-  "ipk": "https://raw.githubusercontent.com/Saadmelshepiny/NileGlass-FHD/main/releases/enigma2-plugin-skins-nileglass-fhd_2.8.18_all.ipk",
-  "sha256": "d13a64fc3793a2a9495cec0d265f1cad317d8b45c947288c2e1b3d5b8d26b515",
-  "notes_ar": "استجابة أسرع للريموت: الشاشات المستخبية (الإنفوبار وقائمة القنوات ونوافذ المربعات) مبقتش تشتغل وهي مش ظاهرة وبتتحدث مرة واحدة لما تظهر، قراءة بيانات الحزم في الخلفية بقت هادية ومبتتكررش، وتقرير السرعة بقى بيسجل المرات اللي الجهاز وقف فيها عن الاستجابة.",
-  "notes_en": "Faster remote response: hidden screens (infobars, channel list, card windows) no longer work while hidden and catch up once when shown, the package data is read gently in the background and not repeatedly, and the speed report now logs moments the box stopped responding.",
+  "version": "2.8.19",
+  "ipk": "https://raw.githubusercontent.com/Saadmelshepiny/NileGlass-FHD/main/releases/enigma2-plugin-skins-nileglass-fhd_2.8.19_all.ipk",
+  "sha256": "23ad7798c900facd708cf17542778c627e916a70916ebdbe1dfecec566c8cd8b",
+  "notes_ar": "البوسترات بقت الأصلية: بوستر الفيلم بلغته الأصلية (أو الإنجليزي، أو من غير كتابة) بدل البوستر المترجم، وبيتحفظ على الهارد باسم الفيلم الحقيقي. البوسترات القديمة بتتبدل لوحدها وانت بتتفرج.",
+  "notes_en": "Real posters: the film's own poster (original language, else English, else textless) instead of a translated one, saved on the disk under the film's real name. Older posters are replaced as you browse.",
   "previous": {
-    "version": "2.8.17",
-    "ipk": "https://raw.githubusercontent.com/Saadmelshepiny/NileGlass-FHD/main/releases/enigma2-plugin-skins-nileglass-fhd_2.8.17_all.ipk",
-    "sha256": "dc234dc7b8483e96d328a6ffb64ab6b708bdd4f19d4b5c8ea60cce4c79122c43"
+    "version": "2.8.18",
+    "ipk": "https://raw.githubusercontent.com/Saadmelshepiny/NileGlass-FHD/main/releases/enigma2-plugin-skins-nileglass-fhd_2.8.18_all.ipk",
+    "sha256": "d13a64fc3793a2a9495cec0d265f1cad317d8b45c947288c2e1b3d5b8d26b515"
   }
 }

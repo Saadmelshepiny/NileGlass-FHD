@@ -60,7 +60,7 @@ def choicesText(elem):
 
 def kindText(elem):
 	n = elem.__class__.__name__
-	return {"ConfigYesNo": "نعم / لأ", "ConfigOnOff": "شغال / مقفول", "ConfigEnableDisable": "مفعّل / مقفول", "ConfigText": "كتابة", "ConfigPassword": "كلمة سر",
+	return {"ConfigYesNo": "نعم / لأ", "ConfigBoolean": "نعم / لأ", "ConfigOnOff": "شغال / مقفول", "ConfigEnableDisable": "مفعّل / مقفول", "ConfigText": "كتابة", "ConfigPassword": "كلمة سر",
 		"ConfigIP": "عنوان IP", "ConfigInteger": "رقم", "ConfigNumber": "رقم", "ConfigClock": "ساعة", "ConfigSlider": "شريط", "ConfigSelectionNumber": "رقم من قائمة",
 		"ConfigDirectory": "مجلد", "ConfigSelection": "اختيار من قائمة", "ConfigSet": "أكتر من اختيار"}.get(n, n.replace("Config", ""))
 
@@ -144,7 +144,7 @@ class NGHostInfo(Converter):
 					description = ""
 				D.name = name
 				info = P.info(D)
-				return {"OwnerVersion": info.get("version", ""), "OwnerPackage": info.get("package", ""), "OwnerInstalled": info.get("installed", "")}.get(t, "")
+				return {"OwnerVersion": (info.get("version", "") or "").split("+")[0][:12], "OwnerPackage": info.get("package", ""), "OwnerInstalled": info.get("installed", "")}.get(t, "")
 		except Exception as err:
 			print("[NileGlass] NGHostInfo %s:" % t, err)
 		return ""
