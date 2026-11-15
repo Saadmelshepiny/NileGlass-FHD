@@ -1,12 +1,12 @@
 {
-  "version": "2.8.14",
-  "ipk": "https://raw.githubusercontent.com/Saadmelshepiny/NileGlass-FHD/main/releases/enigma2-plugin-skins-nileglass-fhd_2.8.14_all.ipk",
-  "sha256": "e20b2ed13408e6e4d7fd136596bd9a21e2f38c4e3a2805ddd238e7fe8ac13f34",
-  "notes_ar": "إعدادات للشاشة الأمامية من جوه السكين: 4 أشكال (اللوجو والساعة فوق، لوجو كبير، ساعة كبيرة، كتابة كبيرة)، حجم اللوجو، حجم ولون اسم القناة، حجم ولون اسم الحدث، لون شريط التقدم والساعة، وإظهار التاريخ. اختياراتك بتفضل بعد التحديثات.",
-  "notes_en": "Front display settings inside the skin: 4 layouts (logo + clock, big logo, big clock, big text), logo size, channel and programme name size and colour, progress bar and clock colour, date on/off. Your choices survive updates.",
+  "version": "2.8.15",
+  "ipk": "https://raw.githubusercontent.com/Saadmelshepiny/NileGlass-FHD/main/releases/enigma2-plugin-skins-nileglass-fhd_2.8.15_all.ipk",
+  "sha256": "fb2a99d031936fc5043a3db45e80813f55e919753dd41d3d81c71079a96b593e",
+  "notes_ar": "شاشة الإضافات واللوحة الخضراء: مربعات بتفاصيل الإضافة اللي واقف عليها بدل مربعات النظام: الإصدار، آخر فتح، مرات الفتح، الحزمة والمطور، تاريخ التثبيت والحجم، هل فيه إصدار تاني في الفيد، بيظهر فين، وهل بيشتغل مع الجهاز.",
+  "notes_en": "Plugins screen and green panel: cards about the plugin under the cursor instead of the system cards: version, last opened, times opened, package and maker, install date and size, other version in the feed, where it appears and whether it starts with the box.",
   "previous": {
-    "version": "2.8.13",
-    "ipk": "https://raw.githubusercontent.com/Saadmelshepiny/NileGlass-FHD/main/releases/enigma2-plugin-skins-nileglass-fhd_2.8.13_all.ipk",
-    "sha256": "a92323b046fe7ed61266e6d9e5a289f039a58dd770d9b7bc461a79467255bf37"
+    "version": "2.8.14",
+    "ipk": "https://raw.githubusercontent.com/Saadmelshepiny/NileGlass-FHD/main/releases/enigma2-plugin-skins-nileglass-fhd_2.8.14_all.ipk",
+    "sha256": "e20b2ed13408e6e4d7fd136596bd9a21e2f38c4e3a2805ddd238e7fe8ac13f34"
   }
 }

@@ -904,8 +904,8 @@
 		<widget name="key_green" position="320,894" size="260,38" font="Medium;24" foregroundColor="white" backgroundColor="black" transparent="1" halign="center" valign="center" noWrap="1" zPosition="1"/>
 		<widget name="key_yellow" position="600,894" size="260,38" font="Medium;24" foregroundColor="white" backgroundColor="black" transparent="1" halign="center" valign="center" noWrap="1" zPosition="1"/>
 		<widget name="key_blue" position="880,894" size="260,38" font="Medium;24" foregroundColor="white" backgroundColor="black" transparent="1" halign="center" valign="center" noWrap="1" zPosition="1"/>
-			<!-- NG-DASH system cards -->
-		<panel position="1170,0" size="670,464"><panel name="NG_Dash_system_100"/></panel>
+		<!-- NG-DASH plugins cards -->
+		<panel position="1170,0" size="670,820"><panel name="NG_Dash_plugins_100"/></panel>
 	</screen>
 
 	<!-- OpenBh Blue Panel (softcams) -->
@@ -4133,7 +4133,7 @@ self["list"].instance.setItemHeight(40)
 		<panel position="1170,0" size="670,464"><panel name="NG_Dash_system_100"/></panel>
 	</screen>
 	<!-- NG-CONVERTED END -->
-	<!-- NG-DASHPANELS BEGIN -->
+			<!-- NG-DASHPANELS BEGIN -->
 	<!-- card sets beside the panels (tools/gen_dash.py): positions from the panel that includes them -->
 	<screen name="NG_Dash_system_100">
 		<widget source="session.CurrentService" render="FixedLabel" text="" position="0,0" size="214,96" backgroundColor="bg" cornerRadius="18" zPosition="41"/>
@@ -4590,6 +4590,47 @@ self["list"].instance.setItemHeight(40)
 		<widget source="session.CurrentService" render="Label" position="315,380" size="171,30" font="Medium;22" foregroundColor="gold" backgroundColor="bg" transparent="1" halign="right" valign="center" noWrap="1" zPosition="32"><convert type="NGSysInfo">Ac3</convert></widget>
 		<widget source="session.CurrentService" render="FixedLabel" text="المسار" position="196,420" size="112,30" font="Regular;20" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="32"/>
 		<widget source="session.CurrentService" render="Label" position="315,420" size="171,30" font="Medium;22" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="right" valign="center" noWrap="1" zPosition="32"><convert type="NGCodec">Audio</convert></widget>
+	</screen>
+	<screen name="NG_Dash_plugins_100">
+		<widget source="session.CurrentService" render="FixedLabel" text="" position="0,0" size="214,96" backgroundColor="bg" cornerRadius="18" zPosition="51"/>
+		<widget source="session.CurrentService" render="FixedLabel" text="الإصدار" position="16,8" size="182,24" font="Regular;18" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="52"/>
+		<widget source="list" render="Label" position="16,32" size="186,40" font="Medium;30" foregroundColor="accent" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="52"><convert type="NGPluginInfo">Version</convert></widget>
+		<widget source="session.CurrentService" render="FixedLabel" text="المثبت على الجهاز" position="16,68" size="186,22" font="Regular;16" foregroundColor="fgMute" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="52"/>
+		<widget source="session.CurrentService" render="FixedLabel" text="" position="228,0" size="214,96" backgroundColor="bg" cornerRadius="18" zPosition="51"/>
+		<widget source="session.CurrentService" render="FixedLabel" text="آخر فتح" position="244,8" size="182,24" font="Regular;18" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="52"/>
+		<widget source="list" render="Label" position="244,32" size="186,40" font="Medium;30" foregroundColor="gold" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="52"><convert type="NGPluginInfo">Last</convert></widget>
+		<widget source="session.CurrentService" render="FixedLabel" text="من الريموت" position="244,68" size="186,22" font="Regular;16" foregroundColor="fgMute" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="52"/>
+		<widget source="session.CurrentService" render="FixedLabel" text="" position="456,0" size="214,96" backgroundColor="bg" cornerRadius="18" zPosition="51"/>
+		<widget source="session.CurrentService" render="FixedLabel" text="مرات الفتح" position="472,8" size="182,24" font="Regular;18" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="52"/>
+		<widget source="list" render="Label" position="472,32" size="186,40" font="Medium;30" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="52"><convert type="NGPluginInfo">Runs</convert></widget>
+		<widget source="session.CurrentService" render="FixedLabel" text="من أول ما اتسجل" position="472,68" size="186,22" font="Regular;16" foregroundColor="fgMute" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="52"/>
+		<widget source="session.CurrentService" render="FixedLabel" text="" position="0,108" size="670,296" backgroundColor="bg" cornerRadius="18" zPosition="51"/>
+		<widget source="session.CurrentService" render="FixedLabel" text="عن الإضافة" position="22,118" size="300,28" font="Regular;20" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="52"/>
+		<widget source="list" render="Label" position="22,148" size="626,48" font="Medium;34" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="52"><convert type="NGPluginInfo">Name</convert></widget>
+		<widget source="list" render="Label" position="22,200" size="626,104" font="Regular;24" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="top" zPosition="52"><convert type="NGPluginInfo">Description</convert></widget>
+		<widget source="session.CurrentService" render="FixedLabel" text="" position="22,314" size="626,1" backgroundColor="line" zPosition="52"/>
+		<widget source="session.CurrentService" render="FixedLabel" text="الحزمة" position="22,324" size="130,30" font="Regular;20" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="52"/>
+		<widget source="list" render="Label" position="152,324" size="496,30" font="Regular;22" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="52"><convert type="NGPluginInfo">Package</convert></widget>
+		<widget source="session.CurrentService" render="FixedLabel" text="المطوّر" position="22,358" size="130,30" font="Regular;20" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="52"/>
+		<widget source="list" render="Label" position="152,358" size="496,30" font="Regular;22" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="52"><convert type="NGPluginInfo">Maker</convert></widget>
+		<widget source="session.CurrentService" render="FixedLabel" text="" position="0,416" size="670,230" backgroundColor="bg" cornerRadius="18" zPosition="51"/>
+		<widget source="session.CurrentService" render="FixedLabel" text="التثبيت" position="22,426" size="300,28" font="Regular;20" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="52"/>
+		<widget source="session.CurrentService" render="FixedLabel" text="تاريخ التثبيت" position="22,460" size="150,30" font="Regular;20" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="52"/>
+		<widget source="list" render="Label" position="172,460" size="476,30" font="Regular;22" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="52"><convert type="NGPluginInfo">Installed</convert></widget>
+		<widget source="session.CurrentService" render="FixedLabel" text="الحجم" position="22,494" size="150,30" font="Regular;20" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="52"/>
+		<widget source="list" render="Label" position="172,494" size="476,30" font="Regular;22" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="52"><convert type="NGPluginInfo">Size</convert></widget>
+		<widget source="session.CurrentService" render="FixedLabel" text="النوع" position="22,528" size="150,30" font="Regular;20" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="52"/>
+		<widget source="list" render="Label" position="172,528" size="476,30" font="Regular;22" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="52"><convert type="NGPluginInfo">Kind</convert></widget>
+		<widget source="session.CurrentService" render="FixedLabel" text="في الفيد" position="22,562" size="150,30" font="Regular;20" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="52"/>
+		<widget source="list" render="Label" position="172,562" size="476,30" font="Regular;22" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="52"><convert type="NGPluginInfo">Feed</convert></widget>
+		<widget source="session.CurrentService" render="FixedLabel" text="المجلد" position="22,596" size="150,30" font="Regular;20" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="52"/>
+		<widget source="list" render="Label" position="172,596" size="476,30" font="Regular;22" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="52"><convert type="NGPluginInfo">Folder</convert></widget>
+		<widget source="session.CurrentService" render="FixedLabel" text="" position="0,658" size="670,162" backgroundColor="bg" cornerRadius="18" zPosition="51"/>
+		<widget source="session.CurrentService" render="FixedLabel" text="التشغيل" position="22,668" size="300,28" font="Regular;20" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="52"/>
+		<widget source="session.CurrentService" render="FixedLabel" text="مع تشغيل الجهاز" position="22,702" size="190,30" font="Regular;20" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="52"/>
+		<widget source="list" render="Label" position="214,702" size="434,30" font="Medium;22" foregroundColor="green" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="52"><convert type="NGPluginInfo">Background</convert></widget>
+		<widget source="session.CurrentService" render="FixedLabel" text="بيظهر في" position="22,740" size="190,30" font="Regular;20" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="52"/>
+		<widget source="list" render="Label" position="214,740" size="434,70" font="Regular;22" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="left" valign="top" zPosition="52"><convert type="NGPluginInfo">Places</convert></widget>
 	</screen>
 	<screen name="NileGlassDash_system" position="1240,300" size="670,464" backgroundColor="transparent" flags="wfNoBorder"><panel name="NG_Dash_system_100"/></screen>
 	<screen name="NileGlassDash_net" position="1240,300" size="670,464" backgroundColor="transparent" flags="wfNoBorder"><panel name="NG_Dash_net_100"/></screen>

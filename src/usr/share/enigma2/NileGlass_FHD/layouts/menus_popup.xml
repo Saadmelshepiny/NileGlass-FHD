@@ -100,8 +100,8 @@
 		<ePixmap pixmap="NileGlass_FHD/buttons/blue_k200.png" position="876,934" size="200,38" alphatest="blend" conditional="key_blue"/>
 		<widget name="key_blue" position="876,934" size="200,38" font="Medium;22" foregroundColor="white" backgroundColor="black" transparent="1" halign="center" valign="center" noWrap="1" zPosition="1" objectTypes="key_blue,Button,Label"/>
 		<widget source="key_blue" render="Label" position="876,934" size="200,38" font="Medium;22" foregroundColor="white" backgroundColor="black" transparent="1" halign="center" valign="center" noWrap="1" zPosition="1" objectTypes="key_blue,StaticText"/>
-			<!-- NG-DASH system cards -->
-		<panel position="1120,0" size="670,464"><panel name="NG_Dash_system_100"/></panel>
+		<!-- NG-DASH plugins cards -->
+		<panel position="1120,0" size="670,820"><panel name="NG_Dash_plugins_100"/></panel>
 	</screen>
 	<screen name="PluginDownloadBrowser" position="40,center" size="1790,990" backgroundColor="transparent" flags="wfNoBorder">
 		<eLabel position="0,0" size="1100,990" backgroundColor="bg" cornerRadius="24" zPosition="-10"/>

@@ -613,7 +613,16 @@ def greenList(canvas, el):
 		drawText(canvas, e, dsc, (x + 214, ry + 50), (1280, 36))
 
 
+PLUGIN_SAMPLE = {
+	"list|NGPluginInfo:Version": "2.8.3", "list|NGPluginInfo:Last": "من 3 ساعة", "list|NGPluginInfo:Runs": "27",
+	"list|NGPluginInfo:Name": "Saad Auto Subssupport", "list|NGPluginInfo:Description": "Automatic Arabic subtitles v2.8.3 - ترجمة عربية تلقائية للأفلام والمسلسلات من أكثر من مصدر",
+	"list|NGPluginInfo:Package": "enigma2-plugin-extensions-saadautosub", "list|NGPluginInfo:Maker": "Saad",
+	"list|NGPluginInfo:Installed": "12/11/2026", "list|NGPluginInfo:Size": "3.4 MB", "list|NGPluginInfo:Kind": "إضافة · مفتوح المصدر",
+	"list|NGPluginInfo:Feed": "أحدث إصدار", "list|NGPluginInfo:Folder": "Extensions/SaadAutoSub",
+	"list|NGPluginInfo:Background": "نعم، بيشتغل مع الجهاز", "list|NGPluginInfo:Places": "قائمة الإضافات · الملحقات (الأزرق) · قائمة القنوات",
+}
 gp = dict(common)
+gp.update(PLUGIN_SAMPLE)
 gp.update({"Title|@Label": "OpenBh Green Panel", "key_red|": "Panel Setup", "key_green|": "Fast Plug", "key_yellow|": "إضافات", "key_blue|": "سكريبتات"})
 render("DeliteGreenPanel", gp, bg, {"list": greenList})
 

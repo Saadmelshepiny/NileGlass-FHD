@@ -12,7 +12,7 @@ FE = "session.FrontendStatus"
 # one is shown for the menu or setting in use (Plugins/.../dashctx.py).  Each
 # set lives on its own zPosition decade: 1x network, 2x tuners, 3x picture &
 # sound, 4x system (x1 card backgrounds, x2 contents).
-GROUPS = {"net": 1, "tuner": 2, "av": 3, "system": 4}
+GROUPS = {"net": 1, "tuner": 2, "av": 3, "system": 4, "plugins": 5}
 
 
 class Dash:
@@ -162,6 +162,41 @@ def dashAv(x0):
 def dashboard(x0):
 	return dashSystem(x0) + dashNet(x0) + dashTuner(x0) + dashAv(x0)
 
+
+
+LIST = "list"
+PLUGIN_H = 820
+
+
+def dashPlugins(x0):
+	"""beside a plugin list: everything about the plugin under the cursor (Converter/NGPluginInfo.py)"""
+	d = Dash("plugins")
+	P = lambda f: [("NGPluginInfo", f)]
+
+	def wrap(x, y, w, h, field, font, color, z=None):
+		d.out.append('\t\t<widget source="%s" render="Label" position="%d,%d" size="%d,%d" font="%s" foregroundColor="%s" backgroundColor="%s" transparent="1" halign="left" valign="top" zPosition="%d"><convert type="NGPluginInfo">%s</convert></widget>' % (LIST, x, y, w, h, font, color, PANEL, z or d.fz, field))
+	for i, (t, f, col, sub) in enumerate((("الإصدار", "Version", "accent", "المثبت على الجهاز"), ("آخر فتح", "Last", "gold", "من الريموت"), ("مرات الفتح", "Runs", "fg", "من أول ما اتسجل"))):
+		d.small(x0 + i * 228, t, [(("NGPluginInfo", f), col)], None, sub, src=LIST)
+	y = 108
+	d.pix(x0, y, 670, 296, "card_l.png")
+	d.text(x0 + 22, y + 10, 300, 28, "عن الإضافة", "Regular;20", "fgDim")
+	d.lab(x0 + 22, y + 40, 626, 48, P("Name"), "Medium;34", "fg", src=LIST)
+	wrap(x0 + 22, y + 92, 626, 104, "Description", "Regular;24", "fgDim")
+	d.line(x0 + 22, y + 206, 626, 1)
+	d.rows(x0, y + 216, [("الحزمة", P("Package"), LIST), ("المطوّر", P("Maker"), LIST)], lw=130)
+	y = 416
+	d.pix(x0, y, 670, 230, "card_l.png")
+	d.text(x0 + 22, y + 10, 300, 28, "التثبيت", "Regular;20", "fgDim")
+	d.rows(x0, y + 44, [("تاريخ التثبيت", P("Installed"), LIST), ("الحجم", P("Size"), LIST), ("النوع", P("Kind"), LIST),
+		("في الفيد", P("Feed"), LIST), ("المجلد", P("Folder"), LIST)], lw=150)
+	y = 658
+	d.pix(x0, y, 670, PLUGIN_H - y, "card_m.png")
+	d.text(x0 + 22, y + 10, 300, 28, "التشغيل", "Regular;20", "fgDim")
+	d.text(x0 + 22, y + 44, 190, 30, "مع تشغيل الجهاز", "Regular;20", "fgDim")
+	d.lab(x0 + 214, y + 44, 434, 30, P("Background"), "Medium;22", "green", src=LIST)
+	d.text(x0 + 22, y + 82, 190, 30, "بيظهر في", "Regular;20", "fgDim")
+	wrap(x0 + 214, y + 82, 434, 70, "Places", "Regular;22", "fg")
+	return d.out
 
 
 BUILDERS = {"system": dashSystem, "net": dashNet, "tuner": dashTuner, "av": dashAv}

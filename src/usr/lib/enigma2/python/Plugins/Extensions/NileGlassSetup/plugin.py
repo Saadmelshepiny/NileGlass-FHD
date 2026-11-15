@@ -1087,6 +1087,11 @@ def sessionstart(reason, session=None, **kwargs):
 				except Exception as err:
 					print("[NileGlass] safety:", err)
 				try:
+					from Components.NileGlassPlugins import installUsage
+					installUsage()
+				except Exception as err:
+					print("[NileGlass] plugin usage:", err)
+				try:
 					from .dashctx import setSession as dashSession
 					dashSession(session)
 				except Exception as err:

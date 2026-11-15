@@ -14,7 +14,7 @@ Also writes the extensions list (blue held) as its own screen.
 Idempotent (screens already done carry an NG-DASH comment).  argv: SKINDIR"""
 import importlib.util, os, re, sys
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from dashlib import BUILDERS, DASH_W, DASH_H
+from dashlib import BUILDERS, DASH_W, DASH_H, PLUGIN_H, dashPlugins
 
 SK = sys.argv[1]
 GAP, RIGHT = 20, 1880
@@ -62,6 +62,7 @@ def scaled(lines, x0, s):
 
 
 SCALES = (1.0, 0.85, 0.75)
+PLUGIN_SCREENS = ("DeliteGreenPanel", "PluginBrowser")
 
 
 def panelName(subject, s):
@@ -75,6 +76,10 @@ def panels():
 			out.append('\t<screen name="%s">' % panelName(subject, s))
 			out += scaled(build(0), 0, s)
 			out.append("\t</screen>")
+	# plugin lists: details of the plugin under the cursor instead of a subject set
+	out.append('\t<screen name="NG_Dash_plugins_100">')
+	out += dashPlugins(0)
+	out.append("\t</screen>")
 	# the same sets as windows of their own: shown beside the menus / settings a moment after they open
 	for subject in BUILDERS:
 		out.append('\t<screen name="NileGlassDash_%s" position="1240,300" size="%d,%d" backgroundColor="transparent" flags="wfNoBorder"><panel name="%s"/></screen>' % (
@@ -107,6 +112,16 @@ def process(text, fileName):
 		block = m.group(0)
 		head = re.match(r"<screen\b[^>]*>", block).group(0)
 		name = re.search(r'name="([^"]+)"', head).group(1)
+		if name in PLUGIN_SCREENS and "NG-DASH" in block and "plugins cards" not in block:
+			# made before the plugin cards existed: the subject set gives way to the plugin cards
+			m = re.search(r'\t*<!-- NG-DASH \w+ cards -->\n\t*<panel position="(\d+),0"[^\n]*</panel>\n', block)
+			if m:
+				x0 = int(m.group(1))
+				block = block.replace(m.group(0), '\t\t<!-- NG-DASH plugins cards -->\n\t\t<panel position="%d,0" size="%d,%d"><panel name="NG_Dash_plugins_100"/></panel>\n' % (x0, DASH_W, PLUGIN_H))
+				h = int(re.search(r'size="\d+,(\d+)"', head).group(1))
+				block = block.replace(head, re.sub(r'size="\d+,\d+"', 'size="%d,%d"' % (x0 + DASH_W, max(h, PLUGIN_H)), head, count=1), 1)
+				done.append("%s(plugins)" % name)
+			return block
 		if "NG-DASH" in block or SKIP.match(name):
 			return block
 		pos = re.search(r'position="([^"]+)"', head)
@@ -127,7 +142,12 @@ def process(text, fileName):
 			if "wfNoBorder" not in newHead:
 				newHead = newHead[:-1] + ' flags="wfNoBorder">'
 			body = '\n\t\t<eLabel position="0,0" size="%d,%d" backgroundColor="%s" cornerRadius="24" zPosition="-10"/>' % (W, H, windowBg.group(1)) + body
-		if W <= SCALED_MAX:
+		if name in PLUGIN_SCREENS and W <= FULL_MAX:
+			x0 = W + GAP
+			newHead = re.sub(r'size="\d+,\d+"', 'size="%d,%d"' % (x0 + DASH_W, max(H, PLUGIN_H)), newHead, count=1)
+			body = body.replace("</screen>", '\t\t<!-- NG-DASH plugins cards -->\n\t\t<panel position="%d,0" size="%d,%d"><panel name="NG_Dash_plugins_100"/></panel>\n\t</screen>' % (x0, DASH_W, PLUGIN_H))
+			done.append("%s(plugins)" % name)
+		elif W <= SCALED_MAX:
 			fit = (RIGHT - 40 - W - GAP) / float(DASH_W)
 			s = max(q for q in SCALES if q <= fit + 1e-6) if fit < 1 else 1.0
 			subject = subjectOf(name)
