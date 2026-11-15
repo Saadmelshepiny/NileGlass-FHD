@@ -1375,8 +1375,8 @@
 		<ePixmap pixmap="NileGlass_FHD/buttons/green_k260.png" position="490,633" size="260,50" alphatest="blend"/>
 		<widget name="key_green" position="490,633" size="260,50" font="Medium;28" foregroundColor="white" backgroundColor="black" transparent="1" halign="center" valign="center" noWrap="1" zPosition="1"/>
 		<widget name="config" position="40,104" size="1160,448" itemHeight="56" font="Regular;30" secondfont="Regular;30" foregroundColor="fg" backgroundColor="bg" foregroundColorSelected="white" backgroundColorSelected="bgSel" scrollbarMode="showOnDemand" scrollbarWidth="6" scrollbarSliderForegroundColor="accent" transparent="1"/>
-			<!-- NG-DASH system cards -->
-		<panel position="1260,0" size="570,464"><panel name="NG_Dash_system_85"/></panel>
+		<!-- NG-DASH emu cards -->
+		<panel position="1260,0" size="570,464"><panel name="NG_Dash_emu_85"/></panel>
 	</screen>
 	<screen name="addonsParentalConfig" position="40,center" size="1830,700" backgroundColor="transparent" flags="wfNoBorder" title="Addons parental control setup">
 		<eLabel position="0,0" size="1240,700" backgroundColor="bg" zPosition="-10" cornerRadius="24"/>
@@ -1420,8 +1420,8 @@
 		<eLabel position="30,100" size="1180,60" backgroundColor="bgCard" zPosition="-5" cornerRadius="12"/>
 		<widget name="defaultcam" position="50,100" size="1140,60" font="Medium;30" foregroundColor="gold" backgroundColor="bg" transparent="1" halign="left" valign="center"/>
 		<widget source="list" render="Listbox" position="30,176" size="1180,616" font="Regular;30" itemHeight="56" backgroundColor="bg" foregroundColor="fg" foregroundColorSelected="white" backgroundColorSelected="bgSel" scrollbarMode="showOnDemand" scrollbarWidth="6" scrollbarSliderForegroundColor="accent" transparent="1"><convert type="StringList"/></widget>
-			<!-- NG-DASH system cards -->
-		<panel position="1260,0" size="570,464"><panel name="NG_Dash_system_85"/></panel>
+		<!-- NG-DASH emu cards -->
+		<panel position="1260,0" size="570,464"><panel name="NG_Dash_emu_85"/></panel>
 	</screen>
 	<screen name="BhNetBrowser" position="40,center" size="1830,880" backgroundColor="transparent" flags="wfNoBorder" title="Select Network Interface">
 		<eLabel position="0,0" size="1240,880" backgroundColor="bg" zPosition="-10" cornerRadius="24"/>
@@ -2382,8 +2382,8 @@ MultiContentEntryPixmapAlphaBlend(pos=(10, 5), size=(100, 60), png=6, flags = BT
 		<ePixmap pixmap="NileGlass_FHD/buttons/blue_k200.png" position="1083,708" size="200,38" alphatest="blend" conditional="key_blue"/>
 		<widget name="key_blue" position="1083,708" size="200,38" font="Medium;22" foregroundColor="white" backgroundColor="black" transparent="1" halign="center" valign="center" noWrap="1" zPosition="1" objectTypes="key_blue,Button,Label"/>
 		<widget source="key_blue" render="Label" position="1083,708" size="200,38" font="Medium;22" foregroundColor="white" backgroundColor="black" transparent="1" halign="center" valign="center" noWrap="1" zPosition="1" objectTypes="key_blue,StaticText"/>
-			<!-- NG-DASH system cards -->
-		<panel position="1328,0" size="502,464"><panel name="NG_Dash_system_75"/></panel>
+		<!-- NG-DASH time cards -->
+		<panel position="1328,0" size="502,464"><panel name="NG_Dash_time_75"/></panel>
 	</screen>
 
 	<screen name="HarddiskSelection" position="40,center" size="1590,790" backgroundColor="transparent" flags="wfNoBorder" title="Select HDD">
@@ -2644,7 +2644,7 @@ MultiContentEntryText(pos = (520, 0), size = (240, 40), flags = RT_HALIGN_RIGHT,
 }
 </convert>
         </widget>
-		<widget name="preview" position="284,430" size="280,210" alphatest="blend" />
+		<widget name="preview" position="942,150" size="626,352" alphatest="blend" zPosition="200"/>
 		<widget source="description" render="Label" position="24,660" size="820,35" zPosition="10" font="Regular;28" halign="center" foregroundColor="fg" backgroundColor="bg" transparent="1" />
 		<eLabel position="24,711" size="852,1" backgroundColor="line" zPosition="-8"/>
 		<ePixmap pixmap="NileGlass_FHD/buttons/red_k200.png" position="24,729" size="200,38" alphatest="blend" conditional="key_red"/>
@@ -2659,8 +2659,8 @@ MultiContentEntryText(pos = (520, 0), size = (240, 40), flags = RT_HALIGN_RIGHT,
 		<ePixmap pixmap="NileGlass_FHD/buttons/blue_k200.png" position="675,729" size="200,38" alphatest="blend" conditional="key_blue"/>
 		<widget name="key_blue" position="675,729" size="200,38" font="Medium;22" foregroundColor="white" backgroundColor="black" transparent="1" halign="center" valign="center" noWrap="1" zPosition="1" objectTypes="key_blue,Button,Label"/>
 		<widget source="key_blue" render="Label" position="675,729" size="200,38" font="Medium;22" foregroundColor="white" backgroundColor="black" transparent="1" halign="center" valign="center" noWrap="1" zPosition="1" objectTypes="key_blue,StaticText"/>
-			<!-- NG-DASH system cards -->
-		<panel position="920,0" size="670,464"><panel name="NG_Dash_system_100"/></panel>
+		<!-- NG-DASH skin cards -->
+		<panel position="920,0" size="670,740"><panel name="NG_Dash_skin_100"/></panel>
 	</screen>
 
 	<screen name="CutListEditor" position="40,center" size="1805,865" backgroundColor="transparent" flags="wfNoBorder" title="Cutlist editor">
@@ -2732,8 +2732,8 @@ MultiContentEntryPixmapAlphaBlend(pos = (5, 89), size = (0, 0), png = 5), # inde
 		<ePixmap pixmap="NileGlass_FHD/buttons/blue_k200.png" position="1083,734" size="200,38" alphatest="blend" conditional="key_blue"/>
 		<widget name="key_blue" position="1083,734" size="200,38" font="Medium;22" foregroundColor="white" backgroundColor="black" transparent="1" halign="center" valign="center" noWrap="1" zPosition="1" objectTypes="key_blue,Button,Label"/>
 		<widget source="key_blue" render="Label" position="1083,734" size="200,38" font="Medium;22" foregroundColor="white" backgroundColor="black" transparent="1" halign="center" valign="center" noWrap="1" zPosition="1" objectTypes="key_blue,StaticText"/>
-			<!-- NG-DASH system cards -->
-		<panel position="1328,0" size="502,464"><panel name="NG_Dash_system_75"/></panel>
+		<!-- NG-DASH image cards -->
+		<panel position="1328,0" size="502,464"><panel name="NG_Dash_image_75"/></panel>
 	</screen>
 
 	<screen name="Ipkg" position="40,center" size="1590,464" backgroundColor="transparent" flags="wfNoBorder" title="Installing Software...">
@@ -2759,8 +2759,8 @@ MultiContentEntryPixmapAlphaBlend(pos = (5, 89), size = (0, 0), png = 5), # inde
 		<ePixmap pixmap="NileGlass_FHD/buttons/blue_k200.png" position="675,404" size="200,38" alphatest="blend" conditional="key_blue"/>
 		<widget name="key_blue" position="675,404" size="200,38" font="Medium;22" foregroundColor="white" backgroundColor="black" transparent="1" halign="center" valign="center" noWrap="1" zPosition="1" objectTypes="key_blue,Button,Label"/>
 		<widget source="key_blue" render="Label" position="675,404" size="200,38" font="Medium;22" foregroundColor="white" backgroundColor="black" transparent="1" halign="center" valign="center" noWrap="1" zPosition="1" objectTypes="key_blue,StaticText"/>
-			<!-- NG-DASH system cards -->
-		<panel position="920,0" size="670,464"><panel name="NG_Dash_system_100"/></panel>
+		<!-- NG-DASH image cards -->
+		<panel position="920,0" size="670,464"><panel name="NG_Dash_image_100"/></panel>
 	</screen>
 
 	<screen name="IpkgInstaller" position="40,center" size="1590,795" backgroundColor="transparent" flags="wfNoBorder" title="Ipkg Installer...">
@@ -2784,8 +2784,8 @@ MultiContentEntryPixmapAlphaBlend(pos = (5, 89), size = (0, 0), png = 5), # inde
 		<ePixmap pixmap="NileGlass_FHD/buttons/blue_k200.png" position="675,739" size="200,38" alphatest="blend" conditional="key_blue"/>
 		<widget name="key_blue" position="675,739" size="200,38" font="Medium;22" foregroundColor="white" backgroundColor="black" transparent="1" halign="center" valign="center" noWrap="1" zPosition="1" objectTypes="key_blue,Button,Label"/>
 		<widget source="key_blue" render="Label" position="675,739" size="200,38" font="Medium;22" foregroundColor="white" backgroundColor="black" transparent="1" halign="center" valign="center" noWrap="1" zPosition="1" objectTypes="key_blue,StaticText"/>
-			<!-- NG-DASH system cards -->
-		<panel position="920,0" size="670,464"><panel name="NG_Dash_system_100"/></panel>
+		<!-- NG-DASH image cards -->
+		<panel position="920,0" size="670,464"><panel name="NG_Dash_image_100"/></panel>
 	</screen>
 
 	<screen name="BackupSelection" position="40,center" size="1590,790" backgroundColor="transparent" flags="wfNoBorder" title="Select files/folders to backup...">
@@ -2840,8 +2840,8 @@ MultiContentEntryPixmapAlphaBlend(pos = (5, 89), size = (0, 0), png = 5), # inde
 		<ePixmap pixmap="NileGlass_FHD/buttons/blue_k200.png" position="675,404" size="200,38" alphatest="blend" conditional="key_blue"/>
 		<widget name="key_blue" position="675,404" size="200,38" font="Medium;22" foregroundColor="white" backgroundColor="black" transparent="1" halign="center" valign="center" noWrap="1" zPosition="1" objectTypes="key_blue,Button,Label"/>
 		<widget source="key_blue" render="Label" position="675,404" size="200,38" font="Medium;22" foregroundColor="white" backgroundColor="black" transparent="1" halign="center" valign="center" noWrap="1" zPosition="1" objectTypes="key_blue,StaticText"/>
-			<!-- NG-DASH system cards -->
-		<panel position="920,0" size="670,464"><panel name="NG_Dash_system_100"/></panel>
+		<!-- NG-DASH image cards -->
+		<panel position="920,0" size="670,464"><panel name="NG_Dash_image_100"/></panel>
 	</screen>
 
 	<screen name="FileBrowser" position="40,center" size="1590,790" backgroundColor="transparent" flags="wfNoBorder" title="DVD File Browser">
@@ -3818,8 +3818,8 @@ MultiContentEntryText(pos = (75, 0), size = (700, 60), font=0, flags = RT_HALIGN
 		<ePixmap pixmap="NileGlass_FHD/buttons/blue_k200.png" position="675,734" size="200,38" alphatest="blend" conditional="key_blue"/>
 		<widget name="key_blue" position="675,734" size="200,38" font="Medium;22" foregroundColor="white" backgroundColor="black" transparent="1" halign="center" valign="center" noWrap="1" zPosition="1" objectTypes="key_blue,Button,Label"/>
 		<widget source="key_blue" render="Label" position="675,734" size="200,38" font="Medium;22" foregroundColor="white" backgroundColor="black" transparent="1" halign="center" valign="center" noWrap="1" zPosition="1" objectTypes="key_blue,StaticText"/>
-			<!-- NG-DASH system cards -->
-		<panel position="920,0" size="670,464"><panel name="NG_Dash_system_100"/></panel>
+		<!-- NG-DASH image cards -->
+		<panel position="920,0" size="670,464"><panel name="NG_Dash_image_100"/></panel>
 	</screen>
 
 	<screen name="EventViewContextMenu" position="40,center" size="900,790" backgroundColor="transparent" flags="wfNoBorder" title="EventViewContextMenu">
@@ -3995,8 +3995,8 @@ self["list"].instance.setItemHeight(40)
 		<ePixmap pixmap="NileGlass_FHD/buttons/blue_k200.png" position="675,629" size="200,38" alphatest="blend" conditional="key_blue"/>
 		<widget name="key_blue" position="675,629" size="200,38" font="Medium;22" foregroundColor="white" backgroundColor="black" transparent="1" halign="center" valign="center" noWrap="1" zPosition="1" objectTypes="key_blue,Button,Label"/>
 		<widget source="key_blue" render="Label" position="675,629" size="200,38" font="Medium;22" foregroundColor="white" backgroundColor="black" transparent="1" halign="center" valign="center" noWrap="1" zPosition="1" objectTypes="key_blue,StaticText"/>
-			<!-- NG-DASH system cards -->
-		<panel position="920,0" size="670,464"><panel name="NG_Dash_system_100"/></panel>
+		<!-- NG-DASH image cards -->
+		<panel position="920,0" size="670,464"><panel name="NG_Dash_image_100"/></panel>
 	</screen>
 
 	<screen name="ImageManagerDownload" position="40,center" size="1590,635" backgroundColor="transparent" flags="wfNoBorder" title="Downloads">
@@ -4020,8 +4020,8 @@ self["list"].instance.setItemHeight(40)
 		<ePixmap pixmap="NileGlass_FHD/buttons/blue_k200.png" position="675,579" size="200,38" alphatest="blend" conditional="key_blue"/>
 		<widget name="key_blue" position="675,579" size="200,38" font="Medium;22" foregroundColor="white" backgroundColor="black" transparent="1" halign="center" valign="center" noWrap="1" zPosition="1" objectTypes="key_blue,Button,Label"/>
 		<widget source="key_blue" render="Label" position="675,579" size="200,38" font="Medium;22" foregroundColor="white" backgroundColor="black" transparent="1" halign="center" valign="center" noWrap="1" zPosition="1" objectTypes="key_blue,StaticText"/>
-			<!-- NG-DASH system cards -->
-		<panel position="920,0" size="670,464"><panel name="NG_Dash_system_100"/></panel>
+		<!-- NG-DASH image cards -->
+		<panel position="920,0" size="670,464"><panel name="NG_Dash_image_100"/></panel>
 	</screen>
 
 	<screen name="CronTimers" position="40,center" size="1590,690" backgroundColor="transparent" flags="wfNoBorder" title="Cron Manager">
@@ -4052,8 +4052,8 @@ self["list"].instance.setItemHeight(40)
 		<ePixmap pixmap="NileGlass_FHD/buttons/blue_k200.png" position="675,634" size="200,38" alphatest="blend" conditional="key_blue"/>
 		<widget name="key_blue" position="675,634" size="200,38" font="Medium;22" foregroundColor="white" backgroundColor="black" transparent="1" halign="center" valign="center" noWrap="1" zPosition="1" objectTypes="key_blue,Button,Label"/>
 		<widget source="key_blue" render="Label" position="675,634" size="200,38" font="Medium;22" foregroundColor="white" backgroundColor="black" transparent="1" halign="center" valign="center" noWrap="1" zPosition="1" objectTypes="key_blue,StaticText"/>
-			<!-- NG-DASH system cards -->
-		<panel position="920,0" size="670,464"><panel name="NG_Dash_system_100"/></panel>
+		<!-- NG-DASH time cards -->
+		<panel position="920,0" size="670,464"><panel name="NG_Dash_time_100"/></panel>
 	</screen>
 
 	<screen name="MultiBootSelector" position="40,center" size="1338,810" backgroundColor="transparent" flags="wfNoBorder" title="Multi Boot Image Selector">
@@ -4136,7 +4136,7 @@ self["list"].instance.setItemHeight(40)
 		<panel position="1170,0" size="670,464"><panel name="NG_Dash_system_100"/></panel>
 	</screen>
 	<!-- NG-CONVERTED END -->
-					<!-- NG-DASHPANELS BEGIN -->
+						<!-- NG-DASHPANELS BEGIN -->
 	<!-- card sets beside the panels (tools/gen_dash.py): positions from the panel that includes them -->
 	<screen name="NG_Dash_system_100">
 		<widget source="session.CurrentService" render="FixedLabel" text="" position="0,0" size="214,96" backgroundColor="bg" cornerRadius="18" zPosition="41"/>
@@ -4275,14 +4275,13 @@ self["list"].instance.setItemHeight(40)
 	</screen>
 	<screen name="NG_Dash_net_100">
 		<widget source="session.CurrentService" render="FixedLabel" text="" position="0,0" size="214,96" backgroundColor="bg" cornerRadius="18" zPosition="11"/>
-		<widget source="session.CurrentService" render="FixedLabel" text="الحالة" position="16,8" size="182,24" font="Regular;18" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="12"/>
-		<widget source="session.CurrentService" render="Label" position="16,32" size="186,40" font="Medium;30" foregroundColor="green" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="12"><convert type="NGSysInfo">OnlineYes</convert></widget>
-		<widget source="session.CurrentService" render="Label" position="16,32" size="186,40" font="Medium;30" foregroundColor="red" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="12"><convert type="NGSysInfo">OnlineNo</convert></widget>
-		<widget source="session.CurrentService" render="FixedLabel" text="اتصال الشبكة" position="16,68" size="186,22" font="Regular;16" foregroundColor="fgMute" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="12"/>
+		<widget source="session.CurrentService" render="FixedLabel" text="الشبكة" position="16,8" size="182,24" font="Regular;18" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="12"/>
+		<widget source="session.CurrentService" render="Label" position="16,32" size="186,40" font="Medium;30" foregroundColor="green" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="12"><convert type="NGContext">Ssid</convert></widget>
+		<widget source="session.CurrentService" render="FixedLabel" text="اسم الشبكة" position="16,68" size="186,22" font="Regular;16" foregroundColor="fgMute" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="12"/>
 		<widget source="session.CurrentService" render="FixedLabel" text="" position="228,0" size="214,96" backgroundColor="bg" cornerRadius="18" zPosition="11"/>
-		<widget source="session.CurrentService" render="FixedLabel" text="سرعة المنفذ" position="244,8" size="182,24" font="Regular;18" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="12"/>
-		<widget source="session.CurrentService" render="Label" position="244,32" size="186,40" font="Medium;30" foregroundColor="accent" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="12"><convert type="NGSysInfo">LinkSpeed</convert></widget>
-		<widget source="session.CurrentService" render="FixedLabel" text="سرعة الربط" position="244,68" size="186,22" font="Regular;16" foregroundColor="fgMute" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="12"/>
+		<widget source="session.CurrentService" render="FixedLabel" text="سرعة الاتصال" position="244,8" size="182,24" font="Regular;18" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="12"/>
+		<widget source="session.CurrentService" render="Label" position="244,32" size="186,40" font="Medium;30" foregroundColor="accent" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="12"><convert type="NGContext">NetRate</convert></widget>
+		<widget source="session.CurrentService" render="FixedLabel" text="بين الجهاز والراوتر" position="244,68" size="186,22" font="Regular;16" foregroundColor="fgMute" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="12"/>
 		<widget source="session.CurrentService" render="FixedLabel" text="" position="456,0" size="214,96" backgroundColor="bg" cornerRadius="18" zPosition="11"/>
 		<widget source="session.CurrentService" render="FixedLabel" text="التحميل الآن" position="472,8" size="182,24" font="Regular;18" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="12"/>
 		<widget source="session.CurrentService" render="Label" position="472,32" size="186,40" font="Medium;30" foregroundColor="gold" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="12"><convert type="NGSysInfo">NetDown</convert></widget>
@@ -4293,8 +4292,8 @@ self["list"].instance.setItemHeight(40)
 		<widget source="session.CurrentService" render="Label" position="192,152" size="456,30" font="Regular;22" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="12"><convert type="NGSysInfo">IP</convert></widget>
 		<widget source="session.CurrentService" render="FixedLabel" text="البوابة" position="22,186" size="170,30" font="Regular;20" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="12"/>
 		<widget source="session.CurrentService" render="Label" position="192,186" size="456,30" font="Regular;22" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="12"><convert type="NGSysInfo">Gateway</convert></widget>
-		<widget source="session.CurrentService" render="FixedLabel" text="قناع الشبكة" position="22,220" size="170,30" font="Regular;20" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="12"/>
-		<widget source="session.CurrentService" render="Label" position="192,220" size="456,30" font="Regular;22" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="12"><convert type="NGSysInfo">Netmask</convert></widget>
+		<widget source="session.CurrentService" render="FixedLabel" text="قوة الإشارة" position="22,220" size="170,30" font="Regular;20" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="12"/>
+		<widget source="session.CurrentService" render="Label" position="192,220" size="456,30" font="Regular;22" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="12"><convert type="NGContext">Signal</convert></widget>
 		<widget source="session.CurrentService" render="FixedLabel" text="خوادم DNS" position="22,254" size="170,30" font="Regular;20" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="12"/>
 		<widget source="session.CurrentService" render="Label" position="192,254" size="456,30" font="Regular;22" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="12"><convert type="NGSysInfo">Dns</convert></widget>
 		<widget source="session.CurrentService" render="FixedLabel" text="عنوان MAC" position="22,288" size="170,30" font="Regular;20" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="12"/>
@@ -4313,14 +4312,13 @@ self["list"].instance.setItemHeight(40)
 	</screen>
 	<screen name="NG_Dash_net_85">
 		<widget source="session.CurrentService" render="FixedLabel" text="" position="0,0" size="182,96" backgroundColor="bg" cornerRadius="18" zPosition="11"/>
-		<widget source="session.CurrentService" render="FixedLabel" text="الحالة" position="14,8" size="155,24" font="Regular;18" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="12"/>
-		<widget source="session.CurrentService" render="Label" position="14,32" size="158,40" font="Medium;30" foregroundColor="green" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="12"><convert type="NGSysInfo">OnlineYes</convert></widget>
-		<widget source="session.CurrentService" render="Label" position="14,32" size="158,40" font="Medium;30" foregroundColor="red" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="12"><convert type="NGSysInfo">OnlineNo</convert></widget>
-		<widget source="session.CurrentService" render="FixedLabel" text="اتصال الشبكة" position="14,68" size="158,22" font="Regular;16" foregroundColor="fgMute" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="12"/>
+		<widget source="session.CurrentService" render="FixedLabel" text="الشبكة" position="14,8" size="155,24" font="Regular;18" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="12"/>
+		<widget source="session.CurrentService" render="Label" position="14,32" size="158,40" font="Medium;30" foregroundColor="green" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="12"><convert type="NGContext">Ssid</convert></widget>
+		<widget source="session.CurrentService" render="FixedLabel" text="اسم الشبكة" position="14,68" size="158,22" font="Regular;16" foregroundColor="fgMute" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="12"/>
 		<widget source="session.CurrentService" render="FixedLabel" text="" position="194,0" size="182,96" backgroundColor="bg" cornerRadius="18" zPosition="11"/>
-		<widget source="session.CurrentService" render="FixedLabel" text="سرعة المنفذ" position="207,8" size="155,24" font="Regular;18" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="12"/>
-		<widget source="session.CurrentService" render="Label" position="207,32" size="158,40" font="Medium;30" foregroundColor="accent" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="12"><convert type="NGSysInfo">LinkSpeed</convert></widget>
-		<widget source="session.CurrentService" render="FixedLabel" text="سرعة الربط" position="207,68" size="158,22" font="Regular;16" foregroundColor="fgMute" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="12"/>
+		<widget source="session.CurrentService" render="FixedLabel" text="سرعة الاتصال" position="207,8" size="155,24" font="Regular;18" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="12"/>
+		<widget source="session.CurrentService" render="Label" position="207,32" size="158,40" font="Medium;30" foregroundColor="accent" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="12"><convert type="NGContext">NetRate</convert></widget>
+		<widget source="session.CurrentService" render="FixedLabel" text="بين الجهاز والراوتر" position="207,68" size="158,22" font="Regular;16" foregroundColor="fgMute" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="12"/>
 		<widget source="session.CurrentService" render="FixedLabel" text="" position="388,0" size="182,96" backgroundColor="bg" cornerRadius="18" zPosition="11"/>
 		<widget source="session.CurrentService" render="FixedLabel" text="التحميل الآن" position="401,8" size="155,24" font="Regular;18" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="12"/>
 		<widget source="session.CurrentService" render="Label" position="401,32" size="158,40" font="Medium;30" foregroundColor="gold" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="12"><convert type="NGSysInfo">NetDown</convert></widget>
@@ -4331,8 +4329,8 @@ self["list"].instance.setItemHeight(40)
 		<widget source="session.CurrentService" render="Label" position="163,152" size="388,30" font="Regular;22" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="12"><convert type="NGSysInfo">IP</convert></widget>
 		<widget source="session.CurrentService" render="FixedLabel" text="البوابة" position="19,186" size="144,30" font="Regular;20" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="12"/>
 		<widget source="session.CurrentService" render="Label" position="163,186" size="388,30" font="Regular;22" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="12"><convert type="NGSysInfo">Gateway</convert></widget>
-		<widget source="session.CurrentService" render="FixedLabel" text="قناع الشبكة" position="19,220" size="144,30" font="Regular;20" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="12"/>
-		<widget source="session.CurrentService" render="Label" position="163,220" size="388,30" font="Regular;22" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="12"><convert type="NGSysInfo">Netmask</convert></widget>
+		<widget source="session.CurrentService" render="FixedLabel" text="قوة الإشارة" position="19,220" size="144,30" font="Regular;20" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="12"/>
+		<widget source="session.CurrentService" render="Label" position="163,220" size="388,30" font="Regular;22" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="12"><convert type="NGContext">Signal</convert></widget>
 		<widget source="session.CurrentService" render="FixedLabel" text="خوادم DNS" position="19,254" size="144,30" font="Regular;20" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="12"/>
 		<widget source="session.CurrentService" render="Label" position="163,254" size="388,30" font="Regular;22" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="12"><convert type="NGSysInfo">Dns</convert></widget>
 		<widget source="session.CurrentService" render="FixedLabel" text="عنوان MAC" position="19,288" size="144,30" font="Regular;20" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="12"/>
@@ -4351,14 +4349,13 @@ self["list"].instance.setItemHeight(40)
 	</screen>
 	<screen name="NG_Dash_net_75">
 		<widget source="session.CurrentService" render="FixedLabel" text="" position="0,0" size="160,96" backgroundColor="bg" cornerRadius="18" zPosition="11"/>
-		<widget source="session.CurrentService" render="FixedLabel" text="الحالة" position="12,8" size="136,24" font="Regular;18" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="12"/>
-		<widget source="session.CurrentService" render="Label" position="12,32" size="140,40" font="Medium;30" foregroundColor="green" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="12"><convert type="NGSysInfo">OnlineYes</convert></widget>
-		<widget source="session.CurrentService" render="Label" position="12,32" size="140,40" font="Medium;30" foregroundColor="red" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="12"><convert type="NGSysInfo">OnlineNo</convert></widget>
-		<widget source="session.CurrentService" render="FixedLabel" text="اتصال الشبكة" position="12,68" size="140,22" font="Regular;16" foregroundColor="fgMute" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="12"/>
+		<widget source="session.CurrentService" render="FixedLabel" text="الشبكة" position="12,8" size="136,24" font="Regular;18" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="12"/>
+		<widget source="session.CurrentService" render="Label" position="12,32" size="140,40" font="Medium;30" foregroundColor="green" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="12"><convert type="NGContext">Ssid</convert></widget>
+		<widget source="session.CurrentService" render="FixedLabel" text="اسم الشبكة" position="12,68" size="140,22" font="Regular;16" foregroundColor="fgMute" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="12"/>
 		<widget source="session.CurrentService" render="FixedLabel" text="" position="171,0" size="160,96" backgroundColor="bg" cornerRadius="18" zPosition="11"/>
-		<widget source="session.CurrentService" render="FixedLabel" text="سرعة المنفذ" position="183,8" size="136,24" font="Regular;18" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="12"/>
-		<widget source="session.CurrentService" render="Label" position="183,32" size="140,40" font="Medium;30" foregroundColor="accent" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="12"><convert type="NGSysInfo">LinkSpeed</convert></widget>
-		<widget source="session.CurrentService" render="FixedLabel" text="سرعة الربط" position="183,68" size="140,22" font="Regular;16" foregroundColor="fgMute" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="12"/>
+		<widget source="session.CurrentService" render="FixedLabel" text="سرعة الاتصال" position="183,8" size="136,24" font="Regular;18" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="12"/>
+		<widget source="session.CurrentService" render="Label" position="183,32" size="140,40" font="Medium;30" foregroundColor="accent" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="12"><convert type="NGContext">NetRate</convert></widget>
+		<widget source="session.CurrentService" render="FixedLabel" text="بين الجهاز والراوتر" position="183,68" size="140,22" font="Regular;16" foregroundColor="fgMute" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="12"/>
 		<widget source="session.CurrentService" render="FixedLabel" text="" position="342,0" size="160,96" backgroundColor="bg" cornerRadius="18" zPosition="11"/>
 		<widget source="session.CurrentService" render="FixedLabel" text="التحميل الآن" position="354,8" size="136,24" font="Regular;18" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="12"/>
 		<widget source="session.CurrentService" render="Label" position="354,32" size="140,40" font="Medium;30" foregroundColor="gold" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="12"><convert type="NGSysInfo">NetDown</convert></widget>
@@ -4369,8 +4366,8 @@ self["list"].instance.setItemHeight(40)
 		<widget source="session.CurrentService" render="Label" position="144,152" size="342,30" font="Regular;22" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="12"><convert type="NGSysInfo">IP</convert></widget>
 		<widget source="session.CurrentService" render="FixedLabel" text="البوابة" position="16,186" size="128,30" font="Regular;20" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="12"/>
 		<widget source="session.CurrentService" render="Label" position="144,186" size="342,30" font="Regular;22" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="12"><convert type="NGSysInfo">Gateway</convert></widget>
-		<widget source="session.CurrentService" render="FixedLabel" text="قناع الشبكة" position="16,220" size="128,30" font="Regular;20" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="12"/>
-		<widget source="session.CurrentService" render="Label" position="144,220" size="342,30" font="Regular;22" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="12"><convert type="NGSysInfo">Netmask</convert></widget>
+		<widget source="session.CurrentService" render="FixedLabel" text="قوة الإشارة" position="16,220" size="128,30" font="Regular;20" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="12"/>
+		<widget source="session.CurrentService" render="Label" position="144,220" size="342,30" font="Regular;22" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="12"><convert type="NGContext">Signal</convert></widget>
 		<widget source="session.CurrentService" render="FixedLabel" text="خوادم DNS" position="16,254" size="128,30" font="Regular;20" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="12"/>
 		<widget source="session.CurrentService" render="Label" position="144,254" size="342,30" font="Regular;22" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="12"><convert type="NGSysInfo">Dns</convert></widget>
 		<widget source="session.CurrentService" render="FixedLabel" text="عنوان MAC" position="16,288" size="128,30" font="Regular;20" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="12"/>
@@ -4593,6 +4590,423 @@ self["list"].instance.setItemHeight(40)
 		<widget source="session.CurrentService" render="Label" position="315,380" size="171,30" font="Medium;22" foregroundColor="gold" backgroundColor="bg" transparent="1" halign="right" valign="center" noWrap="1" zPosition="32"><convert type="NGSysInfo">Ac3</convert></widget>
 		<widget source="session.CurrentService" render="FixedLabel" text="المسار" position="196,420" size="112,30" font="Regular;20" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="32"/>
 		<widget source="session.CurrentService" render="Label" position="315,420" size="171,30" font="Medium;22" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="right" valign="center" noWrap="1" zPosition="32"><convert type="NGCodec">Audio</convert></widget>
+	</screen>
+	<screen name="NG_Dash_time_100">
+		<widget source="session.CurrentService" render="FixedLabel" text="" position="0,0" size="214,96" backgroundColor="bg" cornerRadius="18" zPosition="81"/>
+		<widget source="session.CurrentService" render="FixedLabel" text="الساعة الآن" position="16,8" size="182,24" font="Regular;18" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="82"/>
+		<widget source="session.CurrentService" render="Label" position="16,32" size="186,40" font="Medium;30" foregroundColor="accent" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="82"><convert type="NGContext">Local</convert></widget>
+		<widget source="session.CurrentService" render="FixedLabel" text="توقيتك" position="16,68" size="186,22" font="Regular;16" foregroundColor="fgMute" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="82"/>
+		<widget source="session.CurrentService" render="FixedLabel" text="" position="228,0" size="214,96" backgroundColor="bg" cornerRadius="18" zPosition="81"/>
+		<widget source="session.CurrentService" render="FixedLabel" text="التوقيت العالمي" position="244,8" size="182,24" font="Regular;18" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="82"/>
+		<widget source="session.CurrentService" render="Label" position="244,32" size="186,40" font="Medium;30" foregroundColor="gold" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="82"><convert type="NGContext">Utc</convert></widget>
+		<widget source="session.CurrentService" render="FixedLabel" text="UTC / جرينتش" position="244,68" size="186,22" font="Regular;16" foregroundColor="fgMute" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="82"/>
+		<widget source="session.CurrentService" render="FixedLabel" text="" position="456,0" size="214,96" backgroundColor="bg" cornerRadius="18" zPosition="81"/>
+		<widget source="session.CurrentService" render="FixedLabel" text="فرق التوقيت" position="472,8" size="182,24" font="Regular;18" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="82"/>
+		<widget source="session.CurrentService" render="Label" position="472,32" size="186,40" font="Medium;30" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="82"><convert type="NGContext">Offset</convert></widget>
+		<widget source="session.CurrentService" render="FixedLabel" text="عن جرينتش" position="472,68" size="186,22" font="Regular;16" foregroundColor="fgMute" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="82"/>
+		<widget source="session.CurrentService" render="FixedLabel" text="" position="0,108" size="670,220" backgroundColor="bg" cornerRadius="18" zPosition="81"/>
+		<widget source="session.CurrentService" render="FixedLabel" text="المنطقة والمزامنة" position="22,118" size="300,28" font="Regular;20" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="82"/>
+		<widget source="session.CurrentService" render="FixedLabel" text="التاريخ" position="22,152" size="150,30" font="Regular;20" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="82"/>
+		<widget source="global.CurrentTime" render="Label" position="172,152" size="476,30" font="Regular;22" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="82"><convert type="ClockToText">Format:%A %d %B %Y</convert></widget>
+		<widget source="session.CurrentService" render="FixedLabel" text="الهجري" position="22,186" size="150,30" font="Regular;20" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="82"/>
+		<widget source="global.CurrentTime" render="Label" position="172,186" size="476,30" font="Regular;22" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="82"><convert type="NGHijri"></convert></widget>
+		<widget source="session.CurrentService" render="FixedLabel" text="المنطقة" position="22,220" size="150,30" font="Regular;20" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="82"/>
+		<widget source="session.CurrentService" render="Label" position="172,220" size="476,30" font="Regular;22" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="82"><convert type="NGContext">Zone</convert></widget>
+		<widget source="session.CurrentService" render="FixedLabel" text="الصيفي" position="22,254" size="150,30" font="Regular;20" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="82"/>
+		<widget source="session.CurrentService" render="Label" position="172,254" size="476,30" font="Regular;22" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="82"><convert type="NGContext">Dst</convert></widget>
+		<widget source="session.CurrentService" render="FixedLabel" text="مصدر الوقت" position="22,288" size="150,30" font="Regular;20" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="82"/>
+		<widget source="session.CurrentService" render="Label" position="172,288" size="476,30" font="Regular;22" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="82"><convert type="NGContext">Sync</convert></widget>
+		<widget source="session.CurrentService" render="FixedLabel" text="" position="0,340" size="670,124" backgroundColor="bg" cornerRadius="18" zPosition="81"/>
+		<widget source="session.CurrentService" render="FixedLabel" text="الساعة في مدن تانية" position="22,350" size="300,26" font="Regular;20" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="82"/>
+		<widget source="session.CurrentService" render="Label" position="22,384" size="300,34" font="Medium;24" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="82"><convert type="NGContext">City1</convert></widget>
+		<widget source="session.CurrentService" render="Label" position="342,384" size="300,34" font="Medium;24" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="82"><convert type="NGContext">City2</convert></widget>
+		<widget source="session.CurrentService" render="Label" position="22,422" size="300,34" font="Medium;24" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="82"><convert type="NGContext">City3</convert></widget>
+		<widget source="session.CurrentService" render="Label" position="342,422" size="300,34" font="Medium;24" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="82"><convert type="NGContext">City4</convert></widget>
+	</screen>
+	<screen name="NG_Dash_time_85">
+		<widget source="session.CurrentService" render="FixedLabel" text="" position="0,0" size="182,96" backgroundColor="bg" cornerRadius="18" zPosition="81"/>
+		<widget source="session.CurrentService" render="FixedLabel" text="الساعة الآن" position="14,8" size="155,24" font="Regular;18" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="82"/>
+		<widget source="session.CurrentService" render="Label" position="14,32" size="158,40" font="Medium;30" foregroundColor="accent" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="82"><convert type="NGContext">Local</convert></widget>
+		<widget source="session.CurrentService" render="FixedLabel" text="توقيتك" position="14,68" size="158,22" font="Regular;16" foregroundColor="fgMute" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="82"/>
+		<widget source="session.CurrentService" render="FixedLabel" text="" position="194,0" size="182,96" backgroundColor="bg" cornerRadius="18" zPosition="81"/>
+		<widget source="session.CurrentService" render="FixedLabel" text="التوقيت العالمي" position="207,8" size="155,24" font="Regular;18" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="82"/>
+		<widget source="session.CurrentService" render="Label" position="207,32" size="158,40" font="Medium;30" foregroundColor="gold" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="82"><convert type="NGContext">Utc</convert></widget>
+		<widget source="session.CurrentService" render="FixedLabel" text="UTC / جرينتش" position="207,68" size="158,22" font="Regular;16" foregroundColor="fgMute" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="82"/>
+		<widget source="session.CurrentService" render="FixedLabel" text="" position="388,0" size="182,96" backgroundColor="bg" cornerRadius="18" zPosition="81"/>
+		<widget source="session.CurrentService" render="FixedLabel" text="فرق التوقيت" position="401,8" size="155,24" font="Regular;18" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="82"/>
+		<widget source="session.CurrentService" render="Label" position="401,32" size="158,40" font="Medium;30" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="82"><convert type="NGContext">Offset</convert></widget>
+		<widget source="session.CurrentService" render="FixedLabel" text="عن جرينتش" position="401,68" size="158,22" font="Regular;16" foregroundColor="fgMute" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="82"/>
+		<widget source="session.CurrentService" render="FixedLabel" text="" position="0,108" size="570,220" backgroundColor="bg" cornerRadius="18" zPosition="81"/>
+		<widget source="session.CurrentService" render="FixedLabel" text="المنطقة والمزامنة" position="19,118" size="255,28" font="Regular;20" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="82"/>
+		<widget source="session.CurrentService" render="FixedLabel" text="التاريخ" position="19,152" size="128,30" font="Regular;20" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="82"/>
+		<widget source="global.CurrentTime" render="Label" position="146,152" size="405,30" font="Regular;22" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="82"><convert type="ClockToText">Format:%A %d %B %Y</convert></widget>
+		<widget source="session.CurrentService" render="FixedLabel" text="الهجري" position="19,186" size="128,30" font="Regular;20" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="82"/>
+		<widget source="global.CurrentTime" render="Label" position="146,186" size="405,30" font="Regular;22" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="82"><convert type="NGHijri"></convert></widget>
+		<widget source="session.CurrentService" render="FixedLabel" text="المنطقة" position="19,220" size="128,30" font="Regular;20" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="82"/>
+		<widget source="session.CurrentService" render="Label" position="146,220" size="405,30" font="Regular;22" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="82"><convert type="NGContext">Zone</convert></widget>
+		<widget source="session.CurrentService" render="FixedLabel" text="الصيفي" position="19,254" size="128,30" font="Regular;20" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="82"/>
+		<widget source="session.CurrentService" render="Label" position="146,254" size="405,30" font="Regular;22" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="82"><convert type="NGContext">Dst</convert></widget>
+		<widget source="session.CurrentService" render="FixedLabel" text="مصدر الوقت" position="19,288" size="128,30" font="Regular;20" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="82"/>
+		<widget source="session.CurrentService" render="Label" position="146,288" size="405,30" font="Regular;22" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="82"><convert type="NGContext">Sync</convert></widget>
+		<widget source="session.CurrentService" render="FixedLabel" text="" position="0,340" size="570,124" backgroundColor="bg" cornerRadius="18" zPosition="81"/>
+		<widget source="session.CurrentService" render="FixedLabel" text="الساعة في مدن تانية" position="19,350" size="255,26" font="Regular;20" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="82"/>
+		<widget source="session.CurrentService" render="Label" position="19,384" size="255,34" font="Medium;24" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="82"><convert type="NGContext">City1</convert></widget>
+		<widget source="session.CurrentService" render="Label" position="291,384" size="255,34" font="Medium;24" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="82"><convert type="NGContext">City2</convert></widget>
+		<widget source="session.CurrentService" render="Label" position="19,422" size="255,34" font="Medium;24" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="82"><convert type="NGContext">City3</convert></widget>
+		<widget source="session.CurrentService" render="Label" position="291,422" size="255,34" font="Medium;24" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="82"><convert type="NGContext">City4</convert></widget>
+	</screen>
+	<screen name="NG_Dash_time_75">
+		<widget source="session.CurrentService" render="FixedLabel" text="" position="0,0" size="160,96" backgroundColor="bg" cornerRadius="18" zPosition="81"/>
+		<widget source="session.CurrentService" render="FixedLabel" text="الساعة الآن" position="12,8" size="136,24" font="Regular;18" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="82"/>
+		<widget source="session.CurrentService" render="Label" position="12,32" size="140,40" font="Medium;30" foregroundColor="accent" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="82"><convert type="NGContext">Local</convert></widget>
+		<widget source="session.CurrentService" render="FixedLabel" text="توقيتك" position="12,68" size="140,22" font="Regular;16" foregroundColor="fgMute" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="82"/>
+		<widget source="session.CurrentService" render="FixedLabel" text="" position="171,0" size="160,96" backgroundColor="bg" cornerRadius="18" zPosition="81"/>
+		<widget source="session.CurrentService" render="FixedLabel" text="التوقيت العالمي" position="183,8" size="136,24" font="Regular;18" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="82"/>
+		<widget source="session.CurrentService" render="Label" position="183,32" size="140,40" font="Medium;30" foregroundColor="gold" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="82"><convert type="NGContext">Utc</convert></widget>
+		<widget source="session.CurrentService" render="FixedLabel" text="UTC / جرينتش" position="183,68" size="140,22" font="Regular;16" foregroundColor="fgMute" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="82"/>
+		<widget source="session.CurrentService" render="FixedLabel" text="" position="342,0" size="160,96" backgroundColor="bg" cornerRadius="18" zPosition="81"/>
+		<widget source="session.CurrentService" render="FixedLabel" text="فرق التوقيت" position="354,8" size="136,24" font="Regular;18" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="82"/>
+		<widget source="session.CurrentService" render="Label" position="354,32" size="140,40" font="Medium;30" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="82"><convert type="NGContext">Offset</convert></widget>
+		<widget source="session.CurrentService" render="FixedLabel" text="عن جرينتش" position="354,68" size="140,22" font="Regular;16" foregroundColor="fgMute" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="82"/>
+		<widget source="session.CurrentService" render="FixedLabel" text="" position="0,108" size="502,220" backgroundColor="bg" cornerRadius="18" zPosition="81"/>
+		<widget source="session.CurrentService" render="FixedLabel" text="المنطقة والمزامنة" position="16,118" size="225,28" font="Regular;20" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="82"/>
+		<widget source="session.CurrentService" render="FixedLabel" text="التاريخ" position="16,152" size="112,30" font="Regular;20" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="82"/>
+		<widget source="global.CurrentTime" render="Label" position="129,152" size="357,30" font="Regular;22" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="82"><convert type="ClockToText">Format:%A %d %B %Y</convert></widget>
+		<widget source="session.CurrentService" render="FixedLabel" text="الهجري" position="16,186" size="112,30" font="Regular;20" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="82"/>
+		<widget source="global.CurrentTime" render="Label" position="129,186" size="357,30" font="Regular;22" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="82"><convert type="NGHijri"></convert></widget>
+		<widget source="session.CurrentService" render="FixedLabel" text="المنطقة" position="16,220" size="112,30" font="Regular;20" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="82"/>
+		<widget source="session.CurrentService" render="Label" position="129,220" size="357,30" font="Regular;22" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="82"><convert type="NGContext">Zone</convert></widget>
+		<widget source="session.CurrentService" render="FixedLabel" text="الصيفي" position="16,254" size="112,30" font="Regular;20" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="82"/>
+		<widget source="session.CurrentService" render="Label" position="129,254" size="357,30" font="Regular;22" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="82"><convert type="NGContext">Dst</convert></widget>
+		<widget source="session.CurrentService" render="FixedLabel" text="مصدر الوقت" position="16,288" size="112,30" font="Regular;20" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="82"/>
+		<widget source="session.CurrentService" render="Label" position="129,288" size="357,30" font="Regular;22" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="82"><convert type="NGContext">Sync</convert></widget>
+		<widget source="session.CurrentService" render="FixedLabel" text="" position="0,340" size="502,124" backgroundColor="bg" cornerRadius="18" zPosition="81"/>
+		<widget source="session.CurrentService" render="FixedLabel" text="الساعة في مدن تانية" position="16,350" size="225,26" font="Regular;20" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="82"/>
+		<widget source="session.CurrentService" render="Label" position="16,384" size="225,34" font="Medium;24" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="82"><convert type="NGContext">City1</convert></widget>
+		<widget source="session.CurrentService" render="Label" position="256,384" size="225,34" font="Medium;24" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="82"><convert type="NGContext">City2</convert></widget>
+		<widget source="session.CurrentService" render="Label" position="16,422" size="225,34" font="Medium;24" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="82"><convert type="NGContext">City3</convert></widget>
+		<widget source="session.CurrentService" render="Label" position="256,422" size="225,34" font="Medium;24" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="82"><convert type="NGContext">City4</convert></widget>
+	</screen>
+	<screen name="NG_Dash_image_100">
+		<widget source="session.CurrentService" render="FixedLabel" text="" position="0,0" size="214,96" backgroundColor="bg" cornerRadius="18" zPosition="91"/>
+		<widget source="session.CurrentService" render="FixedLabel" text="بايثون" position="16,8" size="182,24" font="Regular;18" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="92"/>
+		<widget source="session.CurrentService" render="Label" position="16,32" size="186,40" font="Medium;30" foregroundColor="accent" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="92"><convert type="NGContext">Python</convert></widget>
+		<widget source="session.CurrentService" render="FixedLabel" text="Python" position="16,68" size="186,22" font="Regular;16" foregroundColor="fgMute" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="92"/>
+		<widget source="session.CurrentService" render="FixedLabel" text="" position="228,0" size="214,96" backgroundColor="bg" cornerRadius="18" zPosition="91"/>
+		<widget source="session.CurrentService" render="FixedLabel" text="الكيرنل" position="244,8" size="182,24" font="Regular;18" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="92"/>
+		<widget source="session.CurrentService" render="Label" position="244,32" size="186,40" font="Medium;30" foregroundColor="gold" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="92"><convert type="NGContext">Kernel</convert></widget>
+		<widget source="session.CurrentService" render="FixedLabel" text="Linux kernel" position="244,68" size="186,22" font="Regular;16" foregroundColor="fgMute" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="92"/>
+		<widget source="session.CurrentService" render="FixedLabel" text="" position="456,0" size="214,96" backgroundColor="bg" cornerRadius="18" zPosition="91"/>
+		<widget source="session.CurrentService" render="FixedLabel" text="شغال من" position="472,8" size="182,24" font="Regular;18" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="92"/>
+		<widget source="session.CurrentService" render="Label" position="472,32" size="186,40" font="Medium;30" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="92"><convert type="NGSysInfo">Uptime</convert></widget>
+		<widget source="session.CurrentService" render="FixedLabel" text="آخر تشغيل للجهاز" position="472,68" size="186,22" font="Regular;16" foregroundColor="fgMute" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="92"/>
+		<widget source="session.CurrentService" render="FixedLabel" text="" position="0,108" size="670,220" backgroundColor="bg" cornerRadius="18" zPosition="91"/>
+		<widget source="session.CurrentService" render="FixedLabel" text="الصورة" position="22,118" size="300,28" font="Regular;20" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="92"/>
+		<widget source="session.CurrentService" render="Label" position="22,148" size="626,44" font="Medium;30" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="92"><convert type="NGContext">Image</convert></widget>
+		<widget source="session.CurrentService" render="FixedLabel" text="الجهاز" position="22,200" size="190,30" font="Regular;20" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="92"/>
+		<widget source="session.CurrentService" render="Label" position="212,200" size="436,30" font="Regular;22" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="92"><convert type="NGContext">Model</convert></widget>
+		<widget source="session.CurrentService" render="FixedLabel" text="اتسطبت" position="22,234" size="190,30" font="Regular;20" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="92"/>
+		<widget source="session.CurrentService" render="Label" position="212,234" size="436,30" font="Regular;22" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="92"><convert type="NGContext">Flashed</convert></widget>
+		<widget source="session.CurrentService" render="FixedLabel" text="آخر تعديل لإنيجما" position="22,268" size="190,30" font="Regular;20" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="92"/>
+		<widget source="session.CurrentService" render="Label" position="212,268" size="436,30" font="Regular;22" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="92"><convert type="NGContext">Enigma</convert></widget>
+		<widget source="session.CurrentService" render="FixedLabel" text="" position="0,340" size="670,124" backgroundColor="bg" cornerRadius="18" zPosition="91"/>
+		<widget source="session.CurrentService" render="FixedLabel" text="التحديثات" position="22,350" size="300,26" font="Regular;20" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="92"/>
+		<widget source="session.CurrentService" render="Label" position="330,350" size="318,26" font="Regular;18" foregroundColor="fgMute" backgroundColor="bg" transparent="1" halign="right" valign="center" noWrap="1" zPosition="92"><convert type="NGContext">FeedAge</convert></widget>
+		<widget source="session.CurrentService" render="Label" position="22,384" size="626,40" font="Medium;28" foregroundColor="accent" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="92"><convert type="NGContext">Updates</convert></widget>
+		<widget source="session.CurrentService" render="FixedLabel" text="الفلاش الفاضي" position="22,428" size="400,24" font="Regular;18" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="92"/>
+		<widget source="session.CurrentService" render="Label" position="330,426" size="318,26" font="Regular;20" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="right" valign="center" noWrap="1" zPosition="92"><convert type="NGSysInfo">FlashFree</convert></widget>
+	</screen>
+	<screen name="NG_Dash_image_85">
+		<widget source="session.CurrentService" render="FixedLabel" text="" position="0,0" size="182,96" backgroundColor="bg" cornerRadius="18" zPosition="91"/>
+		<widget source="session.CurrentService" render="FixedLabel" text="بايثون" position="14,8" size="155,24" font="Regular;18" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="92"/>
+		<widget source="session.CurrentService" render="Label" position="14,32" size="158,40" font="Medium;30" foregroundColor="accent" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="92"><convert type="NGContext">Python</convert></widget>
+		<widget source="session.CurrentService" render="FixedLabel" text="Python" position="14,68" size="158,22" font="Regular;16" foregroundColor="fgMute" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="92"/>
+		<widget source="session.CurrentService" render="FixedLabel" text="" position="194,0" size="182,96" backgroundColor="bg" cornerRadius="18" zPosition="91"/>
+		<widget source="session.CurrentService" render="FixedLabel" text="الكيرنل" position="207,8" size="155,24" font="Regular;18" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="92"/>
+		<widget source="session.CurrentService" render="Label" position="207,32" size="158,40" font="Medium;30" foregroundColor="gold" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="92"><convert type="NGContext">Kernel</convert></widget>
+		<widget source="session.CurrentService" render="FixedLabel" text="Linux kernel" position="207,68" size="158,22" font="Regular;16" foregroundColor="fgMute" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="92"/>
+		<widget source="session.CurrentService" render="FixedLabel" text="" position="388,0" size="182,96" backgroundColor="bg" cornerRadius="18" zPosition="91"/>
+		<widget source="session.CurrentService" render="FixedLabel" text="شغال من" position="401,8" size="155,24" font="Regular;18" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="92"/>
+		<widget source="session.CurrentService" render="Label" position="401,32" size="158,40" font="Medium;30" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="92"><convert type="NGSysInfo">Uptime</convert></widget>
+		<widget source="session.CurrentService" render="FixedLabel" text="آخر تشغيل للجهاز" position="401,68" size="158,22" font="Regular;16" foregroundColor="fgMute" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="92"/>
+		<widget source="session.CurrentService" render="FixedLabel" text="" position="0,108" size="570,220" backgroundColor="bg" cornerRadius="18" zPosition="91"/>
+		<widget source="session.CurrentService" render="FixedLabel" text="الصورة" position="19,118" size="255,28" font="Regular;20" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="92"/>
+		<widget source="session.CurrentService" render="Label" position="19,148" size="532,44" font="Medium;30" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="92"><convert type="NGContext">Image</convert></widget>
+		<widget source="session.CurrentService" render="FixedLabel" text="الجهاز" position="19,200" size="162,30" font="Regular;20" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="92"/>
+		<widget source="session.CurrentService" render="Label" position="180,200" size="371,30" font="Regular;22" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="92"><convert type="NGContext">Model</convert></widget>
+		<widget source="session.CurrentService" render="FixedLabel" text="اتسطبت" position="19,234" size="162,30" font="Regular;20" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="92"/>
+		<widget source="session.CurrentService" render="Label" position="180,234" size="371,30" font="Regular;22" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="92"><convert type="NGContext">Flashed</convert></widget>
+		<widget source="session.CurrentService" render="FixedLabel" text="آخر تعديل لإنيجما" position="19,268" size="162,30" font="Regular;20" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="92"/>
+		<widget source="session.CurrentService" render="Label" position="180,268" size="371,30" font="Regular;22" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="92"><convert type="NGContext">Enigma</convert></widget>
+		<widget source="session.CurrentService" render="FixedLabel" text="" position="0,340" size="570,124" backgroundColor="bg" cornerRadius="18" zPosition="91"/>
+		<widget source="session.CurrentService" render="FixedLabel" text="التحديثات" position="19,350" size="255,26" font="Regular;20" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="92"/>
+		<widget source="session.CurrentService" render="Label" position="280,350" size="270,26" font="Regular;18" foregroundColor="fgMute" backgroundColor="bg" transparent="1" halign="right" valign="center" noWrap="1" zPosition="92"><convert type="NGContext">FeedAge</convert></widget>
+		<widget source="session.CurrentService" render="Label" position="19,384" size="532,40" font="Medium;28" foregroundColor="accent" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="92"><convert type="NGContext">Updates</convert></widget>
+		<widget source="session.CurrentService" render="FixedLabel" text="الفلاش الفاضي" position="19,428" size="340,24" font="Regular;18" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="92"/>
+		<widget source="session.CurrentService" render="Label" position="280,426" size="270,26" font="Regular;20" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="right" valign="center" noWrap="1" zPosition="92"><convert type="NGSysInfo">FlashFree</convert></widget>
+	</screen>
+	<screen name="NG_Dash_image_75">
+		<widget source="session.CurrentService" render="FixedLabel" text="" position="0,0" size="160,96" backgroundColor="bg" cornerRadius="18" zPosition="91"/>
+		<widget source="session.CurrentService" render="FixedLabel" text="بايثون" position="12,8" size="136,24" font="Regular;18" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="92"/>
+		<widget source="session.CurrentService" render="Label" position="12,32" size="140,40" font="Medium;30" foregroundColor="accent" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="92"><convert type="NGContext">Python</convert></widget>
+		<widget source="session.CurrentService" render="FixedLabel" text="Python" position="12,68" size="140,22" font="Regular;16" foregroundColor="fgMute" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="92"/>
+		<widget source="session.CurrentService" render="FixedLabel" text="" position="171,0" size="160,96" backgroundColor="bg" cornerRadius="18" zPosition="91"/>
+		<widget source="session.CurrentService" render="FixedLabel" text="الكيرنل" position="183,8" size="136,24" font="Regular;18" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="92"/>
+		<widget source="session.CurrentService" render="Label" position="183,32" size="140,40" font="Medium;30" foregroundColor="gold" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="92"><convert type="NGContext">Kernel</convert></widget>
+		<widget source="session.CurrentService" render="FixedLabel" text="Linux kernel" position="183,68" size="140,22" font="Regular;16" foregroundColor="fgMute" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="92"/>
+		<widget source="session.CurrentService" render="FixedLabel" text="" position="342,0" size="160,96" backgroundColor="bg" cornerRadius="18" zPosition="91"/>
+		<widget source="session.CurrentService" render="FixedLabel" text="شغال من" position="354,8" size="136,24" font="Regular;18" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="92"/>
+		<widget source="session.CurrentService" render="Label" position="354,32" size="140,40" font="Medium;30" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="92"><convert type="NGSysInfo">Uptime</convert></widget>
+		<widget source="session.CurrentService" render="FixedLabel" text="آخر تشغيل للجهاز" position="354,68" size="140,22" font="Regular;16" foregroundColor="fgMute" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="92"/>
+		<widget source="session.CurrentService" render="FixedLabel" text="" position="0,108" size="502,220" backgroundColor="bg" cornerRadius="18" zPosition="91"/>
+		<widget source="session.CurrentService" render="FixedLabel" text="الصورة" position="16,118" size="225,28" font="Regular;20" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="92"/>
+		<widget source="session.CurrentService" render="Label" position="16,148" size="470,44" font="Medium;30" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="92"><convert type="NGContext">Image</convert></widget>
+		<widget source="session.CurrentService" render="FixedLabel" text="الجهاز" position="16,200" size="142,30" font="Regular;20" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="92"/>
+		<widget source="session.CurrentService" render="Label" position="159,200" size="327,30" font="Regular;22" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="92"><convert type="NGContext">Model</convert></widget>
+		<widget source="session.CurrentService" render="FixedLabel" text="اتسطبت" position="16,234" size="142,30" font="Regular;20" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="92"/>
+		<widget source="session.CurrentService" render="Label" position="159,234" size="327,30" font="Regular;22" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="92"><convert type="NGContext">Flashed</convert></widget>
+		<widget source="session.CurrentService" render="FixedLabel" text="آخر تعديل لإنيجما" position="16,268" size="142,30" font="Regular;20" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="92"/>
+		<widget source="session.CurrentService" render="Label" position="159,268" size="327,30" font="Regular;22" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="92"><convert type="NGContext">Enigma</convert></widget>
+		<widget source="session.CurrentService" render="FixedLabel" text="" position="0,340" size="502,124" backgroundColor="bg" cornerRadius="18" zPosition="91"/>
+		<widget source="session.CurrentService" render="FixedLabel" text="التحديثات" position="16,350" size="225,26" font="Regular;20" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="92"/>
+		<widget source="session.CurrentService" render="Label" position="248,350" size="238,26" font="Regular;18" foregroundColor="fgMute" backgroundColor="bg" transparent="1" halign="right" valign="center" noWrap="1" zPosition="92"><convert type="NGContext">FeedAge</convert></widget>
+		<widget source="session.CurrentService" render="Label" position="16,384" size="470,40" font="Medium;28" foregroundColor="accent" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="92"><convert type="NGContext">Updates</convert></widget>
+		<widget source="session.CurrentService" render="FixedLabel" text="الفلاش الفاضي" position="16,428" size="300,24" font="Regular;18" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="92"/>
+		<widget source="session.CurrentService" render="Label" position="248,426" size="238,26" font="Regular;20" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="right" valign="center" noWrap="1" zPosition="92"><convert type="NGSysInfo">FlashFree</convert></widget>
+	</screen>
+	<screen name="NG_Dash_emu_100">
+		<widget source="session.CurrentService" render="FixedLabel" text="" position="0,0" size="214,96" backgroundColor="bg" cornerRadius="18" zPosition="101"/>
+		<widget source="session.CurrentService" render="FixedLabel" text="الإيمو الشغال" position="16,8" size="182,24" font="Regular;18" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="102"/>
+		<widget source="session.CurrentService" render="Label" position="16,32" size="186,40" font="Medium;30" foregroundColor="gold" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="102"><convert type="NGContext">EmuRunning</convert></widget>
+		<widget source="session.CurrentService" render="FixedLabel" text="دلوقتي" position="16,68" size="186,22" font="Regular;16" foregroundColor="fgMute" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="102"/>
+		<widget source="session.CurrentService" render="FixedLabel" text="" position="228,0" size="214,96" backgroundColor="bg" cornerRadius="18" zPosition="101"/>
+		<widget source="session.CurrentService" render="FixedLabel" text="الإصدار" position="244,8" size="182,24" font="Regular;18" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="102"/>
+		<widget source="session.CurrentService" render="Label" position="244,32" size="186,40" font="Medium;30" foregroundColor="accent" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="102"><convert type="NGContext">EmuVersion</convert></widget>
+		<widget source="session.CurrentService" render="FixedLabel" text="من الإيمو نفسه" position="244,68" size="186,22" font="Regular;16" foregroundColor="fgMute" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="102"/>
+		<widget source="session.CurrentService" render="FixedLabel" text="" position="456,0" size="214,96" backgroundColor="bg" cornerRadius="18" zPosition="101"/>
+		<widget source="session.CurrentService" render="FixedLabel" text="شغال من" position="472,8" size="182,24" font="Regular;18" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="102"/>
+		<widget source="session.CurrentService" render="Label" position="472,32" size="186,40" font="Medium;30" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="102"><convert type="NGContext">EmuUptime</convert></widget>
+		<widget source="session.CurrentService" render="FixedLabel" text="من غير توقف" position="472,68" size="186,22" font="Regular;16" foregroundColor="fgMute" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="102"/>
+		<widget source="session.CurrentService" render="FixedLabel" text="" position="0,108" size="670,220" backgroundColor="bg" cornerRadius="18" zPosition="101"/>
+		<widget source="session.CurrentService" render="FixedLabel" text="فك التشفير للقناة دي" position="22,118" size="300,28" font="Regular;20" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="102"/>
+		<widget source="session.CurrentService" render="Label" position="330,118" size="318,28" font="Medium;20" foregroundColor="green" backgroundColor="bg" transparent="1" halign="right" valign="center" noWrap="1" zPosition="102"><convert type="NGEcm">State</convert></widget>
+		<widget source="session.CurrentService" render="FixedLabel" text="الشفرة" position="22,152" size="130,30" font="Regular;20" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="102"/>
+		<widget source="session.CurrentService" render="Label" position="152,152" size="496,30" font="Regular;22" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="102"><convert type="NGEcm">Caid</convert></widget>
+		<widget source="session.CurrentService" render="FixedLabel" text="الريدر" position="22,186" size="130,30" font="Regular;20" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="102"/>
+		<widget source="session.CurrentService" render="Label" position="152,186" size="496,30" font="Regular;22" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="102"><convert type="NGEcm">Reader</convert></widget>
+		<widget source="session.CurrentService" render="FixedLabel" text="السيرفر" position="22,220" size="130,30" font="Regular;20" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="102"/>
+		<widget source="session.CurrentService" render="Label" position="152,220" size="496,30" font="Regular;22" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="102"><convert type="NGEcm">From</convert></widget>
+		<widget source="session.CurrentService" render="FixedLabel" text="وقت ECM" position="22,254" size="130,30" font="Regular;20" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="102"/>
+		<widget source="session.CurrentService" render="Label" position="152,254" size="496,30" font="Regular;22" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="102"><convert type="NGEcm">Time</convert></widget>
+		<widget source="session.CurrentService" render="FixedLabel" text="البروتوكول" position="22,288" size="130,30" font="Regular;20" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="102"/>
+		<widget source="session.CurrentService" render="Label" position="152,288" size="496,30" font="Regular;22" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="102"><convert type="NGEcm">Protocol</convert></widget>
+		<widget source="session.CurrentService" render="FixedLabel" text="" position="0,340" size="670,124" backgroundColor="bg" cornerRadius="18" zPosition="101"/>
+		<widget source="session.CurrentService" render="FixedLabel" text="الإيمو المتثبت على الجهاز" position="22,350" size="300,26" font="Regular;20" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="102"/>
+		<widget source="session.CurrentService" render="Label" position="500,350" size="148,26" font="Medium;22" foregroundColor="gold" backgroundColor="bg" transparent="1" halign="right" valign="center" noWrap="1" zPosition="102"><convert type="NGContext">EmuCount</convert></widget>
+		<widget source="session.CurrentService" render="Label" position="22,386" size="626,64" font="Medium;24" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="left" valign="top" zPosition="102"><convert type="NGContext">EmuInstalled</convert></widget>
+	</screen>
+	<screen name="NG_Dash_emu_85">
+		<widget source="session.CurrentService" render="FixedLabel" text="" position="0,0" size="182,96" backgroundColor="bg" cornerRadius="18" zPosition="101"/>
+		<widget source="session.CurrentService" render="FixedLabel" text="الإيمو الشغال" position="14,8" size="155,24" font="Regular;18" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="102"/>
+		<widget source="session.CurrentService" render="Label" position="14,32" size="158,40" font="Medium;30" foregroundColor="gold" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="102"><convert type="NGContext">EmuRunning</convert></widget>
+		<widget source="session.CurrentService" render="FixedLabel" text="دلوقتي" position="14,68" size="158,22" font="Regular;16" foregroundColor="fgMute" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="102"/>
+		<widget source="session.CurrentService" render="FixedLabel" text="" position="194,0" size="182,96" backgroundColor="bg" cornerRadius="18" zPosition="101"/>
+		<widget source="session.CurrentService" render="FixedLabel" text="الإصدار" position="207,8" size="155,24" font="Regular;18" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="102"/>
+		<widget source="session.CurrentService" render="Label" position="207,32" size="158,40" font="Medium;30" foregroundColor="accent" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="102"><convert type="NGContext">EmuVersion</convert></widget>
+		<widget source="session.CurrentService" render="FixedLabel" text="من الإيمو نفسه" position="207,68" size="158,22" font="Regular;16" foregroundColor="fgMute" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="102"/>
+		<widget source="session.CurrentService" render="FixedLabel" text="" position="388,0" size="182,96" backgroundColor="bg" cornerRadius="18" zPosition="101"/>
+		<widget source="session.CurrentService" render="FixedLabel" text="شغال من" position="401,8" size="155,24" font="Regular;18" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="102"/>
+		<widget source="session.CurrentService" render="Label" position="401,32" size="158,40" font="Medium;30" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="102"><convert type="NGContext">EmuUptime</convert></widget>
+		<widget source="session.CurrentService" render="FixedLabel" text="من غير توقف" position="401,68" size="158,22" font="Regular;16" foregroundColor="fgMute" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="102"/>
+		<widget source="session.CurrentService" render="FixedLabel" text="" position="0,108" size="570,220" backgroundColor="bg" cornerRadius="18" zPosition="101"/>
+		<widget source="session.CurrentService" render="FixedLabel" text="فك التشفير للقناة دي" position="19,118" size="255,28" font="Regular;20" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="102"/>
+		<widget source="session.CurrentService" render="Label" position="280,118" size="270,28" font="Medium;20" foregroundColor="green" backgroundColor="bg" transparent="1" halign="right" valign="center" noWrap="1" zPosition="102"><convert type="NGEcm">State</convert></widget>
+		<widget source="session.CurrentService" render="FixedLabel" text="الشفرة" position="19,152" size="110,30" font="Regular;20" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="102"/>
+		<widget source="session.CurrentService" render="Label" position="129,152" size="422,30" font="Regular;22" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="102"><convert type="NGEcm">Caid</convert></widget>
+		<widget source="session.CurrentService" render="FixedLabel" text="الريدر" position="19,186" size="110,30" font="Regular;20" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="102"/>
+		<widget source="session.CurrentService" render="Label" position="129,186" size="422,30" font="Regular;22" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="102"><convert type="NGEcm">Reader</convert></widget>
+		<widget source="session.CurrentService" render="FixedLabel" text="السيرفر" position="19,220" size="110,30" font="Regular;20" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="102"/>
+		<widget source="session.CurrentService" render="Label" position="129,220" size="422,30" font="Regular;22" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="102"><convert type="NGEcm">From</convert></widget>
+		<widget source="session.CurrentService" render="FixedLabel" text="وقت ECM" position="19,254" size="110,30" font="Regular;20" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="102"/>
+		<widget source="session.CurrentService" render="Label" position="129,254" size="422,30" font="Regular;22" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="102"><convert type="NGEcm">Time</convert></widget>
+		<widget source="session.CurrentService" render="FixedLabel" text="البروتوكول" position="19,288" size="110,30" font="Regular;20" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="102"/>
+		<widget source="session.CurrentService" render="Label" position="129,288" size="422,30" font="Regular;22" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="102"><convert type="NGEcm">Protocol</convert></widget>
+		<widget source="session.CurrentService" render="FixedLabel" text="" position="0,340" size="570,124" backgroundColor="bg" cornerRadius="18" zPosition="101"/>
+		<widget source="session.CurrentService" render="FixedLabel" text="الإيمو المتثبت على الجهاز" position="19,350" size="255,26" font="Regular;20" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="102"/>
+		<widget source="session.CurrentService" render="Label" position="425,350" size="126,26" font="Medium;22" foregroundColor="gold" backgroundColor="bg" transparent="1" halign="right" valign="center" noWrap="1" zPosition="102"><convert type="NGContext">EmuCount</convert></widget>
+		<widget source="session.CurrentService" render="Label" position="19,386" size="532,64" font="Medium;24" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="left" valign="top" zPosition="102"><convert type="NGContext">EmuInstalled</convert></widget>
+	</screen>
+	<screen name="NG_Dash_emu_75">
+		<widget source="session.CurrentService" render="FixedLabel" text="" position="0,0" size="160,96" backgroundColor="bg" cornerRadius="18" zPosition="101"/>
+		<widget source="session.CurrentService" render="FixedLabel" text="الإيمو الشغال" position="12,8" size="136,24" font="Regular;18" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="102"/>
+		<widget source="session.CurrentService" render="Label" position="12,32" size="140,40" font="Medium;30" foregroundColor="gold" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="102"><convert type="NGContext">EmuRunning</convert></widget>
+		<widget source="session.CurrentService" render="FixedLabel" text="دلوقتي" position="12,68" size="140,22" font="Regular;16" foregroundColor="fgMute" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="102"/>
+		<widget source="session.CurrentService" render="FixedLabel" text="" position="171,0" size="160,96" backgroundColor="bg" cornerRadius="18" zPosition="101"/>
+		<widget source="session.CurrentService" render="FixedLabel" text="الإصدار" position="183,8" size="136,24" font="Regular;18" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="102"/>
+		<widget source="session.CurrentService" render="Label" position="183,32" size="140,40" font="Medium;30" foregroundColor="accent" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="102"><convert type="NGContext">EmuVersion</convert></widget>
+		<widget source="session.CurrentService" render="FixedLabel" text="من الإيمو نفسه" position="183,68" size="140,22" font="Regular;16" foregroundColor="fgMute" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="102"/>
+		<widget source="session.CurrentService" render="FixedLabel" text="" position="342,0" size="160,96" backgroundColor="bg" cornerRadius="18" zPosition="101"/>
+		<widget source="session.CurrentService" render="FixedLabel" text="شغال من" position="354,8" size="136,24" font="Regular;18" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="102"/>
+		<widget source="session.CurrentService" render="Label" position="354,32" size="140,40" font="Medium;30" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="102"><convert type="NGContext">EmuUptime</convert></widget>
+		<widget source="session.CurrentService" render="FixedLabel" text="من غير توقف" position="354,68" size="140,22" font="Regular;16" foregroundColor="fgMute" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="102"/>
+		<widget source="session.CurrentService" render="FixedLabel" text="" position="0,108" size="502,220" backgroundColor="bg" cornerRadius="18" zPosition="101"/>
+		<widget source="session.CurrentService" render="FixedLabel" text="فك التشفير للقناة دي" position="16,118" size="225,28" font="Regular;20" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="102"/>
+		<widget source="session.CurrentService" render="Label" position="248,118" size="238,28" font="Medium;20" foregroundColor="green" backgroundColor="bg" transparent="1" halign="right" valign="center" noWrap="1" zPosition="102"><convert type="NGEcm">State</convert></widget>
+		<widget source="session.CurrentService" render="FixedLabel" text="الشفرة" position="16,152" size="98,30" font="Regular;20" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="102"/>
+		<widget source="session.CurrentService" render="Label" position="114,152" size="372,30" font="Regular;22" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="102"><convert type="NGEcm">Caid</convert></widget>
+		<widget source="session.CurrentService" render="FixedLabel" text="الريدر" position="16,186" size="98,30" font="Regular;20" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="102"/>
+		<widget source="session.CurrentService" render="Label" position="114,186" size="372,30" font="Regular;22" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="102"><convert type="NGEcm">Reader</convert></widget>
+		<widget source="session.CurrentService" render="FixedLabel" text="السيرفر" position="16,220" size="98,30" font="Regular;20" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="102"/>
+		<widget source="session.CurrentService" render="Label" position="114,220" size="372,30" font="Regular;22" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="102"><convert type="NGEcm">From</convert></widget>
+		<widget source="session.CurrentService" render="FixedLabel" text="وقت ECM" position="16,254" size="98,30" font="Regular;20" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="102"/>
+		<widget source="session.CurrentService" render="Label" position="114,254" size="372,30" font="Regular;22" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="102"><convert type="NGEcm">Time</convert></widget>
+		<widget source="session.CurrentService" render="FixedLabel" text="البروتوكول" position="16,288" size="98,30" font="Regular;20" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="102"/>
+		<widget source="session.CurrentService" render="Label" position="114,288" size="372,30" font="Regular;22" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="102"><convert type="NGEcm">Protocol</convert></widget>
+		<widget source="session.CurrentService" render="FixedLabel" text="" position="0,340" size="502,124" backgroundColor="bg" cornerRadius="18" zPosition="101"/>
+		<widget source="session.CurrentService" render="FixedLabel" text="الإيمو المتثبت على الجهاز" position="16,350" size="225,26" font="Regular;20" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="102"/>
+		<widget source="session.CurrentService" render="Label" position="375,350" size="111,26" font="Medium;22" foregroundColor="gold" backgroundColor="bg" transparent="1" halign="right" valign="center" noWrap="1" zPosition="102"><convert type="NGContext">EmuCount</convert></widget>
+		<widget source="session.CurrentService" render="Label" position="16,386" size="470,64" font="Medium;24" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="left" valign="top" zPosition="102"><convert type="NGContext">EmuInstalled</convert></widget>
+	</screen>
+	<screen name="NG_Dash_bt_100">
+		<widget source="session.CurrentService" render="FixedLabel" text="" position="0,0" size="214,96" backgroundColor="bg" cornerRadius="18" zPosition="111"/>
+		<widget source="session.CurrentService" render="FixedLabel" text="متصل دلوقتي" position="16,8" size="182,24" font="Regular;18" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="112"/>
+		<widget source="session.CurrentService" render="Label" position="16,32" size="186,40" font="Medium;30" foregroundColor="accent" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="112"><convert type="NGContext">BtCount</convert></widget>
+		<widget source="session.CurrentService" render="FixedLabel" text="جهاز" position="16,68" size="186,22" font="Regular;16" foregroundColor="fgMute" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="112"/>
+		<widget source="session.CurrentService" render="FixedLabel" text="" position="228,0" size="214,96" backgroundColor="bg" cornerRadius="18" zPosition="111"/>
+		<widget source="session.CurrentService" render="FixedLabel" text="مقترن" position="244,8" size="182,24" font="Regular;18" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="112"/>
+		<widget source="session.CurrentService" render="Label" position="244,32" size="186,40" font="Medium;30" foregroundColor="gold" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="112"><convert type="NGContext">BtPaired</convert></widget>
+		<widget source="session.CurrentService" render="FixedLabel" text="جهاز متسجل" position="244,68" size="186,22" font="Regular;16" foregroundColor="fgMute" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="112"/>
+		<widget source="session.CurrentService" render="FixedLabel" text="" position="456,0" size="214,96" backgroundColor="bg" cornerRadius="18" zPosition="111"/>
+		<widget source="session.CurrentService" render="FixedLabel" text="البلوتوث" position="472,8" size="182,24" font="Regular;18" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="112"/>
+		<widget source="session.CurrentService" render="Label" position="472,32" size="186,40" font="Medium;30" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="112"><convert type="NGContext">BtAdapter</convert></widget>
+		<widget source="session.CurrentService" render="FixedLabel" text="على الريسيفر" position="472,68" size="186,22" font="Regular;16" foregroundColor="fgMute" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="112"/>
+		<widget source="session.CurrentService" render="FixedLabel" text="" position="0,108" size="670,220" backgroundColor="bg" cornerRadius="18" zPosition="111"/>
+		<widget source="session.CurrentService" render="FixedLabel" text="الأجهزة المتصلة" position="22,118" size="300,28" font="Regular;20" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="112"/>
+		<widget source="session.CurrentService" render="Label" position="22,154" size="626,160" font="Medium;30" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="left" valign="top" zPosition="112"><convert type="NGContext">BtConnected</convert></widget>
+		<widget source="session.CurrentService" render="FixedLabel" text="" position="0,340" size="670,124" backgroundColor="bg" cornerRadius="18" zPosition="111"/>
+		<widget source="session.CurrentService" render="FixedLabel" text="نصيحة" position="22,350" size="400,26" font="Regular;20" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="112"/>
+		<widget source="session.CurrentService" render="FixedLabel" text="الريموت أو السماعة: شغّل وضع الاقتران على الجهاز الأول" position="22,384" size="626,30" font="Regular;20" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="112"/>
+		<widget source="session.CurrentService" render="FixedLabel" text="وبعدين ابحث من الشاشة دي واختاره من القائمة" position="22,418" size="626,30" font="Regular;20" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="112"/>
+	</screen>
+	<screen name="NG_Dash_bt_85">
+		<widget source="session.CurrentService" render="FixedLabel" text="" position="0,0" size="182,96" backgroundColor="bg" cornerRadius="18" zPosition="111"/>
+		<widget source="session.CurrentService" render="FixedLabel" text="متصل دلوقتي" position="14,8" size="155,24" font="Regular;18" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="112"/>
+		<widget source="session.CurrentService" render="Label" position="14,32" size="158,40" font="Medium;30" foregroundColor="accent" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="112"><convert type="NGContext">BtCount</convert></widget>
+		<widget source="session.CurrentService" render="FixedLabel" text="جهاز" position="14,68" size="158,22" font="Regular;16" foregroundColor="fgMute" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="112"/>
+		<widget source="session.CurrentService" render="FixedLabel" text="" position="194,0" size="182,96" backgroundColor="bg" cornerRadius="18" zPosition="111"/>
+		<widget source="session.CurrentService" render="FixedLabel" text="مقترن" position="207,8" size="155,24" font="Regular;18" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="112"/>
+		<widget source="session.CurrentService" render="Label" position="207,32" size="158,40" font="Medium;30" foregroundColor="gold" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="112"><convert type="NGContext">BtPaired</convert></widget>
+		<widget source="session.CurrentService" render="FixedLabel" text="جهاز متسجل" position="207,68" size="158,22" font="Regular;16" foregroundColor="fgMute" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="112"/>
+		<widget source="session.CurrentService" render="FixedLabel" text="" position="388,0" size="182,96" backgroundColor="bg" cornerRadius="18" zPosition="111"/>
+		<widget source="session.CurrentService" render="FixedLabel" text="البلوتوث" position="401,8" size="155,24" font="Regular;18" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="112"/>
+		<widget source="session.CurrentService" render="Label" position="401,32" size="158,40" font="Medium;30" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="112"><convert type="NGContext">BtAdapter</convert></widget>
+		<widget source="session.CurrentService" render="FixedLabel" text="على الريسيفر" position="401,68" size="158,22" font="Regular;16" foregroundColor="fgMute" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="112"/>
+		<widget source="session.CurrentService" render="FixedLabel" text="" position="0,108" size="570,220" backgroundColor="bg" cornerRadius="18" zPosition="111"/>
+		<widget source="session.CurrentService" render="FixedLabel" text="الأجهزة المتصلة" position="19,118" size="255,28" font="Regular;20" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="112"/>
+		<widget source="session.CurrentService" render="Label" position="19,154" size="532,160" font="Medium;30" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="left" valign="top" zPosition="112"><convert type="NGContext">BtConnected</convert></widget>
+		<widget source="session.CurrentService" render="FixedLabel" text="" position="0,340" size="570,124" backgroundColor="bg" cornerRadius="18" zPosition="111"/>
+		<widget source="session.CurrentService" render="FixedLabel" text="نصيحة" position="19,350" size="340,26" font="Regular;20" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="112"/>
+		<widget source="session.CurrentService" render="FixedLabel" text="الريموت أو السماعة: شغّل وضع الاقتران على الجهاز الأول" position="19,384" size="532,30" font="Regular;20" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="112"/>
+		<widget source="session.CurrentService" render="FixedLabel" text="وبعدين ابحث من الشاشة دي واختاره من القائمة" position="19,418" size="532,30" font="Regular;20" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="112"/>
+	</screen>
+	<screen name="NG_Dash_bt_75">
+		<widget source="session.CurrentService" render="FixedLabel" text="" position="0,0" size="160,96" backgroundColor="bg" cornerRadius="18" zPosition="111"/>
+		<widget source="session.CurrentService" render="FixedLabel" text="متصل دلوقتي" position="12,8" size="136,24" font="Regular;18" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="112"/>
+		<widget source="session.CurrentService" render="Label" position="12,32" size="140,40" font="Medium;30" foregroundColor="accent" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="112"><convert type="NGContext">BtCount</convert></widget>
+		<widget source="session.CurrentService" render="FixedLabel" text="جهاز" position="12,68" size="140,22" font="Regular;16" foregroundColor="fgMute" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="112"/>
+		<widget source="session.CurrentService" render="FixedLabel" text="" position="171,0" size="160,96" backgroundColor="bg" cornerRadius="18" zPosition="111"/>
+		<widget source="session.CurrentService" render="FixedLabel" text="مقترن" position="183,8" size="136,24" font="Regular;18" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="112"/>
+		<widget source="session.CurrentService" render="Label" position="183,32" size="140,40" font="Medium;30" foregroundColor="gold" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="112"><convert type="NGContext">BtPaired</convert></widget>
+		<widget source="session.CurrentService" render="FixedLabel" text="جهاز متسجل" position="183,68" size="140,22" font="Regular;16" foregroundColor="fgMute" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="112"/>
+		<widget source="session.CurrentService" render="FixedLabel" text="" position="342,0" size="160,96" backgroundColor="bg" cornerRadius="18" zPosition="111"/>
+		<widget source="session.CurrentService" render="FixedLabel" text="البلوتوث" position="354,8" size="136,24" font="Regular;18" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="112"/>
+		<widget source="session.CurrentService" render="Label" position="354,32" size="140,40" font="Medium;30" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="112"><convert type="NGContext">BtAdapter</convert></widget>
+		<widget source="session.CurrentService" render="FixedLabel" text="على الريسيفر" position="354,68" size="140,22" font="Regular;16" foregroundColor="fgMute" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="112"/>
+		<widget source="session.CurrentService" render="FixedLabel" text="" position="0,108" size="502,220" backgroundColor="bg" cornerRadius="18" zPosition="111"/>
+		<widget source="session.CurrentService" render="FixedLabel" text="الأجهزة المتصلة" position="16,118" size="225,28" font="Regular;20" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="112"/>
+		<widget source="session.CurrentService" render="Label" position="16,154" size="470,160" font="Medium;30" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="left" valign="top" zPosition="112"><convert type="NGContext">BtConnected</convert></widget>
+		<widget source="session.CurrentService" render="FixedLabel" text="" position="0,340" size="502,124" backgroundColor="bg" cornerRadius="18" zPosition="111"/>
+		<widget source="session.CurrentService" render="FixedLabel" text="نصيحة" position="16,350" size="300,26" font="Regular;20" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="112"/>
+		<widget source="session.CurrentService" render="FixedLabel" text="الريموت أو السماعة: شغّل وضع الاقتران على الجهاز الأول" position="16,384" size="470,30" font="Regular;20" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="112"/>
+		<widget source="session.CurrentService" render="FixedLabel" text="وبعدين ابحث من الشاشة دي واختاره من القائمة" position="16,418" size="470,30" font="Regular;20" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="112"/>
+	</screen>
+	<screen name="NG_Dash_option_100">
+		<widget source="session.CurrentService" render="FixedLabel" text="" position="0,0" size="214,96" backgroundColor="bg" cornerRadius="18" zPosition="121"/>
+		<widget source="session.CurrentService" render="FixedLabel" text="الإعدادات" position="16,8" size="182,24" font="Regular;18" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="122"/>
+		<widget source="ctx" render="Label" position="16,32" size="186,40" font="Medium;30" foregroundColor="accent" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="122"><convert type="NGHostInfo">Total</convert></widget>
+		<widget source="session.CurrentService" render="FixedLabel" text="في الشاشة دي" position="16,68" size="186,22" font="Regular;16" foregroundColor="fgMute" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="122"/>
+		<widget source="session.CurrentService" render="FixedLabel" text="" position="228,0" size="214,96" backgroundColor="bg" cornerRadius="18" zPosition="121"/>
+		<widget source="session.CurrentService" render="FixedLabel" text="اتغيّر" position="244,8" size="182,24" font="Regular;18" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="122"/>
+		<widget source="ctx" render="Label" position="244,32" size="186,40" font="Medium;30" foregroundColor="gold" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="122"><convert type="NGHostInfo">Changed</convert></widget>
+		<widget source="session.CurrentService" render="FixedLabel" text="عن الافتراضي" position="244,68" size="186,22" font="Regular;16" foregroundColor="fgMute" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="122"/>
+		<widget source="session.CurrentService" render="FixedLabel" text="" position="456,0" size="214,96" backgroundColor="bg" cornerRadius="18" zPosition="121"/>
+		<widget source="session.CurrentService" render="FixedLabel" text="الإصدار" position="472,8" size="182,24" font="Regular;18" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="122"/>
+		<widget source="ctx" render="Label" position="472,32" size="186,40" font="Medium;30" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="122"><convert type="NGHostInfo">OwnerVersion</convert></widget>
+		<widget source="session.CurrentService" render="FixedLabel" text="" position="472,68" size="186,22" font="Regular;16" foregroundColor="fgMute" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="122"/>
+		<widget source="ctx" render="Label" position="472,68" size="186,22" font="Regular;16" foregroundColor="fgMute" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="122"><convert type="NGHostInfo">Owner</convert></widget>
+		<widget source="session.CurrentService" render="FixedLabel" text="" position="0,108" size="670,220" backgroundColor="bg" cornerRadius="18" zPosition="121"/>
+		<widget source="session.CurrentService" render="FixedLabel" text="الاختيار الحالي" position="22,118" size="300,28" font="Regular;20" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="122"/>
+		<widget source="ctx" render="Label" position="22,148" size="626,32" font="Regular;24" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="122"><convert type="NGHostInfo">Item</convert></widget>
+		<widget source="ctx" render="Label" position="22,184" size="626,50" font="Medium;36" foregroundColor="accent" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="122"><convert type="NGHostInfo">Value</convert></widget>
+		<widget source="session.CurrentService" render="FixedLabel" text="الافتراضي" position="22,244" size="130,30" font="Regular;20" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="122"/>
+		<widget source="ctx" render="Label" position="152,244" size="496,30" font="Regular;22" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="122"><convert type="NGHostInfo">Default</convert></widget>
+		<widget source="session.CurrentService" render="FixedLabel" text="النوع" position="22,278" size="130,30" font="Regular;20" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="122"/>
+		<widget source="ctx" render="Label" position="152,278" size="496,30" font="Regular;22" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="122"><convert type="NGHostInfo">Kind</convert></widget>
+		<widget source="session.CurrentService" render="FixedLabel" text="" position="0,340" size="670,124" backgroundColor="bg" cornerRadius="18" zPosition="121"/>
+		<widget source="session.CurrentService" render="FixedLabel" text="الاختيارات المتاحة" position="22,350" size="300,26" font="Regular;20" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="122"/>
+		<widget source="ctx" render="Label" position="22,382" size="626,72" font="Regular;22" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="left" valign="top" zPosition="122"><convert type="NGHostInfo">Choices</convert></widget>
+	</screen>
+	<screen name="NG_Dash_option_85">
+		<widget source="session.CurrentService" render="FixedLabel" text="" position="0,0" size="182,96" backgroundColor="bg" cornerRadius="18" zPosition="121"/>
+		<widget source="session.CurrentService" render="FixedLabel" text="الإعدادات" position="14,8" size="155,24" font="Regular;18" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="122"/>
+		<widget source="ctx" render="Label" position="14,32" size="158,40" font="Medium;30" foregroundColor="accent" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="122"><convert type="NGHostInfo">Total</convert></widget>
+		<widget source="session.CurrentService" render="FixedLabel" text="في الشاشة دي" position="14,68" size="158,22" font="Regular;16" foregroundColor="fgMute" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="122"/>
+		<widget source="session.CurrentService" render="FixedLabel" text="" position="194,0" size="182,96" backgroundColor="bg" cornerRadius="18" zPosition="121"/>
+		<widget source="session.CurrentService" render="FixedLabel" text="اتغيّر" position="207,8" size="155,24" font="Regular;18" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="122"/>
+		<widget source="ctx" render="Label" position="207,32" size="158,40" font="Medium;30" foregroundColor="gold" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="122"><convert type="NGHostInfo">Changed</convert></widget>
+		<widget source="session.CurrentService" render="FixedLabel" text="عن الافتراضي" position="207,68" size="158,22" font="Regular;16" foregroundColor="fgMute" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="122"/>
+		<widget source="session.CurrentService" render="FixedLabel" text="" position="388,0" size="182,96" backgroundColor="bg" cornerRadius="18" zPosition="121"/>
+		<widget source="session.CurrentService" render="FixedLabel" text="الإصدار" position="401,8" size="155,24" font="Regular;18" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="122"/>
+		<widget source="ctx" render="Label" position="401,32" size="158,40" font="Medium;30" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="122"><convert type="NGHostInfo">OwnerVersion</convert></widget>
+		<widget source="session.CurrentService" render="FixedLabel" text="" position="401,68" size="158,22" font="Regular;16" foregroundColor="fgMute" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="122"/>
+		<widget source="ctx" render="Label" position="401,68" size="158,22" font="Regular;16" foregroundColor="fgMute" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="122"><convert type="NGHostInfo">Owner</convert></widget>
+		<widget source="session.CurrentService" render="FixedLabel" text="" position="0,108" size="570,220" backgroundColor="bg" cornerRadius="18" zPosition="121"/>
+		<widget source="session.CurrentService" render="FixedLabel" text="الاختيار الحالي" position="19,118" size="255,28" font="Regular;20" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="122"/>
+		<widget source="ctx" render="Label" position="19,148" size="532,32" font="Regular;24" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="122"><convert type="NGHostInfo">Item</convert></widget>
+		<widget source="ctx" render="Label" position="19,184" size="532,50" font="Medium;36" foregroundColor="accent" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="122"><convert type="NGHostInfo">Value</convert></widget>
+		<widget source="session.CurrentService" render="FixedLabel" text="الافتراضي" position="19,244" size="110,30" font="Regular;20" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="122"/>
+		<widget source="ctx" render="Label" position="129,244" size="422,30" font="Regular;22" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="122"><convert type="NGHostInfo">Default</convert></widget>
+		<widget source="session.CurrentService" render="FixedLabel" text="النوع" position="19,278" size="110,30" font="Regular;20" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="122"/>
+		<widget source="ctx" render="Label" position="129,278" size="422,30" font="Regular;22" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="122"><convert type="NGHostInfo">Kind</convert></widget>
+		<widget source="session.CurrentService" render="FixedLabel" text="" position="0,340" size="570,124" backgroundColor="bg" cornerRadius="18" zPosition="121"/>
+		<widget source="session.CurrentService" render="FixedLabel" text="الاختيارات المتاحة" position="19,350" size="255,26" font="Regular;20" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="122"/>
+		<widget source="ctx" render="Label" position="19,382" size="532,72" font="Regular;22" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="left" valign="top" zPosition="122"><convert type="NGHostInfo">Choices</convert></widget>
+	</screen>
+	<screen name="NG_Dash_option_75">
+		<widget source="session.CurrentService" render="FixedLabel" text="" position="0,0" size="160,96" backgroundColor="bg" cornerRadius="18" zPosition="121"/>
+		<widget source="session.CurrentService" render="FixedLabel" text="الإعدادات" position="12,8" size="136,24" font="Regular;18" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="122"/>
+		<widget source="ctx" render="Label" position="12,32" size="140,40" font="Medium;30" foregroundColor="accent" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="122"><convert type="NGHostInfo">Total</convert></widget>
+		<widget source="session.CurrentService" render="FixedLabel" text="في الشاشة دي" position="12,68" size="140,22" font="Regular;16" foregroundColor="fgMute" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="122"/>
+		<widget source="session.CurrentService" render="FixedLabel" text="" position="171,0" size="160,96" backgroundColor="bg" cornerRadius="18" zPosition="121"/>
+		<widget source="session.CurrentService" render="FixedLabel" text="اتغيّر" position="183,8" size="136,24" font="Regular;18" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="122"/>
+		<widget source="ctx" render="Label" position="183,32" size="140,40" font="Medium;30" foregroundColor="gold" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="122"><convert type="NGHostInfo">Changed</convert></widget>
+		<widget source="session.CurrentService" render="FixedLabel" text="عن الافتراضي" position="183,68" size="140,22" font="Regular;16" foregroundColor="fgMute" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="122"/>
+		<widget source="session.CurrentService" render="FixedLabel" text="" position="342,0" size="160,96" backgroundColor="bg" cornerRadius="18" zPosition="121"/>
+		<widget source="session.CurrentService" render="FixedLabel" text="الإصدار" position="354,8" size="136,24" font="Regular;18" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="122"/>
+		<widget source="ctx" render="Label" position="354,32" size="140,40" font="Medium;30" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="122"><convert type="NGHostInfo">OwnerVersion</convert></widget>
+		<widget source="session.CurrentService" render="FixedLabel" text="" position="354,68" size="140,22" font="Regular;16" foregroundColor="fgMute" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="122"/>
+		<widget source="ctx" render="Label" position="354,68" size="140,22" font="Regular;16" foregroundColor="fgMute" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="122"><convert type="NGHostInfo">Owner</convert></widget>
+		<widget source="session.CurrentService" render="FixedLabel" text="" position="0,108" size="502,220" backgroundColor="bg" cornerRadius="18" zPosition="121"/>
+		<widget source="session.CurrentService" render="FixedLabel" text="الاختيار الحالي" position="16,118" size="225,28" font="Regular;20" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="122"/>
+		<widget source="ctx" render="Label" position="16,148" size="470,32" font="Regular;24" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="122"><convert type="NGHostInfo">Item</convert></widget>
+		<widget source="ctx" render="Label" position="16,184" size="470,50" font="Medium;36" foregroundColor="accent" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="122"><convert type="NGHostInfo">Value</convert></widget>
+		<widget source="session.CurrentService" render="FixedLabel" text="الافتراضي" position="16,244" size="98,30" font="Regular;20" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="122"/>
+		<widget source="ctx" render="Label" position="114,244" size="372,30" font="Regular;22" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="122"><convert type="NGHostInfo">Default</convert></widget>
+		<widget source="session.CurrentService" render="FixedLabel" text="النوع" position="16,278" size="98,30" font="Regular;20" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="122"/>
+		<widget source="ctx" render="Label" position="114,278" size="372,30" font="Regular;22" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="122"><convert type="NGHostInfo">Kind</convert></widget>
+		<widget source="session.CurrentService" render="FixedLabel" text="" position="0,340" size="502,124" backgroundColor="bg" cornerRadius="18" zPosition="121"/>
+		<widget source="session.CurrentService" render="FixedLabel" text="الاختيارات المتاحة" position="16,350" size="225,26" font="Regular;20" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="122"/>
+		<widget source="ctx" render="Label" position="16,382" size="470,72" font="Regular;22" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="left" valign="top" zPosition="122"><convert type="NGHostInfo">Choices</convert></widget>
 	</screen>
 	<screen name="NG_Dash_plugins_100">
 		<widget source="session.CurrentService" render="FixedLabel" text="" position="0,0" size="214,96" backgroundColor="bg" cornerRadius="18" zPosition="51"/>
@@ -4903,10 +5317,111 @@ self["list"].instance.setItemHeight(40)
 		<widget source="session.CurrentService" render="FixedLabel" text="المطوّر" position="16,528" size="128,30" font="Regular;20" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="72"/>
 		<widget source="ng_sel" render="Label" position="144,528" size="342,30" font="Regular;22" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="72"><convert type="NGPluginInfo">PkgMaker</convert></widget>
 	</screen>
+	<screen name="NG_Dash_skin_100">
+		<widget source="session.CurrentService" render="FixedLabel" text="" position="0,0" size="214,96" backgroundColor="bg" cornerRadius="18" zPosition="131"/>
+		<widget source="session.CurrentService" render="FixedLabel" text="الدقة" position="16,8" size="182,24" font="Regular;18" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="132"/>
+		<widget source="skins" render="Label" position="16,32" size="186,40" font="Medium;30" foregroundColor="accent" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="132"><convert type="NGSkinInfo">Resolution</convert></widget>
+		<widget source="session.CurrentService" render="FixedLabel" text="مقاس الشاشات" position="16,68" size="186,22" font="Regular;16" foregroundColor="fgMute" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="132"/>
+		<widget source="session.CurrentService" render="FixedLabel" text="" position="228,0" size="214,96" backgroundColor="bg" cornerRadius="18" zPosition="131"/>
+		<widget source="session.CurrentService" render="FixedLabel" text="الحجم" position="244,8" size="182,24" font="Regular;18" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="132"/>
+		<widget source="skins" render="Label" position="244,32" size="186,40" font="Medium;30" foregroundColor="gold" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="132"><convert type="NGSkinInfo">Size</convert></widget>
+		<widget source="session.CurrentService" render="FixedLabel" text="على الفلاش" position="244,68" size="186,22" font="Regular;16" foregroundColor="fgMute" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="132"/>
+		<widget source="session.CurrentService" render="FixedLabel" text="" position="456,0" size="214,96" backgroundColor="bg" cornerRadius="18" zPosition="131"/>
+		<widget source="session.CurrentService" render="FixedLabel" text="الشاشات" position="472,8" size="182,24" font="Regular;18" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="132"/>
+		<widget source="skins" render="Label" position="472,32" size="186,40" font="Medium;30" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="132"><convert type="NGSkinInfo">Screens</convert></widget>
+		<widget source="session.CurrentService" render="FixedLabel" text="شاشة متصممة" position="472,68" size="186,22" font="Regular;16" foregroundColor="fgMute" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="132"/>
+		<widget source="session.CurrentService" render="FixedLabel" text="" position="0,108" size="670,410" backgroundColor="bg" cornerRadius="18" zPosition="131"/>
+		<widget source="session.CurrentService" render="FixedLabel" text="المعاينة" position="22,118" size="300,28" font="Regular;20" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="132"/>
+		<widget source="skins" render="Label" position="260,118" size="388,28" font="Medium;22" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="right" valign="center" noWrap="1" zPosition="132"><convert type="NGSkinInfo">Name</convert></widget>
+		<widget source="session.CurrentService" render="FixedLabel" text="" position="0,530" size="670,210" backgroundColor="bg" cornerRadius="18" zPosition="131"/>
+		<widget source="session.CurrentService" render="FixedLabel" text="عن الاسكين" position="22,540" size="300,26" font="Regular;20" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="132"/>
+		<widget source="session.CurrentService" render="FixedLabel" text="المصمم" position="22,570" size="120,30" font="Regular;20" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="132"/>
+		<widget source="skins" render="Label" position="142,570" size="506,30" font="Regular;22" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="132"><convert type="NGSkinInfo">Author</convert></widget>
+		<widget source="session.CurrentService" render="FixedLabel" text="الإصدار" position="22,604" size="120,30" font="Regular;20" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="132"/>
+		<widget source="skins" render="Label" position="142,604" size="506,30" font="Regular;22" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="132"><convert type="NGSkinInfo">Version</convert></widget>
+		<widget source="session.CurrentService" render="FixedLabel" text="الخطوط" position="22,638" size="120,30" font="Regular;20" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="132"/>
+		<widget source="skins" render="Label" position="142,638" size="506,30" font="Regular;22" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="132"><convert type="NGSkinInfo">Fonts</convert></widget>
+		<widget source="session.CurrentService" render="FixedLabel" text="الألوان" position="22,678" size="120,30" font="Regular;20" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="132"/>
+		<widget source="skins" render="NGSwatch" position="142,680" size="74,30" backgroundColor="bg" zPosition="132" cornerRadius="8"><convert type="NGSkinInfo">Color1</convert></widget>
+		<widget source="skins" render="NGSwatch" position="226,680" size="74,30" backgroundColor="bg" zPosition="132" cornerRadius="8"><convert type="NGSkinInfo">Color2</convert></widget>
+		<widget source="skins" render="NGSwatch" position="310,680" size="74,30" backgroundColor="bg" zPosition="132" cornerRadius="8"><convert type="NGSkinInfo">Color3</convert></widget>
+		<widget source="skins" render="NGSwatch" position="394,680" size="74,30" backgroundColor="bg" zPosition="132" cornerRadius="8"><convert type="NGSkinInfo">Color4</convert></widget>
+		<widget source="skins" render="NGSwatch" position="478,680" size="74,30" backgroundColor="bg" zPosition="132" cornerRadius="8"><convert type="NGSkinInfo">Color5</convert></widget>
+		<widget source="skins" render="NGSwatch" position="562,680" size="74,30" backgroundColor="bg" zPosition="132" cornerRadius="8"><convert type="NGSkinInfo">Color6</convert></widget>
+	</screen>
+	<screen name="NG_Dash_skin_85">
+		<widget source="session.CurrentService" render="FixedLabel" text="" position="0,0" size="182,96" backgroundColor="bg" cornerRadius="18" zPosition="131"/>
+		<widget source="session.CurrentService" render="FixedLabel" text="الدقة" position="14,8" size="155,24" font="Regular;18" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="132"/>
+		<widget source="skins" render="Label" position="14,32" size="158,40" font="Medium;30" foregroundColor="accent" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="132"><convert type="NGSkinInfo">Resolution</convert></widget>
+		<widget source="session.CurrentService" render="FixedLabel" text="مقاس الشاشات" position="14,68" size="158,22" font="Regular;16" foregroundColor="fgMute" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="132"/>
+		<widget source="session.CurrentService" render="FixedLabel" text="" position="194,0" size="182,96" backgroundColor="bg" cornerRadius="18" zPosition="131"/>
+		<widget source="session.CurrentService" render="FixedLabel" text="الحجم" position="207,8" size="155,24" font="Regular;18" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="132"/>
+		<widget source="skins" render="Label" position="207,32" size="158,40" font="Medium;30" foregroundColor="gold" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="132"><convert type="NGSkinInfo">Size</convert></widget>
+		<widget source="session.CurrentService" render="FixedLabel" text="على الفلاش" position="207,68" size="158,22" font="Regular;16" foregroundColor="fgMute" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="132"/>
+		<widget source="session.CurrentService" render="FixedLabel" text="" position="388,0" size="182,96" backgroundColor="bg" cornerRadius="18" zPosition="131"/>
+		<widget source="session.CurrentService" render="FixedLabel" text="الشاشات" position="401,8" size="155,24" font="Regular;18" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="132"/>
+		<widget source="skins" render="Label" position="401,32" size="158,40" font="Medium;30" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="132"><convert type="NGSkinInfo">Screens</convert></widget>
+		<widget source="session.CurrentService" render="FixedLabel" text="شاشة متصممة" position="401,68" size="158,22" font="Regular;16" foregroundColor="fgMute" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="132"/>
+		<widget source="session.CurrentService" render="FixedLabel" text="" position="0,108" size="570,410" backgroundColor="bg" cornerRadius="18" zPosition="131"/>
+		<widget source="session.CurrentService" render="FixedLabel" text="المعاينة" position="19,118" size="255,28" font="Regular;20" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="132"/>
+		<widget source="skins" render="Label" position="221,118" size="330,28" font="Medium;22" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="right" valign="center" noWrap="1" zPosition="132"><convert type="NGSkinInfo">Name</convert></widget>
+		<widget source="session.CurrentService" render="FixedLabel" text="" position="0,530" size="570,210" backgroundColor="bg" cornerRadius="18" zPosition="131"/>
+		<widget source="session.CurrentService" render="FixedLabel" text="عن الاسكين" position="19,540" size="255,26" font="Regular;20" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="132"/>
+		<widget source="session.CurrentService" render="FixedLabel" text="المصمم" position="19,570" size="102,30" font="Regular;20" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="132"/>
+		<widget source="skins" render="Label" position="121,570" size="430,30" font="Regular;22" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="132"><convert type="NGSkinInfo">Author</convert></widget>
+		<widget source="session.CurrentService" render="FixedLabel" text="الإصدار" position="19,604" size="102,30" font="Regular;20" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="132"/>
+		<widget source="skins" render="Label" position="121,604" size="430,30" font="Regular;22" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="132"><convert type="NGSkinInfo">Version</convert></widget>
+		<widget source="session.CurrentService" render="FixedLabel" text="الخطوط" position="19,638" size="102,30" font="Regular;20" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="132"/>
+		<widget source="skins" render="Label" position="121,638" size="430,30" font="Regular;22" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="132"><convert type="NGSkinInfo">Fonts</convert></widget>
+		<widget source="session.CurrentService" render="FixedLabel" text="الألوان" position="19,678" size="102,30" font="Regular;20" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="132"/>
+		<widget source="skins" render="NGSwatch" position="121,680" size="63,30" backgroundColor="bg" zPosition="132" cornerRadius="8"><convert type="NGSkinInfo">Color1</convert></widget>
+		<widget source="skins" render="NGSwatch" position="192,680" size="63,30" backgroundColor="bg" zPosition="132" cornerRadius="8"><convert type="NGSkinInfo">Color2</convert></widget>
+		<widget source="skins" render="NGSwatch" position="264,680" size="63,30" backgroundColor="bg" zPosition="132" cornerRadius="8"><convert type="NGSkinInfo">Color3</convert></widget>
+		<widget source="skins" render="NGSwatch" position="335,680" size="63,30" backgroundColor="bg" zPosition="132" cornerRadius="8"><convert type="NGSkinInfo">Color4</convert></widget>
+		<widget source="skins" render="NGSwatch" position="406,680" size="63,30" backgroundColor="bg" zPosition="132" cornerRadius="8"><convert type="NGSkinInfo">Color5</convert></widget>
+		<widget source="skins" render="NGSwatch" position="478,680" size="63,30" backgroundColor="bg" zPosition="132" cornerRadius="8"><convert type="NGSkinInfo">Color6</convert></widget>
+	</screen>
+	<screen name="NG_Dash_skin_75">
+		<widget source="session.CurrentService" render="FixedLabel" text="" position="0,0" size="160,96" backgroundColor="bg" cornerRadius="18" zPosition="131"/>
+		<widget source="session.CurrentService" render="FixedLabel" text="الدقة" position="12,8" size="136,24" font="Regular;18" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="132"/>
+		<widget source="skins" render="Label" position="12,32" size="140,40" font="Medium;30" foregroundColor="accent" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="132"><convert type="NGSkinInfo">Resolution</convert></widget>
+		<widget source="session.CurrentService" render="FixedLabel" text="مقاس الشاشات" position="12,68" size="140,22" font="Regular;16" foregroundColor="fgMute" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="132"/>
+		<widget source="session.CurrentService" render="FixedLabel" text="" position="171,0" size="160,96" backgroundColor="bg" cornerRadius="18" zPosition="131"/>
+		<widget source="session.CurrentService" render="FixedLabel" text="الحجم" position="183,8" size="136,24" font="Regular;18" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="132"/>
+		<widget source="skins" render="Label" position="183,32" size="140,40" font="Medium;30" foregroundColor="gold" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="132"><convert type="NGSkinInfo">Size</convert></widget>
+		<widget source="session.CurrentService" render="FixedLabel" text="على الفلاش" position="183,68" size="140,22" font="Regular;16" foregroundColor="fgMute" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="132"/>
+		<widget source="session.CurrentService" render="FixedLabel" text="" position="342,0" size="160,96" backgroundColor="bg" cornerRadius="18" zPosition="131"/>
+		<widget source="session.CurrentService" render="FixedLabel" text="الشاشات" position="354,8" size="136,24" font="Regular;18" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="132"/>
+		<widget source="skins" render="Label" position="354,32" size="140,40" font="Medium;30" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="132"><convert type="NGSkinInfo">Screens</convert></widget>
+		<widget source="session.CurrentService" render="FixedLabel" text="شاشة متصممة" position="354,68" size="140,22" font="Regular;16" foregroundColor="fgMute" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="132"/>
+		<widget source="session.CurrentService" render="FixedLabel" text="" position="0,108" size="502,410" backgroundColor="bg" cornerRadius="18" zPosition="131"/>
+		<widget source="session.CurrentService" render="FixedLabel" text="المعاينة" position="16,118" size="225,28" font="Regular;20" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="132"/>
+		<widget source="skins" render="Label" position="195,118" size="291,28" font="Medium;22" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="right" valign="center" noWrap="1" zPosition="132"><convert type="NGSkinInfo">Name</convert></widget>
+		<widget source="session.CurrentService" render="FixedLabel" text="" position="0,530" size="502,210" backgroundColor="bg" cornerRadius="18" zPosition="131"/>
+		<widget source="session.CurrentService" render="FixedLabel" text="عن الاسكين" position="16,540" size="225,26" font="Regular;20" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="132"/>
+		<widget source="session.CurrentService" render="FixedLabel" text="المصمم" position="16,570" size="90,30" font="Regular;20" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="132"/>
+		<widget source="skins" render="Label" position="106,570" size="380,30" font="Regular;22" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="132"><convert type="NGSkinInfo">Author</convert></widget>
+		<widget source="session.CurrentService" render="FixedLabel" text="الإصدار" position="16,604" size="90,30" font="Regular;20" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="132"/>
+		<widget source="skins" render="Label" position="106,604" size="380,30" font="Regular;22" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="132"><convert type="NGSkinInfo">Version</convert></widget>
+		<widget source="session.CurrentService" render="FixedLabel" text="الخطوط" position="16,638" size="90,30" font="Regular;20" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="132"/>
+		<widget source="skins" render="Label" position="106,638" size="380,30" font="Regular;22" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="132"><convert type="NGSkinInfo">Fonts</convert></widget>
+		<widget source="session.CurrentService" render="FixedLabel" text="الألوان" position="16,678" size="90,30" font="Regular;20" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1" zPosition="132"/>
+		<widget source="skins" render="NGSwatch" position="106,680" size="56,30" backgroundColor="bg" zPosition="132" cornerRadius="8"><convert type="NGSkinInfo">Color1</convert></widget>
+		<widget source="skins" render="NGSwatch" position="170,680" size="56,30" backgroundColor="bg" zPosition="132" cornerRadius="8"><convert type="NGSkinInfo">Color2</convert></widget>
+		<widget source="skins" render="NGSwatch" position="232,680" size="56,30" backgroundColor="bg" zPosition="132" cornerRadius="8"><convert type="NGSkinInfo">Color3</convert></widget>
+		<widget source="skins" render="NGSwatch" position="296,680" size="56,30" backgroundColor="bg" zPosition="132" cornerRadius="8"><convert type="NGSkinInfo">Color4</convert></widget>
+		<widget source="skins" render="NGSwatch" position="358,680" size="56,30" backgroundColor="bg" zPosition="132" cornerRadius="8"><convert type="NGSkinInfo">Color5</convert></widget>
+		<widget source="skins" render="NGSwatch" position="422,680" size="56,30" backgroundColor="bg" zPosition="132" cornerRadius="8"><convert type="NGSkinInfo">Color6</convert></widget>
+	</screen>
 	<screen name="NileGlassDash_system" position="1240,300" size="670,464" backgroundColor="transparent" flags="wfNoBorder"><panel name="NG_Dash_system_100"/></screen>
 	<screen name="NileGlassDash_net" position="1240,300" size="670,464" backgroundColor="transparent" flags="wfNoBorder"><panel name="NG_Dash_net_100"/></screen>
 	<screen name="NileGlassDash_tuner" position="1240,300" size="670,464" backgroundColor="transparent" flags="wfNoBorder"><panel name="NG_Dash_tuner_100"/></screen>
 	<screen name="NileGlassDash_av" position="1240,300" size="670,464" backgroundColor="transparent" flags="wfNoBorder"><panel name="NG_Dash_av_100"/></screen>
+	<screen name="NileGlassDash_time" position="1240,300" size="670,464" backgroundColor="transparent" flags="wfNoBorder"><panel name="NG_Dash_time_100"/></screen>
+	<screen name="NileGlassDash_image" position="1240,300" size="670,464" backgroundColor="transparent" flags="wfNoBorder"><panel name="NG_Dash_image_100"/></screen>
+	<screen name="NileGlassDash_emu" position="1240,300" size="670,464" backgroundColor="transparent" flags="wfNoBorder"><panel name="NG_Dash_emu_100"/></screen>
+	<screen name="NileGlassDash_bt" position="1240,300" size="670,464" backgroundColor="transparent" flags="wfNoBorder"><panel name="NG_Dash_bt_100"/></screen>
+	<screen name="NileGlassDash_option" position="1240,300" size="670,464" backgroundColor="transparent" flags="wfNoBorder"><panel name="NG_Dash_option_100"/></screen>
 	<!-- NG-DASHPANELS END -->
 	<!-- NG-MORE MovieSelection BEGIN -->
 	<screen name="MovieSelection" position="0,0" size="1920,1080" backgroundColor="transparent" flags="wfNoBorder">

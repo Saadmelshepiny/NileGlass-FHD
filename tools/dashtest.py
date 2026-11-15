@@ -43,7 +43,7 @@ enigma.eTimer, enigma.ePoint = Timer, P
 enigma.getDesktop = lambda n: Inst()
 sys.modules["enigma"] = enigma
 skin = types.ModuleType("skin")
-skin.domScreens = {"NileGlassDash_" + k: object() for k in ("net", "tuner", "av", "system")}
+skin.domScreens = {"NileGlassDash_" + k: object() for k in ("net", "tuner", "av", "system", "option", "time", "image", "emu", "bt")}
 sys.modules["skin"] = skin
 conf = {("extras", "dash"): True, ("style", "lite"): False}
 core = types.ModuleType("Components.NileGlassCore")
@@ -140,14 +140,24 @@ check("back in the menu: its cards again, nothing rebuilt", visible() == ["tuner
 menu.hide(); tick()
 check("menu closed: no cards left", visible() == [])
 
+# subjects of settings screens
+S = lambda **kw: type("X", (), kw)()
+check("time settings", dc.setupSubject(types.SimpleNamespace(setup="time", skinName="Setup")) == "time")
+check("bluetooth plugin", dc.subject("BluetoothSetupScreen") == "bt")
+check("emu", dc.subject("SoftcamSetup") == "emu" and dc.subject("cicam_setup") == "tuner")
+check("update", dc.subject("softwareupdate") == "image")
+check("timeshift is not time", dc.subject("timeshift") is None)
+class ServiceAppSettings: pass
+check("plugin settings: their own options", dc.setupSubject(ServiceAppSettings()) == "option")
+
 # a screen without the marker
 other = host(0, marker=False); dc.attach(other); other.show(); tick()
 check("screens without the marker: untouched", visible() == [] and not other.onShow)
 
 # too low on the screen: kept inside
 low = host(620); low.instance = Inst(40, 900); dc.attach(low); low.show(); tick()
-d = dc._dialogs["system"][0]
-check("kept inside the screen", d.instance.position().y() == 1080 - 20 - dc.DASH_H and visible() == ["system"])
+d = dc._dialogs["option"][0]
+check("kept inside the screen (a settings screen: its own options)", d.instance.position().y() == 1080 - 20 - dc.DASH_H and visible() == ["option"])
 low.hide(); tick()
 
 # skin reloaded: rebuilt with the new look
@@ -174,8 +184,8 @@ n = len(session.built)
 check("warm-up waits for the box to settle", dc._warm.ms == 20000)
 dc._warm.fire()
 check("warm-up: one hidden window per step", len(session.built) == n + 1 and visible() == [] and dc._warm.ms == 1500)
-for i in range(5): dc._warm.fire()
-check("warm-up: all four, then it stops", len(session.built) == n + 4 and dc._warm.ms is None and visible() == [])
+for i in range(6): dc._warm.fire()
+check("warm-up: all five, then it stops", len(session.built) == n + 5 and dc._warm.ms is None and visible() == [])
 
 # skin without the card windows (another menu look)
 skin.domScreens.clear()

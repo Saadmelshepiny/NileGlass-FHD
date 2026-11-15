@@ -142,5 +142,60 @@ check("missing dependencies named", r["depends"].startswith("هتنزل معاه
 P._freeFlash = lambda: 1000
 r = P.pkgInfo(types.SimpleNamespace(name="extensions-foo", description=""))
 check("not enough space", r["after"] == "المساحة مش هتكفي")
+# ---- settings screen beside the cards
+H = load("NGHostInfo", "Components/Converter/NGHostInfo.py")
+
+
+class Sel:
+	def __init__(self, choices, value, default):
+		self.choices = types.SimpleNamespace(choices=choices)
+		self.value, self.default = value, default
+		self.description = dict(choices)
+
+
+class YesNo:
+	value, default = True, True
+
+
+cfg = types.SimpleNamespace(list=[("IPTV player", Sel([("gst", "gstplayer"), ("ext", "exteplayer3")], "ext", "gst")), ("Autostart", YesNo())], onSelectionChanged=[])
+cfg.getCurrent = lambda: cfg.list[0]
+class ServiceAppSettings(dict): pass
+ServiceAppSettings.__module__ = "Plugins.SystemPlugins.ServiceApp.plugin"
+host = ServiceAppSettings(config=cfg)
+src = types.SimpleNamespace(host=host)
+h = lambda typ: (lambda x: (setattr(x, "source", src), x.getText())[1])(H.NGHostInfo(typ))
+check("option under the cursor", h("Item") == "IPTV player" and h("Value") == "exteplayer3", (h("Item"), h("Value")))
+check("default", h("Default") == "gstplayer")
+check("choices", h("Choices") == "gstplayer · exteplayer3")
+check("count and changed", h("Total") == "2" and h("Changed") == "1")
+check("plugin of the screen", h("Owner") == "ServiceApp" and H.owner(host)[1].endswith("SystemPlugins/ServiceApp"))
+cfg.getCurrent = lambda: cfg.list[1]
+check("yes/no option", h("Value") == "نعم" and h("Choices") == "نعم · لأ" and h("Default") == "نعم  (زي ما هو)", (h("Value"), h("Choices"), h("Default")))
+check("follows the cursor", len(cfg.onSelectionChanged) >= 1)
+
+# ---- context values
+C = load("NGContext", "Components/Converter/NGContext.py")
+cv = lambda typ: (lambda x: x.getText())(C.NGContext(typ))
+check("utc time", len(cv("Utc")) == 8 and cv("Offset").startswith("UTC"))
+check("python version", cv("Python") == "%d.%d.%d" % sys.version_info[:3])
+check("other cities", cv("City1").startswith("مكة"), cv("City1"))
+check("sync source text", "القمر" in cv("Sync") or "NTP" in cv("Sync"))
+C.EMU_DIRS = (d,)
+open(os.path.join(d, "oscam"), "w").write("#!/bin/sh\n"); os.chmod(os.path.join(d, "oscam"), 0o755)
+open(os.path.join(d, "ncam.sh"), "w").write("x")
+check("emus installed", cv("EmuInstalled") == "oscam" and cv("EmuCount") == "1", cv("EmuInstalled"))
+C.btAdapter = lambda: None
+check("no bluetooth", cv("BtAdapter") == "مفيش بلوتوث على الجهاز" and cv("BtCount") == "—")
+
+# ---- skin under the cursor
+K = load("NGSkinInfo", "Components/Converter/NGSkinInfo.py")
+sk = os.path.join(d, "MySkin"); os.makedirs(sk)
+open(os.path.join(sk, "skin.xml"), "w").write('<?xml version="1.0"?>\n<!-- My Skin by Ahmed, version 1.4 -->\n<skin><colors><color name="background" value="#00102030"/><color name="foreground" value="#ffffff"/><color name="x1" value="#123456"/></colors><fonts><font filename="Roboto-Bold.ttf" name="Regular"/></fonts><screen name="A"/><screen name="B"/></skin>')
+K.ROOT = d
+ks = types.SimpleNamespace(getCurrent=lambda: ("MYSKIN", "MySkin", "", "MySkin", "skin.xml", "1920x1080", "2 MB", ""), onSelectionChanged=[])
+k = lambda typ: (lambda x: (setattr(x, "source", ks), x.getText())[1])(K.NGSkinInfo(typ))
+check("skin facts", k("Name") == "MySkin" and k("Screens") == "2" and k("Fonts") == "Roboto-Bold", (k("Screens"), k("Fonts")))
+check("skin header", k("Author").startswith("Ahmed") and k("Version") == "1.4", (k("Author"), k("Version")))
+check("skin colours", k("Color1") == "#102030" and k("Color2") == "#ffffff" and k("Color3") == "#123456" and k("Color4") == "", (k("Color1"), k("Color2"), k("Color3")))
 print("ALL OK" if not fails else "FAILED: %s" % fails)
 sys.exit(1 if fails else 0)

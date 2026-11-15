@@ -12,7 +12,7 @@ FE = "session.FrontendStatus"
 # one is shown for the menu or setting in use (Plugins/.../dashctx.py).  Each
 # set lives on its own zPosition decade: 1x network, 2x tuners, 3x picture &
 # sound, 4x system (x1 card backgrounds, x2 contents).
-GROUPS = {"net": 1, "tuner": 2, "av": 3, "system": 4, "plugins": 5, "timers": 6, "pkgs": 7}
+GROUPS = {"net": 1, "tuner": 2, "av": 3, "system": 4, "plugins": 5, "timers": 6, "pkgs": 7, "time": 8, "image": 9, "emu": 10, "bt": 11, "option": 12, "skin": 13}
 
 
 class Dash:
@@ -90,14 +90,14 @@ def dashSystem(x0):
 
 def dashNet(x0):
 	d = Dash("net")
-	d.small(x0, "الحالة", [("OnlineYes", "green"), ("OnlineNo", "red")], None, "اتصال الشبكة")
-	d.small(x0 + 228, "سرعة المنفذ", "LinkSpeed", "accent", "سرعة الربط")
+	d.small(x0, "الشبكة", [(("NGContext", "Ssid"), "green")], None, "اسم الشبكة")
+	d.small(x0 + 228, "سرعة الاتصال", [(("NGContext", "NetRate"), "accent")], None, "بين الجهاز والراوتر")
 	d.small(x0 + 456, "التحميل الآن", "NetDown", "gold", "عبر الإنترنت")
 	y = 108
 	d.pix(x0, y, 670, 220, "card_l.png")
 	d.text(x0 + 22, y + 10, 300, 28, "إعدادات الاتصال", "Regular;20", "fgDim")
 	d.rows(x0, y + 44, [("العنوان IP", [("NGSysInfo", "IP")], SYS), ("البوابة", [("NGSysInfo", "Gateway")], SYS),
-		("قناع الشبكة", [("NGSysInfo", "Netmask")], SYS), ("خوادم DNS", [("NGSysInfo", "Dns")], SYS), ("عنوان MAC", [("NGSysInfo", "Mac")], SYS)])
+		("قوة الإشارة", [("NGContext", "Signal")], SYS), ("خوادم DNS", [("NGSysInfo", "Dns")], SYS), ("عنوان MAC", [("NGSysInfo", "Mac")], SYS)])
 	y = 340
 	d.pix(x0, y, 670, 124, "card_m.png")
 	d.text(x0 + 22, y + 10, 300, 26, "حركة البيانات", "Regular;20", "fgDim")
@@ -156,6 +156,138 @@ def dashAv(x0):
 	d.lab(x0 + 420, y + 40, 228, 30, [("NGSysInfo", "Ac3")], "Medium;22", "gold", "right")
 	d.text(x0 + 262, y + 80, 150, 30, "المسار", "Regular;20", "fgDim")
 	d.lab(x0 + 420, y + 80, 228, 30, [("NGCodec", "Audio")], "Medium;22", "fg", "right")
+	return d.out
+
+
+CT = "global.CurrentTime"
+HOST = "ctx"
+
+
+def dashTime(x0):
+	"""time settings: the time here and in the world, zone, summer time, where the time comes from"""
+	d = Dash("time")
+	C = lambda f: [("NGContext", f)]
+	d.small(x0, "الساعة الآن", [(("NGContext", "Local"), "accent")], None, "توقيتك")
+	d.small(x0 + 228, "التوقيت العالمي", [(("NGContext", "Utc"), "gold")], None, "UTC / جرينتش")
+	d.small(x0 + 456, "فرق التوقيت", [(("NGContext", "Offset"), "fg")], None, "عن جرينتش")
+	y = 108
+	d.pix(x0, y, 670, 220, "card_l.png")
+	d.text(x0 + 22, y + 10, 300, 28, "المنطقة والمزامنة", "Regular;20", "fgDim")
+	d.rows(x0, y + 44, [("التاريخ", [("ClockToText", "Format:%A %d %B %Y")], CT), ("الهجري", [("NGHijri", "")], CT),
+		("المنطقة", C("Zone"), SYS), ("الصيفي", C("Dst"), SYS), ("مصدر الوقت", C("Sync"), SYS)], lw=150)
+	y = 340
+	d.pix(x0, y, 670, 124, "card_m.png")
+	d.text(x0 + 22, y + 10, 300, 26, "الساعة في مدن تانية", "Regular;20", "fgDim")
+	for i in range(4):
+		d.lab(x0 + 22 + (i % 2) * 320, y + 44 + (i // 2) * 38, 300, 34, C("City%d" % (i + 1)), "Medium;24", "fg")
+	return d.out
+
+
+def dashImage(x0):
+	"""updates / image: the image, its versions, the updates waiting in the feed"""
+	d = Dash("image")
+	C = lambda f: [("NGContext", f)]
+	d.small(x0, "بايثون", [(("NGContext", "Python"), "accent")], None, "Python")
+	d.small(x0 + 228, "الكيرنل", [(("NGContext", "Kernel"), "gold")], None, "Linux kernel")
+	d.small(x0 + 456, "شغال من", "Uptime", "fg", "آخر تشغيل للجهاز")
+	y = 108
+	d.pix(x0, y, 670, 220, "card_l.png")
+	d.text(x0 + 22, y + 10, 300, 28, "الصورة", "Regular;20", "fgDim")
+	d.lab(x0 + 22, y + 40, 626, 44, C("Image"), "Medium;30", "fg")
+	d.rows(x0, y + 92, [("الجهاز", C("Model"), SYS), ("اتسطبت", C("Flashed"), SYS), ("آخر تعديل لإنيجما", C("Enigma"), SYS)], lw=190)
+	y = 340
+	d.pix(x0, y, 670, 124, "card_m.png")
+	d.text(x0 + 22, y + 10, 300, 26, "التحديثات", "Regular;20", "fgDim")
+	d.lab(x0 + 330, y + 10, 318, 26, C("FeedAge"), "Regular;18", "fgMute", "right")
+	d.lab(x0 + 22, y + 44, 626, 40, C("Updates"), "Medium;28", "accent")
+	d.text(x0 + 22, y + 88, 400, 24, "الفلاش الفاضي", "Regular;18", "fgDim")
+	d.lab(x0 + 330, y + 86, 318, 26, [("NGSysInfo", "FlashFree")], "Regular;20", "fg", "right")
+	return d.out
+
+
+def dashEmu(x0):
+	"""emu manager: the emu running, its version and time up, what it decodes now, the emus installed"""
+	d = Dash("emu")
+	C = lambda f: [("NGContext", f)]
+	d.small(x0, "الإيمو الشغال", [(("NGContext", "EmuRunning"), "gold")], None, "دلوقتي")
+	d.small(x0 + 228, "الإصدار", [(("NGContext", "EmuVersion"), "accent")], None, "من الإيمو نفسه")
+	d.small(x0 + 456, "شغال من", [(("NGContext", "EmuUptime"), "fg")], None, "من غير توقف")
+	y = 108
+	d.pix(x0, y, 670, 220, "card_l.png")
+	d.text(x0 + 22, y + 10, 300, 28, "فك التشفير للقناة دي", "Regular;20", "fgDim")
+	d.lab(x0 + 330, y + 10, 318, 28, [("NGEcm", "State")], "Medium;20", "green", "right")
+	d.rows(x0, y + 44, [("الشفرة", [("NGEcm", "Caid")], SYS), ("الريدر", [("NGEcm", "Reader")], SYS), ("السيرفر", [("NGEcm", "From")], SYS),
+		("وقت ECM", [("NGEcm", "Time")], SYS), ("البروتوكول", [("NGEcm", "Protocol")], SYS)], lw=130)
+	y = 340
+	d.pix(x0, y, 670, 124, "card_m.png")
+	d.text(x0 + 22, y + 10, 300, 26, "الإيمو المتثبت على الجهاز", "Regular;20", "fgDim")
+	d.lab(x0 + 500, y + 10, 148, 26, C("EmuCount"), "Medium;22", "gold", "right")
+	d.out.append('\t\t<widget source="%s" render="Label" position="%d,%d" size="626,64" font="Medium;24" foregroundColor="fg" backgroundColor="%s" transparent="1" halign="left" valign="top" zPosition="%d"><convert type="NGContext">EmuInstalled</convert></widget>' % (SYS, x0 + 22, y + 46, PANEL, d.fz))
+	return d.out
+
+
+def dashBt(x0):
+	"""bluetooth: the devices connected now, paired ones, the adapter"""
+	d = Dash("bt")
+	d.small(x0, "متصل دلوقتي", [(("NGContext", "BtCount"), "accent")], None, "جهاز")
+	d.small(x0 + 228, "مقترن", [(("NGContext", "BtPaired"), "gold")], None, "جهاز متسجل")
+	d.small(x0 + 456, "البلوتوث", [(("NGContext", "BtAdapter"), "fg")], None, "على الريسيفر")
+	y = 108
+	d.pix(x0, y, 670, 220, "card_l.png")
+	d.text(x0 + 22, y + 10, 300, 28, "الأجهزة المتصلة", "Regular;20", "fgDim")
+	d.out.append('\t\t<widget source="%s" render="Label" position="%d,%d" size="626,160" font="Medium;30" foregroundColor="fg" backgroundColor="%s" transparent="1" halign="left" valign="top" zPosition="%d"><convert type="NGContext">BtConnected</convert></widget>' % (SYS, x0 + 22, y + 46, PANEL, d.fz))
+	y = 340
+	d.pix(x0, y, 670, 124, "card_m.png")
+	d.text(x0 + 22, y + 10, 400, 26, "نصيحة", "Regular;20", "fgDim")
+	d.text(x0 + 22, y + 44, 626, 30, "الريموت أو السماعة: شغّل وضع الاقتران على الجهاز الأول", "Regular;20", "fg")
+	d.text(x0 + 22, y + 78, 626, 30, "وبعدين ابحث من الشاشة دي واختاره من القائمة", "Regular;20", "fg")
+	return d.out
+
+
+def dashOption(x0):
+	"""a settings screen of its own: the option under the cursor, its value, default and choices, and the plugin it belongs to"""
+	d = Dash("option")
+	H = lambda f: [("NGHostInfo", f)]
+	d.small(x0, "الإعدادات", [(("NGHostInfo", "Total"), "accent")], None, "في الشاشة دي", src=HOST)
+	d.small(x0 + 228, "اتغيّر", [(("NGHostInfo", "Changed"), "gold")], None, "عن الافتراضي", src=HOST)
+	d.small(x0 + 456, "الإصدار", [(("NGHostInfo", "OwnerVersion"), "fg")], None, "", src=HOST)
+	d.lab(x0 + 456 + 16, 68, 186, 22, H("Owner"), "Regular;16", "fgMute", src=HOST)
+	y = 108
+	d.pix(x0, y, 670, 220, "card_l.png")
+	d.text(x0 + 22, y + 10, 300, 28, "الاختيار الحالي", "Regular;20", "fgDim")
+	d.lab(x0 + 22, y + 40, 626, 32, H("Item"), "Regular;24", "fg", src=HOST)
+	d.lab(x0 + 22, y + 76, 626, 50, H("Value"), "Medium;36", "accent", src=HOST)
+	d.rows(x0, y + 136, [("الافتراضي", H("Default"), HOST), ("النوع", H("Kind"), HOST)], lw=130)
+	y = 340
+	d.pix(x0, y, 670, 124, "card_m.png")
+	d.text(x0 + 22, y + 10, 300, 26, "الاختيارات المتاحة", "Regular;20", "fgDim")
+	d.out.append('\t\t<widget source="%s" render="Label" position="%d,%d" size="626,72" font="Regular;22" foregroundColor="fg" backgroundColor="%s" transparent="1" halign="left" valign="top" zPosition="%d"><convert type="NGHostInfo">Choices</convert></widget>' % (HOST, x0 + 22, y + 42, PANEL, d.fz))
+	return d.out
+
+
+SKINS = "skins"
+SKIN_H = 740
+PREVIEW = (22, 150, 626, 352)    # where the skin selector's own preview picture goes (tools/gen_more.py)
+
+
+def dashSkin(x0):
+	"""skin selector: the skin under the cursor - its preview, resolution, size, screens, fonts, colours"""
+	d = Dash("skin")
+	K = lambda f: [("NGSkinInfo", f)]
+	d.small(x0, "الدقة", [(("NGSkinInfo", "Resolution"), "accent")], None, "مقاس الشاشات", src=SKINS)
+	d.small(x0 + 228, "الحجم", [(("NGSkinInfo", "Size"), "gold")], None, "على الفلاش", src=SKINS)
+	d.small(x0 + 456, "الشاشات", [(("NGSkinInfo", "Screens"), "fg")], None, "شاشة متصممة", src=SKINS)
+	y = 108
+	d.pix(x0, y, 670, 410, "card_l.png")
+	d.text(x0 + 22, y + 10, 300, 28, "المعاينة", "Regular;20", "fgDim")
+	d.lab(x0 + 260, y + 10, 388, 28, K("Name"), "Medium;22", "fg", "right", src=SKINS)
+	y = 530
+	d.pix(x0, y, 670, SKIN_H - y, "card_m.png")
+	d.text(x0 + 22, y + 10, 300, 26, "عن الاسكين", "Regular;20", "fgDim")
+	d.rows(x0, y + 40, [("المصمم", K("Author"), SKINS), ("الإصدار", K("Version"), SKINS), ("الخطوط", K("Fonts"), SKINS)], lw=120)
+	d.text(x0 + 22, y + 148, 120, 30, "الألوان", "Regular;20", "fgDim")
+	for i in range(6):
+		d.out.append('\t\t<widget source="%s" render="NGSwatch" position="%d,%d" size="74,30" backgroundColor="bg" zPosition="%d" cornerRadius="8"><convert type="NGSkinInfo">Color%d</convert></widget>' % (SKINS, x0 + 142 + i * 84, y + 150, d.fz, i + 1))
 	return d.out
 
 
@@ -246,9 +378,9 @@ def dashPkgs(x0):
 	return d.out
 
 
-SPECIAL = {"DeliteGreenPanel": "plugins", "PluginBrowser": "plugins", "TimerEditList": "timers", "PluginDownloadBrowser": "pkgs"}
-SPECIAL_BUILDERS = {"plugins": dashPlugins, "timers": dashTimers, "pkgs": dashPkgs}
-SPECIAL_H = {"plugins": PLUGIN_H, "timers": DASH_H, "pkgs": 576}
+SPECIAL = {"DeliteGreenPanel": "plugins", "PluginBrowser": "plugins", "TimerEditList": "timers", "PluginDownloadBrowser": "pkgs", "SkinSelector": "skin"}
+SPECIAL_BUILDERS = {"plugins": dashPlugins, "timers": dashTimers, "pkgs": dashPkgs, "skin": dashSkin}
+SPECIAL_H = {"plugins": PLUGIN_H, "timers": DASH_H, "pkgs": 576, "skin": SKIN_H}
 
 
-BUILDERS = {"system": dashSystem, "net": dashNet, "tuner": dashTuner, "av": dashAv}
+BUILDERS = {"system": dashSystem, "net": dashNet, "tuner": dashTuner, "av": dashAv, "time": dashTime, "image": dashImage, "emu": dashEmu, "bt": dashBt, "option": dashOption}

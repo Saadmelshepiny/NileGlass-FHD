@@ -9,7 +9,7 @@
 # opens as fast as a plain panel, the cards are never built twice, and only
 # the visible set reads the box (hidden windows are suspended by enigma2).
 
-GROUPS = {"net": 1, "tuner": 2, "av": 3, "system": 4}
+GROUPS = {"net": 1, "tuner": 2, "av": 3, "system": 4, "time": 5, "image": 6, "emu": 7, "bt": 8, "option": 9}
 
 NET = ("network", "net", "device_setup", "password_setup", "inadyn", "ftp", "samba", "telnet", "nfs", "vpn", "dlna",
 	"ushare", "adapter", "nameserver", "wlan", "wifi", "streaming", "mount")
@@ -18,17 +18,31 @@ TUNER = ("scan", "tuner", "nim", "satfinder", "positioner", "blindscan", "fallba
 AV = ("video", "audio", "autolanguage", "subtitle", "hdmi", "osd", "3d", "avsetup", "picture", "aspect", "volume", "ac3", "dts", "display")
 
 
+BT = ("bluetooth", "bt_", "btsetup", "btdevice")
+EMU = ("softcam", "oscam", "ncam", "emu", "camd", "autocam", "cam_", "camsetup", "camstart")
+TIME = ("time", "clock", "timezone", "ntp")
+IMAGE = ("softwareupdate", "software_update", "imageupdate", "update", "imagemanager", "flash", "upgrade", "feed")
+
+
 def subject(*keys):
 	for key in keys:
 		k = (key or "").lower()
 		if not k:
 			continue
+		if any(p in k for p in BT):
+			return "bt"
 		if k == "av" or k.startswith("av_") or any(p in k for p in AV):
 			return "av"
 		if any(p in k for p in TUNER):
 			return "tuner"
+		if any(p in k for p in EMU):
+			return "emu"
 		if any(p in k for p in NET):
 			return "net"
+		if any(p in k for p in TIME) and "timeshift" not in k and "timer" not in k:
+			return "time"
+		if any(p in k for p in IMAGE):
+			return "image"
 	return None
 
 
@@ -59,7 +73,7 @@ def setSession(session):
 	_session = session
 	try:
 		from enigma import eTimer
-		todo = ["system", "net", "tuner", "av"]
+		todo = ["system", "option", "net", "tuner", "av"]
 
 		def step():
 			try:
@@ -90,8 +104,9 @@ def menuSubject(screen):
 
 
 def setupSubject(screen):
-	return subject(getattr(screen, "setup", None), screen.__class__.__name__,
-		" ".join(screen.skinName) if isinstance(getattr(screen, "skinName", None), list) else getattr(screen, "skinName", "")) or "system"
+	"""a settings screen: its subject, else the cards about its own options (and its plugin)"""
+	return subject(getattr(screen, "setup", None), screen.__class__.__name__, getattr(screen.__class__, "__module__", ""),
+		" ".join(screen.skinName) if isinstance(getattr(screen, "skinName", None), list) else getattr(screen, "skinName", "")) or "option"
 
 
 def _marker(screen):
@@ -132,6 +147,11 @@ def _dialog(name):
 					def __init__(self, session, subject):
 						Screen.__init__(self, session)
 						self.skinName = "NileGlassDash_" + subject
+						try:
+							from Components.Sources.NGHost import NGHost
+							self["ctx"] = NGHost()      # the screen the cards stand beside
+						except Exception as err:
+							print("[NileGlass] dash ctx:", err)
 				_Dash = NileGlassDash
 			dialog = _session.instantiateDialog(_Dash, name)
 		except Exception as err:
@@ -172,6 +192,11 @@ def _tick():
 					now = dialog.instance.position()
 					if now.x() != x or now.y() != y:
 						dialog.instance.move(ePoint(x, y))
+					try:
+						if dialog["ctx"].host is not host:
+							dialog["ctx"].setHost(host)
+					except Exception:
+						pass
 					dialog.show()
 	except Exception as err:
 		print("[NileGlass] dash:", err)

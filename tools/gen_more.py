@@ -97,5 +97,15 @@ if m:
 	new = new.replace('<widget name="file" position="80,138" size="1760,36"', '<widget name="file" position="80,138" size="860,36"')
 	new = new.replace('<panel name="NG_Frame"/>', '<panel name="NG_Frame"/>\n\t\t<widget name="summary" position="950,138" size="890,36" font="Regular;22" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="right" valign="center" noWrap="1"/><!-- NG-MORE summary -->', 1)
 	skin = skin.replace(block, new)
+# ------------------------------------------------------------------ skin selector: its preview picture inside the skin cards
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from dashlib import PREVIEW
+m = re.search(r'<screen name="SkinSelector".*?</screen>', skin, re.S)
+if m and "NG-DASH skin cards" in m.group(0):
+	block = m.group(0)
+	x0 = int(re.search(r'<!-- NG-DASH skin cards -->\n\t*<panel position="(\d+),0"', block).group(1))
+	new = re.sub(r'<widget name="preview"[^>]*/>', '<widget name="preview" position="%d,%d" size="%d,%d" alphatest="blend" zPosition="200"/>' % (x0 + PREVIEW[0], PREVIEW[1], PREVIEW[2], PREVIEW[3]), block, count=1)
+	skin = skin.replace(block, new)
+	print("gen_more: skin preview at", x0 + PREVIEW[0], PREVIEW[1])
 open(path, "w", encoding="utf-8").write(skin)
 print("gen_more: MovieSelection, %d infobar warnings, readers summary" % skin.count("NG-MORE storage"))

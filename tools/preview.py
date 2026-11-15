@@ -289,6 +289,11 @@ def render(name, data, bgimg, extra=None, outname=None):
 			elif render_ == "NGStars":
 				x, y = xy(el.get("position")); w, h = xy(el.get("size"))
 				canvas.alpha_composite(pix(el.get("pixmap")).crop((0, 0, int(w * 0.74), h)), (x, y))
+			elif render_ == "NGSwatch":
+				v = S.text(el)
+				if v:
+					x, y = xy(el.get("position")); w, h = xy(el.get("size"))
+					ImageDraw.Draw(canvas).rounded_rectangle([x, y, x + w - 1, y + h - 1], 8, fill=col(v), outline=(90, 110, 130, 255))
 			elif render_ == "NGWeatherIcon":
 				drawPix(canvas, el, pix("weather/partly_night.png").resize(xy(el.get("size")), Image.LANCZOS))
 			elif render_ == "Progress":
@@ -989,6 +994,62 @@ render("NileGlassReaders", rdd, bg, {"list": rdList})
 
 
 MORE_SAMPLE = {
+	"session.CurrentService|NGContext:Local": "10:49:27",
+	"session.CurrentService|NGContext:Utc": "08:49:27",
+	"session.CurrentService|NGContext:Offset": "UTC+2",
+	"session.CurrentService|NGContext:Zone": "Africa/Cairo",
+	"session.CurrentService|NGContext:Dst": "من غير توقيت صيفي",
+	"session.CurrentService|NGContext:Sync": "NTP · pool.ntp.org",
+	"session.CurrentService|NGContext:City1": "مكة  11:49",
+	"session.CurrentService|NGContext:City2": "دبي  12:49",
+	"session.CurrentService|NGContext:City3": "لندن  08:49",
+	"session.CurrentService|NGContext:City4": "نيويورك  03:49",
+	"session.CurrentService|NGContext:Python": "3.14.0",
+	"session.CurrentService|NGContext:Kernel": "4.1.20",
+	"session.CurrentService|NGContext:Image": "OpenBh 6.0.012 (Release)",
+	"session.CurrentService|NGContext:Model": "Vu+ Ultimo4K",
+	"session.CurrentService|NGContext:Flashed": "02/11/2026",
+	"session.CurrentService|NGContext:Enigma": "2026-11-01",
+	"session.CurrentService|NGContext:Updates": "12 حزمة ليها تحديث",
+	"session.CurrentService|NGContext:FeedAge": "من 3 ساعة",
+	"session.CurrentService|NGContext:EmuRunning": "oscam",
+	"session.CurrentService|NGContext:EmuVersion": "11880-emu",
+	"session.CurrentService|NGContext:EmuUptime": "2 س 05 د",
+	"session.CurrentService|NGContext:EmuInstalled": "oscam · ncam · oscam_emu",
+	"session.CurrentService|NGContext:EmuCount": "3",
+	"session.CurrentService|NGContext:BtCount": "1",
+	"session.CurrentService|NGContext:BtPaired": "2",
+	"session.CurrentService|NGContext:BtAdapter": "hci0 جاهز",
+	"session.CurrentService|NGContext:BtConnected": "Vu+ BT Remote",
+	"session.CurrentService|NGContext:Ssid": "Saad_5G",
+	"session.CurrentService|NGContext:NetRate": "433 Mbit/s",
+	"session.CurrentService|NGContext:Signal": "-52 dBm · 82%",
+	"ctx|NGHostInfo:Total": "14",
+	"ctx|NGHostInfo:Changed": "3",
+	"ctx|NGHostInfo:OwnerVersion": "1.6.1",
+	"ctx|NGHostInfo:Owner": "ServiceApp",
+	"ctx|NGHostInfo:Item": "مشغل IPTV (4097)",
+	"ctx|NGHostInfo:Value": "exteplayer3",
+	"ctx|NGHostInfo:Default": "gstplayer",
+	"ctx|NGHostInfo:Kind": "اختيار من قائمة",
+	"ctx|NGHostInfo:Choices": "gstplayer · exteplayer3 · ffplayer",
+	"skins|NGSkinInfo:Resolution": "1920x1080",
+	"skins|NGSkinInfo:Size": "38 MB",
+	"skins|NGSkinInfo:Screens": "241",
+	"skins|NGSkinInfo:Name": "NileGlass_FHD",
+	"skins|NGSkinInfo:Author": "Saad",
+	"skins|NGSkinInfo:Version": "2.8.17",
+	"skins|NGSkinInfo:Fonts": "NileGlass-Regular · NileGlass-Medium · Tajawal",
+	"skins|NGSkinInfo:Color1": "#0f1722",
+	"skins|NGSkinInfo:Color2": "#e8eef4",
+	"skins|NGSkinInfo:Color3": "#2f9cff",
+	"skins|NGSkinInfo:Color4": "#1a2535",
+	"skins|NGSkinInfo:Color5": "#f2c94c",
+	"skins|NGSkinInfo:Color6": "#3cc85a",
+	"global.CurrentTime|NGHijri:": "4 جمادى الآخرة 1448 هـ",
+	"global.CurrentTime|ClockToText:Format:%A %d %B %Y": "الأحد 15 نوفمبر 2026",
+	"session.CurrentService|NGEcm:State": "تم فك التشفير", "session.CurrentService|NGEcm:Caid": "0x0500 Viaccess", "session.CurrentService|NGEcm:Reader": "server1", "session.CurrentService|NGEcm:From": "s1.example.com", "session.CurrentService|NGEcm:Time": "312 ms", "session.CurrentService|NGEcm:Protocol": "cccam",
+
 	"session.CurrentService|NGTimerInfo:NextIn": "بعد 2 س 10 د", "session.CurrentService|NGTimerInfo:Count": "5", "session.CurrentService|NGTimerInfo:Conflicts": "مفيش",
 	"session.CurrentService|NGTimerInfo:NextName": "الدوري الإسباني: ريال مدريد × برشلونة", "session.CurrentService|NGTimerInfo:NextWhen": "النهارده 22:00",
 	"session.CurrentService|NGTimerInfo:NextChannel": "beIN SPORTS 1 HD", "session.CurrentService|NGTimerInfo:NextLength": "120 دقيقة",

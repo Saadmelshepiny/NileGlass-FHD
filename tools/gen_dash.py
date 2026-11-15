@@ -29,6 +29,10 @@ spec = importlib.util.spec_from_file_location("dashctx", os.path.join(SK, "../..
 dashctx = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(dashctx)
 HINTS = (("system", ("Animation",)),
+	("bt", ("Bluetooth", "BTDevice")),
+	("emu", ("Autocam", "Softcam", "SoftCam", "oscInfo", "oscECMInfo", "OscamInfo", "CamSetup", "CamStart", "EmuManager")),
+	("image", ("UpdatePlugin", "SoftwareUpdate", "ImageManager", "Ipkg", "PackageManager", "Flash", "CommitInfo")),
+	("time", ("TimeSetup", "TimeDate", "Clock", "TimeZone", "CronTimers", "PowerTimer", "TimerSanity")),
 	("net", ("Network", "Net", "Adapter", "Inadyn", "Vpn", "Samba", "Nfs", "Ftp", "Telnet", "Mount", "Wlan", "OpenVpn", "Nameserver", "uShare", "MiniDLNA")),
 	("tuner", ("Scan", "Satfinder", "Tuner", "Positioner", "Rotor", "Diseqc", "Nim", "CiSelection", "MMI", "Fallback", "ServiceInfo")),
 	("av", ("Video", "Audio", "Hdmi", "Osd", "AV")))
@@ -113,13 +117,13 @@ def process(text, fileName):
 		block = m.group(0)
 		head = re.match(r"<screen\b[^>]*>", block).group(0)
 		name = re.search(r'name="([^"]+)"', head).group(1)
-		special = SPECIAL.get(name)
+		special = SPECIAL.get(name) or (subjectOf(name) if "NG-DASH" in block and "NG-DASH left only" not in block else None)
 		if special and "NG-DASH" in block and "NG-DASH %s cards" % special not in block:
 			# made before this screen had cards of its own: the subject set gives way to them
 			m = re.search(r'\t*<!-- NG-DASH [\w ]+ cards -->\n\t*<panel position="(\d+),0" size="(\d+),\d+"><panel name="NG_Dash_\w+?_(\d+)"/></panel>\n', block)
 			if m:
 				x0, dw, pct = int(m.group(1)), int(m.group(2)), int(m.group(3))
-				hh = SPECIAL_H[special]
+				hh = SPECIAL_H.get(special, DASH_H)
 				block = block.replace(m.group(0), '\t\t<!-- NG-DASH %s cards -->\n\t\t<panel position="%d,0" size="%d,%d"><panel name="%s"/></panel>\n' % (special, x0, dw, hh, panelName(special, pct / 100.0)))
 				h = int(re.search(r'size="\d+,(\d+)"', head).group(1))
 				block = block.replace(head, re.sub(r'size="(\d+),\d+"', lambda mm: 'size="%s,%d"' % (mm.group(1), max(h, hh)), head, count=1), 1)

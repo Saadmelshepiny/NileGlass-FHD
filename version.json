@@ -1,12 +1,12 @@
 {
-  "version": "2.8.16",
-  "ipk": "https://raw.githubusercontent.com/Saadmelshepiny/NileGlass-FHD/main/releases/enigma2-plugin-skins-nileglass-fhd_2.8.16_all.ipk",
-  "sha256": "2402cdc54c342fffa409b1f51d42f0f6a3310add946ec41e53eb294ab826fe1d",
-  "notes_ar": "كل شاشة بمعلوماتها: المؤقتات (التسجيل الجاي، التعارض، المساحة تكفي كام ساعة)، التسجيلات (شاشة جديدة: بوستر، المدة والحجم والجودة، وقفت فين، القصة)، تحميل الإضافات (الحجم قبل التثبيت، المساحة بعده، الحزم اللي هتنزل معاها)، السطور (شغال/واقع/الأسرع/القنوات المشفرة النهارده)، تنبيه في الإنفوبار لو الفلاش أو الهارد قرب يتملي، وفي قائمة القنوات قد إيه شفت القناة الأسبوع ده.",
-  "notes_en": "Each screen its own information: timers (next recording, conflicts, hours left on disk), recordings (new screen: poster, length/size/quality, where you stopped, story), package downloads (size, space after install, dependencies), readers (working/down/fastest/scrambled channels today), infobar warning when flash or disk is almost full, channel list shows how much you watched the channel this week.",
+  "version": "2.8.17",
+  "ipk": "https://raw.githubusercontent.com/Saadmelshepiny/NileGlass-FHD/main/releases/enigma2-plugin-skins-nileglass-fhd_2.8.17_all.ipk",
+  "sha256": "dc234dc7b8483e96d328a6ffb64ab6b708bdd4f19d4b5c8ea60cce4c79122c43",
+  "notes_ar": "المربعات بقت بموضوع الشاشة: الوقت (الساعة والتوقيت العالمي والمنطقة والمزامنة ومدن تانية)، التحديث (الصورة وبايثون والكيرنل والتحديثات المتاحة)، الإيمو (الشغال وإصداره والمتثبت وفك التشفير)، البلوتوث (الأجهزة المتصلة)، الشبكة (اسم الشبكة وسرعتها وقوة الإشارة)، الاسكينات (معاينة كبيرة وبيانات وألوان الاسكين)، وأي شاشة إعدادات تانية: الاختيار الحالي وقيمته والافتراضي والاختيارات وإصدار الإضافة.",
+  "notes_en": "Cards follow each screen: time (local/UTC/zone/sync/world clocks), updates (image, Python, kernel, pending updates), emu (running, version, installed, decoding), Bluetooth (connected devices), network (SSID, link rate, signal), skin selector (big preview, skin facts and colours), any other settings screen: the option under the cursor, its value, default, choices and the plugin version.",
   "previous": {
-    "version": "2.8.15",
-    "ipk": "https://raw.githubusercontent.com/Saadmelshepiny/NileGlass-FHD/main/releases/enigma2-plugin-skins-nileglass-fhd_2.8.15_all.ipk",
-    "sha256": "fb2a99d031936fc5043a3db45e80813f55e919753dd41d3d81c71079a96b593e"
+    "version": "2.8.16",
+    "ipk": "https://raw.githubusercontent.com/Saadmelshepiny/NileGlass-FHD/main/releases/enigma2-plugin-skins-nileglass-fhd_2.8.16_all.ipk",
+    "sha256": "2402cdc54c342fffa409b1f51d42f0f6a3310add946ec41e53eb294ab826fe1d"
   }
 }
