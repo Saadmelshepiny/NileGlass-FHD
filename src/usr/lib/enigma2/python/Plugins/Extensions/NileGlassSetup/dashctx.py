@@ -154,11 +154,44 @@ def _dialog(name):
 							print("[NileGlass] dash ctx:", err)
 				_Dash = NileGlassDash
 			dialog = _session.instantiateDialog(_Dash, name)
+			quiet(dialog)
 		except Exception as err:
 			print("[NileGlass] dash:", err)
 			dialog = None
 	_dialogs[name] = (dialog, element)
 	return dialog
+
+
+def quiet(dialog):
+	"""A hidden card window does no work: enigma2 keeps feeding every widget of
+	a hidden window (the clock every second, the channel on every change).
+	Here a hidden widget only notes that something changed, and is brought up
+	to date once, when its window is shown again."""
+	def guard(r, orig):
+		def changed(what):
+			if r.suspended:
+				r._ngStale = True
+				return
+			orig(what)
+		return changed
+
+	for r in list(getattr(dialog, "renderer", [])):
+		try:
+			r._ngChanged = r.changed
+			r._ngStale = False
+			r.changed = guard(r, r._ngChanged)
+		except Exception:
+			pass
+
+	def catchUp():
+		for r in list(getattr(dialog, "renderer", [])):
+			if getattr(r, "_ngStale", False):
+				r._ngStale = False
+				try:
+					r._ngChanged((r.CHANGED_ALL,))
+				except Exception:
+					pass
+	dialog.onShow.append(catchUp)
 
 
 def _alive(screen):

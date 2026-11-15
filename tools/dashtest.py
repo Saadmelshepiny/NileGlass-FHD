@@ -192,5 +192,18 @@ skin.domScreens.clear()
 n = len(session.built)
 menu.already_shown = False; menu.show(); tick()
 check("skin without card windows: nothing built, no error", len(session.built) == n and visible() == [])
+# hidden card windows do no work, and catch up when shown
+class R:
+	CHANGED_ALL = 2
+	def __init__(self): self.suspended, self.calls = True, []
+	def changed(self, what): self.calls.append(what)
+win = Screen(); r = R(); win.renderer = [r]
+dc.quiet(win)
+r.changed((1,)); r.changed((1,))
+check("hidden: no work", r.calls == [])
+win.shown = False; win.show()
+check("shown: brought up to date once", r.calls == [(2,)], r.calls)
+r.suspended = False; r.changed((1,))
+check("visible: as usual", r.calls == [(2,), (1,)])
 print("ALL OK" if not fails else "FAILED: %s" % fails)
 sys.exit(1 if fails else 0)

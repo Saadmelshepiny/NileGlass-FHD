@@ -8,7 +8,9 @@
 #  skin  the time spent drawing a screen with the skin (Screen.applySkin) is
 #        measured separately; slow ones (> SKIN_SLOW ms) are logged.  So a
 #        slow opening can be told apart: plugin work, or skin drawing.
-# Nothing runs between key presses; the log is /tmp/nileglass_perf.log.
+#  stall a light heartbeat (every 250 ms) notices when the box did nothing at
+#        all for a while - then keys wait, or seem lost.
+# The log is /tmp/nileglass_perf.log.
 
 import os
 import time
@@ -41,6 +43,10 @@ def screenName(screen):
 	return cls if not sn or sn == cls else "%s/%s" % (cls, sn)
 
 
+STALL = 300         # ms: the box did nothing else for this long (no key, no drawing)
+TICK = 250
+
+
 class PerfWatch:
 	def __init__(self, session):
 		self.session = session
@@ -49,6 +55,24 @@ class PerfWatch:
 		self.timer = eTimer()
 		self.timer.callback.append(self.done)
 		eActionMap.getInstance().bindAction("", -0x7FFFFFFF, self.key)
+		# heartbeat: a timer that should fire every TICK ms; when it comes late the
+		# box was busy (a screen, a plugin, a background job) and keys had to wait
+		self.beat = eTimer()
+		self.beat.callback.append(self.heartbeat)
+		self.last = time.monotonic()
+		self.beat.start(TICK, False)
+
+	def heartbeat(self):
+		now = time.monotonic()
+		late = int((now - self.last) * 1000) - TICK
+		self.last = now
+		if late >= STALL:
+			try:
+				import threading
+				busy = ",".join(sorted(set(t.name.replace("NileGlass-", "")[:14] for t in threading.enumerate() if t.name != "MainThread"))[:4])
+			except Exception:
+				busy = ""
+			write("stall %d %s %s" % (late, screenName(getattr(self.session, "current_dialog", None)), busy or "-"))
 
 	def key(self, key, flag):
 		if key == 401 and flag == 3:             # blue held: is the long press reaching the box?
@@ -110,7 +134,7 @@ def report():
 		lines = open(LOG).read().splitlines()
 	except Exception:
 		return "مفيش حاجة بطيئة متسجلة لسه.\nاستخدم الجهاز شوية وافتح التقرير تاني."
-	keys, skins, guards, fits, blues, exts = {}, {}, [], [], [], []
+	keys, skins, guards, fits, blues, exts, stalls = {}, {}, [], [], [], [], {}
 	for line in lines:
 		p = line.split()
 		try:
@@ -125,6 +149,15 @@ def report():
 				continue
 			if p[1] == "guard":
 				guards.append("   %s  %s  (فوقها: %s)" % (p[0], p[3], p[4]))
+				continue
+			if p[1] == "stall":
+				ms, name = int(p[2]), p[3]
+				s = stalls.setdefault(name, [0, 0, 0])
+				s[0] += 1
+				s[1] += ms
+				s[2] = max(s[2], ms)
+				if len(p) > 4 and p[4] != "-":
+					s.append(p[4])
 				continue
 			if p[1] == "key":
 				ms, frm, to = int(p[2]), p[3], p[4]
@@ -149,6 +182,12 @@ def report():
 
 	out = ["الضغطات البطيئة (أبطأ من %d ms) والشاشة اللي ظهرت بعدها:" % KEY_SLOW]
 	out += table(keys) or ["   مفيش ضغطات بطيئة"]
+	out += ["", "مرات الجهاز وقف فيها عن الاستجابة (أكتر من %d ms) والشاشة المفتوحة:" % STALL]
+	if stalls:
+		rows = sorted(stalls.items(), key=lambda kv: -kv[1][0])[:8]
+		out += ["   %-28s %5d ms   x%d   %s" % (name[:28], v[2], v[0], (v[-1] if len(v) > 3 else "")) for name, v in rows]
+	else:
+		out += ["   مفيش، الجهاز كان بيرد على طول"]
 	out += ["", "وقت تجهيز الشاشات (أكتر من %d ms):" % SKIN_SLOW]
 	out += table(skins) or ["   مفيش، كل الشاشات سريعة"]
 	if guards:

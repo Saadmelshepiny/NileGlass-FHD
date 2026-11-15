@@ -132,6 +132,9 @@ OTHER = {
 }
 
 
+QUIET = ("InfoBar", "SecondInfoBar", "ChannelSelection", "ChannelSelectionRadio")
+
+
 def _renderer(screen, source):
 	"""the Listbox renderer drawing a source (through its converters)"""
 	for r in getattr(screen, "renderer", []):
@@ -196,8 +199,13 @@ def _patchApplySkin():
 			except Exception as err:
 				_log("%s failed: %s" % (self.__class__.__name__, err))
 		try:
-			from .dashctx import attach
+			from .dashctx import attach, quiet
 			attach(self)
+			# screens that stay alive while hidden (infobars, channel list): no work while hidden
+			name = self.__class__.__name__
+			if name.startswith(QUIET) and not getattr(self, "_ngQuiet", False):
+				self._ngQuiet = True
+				quiet(self)
 		except Exception as err:
 			print("[NileGlass] dash attach:", err)
 		return result

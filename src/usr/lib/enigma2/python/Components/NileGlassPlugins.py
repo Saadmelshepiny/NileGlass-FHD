@@ -31,6 +31,7 @@ _feedFields = {}       # package -> all fields of the feed entry (size, depends 
 _sizes = {}            # folder -> bytes
 _loading = False
 _loadedAt = 0
+_listsSeen = None
 _listeners = []
 _usage = None
 _usageDirty = False
@@ -71,7 +72,9 @@ def _folderOf(path):
 
 def _readIndex():
 	index = {}
-	for lst in glob.glob(os.path.join(OPKG_INFO, "*.list")):
+	for i, lst in enumerate(glob.glob(os.path.join(OPKG_INFO, "*.list"))):
+		if i % 20 == 0:
+			time.sleep(0.005)      # background work: the remote always goes first
 		pkg = os.path.basename(lst)[:-5]
 		try:
 			with open(lst, encoding="utf-8", errors="ignore") as f:
@@ -87,7 +90,9 @@ def _readIndex():
 
 def _readStanzas(text):
 	out = {}
-	for block in text.split("\n\n"):
+	for n, block in enumerate(text.split("\n\n")):
+		if n % 300 == 299:
+			time.sleep(0.003)
 		fields = {}
 		for line in block.split("\n"):
 			if ":" in line and not line.startswith(" "):
@@ -107,6 +112,7 @@ def _readFeeds():
 				raw = f.read()
 			if raw[:2] == b"\x1f\x8b":
 				raw = gzip.decompress(raw)
+			time.sleep(0.01)
 			for pkg, fields in _readStanzas(raw.decode("utf-8", "ignore")).items():
 				if fields.get("Version"):
 					feed[pkg] = fields["Version"]
@@ -121,6 +127,7 @@ def _readFeeds():
 def _folderSize(folder):
 	total = 0
 	for root, dirs, files in os.walk(folder):
+		time.sleep(0.001)
 		for fn in files:
 			try:
 				total += os.path.getsize(os.path.join(root, fn))
@@ -130,8 +137,12 @@ def _folderSize(folder):
 
 
 def _load(folders):
-	global _index, _status, _feed, _loading, _loadedAt
+	global _index, _status, _feed, _loading, _loadedAt, _listsSeen
 	try:
+		try:
+			_listsSeen = os.path.getmtime(OPKG_LISTS)
+		except Exception:
+			_listsSeen = None
 		index = _readIndex()
 		try:
 			with open(OPKG_STATUS, encoding="utf-8", errors="ignore") as f:
@@ -172,8 +183,9 @@ def prepare(folders=None):
 	"""start reading the package data in the background (once per GUI start);
 	folders None: the folders of every plugin"""
 	global _loading, _index
-	try:   # the feeds were updated (download browser): read again
-		if _index is not None and os.path.getmtime(OPKG_LISTS) > _loadedAt + 1:
+	try:   # the feeds were updated (download browser): read again - at most every 5 minutes
+		m = os.path.getmtime(OPKG_LISTS)
+		if _index is not None and m != _listsSeen and time.time() - _loadedAt > 300:
 			_index = None
 	except Exception:
 		pass
