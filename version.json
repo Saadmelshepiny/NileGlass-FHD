@@ -1,12 +1,12 @@
 {
-  "version": "2.9.0",
-  "ipk": "https://raw.githubusercontent.com/Saadmelshepiny/NileGlass-FHD/main/releases/enigma2-plugin-skins-nileglass-fhd_2.9.0_all.ipk",
-  "sha256": "b9c21590ef03d2c60d58ace84d21970cc5e14e22a3b1b49eec5e44d9ab14e071",
-  "notes_ar": "المرحلة الأولى للثبات والسرعة: ساعة واحدة لكل القراءات الدورية بدل عشرات المؤقتات، الشغل في الخلفية بيستنى لحد ما تبطّل تضغط على الريموت، تجهيز الشاشات التقيلة مسبقًا وقت ما الجهاز فاضي، سكين أصغر بـ 120 KB، ومعرفة سبب أي كراش (السكين ولا إضافة ولا إنيجما) مع عرض الرجوع للنسخة اللي قبلها لو السكين وقّع الواجهة مرتين. تقرير السرعة بقى فيه الذاكرة والكراشات.",
-  "notes_en": "Stability and speed, phase 1: one clock for all periodic readings, background work waits while you use the remote, heavy screens prepared while idle, a 120 KB smaller skin, crash logs read to tell who caused a crash (skin, plugin or enigma2) with an offer to go back after two skin crashes. The speed report shows memory and crashes.",
+  "version": "2.9.1",
+  "ipk": "https://raw.githubusercontent.com/Saadmelshepiny/NileGlass-FHD/main/releases/enigma2-plugin-skins-nileglass-fhd_2.9.1_all.ipk",
+  "sha256": "e33e097ac80c454280cfbd4f907eeeb46a50fb8d49881b50dcd98cc3daa006a6",
+  "notes_ar": "الواجهة بتاخد دورها أسرع لما إضافات تانية شغالة في الخلفية (تبديل أسرع بين الواجهة والشغل الخلفي في بايثون)، وتقرير السرعة بقى بيقول مين كان شاغل المعالج وقت كل وقفة (الشاشة نفسها ولا شغل خلفي باسمه) وعدد الشغل الخلفي لكل إضافة.",
+  "notes_en": "The GUI gets its turn faster while other plugins work in the background (shorter Python thread switch interval); the speed report now names who used the processor during each stall (the screen itself or a named background thread) and counts background threads per plugin.",
   "previous": {
-    "version": "2.8.20",
-    "ipk": "https://raw.githubusercontent.com/Saadmelshepiny/NileGlass-FHD/main/releases/enigma2-plugin-skins-nileglass-fhd_2.8.20_all.ipk",
-    "sha256": "8bac172579a80d67919eb2e83d67977c1bd7f1b72d24376fd24665e82a7ede1a"
+    "version": "2.9.0",
+    "ipk": "https://raw.githubusercontent.com/Saadmelshepiny/NileGlass-FHD/main/releases/enigma2-plugin-skins-nileglass-fhd_2.9.0_all.ipk",
+    "sha256": "b9c21590ef03d2c60d58ace84d21970cc5e14e22a3b1b49eec5e44d9ab14e071"
   }
 }

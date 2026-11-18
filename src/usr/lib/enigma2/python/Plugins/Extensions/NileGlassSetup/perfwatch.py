@@ -50,6 +50,37 @@ except Exception:
 
 STALL = 300         # ms: the box did nothing else for this long (no key, no drawing)
 TICK = 250
+try:
+	HZ = os.sysconf("SC_CLK_TCK")
+except Exception:
+	HZ = 100
+
+
+def threadTicks():
+	"""CPU time used so far by every Python thread, by name (the GUI itself is "GUI")"""
+	import threading
+	out = {}
+	for t in threading.enumerate():
+		tid = getattr(t, "native_id", None)
+		if not tid:
+			continue
+		try:
+			with open("/proc/self/task/%d/stat" % tid) as f:
+				parts = f.read().rsplit(")", 1)[1].split()
+			ticks = int(parts[11]) + int(parts[12])
+		except Exception:
+			continue
+		name = "GUI" if t is threading.main_thread() else threadGroup(t.name)
+		out[name] = out.get(name, 0) + ticks
+	return out
+
+
+def threadGroup(name):
+	"""PoolThread-twisted.internet.reactor-3 -> PoolThread-twisted; Thread-12 (fetch) -> Thread"""
+	import re
+	name = re.sub(r"\s*\(.*\)$", "", name or "?")
+	name = re.sub(r"[-_ ]?\d+$", "", name)
+	return name.replace(".internet.reactor", "").replace(" ", "_")[:24] or "?"
 
 
 class PerfWatch:
@@ -65,19 +96,23 @@ class PerfWatch:
 		self.beat = eTimer()
 		self.beat.callback.append(self.heartbeat)
 		self.last = time.monotonic()
+		self.ticks = {}
 		self.beat.start(TICK, False)
 
 	def heartbeat(self):
 		now = time.monotonic()
 		late = int((now - self.last) * 1000) - TICK
 		self.last = now
+		try:
+			ticks = threadTicks()
+		except Exception:
+			ticks = {}
 		if late >= STALL:
-			try:
-				import threading
-				busy = ",".join(sorted(set(t.name.replace("NileGlass-", "")[:14] for t in threading.enumerate() if t.name != "MainThread"))[:4])
-			except Exception:
-				busy = ""
-			write("stall %d %s %s" % (late, screenName(getattr(self.session, "current_dialog", None)), busy or "-"))
+			# who used the processor while the box did not answer: the GUI itself or a background thread?
+			used = sorted(((ticks[n] - self.ticks.get(n, ticks[n]), n) for n in ticks), reverse=True)
+			top = ",".join("%s:%d" % (n, d * 1000 // HZ) for d, n in used[:3] if d > 0)
+			write("stall %d %s %s" % (late, screenName(getattr(self.session, "current_dialog", None)), top or "-"))
+		self.ticks = ticks
 
 	def key(self, key, flag):
 		if flag in (0, 2) and keyPressed is not None:
@@ -141,7 +176,7 @@ def report():
 		lines = open(LOG).read().splitlines()
 	except Exception:
 		return "مفيش حاجة بطيئة متسجلة لسه.\nاستخدم الجهاز شوية وافتح التقرير تاني."
-	keys, skins, guards, fits, blues, exts, stalls = {}, {}, [], [], [], [], {}
+	keys, skins, guards, fits, blues, exts, stalls, culprits = {}, {}, [], [], [], [], {}, {}
 	for line in lines:
 		p = line.split()
 		try:
@@ -163,8 +198,16 @@ def report():
 				s[0] += 1
 				s[1] += ms
 				s[2] = max(s[2], ms)
-				if len(p) > 4 and p[4] != "-":
-					s.append(p[4])
+				first = True
+				for item in (p[4].split(",") if len(p) > 4 and p[4] != "-" else []):
+					who, _, cpu = item.rpartition(":")
+					if not who or not cpu.isdigit():
+						continue
+					c = culprits.setdefault(who, [0, 0])
+					c[1] += int(cpu)
+					if first:
+						c[0] += 1          # the biggest user in this stall
+						first = False
 				continue
 			if p[1] == "key":
 				ms, frm, to = int(p[2]), p[3], p[4]
@@ -192,7 +235,10 @@ def report():
 	out += ["", "مرات الجهاز وقف فيها عن الاستجابة (أكتر من %d ms) والشاشة المفتوحة:" % STALL]
 	if stalls:
 		rows = sorted(stalls.items(), key=lambda kv: -kv[1][0])[:8]
-		out += ["   %-28s %5d ms   x%d   %s" % (name[:28], v[2], v[0], (v[-1] if len(v) > 3 else "")) for name, v in rows]
+		out += ["   %-28s %5d ms   x%d" % (name[:28], v[2], v[0]) for name, v in rows]
+		if culprits:
+			out += ["", "مين كان شاغل المعالج وقت الوقفات (GUI = الشاشة نفسها):"]
+			out += ["   %-28s x%-4d %6d ms" % (who[:28], c[0], c[1]) for who, c in sorted(culprits.items(), key=lambda kv: (-kv[1][0], -kv[1][1]))[:8]]
 	else:
 		out += ["   مفيش، الجهاز كان بيرد على طول"]
 	out += ["", "الذاكرة والشغل في الخلفية:"]
@@ -203,7 +249,13 @@ def report():
 		pass
 	try:
 		import threading
+		groups = {}
+		for t in threading.enumerate():
+			if t is not threading.main_thread():
+				g = threadGroup(t.name)
+				groups[g] = groups.get(g, 0) + 1
 		out.append("   شغل في الخلفية: %d" % (threading.active_count() - 1))
+		out += ["   %-28s x%d" % (g[:28], n) for g, n in sorted(groups.items(), key=lambda kv: -kv[1])[:10]]
 		from Components.Converter.NGPoll import stats
 		s = stats()
 		out.append("   قراءات دورية: %s" % ("، ".join("%d كل %g ث" % (n, i / 1000.0) for i, n in sorted(s.items())) or "مفيش"))

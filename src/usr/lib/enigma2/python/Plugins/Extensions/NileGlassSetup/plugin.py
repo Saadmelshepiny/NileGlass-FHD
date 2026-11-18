@@ -1131,6 +1131,16 @@ def sessionstart(reason, session=None, **kwargs):
 				except Exception as err:
 					print("[NileGlass] perf watch:", err)
 				try:
+					# Python lets a busy background thread keep the interpreter up to 5 ms
+					# before the GUI gets a turn, and the GUI needs hundreds of turns per key:
+					# with plugins working in the background that adds up to seconds.
+					# 1 ms turns: the GUI waits much less (background work slows a little).
+					import sys as _sys
+					if _sys.getswitchinterval() > 0.001:
+						_sys.setswitchinterval(0.001)
+				except Exception as err:
+					print("[NileGlass] switch interval:", err)
+				try:
 					from .prewarm import start as prewarmStart
 					prewarmStart()
 				except Exception as err:
