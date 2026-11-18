@@ -820,6 +820,7 @@ class NileGlassSetup(Setup):
 			(T("Go back to the previous version", "الرجوع للنسخة السابقة"), "rollback"),
 			(T("Run the first-start wizard again", "تشغيل معالج البداية مرة تانية"), "wizard"),
 			(T("Speed report (slow key presses)", "تقرير السرعة (الضغطات البطيئة)"), "perf"),
+			(T("Last crashes (who caused them)", "آخر مرات الواجهة وقعت فيها (والسبب)"), "crashes"),
 		]
 		self.session.openWithCallback(self.toolChosen, ChoiceBox, title=T("Tools", "أدوات"), list=items)
 
@@ -833,6 +834,12 @@ class NileGlassSetup(Setup):
 			checkForUpdate(self.session, quiet=False, previous=True)
 		elif action == "wizard":
 			startWizard(self.session)
+		elif action == "crashes":
+			from .crashguard import scan, save, text
+			from Screens.TextBox import TextBox
+			d, new = scan()
+			save(d)
+			self.session.open(TextBox, "\n".join(["آخر مرات الواجهة وقعت فيها (من سجلات الكراش):", ""] + text(d, 12)), "آخر الكراشات")
 		elif action == "perf":
 			from .perfwatch import report
 			from Screens.TextBox import TextBox
@@ -878,7 +885,7 @@ class NileGlassSetup(Setup):
 
 
 # --------------------------------------------------------------------- updates
-def checkForUpdate(session, quiet=False, previous=False):
+def checkForUpdate(session, quiet=False, previous=False, reason=""):
 	"""quiet=True: only a small popup when something new exists (daily check)."""
 	if updater is None:
 		return
@@ -894,7 +901,7 @@ def checkForUpdate(session, quiet=False, previous=False):
 				session.open(MessageBox, T("No previous version is available.", "مفيش نسخة سابقة متاحة."), MessageBox.TYPE_INFO, timeout=6)
 				return
 			session.openWithCallback(lambda yes: yes and startDownload(prev), MessageBox,
-				T("Install the previous version %s (installed %s)?", "تثبيت النسخة السابقة %s (المثبت %s)؟") % (prev.get("version"), updater.installedVersion()), MessageBox.TYPE_YESNO)
+				reason + T("Install the previous version %s (installed %s)?", "تثبيت النسخة السابقة %s (المثبت %s)؟") % (prev.get("version"), updater.installedVersion()), MessageBox.TYPE_YESNO)
 			return
 		if not updater.isNewer(info["version"]):
 			if not quiet:
@@ -1123,6 +1130,16 @@ def sessionstart(reason, session=None, **kwargs):
 					installPerf(session)
 				except Exception as err:
 					print("[NileGlass] perf watch:", err)
+				try:
+					from .prewarm import start as prewarmStart
+					prewarmStart()
+				except Exception as err:
+					print("[NileGlass] prewarm:", err)
+				try:
+					from .crashguard import check as crashCheck
+					crashCheck(session)
+				except Exception as err:
+					print("[NileGlass] crash guard:", err)
 				try:
 					from .translatehook import install as installTranslate
 					installTranslate()

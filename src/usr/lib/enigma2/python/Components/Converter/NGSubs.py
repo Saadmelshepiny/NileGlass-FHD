@@ -12,7 +12,7 @@ import json
 import os
 
 from Components.Converter.Converter import Converter
-from Components.Converter.Poll import Poll
+from Components.Converter.NGPoll import NGPoll as Poll
 from Components.Element import cached
 
 FILE = "/tmp/NileGlass/subs.json"

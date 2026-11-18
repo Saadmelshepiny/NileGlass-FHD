@@ -9,7 +9,7 @@
 import time
 
 from Components.Converter.Converter import Converter
-from Components.Converter.Poll import Poll
+from Components.Converter.NGPoll import NGPoll as Poll
 from Components.Element import cached
 
 PTS = 90000.0

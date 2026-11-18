@@ -16,7 +16,7 @@ import time
 from enigma import iServiceInformation
 
 from Components.Converter.Converter import Converter
-from Components.Converter.Poll import Poll
+from Components.Converter.NGPoll import NGPoll as Poll
 from Components.Element import cached
 
 S_TAG_BITRATE = getattr(iServiceInformation, "sTagBitrate", None)

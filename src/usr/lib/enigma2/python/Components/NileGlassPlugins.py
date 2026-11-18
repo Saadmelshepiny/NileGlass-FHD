@@ -24,6 +24,16 @@ PLUGIN_ROOT = "/usr/lib/enigma2/python/Plugins/"
 USAGE_FILE = "/etc/enigma2/NileGlass_FHD/plugins_used.json"
 
 _lock = threading.Lock()
+
+
+def _rest(seconds):
+	"""a short pause in the background reading; longer while keys are being pressed"""
+	try:
+		from Components.NileGlassCore import waitQuiet
+		waitQuiet(2.0)
+	except Exception:
+		pass
+	time.sleep(seconds)
 _index = None          # plugin folder -> package name
 _status = {}           # package -> {"Version": .., "Installed-Time": ..}
 _feed = {}             # package -> version offered by the feeds
@@ -74,7 +84,7 @@ def _readIndex():
 	index = {}
 	for i, lst in enumerate(glob.glob(os.path.join(OPKG_INFO, "*.list"))):
 		if i % 20 == 0:
-			time.sleep(0.005)      # background work: the remote always goes first
+			_rest(0.005)      # background work: the remote always goes first
 		pkg = os.path.basename(lst)[:-5]
 		try:
 			with open(lst, encoding="utf-8", errors="ignore") as f:
@@ -92,7 +102,7 @@ def _readStanzas(text):
 	out = {}
 	for n, block in enumerate(text.split("\n\n")):
 		if n % 300 == 299:
-			time.sleep(0.003)
+			_rest(0.003)
 		fields = {}
 		for line in block.split("\n"):
 			if ":" in line and not line.startswith(" "):
@@ -112,7 +122,7 @@ def _readFeeds():
 				raw = f.read()
 			if raw[:2] == b"\x1f\x8b":
 				raw = gzip.decompress(raw)
-			time.sleep(0.01)
+			_rest(0.01)
 			for pkg, fields in _readStanzas(raw.decode("utf-8", "ignore")).items():
 				if fields.get("Version"):
 					feed[pkg] = fields["Version"]
@@ -127,7 +137,7 @@ def _readFeeds():
 def _folderSize(folder):
 	total = 0
 	for root, dirs, files in os.walk(folder):
-		time.sleep(0.001)
+		_rest(0.001)
 		for fn in files:
 			try:
 				total += os.path.getsize(os.path.join(root, fn))

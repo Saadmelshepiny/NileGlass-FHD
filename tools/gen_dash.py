@@ -183,3 +183,13 @@ open(path, "w", encoding="utf-8").write(process(skin, "skin.xml"))
 lp = os.path.join(SK, "layouts", "menus_popup.xml")
 lay = open(lp, encoding="utf-8").read()
 open(lp, "w", encoding="utf-8").write(process(lay, "menus_popup.xml"))
+
+# smaller skin: card sets no screen uses are not shipped (every layout counts)
+skin = open(path, encoding="utf-8").read()
+used = set()
+for f in [path] + [os.path.join(SK, "layouts", n) for n in os.listdir(os.path.join(SK, "layouts")) if n.endswith(".xml")]:
+	used |= set(re.findall(r'<panel name="(NG_Dash_[^"]+)"', open(f, encoding="utf-8").read()))
+before = len(skin)
+skin = re.sub(r'\t<screen name="(NG_Dash_[^"]+)">.*?</screen>\n', lambda m: m.group(0) if m.group(1) in used else "", skin, flags=re.S)
+open(path, "w", encoding="utf-8").write(skin)
+print("unused card sets dropped: %d KB" % ((before - len(skin)) // 1024))

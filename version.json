@@ -1,12 +1,12 @@
 {
-  "version": "2.8.20",
-  "ipk": "https://raw.githubusercontent.com/Saadmelshepiny/NileGlass-FHD/main/releases/enigma2-plugin-skins-nileglass-fhd_2.8.20_all.ipk",
-  "sha256": "8bac172579a80d67919eb2e83d67977c1bd7f1b72d24376fd24665e82a7ede1a",
-  "notes_ar": "حالة الترجمة في الإنفوبار من إضافة Saad Auto Subssupport (2.8.5 وأحدث): ترجمة عربي / بيدوّر ترجمة / بتتظبط… / مفيش ترجمة / ترجمة مباشرة، وفرق التزامن للتسجيلات. بتظهر بس للقناة أو التسجيل الشغال.",
-  "notes_en": "Subtitle state in the infobar from Saad Auto Subssupport (2.8.5+): on / searching / adjusting / none / live, and the manual offset for recordings. Shown only for what is playing.",
+  "version": "2.9.0",
+  "ipk": "https://raw.githubusercontent.com/Saadmelshepiny/NileGlass-FHD/main/releases/enigma2-plugin-skins-nileglass-fhd_2.9.0_all.ipk",
+  "sha256": "b9c21590ef03d2c60d58ace84d21970cc5e14e22a3b1b49eec5e44d9ab14e071",
+  "notes_ar": "المرحلة الأولى للثبات والسرعة: ساعة واحدة لكل القراءات الدورية بدل عشرات المؤقتات، الشغل في الخلفية بيستنى لحد ما تبطّل تضغط على الريموت، تجهيز الشاشات التقيلة مسبقًا وقت ما الجهاز فاضي، سكين أصغر بـ 120 KB، ومعرفة سبب أي كراش (السكين ولا إضافة ولا إنيجما) مع عرض الرجوع للنسخة اللي قبلها لو السكين وقّع الواجهة مرتين. تقرير السرعة بقى فيه الذاكرة والكراشات.",
+  "notes_en": "Stability and speed, phase 1: one clock for all periodic readings, background work waits while you use the remote, heavy screens prepared while idle, a 120 KB smaller skin, crash logs read to tell who caused a crash (skin, plugin or enigma2) with an offer to go back after two skin crashes. The speed report shows memory and crashes.",
   "previous": {
-    "version": "2.8.19",
-    "ipk": "https://raw.githubusercontent.com/Saadmelshepiny/NileGlass-FHD/main/releases/enigma2-plugin-skins-nileglass-fhd_2.8.19_all.ipk",
-    "sha256": "23ad7798c900facd708cf17542778c627e916a70916ebdbe1dfecec566c8cd8b"
+    "version": "2.8.20",
+    "ipk": "https://raw.githubusercontent.com/Saadmelshepiny/NileGlass-FHD/main/releases/enigma2-plugin-skins-nileglass-fhd_2.8.20_all.ipk",
+    "sha256": "8bac172579a80d67919eb2e83d67977c1bd7f1b72d24376fd24665e82a7ede1a"
   }
 }

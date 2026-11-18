@@ -19,7 +19,7 @@ import threading
 import time
 
 from Components.Converter.Converter import Converter
-from Components.Converter.Poll import Poll
+from Components.Converter.NGPoll import NGPoll as Poll
 from Components.Element import cached
 
 CITIES = (("مكة", "Asia/Riyadh"), ("دبي", "Asia/Dubai"), ("لندن", "Europe/London"), ("نيويورك", "America/New_York"))
@@ -39,6 +39,11 @@ def command(key, args, ttl=8, timeout=4):
 
 		def run():
 			try:
+				try:
+					from Components.NileGlassCore import waitQuiet
+					waitQuiet(2.0)
+				except Exception:
+					pass
 				out = subprocess.run(args, capture_output=True, timeout=timeout, text=True, errors="ignore").stdout
 			except Exception:
 				out = ""
@@ -245,7 +250,7 @@ class NGContext(Poll, Converter):
 		Converter.__init__(self, arg)
 		Poll.__init__(self)
 		self.type = (arg or "Utc").strip()
-		self.poll_interval = 1000 if self.type in ("Utc", "Local") else 15000 if self.type in self.FAST else 6000
+		self.poll_interval = 1000 if self.type in ("Utc", "Local") else 15000 if self.type in self.FAST else 5000
 		self.poll_enabled = True
 
 	@cached

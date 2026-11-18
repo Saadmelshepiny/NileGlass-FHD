@@ -11,7 +11,7 @@ import os
 import time
 
 from Components.Converter.Converter import Converter
-from Components.Converter.Poll import Poll
+from Components.Converter.NGPoll import NGPoll as Poll
 from Components.Element import cached
 
 GB_PER_HOUR = 3.2       # an HD recording, roughly (6 - 8 Mbit/s)

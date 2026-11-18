@@ -43,6 +43,11 @@ def screenName(screen):
 	return cls if not sn or sn == cls else "%s/%s" % (cls, sn)
 
 
+try:
+	from Components.NileGlassCore import keyPressed
+except Exception:
+	keyPressed = None
+
 STALL = 300         # ms: the box did nothing else for this long (no key, no drawing)
 TICK = 250
 
@@ -75,6 +80,8 @@ class PerfWatch:
 			write("stall %d %s %s" % (late, screenName(getattr(self.session, "current_dialog", None)), busy or "-"))
 
 	def key(self, key, flag):
+		if flag in (0, 2) and keyPressed is not None:
+			keyPressed()                         # background work waits a moment (NileGlassCore.waitQuiet)
 		if key == 401 and flag == 3:             # blue held: is the long press reaching the box?
 			write("bluelong %s" % screenName(getattr(self.session, "current_dialog", None)))
 		if flag in (0, 2) and self.t0 is None:   # make / repeat
@@ -188,6 +195,25 @@ def report():
 		out += ["   %-28s %5d ms   x%d   %s" % (name[:28], v[2], v[0], (v[-1] if len(v) > 3 else "")) for name, v in rows]
 	else:
 		out += ["   مفيش، الجهاز كان بيرد على طول"]
+	out += ["", "الذاكرة والشغل في الخلفية:"]
+	try:
+		rss = [l for l in open("/proc/self/status").read().splitlines() if l.startswith("VmRSS")][0].split()[1]
+		out.append("   ذاكرة الواجهة: %d MB" % (int(rss) // 1024))
+	except Exception:
+		pass
+	try:
+		import threading
+		out.append("   شغل في الخلفية: %d" % (threading.active_count() - 1))
+		from Components.Converter.NGPoll import stats
+		s = stats()
+		out.append("   قراءات دورية: %s" % ("، ".join("%d كل %g ث" % (n, i / 1000.0) for i, n in sorted(s.items())) or "مفيش"))
+	except Exception:
+		pass
+	try:
+		from .crashguard import load, text
+		out += ["", "آخر مرات الواجهة وقعت فيها:"] + text(load(), 4)
+	except Exception:
+		pass
 	out += ["", "وقت تجهيز الشاشات (أكتر من %d ms):" % SKIN_SLOW]
 	out += table(skins) or ["   مفيش، كل الشاشات سريعة"]
 	if guards:

@@ -10,7 +10,7 @@
 # this converter only reads the last known values, so it never blocks.
 
 from Components.Converter.Converter import Converter
-from Components.Converter.Poll import Poll
+from Components.Converter.NGPoll import NGPoll as Poll
 from Components.Element import cached
 from Components.NileGlassCore import weather
 

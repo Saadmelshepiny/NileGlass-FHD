@@ -112,4 +112,17 @@ check(Q._posterPath("البداية") == new and not Q._needsOriginal("البد�
 Q.metaMemo.clear()
 check(Q._posterPath("البداية") == new, "after a restart too (from the saved info)")
 
+
+# ---- background work waits while keys are pressed
+import threading, time as _t
+core.keyPressed()
+check(core.userActive(), "a key just now: the user is busy")
+res = {}
+def bg():
+	t0 = _t.monotonic(); core.waitQuiet(3.0); res["waited"] = _t.monotonic() - t0
+th = threading.Thread(target=bg); th.start(); th.join()
+check(1.0 <= res["waited"] < 2.0, "background thread waited until the hand rested: %.2fs" % res["waited"])
+t0 = _t.monotonic(); core.keyPressed(); core.waitQuiet(3.0)
+check(_t.monotonic() - t0 < 0.05, "the main thread never waits")
+
 print("ALL OK" if ok else "SOME TESTS FAILED")

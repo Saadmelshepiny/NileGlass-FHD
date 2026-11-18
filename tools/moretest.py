@@ -39,6 +39,7 @@ for n in ("Components", "Components.Converter", "Components.Sources"):
 	sys.modules[n] = types.ModuleType(n)
 cm = types.ModuleType("Components.Converter.Converter"); cm.Converter = Converter; sys.modules["Components.Converter.Converter"] = cm
 pm = types.ModuleType("Components.Converter.Poll"); pm.Poll = Poll; sys.modules["Components.Converter.Poll"] = pm
+pm2 = types.ModuleType("Components.Converter.NGPoll"); pm2.NGPoll = Poll; sys.modules["Components.Converter.NGPoll"] = pm2
 el = types.ModuleType("Components.Element"); el.cached = lambda f: f; sys.modules["Components.Element"] = el
 core = types.ModuleType("Components.NileGlassCore"); core.confGet = lambda s, k, d="": d; core.callInUiThread = lambda f, *a: f(*a)
 core.isLocalMount = lambda p: True

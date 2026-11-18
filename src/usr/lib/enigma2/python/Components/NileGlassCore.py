@@ -293,8 +293,33 @@ def hostBlocked(url):
 	return bool(b and b[1] > time.time())
 
 
+# ---------------------------------------------------------------- the remote goes first
+# Every key press is noted (perfwatch.py); background threads (posters,
+# weather, translation, package data ...) wait while keys are being pressed,
+# so the box answers the remote first and does the rest when the hand rests.
+_lastKey = [0.0]
+
+
+def keyPressed():
+	_lastKey[0] = time.monotonic()
+
+
+def userActive(window=1.2):
+	return time.monotonic() - _lastKey[0] < window
+
+
+def waitQuiet(maxWait=3.0):
+	"""in a background thread: wait (up to maxWait s) until no key was pressed for a moment"""
+	if threading.current_thread() is threading.main_thread():
+		return
+	end = time.monotonic() + maxWait
+	while userActive() and time.monotonic() < end:
+		time.sleep(0.15)
+
+
 def httpGet(url, headers=None, timeout=8, maxBytes=3 * 1024 * 1024):
 	"""Small, safe HTTP GET returning bytes (or raises)."""
+	waitQuiet()
 	host = _host(url)
 	b = _breaker.get(host)
 	if b and b[1] > time.time():
