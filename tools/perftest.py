@@ -50,4 +50,17 @@ check("LiveOnSatDB                  x2" in sec and "GUI                         
 check(pw.threadGroup("PoolThread-twisted.internet.reactor-3") == "PoolThread-twisted" and pw.threadGroup("Thread-12 (fetch)") == "Thread", "thread groups")
 t = pw.threadTicks()
 check("GUI" in t and t["GUI"] >= 0, "processor time per thread: %r" % t)
+
+# the processor readings never run on the GUI thread
+import threading as _th, time as _tm
+calls = []
+real = pw.threadTicks
+pw.threadTicks = lambda: (calls.append(_th.current_thread() is _th.main_thread()), {"GUI": len(calls) * 10, "LiveOnSatDB": len(calls) * 90})[1]
+s = pw.Sampler()
+_tm.sleep(2.3)
+s.stop = True
+check(calls and not any(calls), "readings only in the sampler thread: %r" % calls)
+used = s.used(_tm.monotonic() - 1.5)
+check(used and used[0][1] == "LiveOnSatDB" and used[0][0] > used[1][0], "sampler: who used the processor %r" % used)
+pw.threadTicks = real
 print("ALL OK" if ok else "SOME TESTS FAILED")

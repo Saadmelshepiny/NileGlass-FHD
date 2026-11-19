@@ -1,12 +1,12 @@
 {
-  "version": "2.9.1",
-  "ipk": "https://raw.githubusercontent.com/Saadmelshepiny/NileGlass-FHD/main/releases/enigma2-plugin-skins-nileglass-fhd_2.9.1_all.ipk",
-  "sha256": "e33e097ac80c454280cfbd4f907eeeb46a50fb8d49881b50dcd98cc3daa006a6",
-  "notes_ar": "الواجهة بتاخد دورها أسرع لما إضافات تانية شغالة في الخلفية (تبديل أسرع بين الواجهة والشغل الخلفي في بايثون)، وتقرير السرعة بقى بيقول مين كان شاغل المعالج وقت كل وقفة (الشاشة نفسها ولا شغل خلفي باسمه) وعدد الشغل الخلفي لكل إضافة.",
-  "notes_en": "The GUI gets its turn faster while other plugins work in the background (shorter Python thread switch interval); the speed report now names who used the processor during each stall (the screen itself or a named background thread) and counts background threads per plugin.",
+  "version": "2.9.2",
+  "ipk": "https://raw.githubusercontent.com/Saadmelshepiny/NileGlass-FHD/main/releases/enigma2-plugin-skins-nileglass-fhd_2.9.2_all.ipk",
+  "sha256": "24e84fdf984ce2044629f864d17e32ed973edc097473d7605783de86be9ad390",
+  "notes_ar": "تصليح تعليق من 2.9.1: قياس استهلاك المعالج في تقرير السرعة كان بيتعمل في الواجهة نفسها كل ربع ثانية وكان بيعلّقها لحد 3 ثواني مع الإضافات الشغالة في الخلفية. دلوقتي بيتعمل في الخلفية مرة كل ثانية والواجهة مبتقراش أي ملفات للقياس.",
+  "notes_en": "Fixes freezes from 2.9.1: the speed report's processor readings ran on the GUI thread every 250 ms and could freeze it up to 3 s with plugins busy in the background. They now run in a background thread once a second.",
   "previous": {
-    "version": "2.9.0",
-    "ipk": "https://raw.githubusercontent.com/Saadmelshepiny/NileGlass-FHD/main/releases/enigma2-plugin-skins-nileglass-fhd_2.9.0_all.ipk",
-    "sha256": "b9c21590ef03d2c60d58ace84d21970cc5e14e22a3b1b49eec5e44d9ab14e071"
+    "version": "2.9.1",
+    "ipk": "https://raw.githubusercontent.com/Saadmelshepiny/NileGlass-FHD/main/releases/enigma2-plugin-skins-nileglass-fhd_2.9.1_all.ipk",
+    "sha256": "e33e097ac80c454280cfbd4f907eeeb46a50fb8d49881b50dcd98cc3daa006a6"
   }
 }

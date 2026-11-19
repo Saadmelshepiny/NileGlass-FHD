@@ -56,11 +56,19 @@ except Exception:
 	HZ = 100
 
 
+SAMPLER = "NileGlass-PerfSampler"
+
+
 def threadTicks():
-	"""CPU time used so far by every Python thread, by name (the GUI itself is "GUI")"""
+	"""CPU time used so far by every Python thread, by name (the GUI itself is "GUI").
+	Reads one /proc file per thread: never call it on the GUI thread (every read
+	gives the interpreter away and the GUI waits to get it back) - the sampler
+	thread below does it once a second."""
 	import threading
 	out = {}
 	for t in threading.enumerate():
+		if t.name == SAMPLER:
+			continue
 		tid = getattr(t, "native_id", None)
 		if not tid:
 			continue
@@ -83,6 +91,40 @@ def threadGroup(name):
 	return name.replace(".internet.reactor", "").replace(" ", "_")[:24] or "?"
 
 
+class Sampler:
+	"""background thread: processor time per thread, once a second, last 10 s kept"""
+	def __init__(self):
+		import collections
+		import threading
+		self.samples = collections.deque(maxlen=12)       # (monotonic time, {name: ticks})
+		self.stop = False
+		th = threading.Thread(target=self.run, name=SAMPLER)
+		th.daemon = True
+		th.start()
+
+	def run(self):
+		while not self.stop:
+			try:
+				self.samples.append((time.monotonic(), threadTicks()))
+			except Exception:
+				pass
+			time.sleep(1.0)
+
+	def used(self, since):
+		"""processor time per thread from the last sample before 'since' to the newest"""
+		s = list(self.samples)
+		if len(s) < 2:
+			return []
+		base = s[0]
+		for sample in s:
+			if sample[0] <= since:
+				base = sample
+		new = s[-1]
+		if new is base:
+			return []
+		return sorted(((new[1][n] - base[1].get(n, new[1][n]), n) for n in new[1]), reverse=True)
+
+
 class PerfWatch:
 	def __init__(self, session):
 		self.session = session
@@ -96,23 +138,30 @@ class PerfWatch:
 		self.beat = eTimer()
 		self.beat.callback.append(self.heartbeat)
 		self.last = time.monotonic()
-		self.ticks = {}
+		self.sampler = Sampler()
+		self.stalls = []                   # (start, late, screen): named once the sampler has seen past them
 		self.beat.start(TICK, False)
 
 	def heartbeat(self):
 		now = time.monotonic()
 		late = int((now - self.last) * 1000) - TICK
 		self.last = now
-		try:
-			ticks = threadTicks()
-		except Exception:
-			ticks = {}
 		if late >= STALL:
-			# who used the processor while the box did not answer: the GUI itself or a background thread?
-			used = sorted(((ticks[n] - self.ticks.get(n, ticks[n]), n) for n in ticks), reverse=True)
+			self.stalls.append((now - (late + TICK) / 1000.0, now, late, screenName(getattr(self.session, "current_dialog", None))))
+		# a stall is written a little later, when the sampler has a reading from after it:
+		# who used the processor while the box did not answer - the GUI itself or a background thread?
+		while self.stalls:
+			start, end, ms, screen = self.stalls[0]
+			latest = self.sampler.samples[-1][0] if self.sampler.samples else 0
+			if latest < end and now - end < 4:
+				break
+			self.stalls.pop(0)
+			try:
+				used = self.sampler.used(start)
+			except Exception:
+				used = []
 			top = ",".join("%s:%d" % (n, d * 1000 // HZ) for d, n in used[:3] if d > 0)
-			write("stall %d %s %s" % (late, screenName(getattr(self.session, "current_dialog", None)), top or "-"))
-		self.ticks = ticks
+			write("stall %d %s %s" % (ms, screen, top or "-"))
 
 	def key(self, key, flag):
 		if flag in (0, 2) and keyPressed is not None:
