@@ -1,12 +1,12 @@
 {
-  "version": "3.2.3",
-  "ipk": "https://raw.githubusercontent.com/Saadmelshepiny/NileGlass-FHD/main/releases/enigma2-plugin-skins-nileglass-fhd_3.2.3_all.ipk",
-  "sha256": "ceef4ca09e85be1324dfa473f2c603422d2689715aee7a9f46cd7d9920008ad8",
-  "notes_ar": "تصليح: الزرار الأزرق (اللوحة الزرقاء) رجع يفتح - كان واقف في 3.2.2. التبديل بيمين وشمال والأسهم زي ما هم",
-  "notes_en": "Fix: the Blue Panel opens again (broken in 3.2.2); left/right emu switching kept",
+  "version": "3.2.4",
+  "ipk": "https://raw.githubusercontent.com/Saadmelshepiny/NileGlass-FHD/main/releases/enigma2-plugin-skins-nileglass-fhd_3.2.4_all.ipk",
+  "sha256": "d27ecbf76b9d9f387cdd2af864aebd185d2d810b14e4b2428ac284dc9a4db62b",
+  "notes_ar": "اللوحة الزرقاء: اسم الإيمو بيتغير فعلًا مع يمين وشمال (كان العدّاد بس اللي بيتغير)، والإيمو الشغال مكتوب جنبه (الشغال)",
+  "notes_en": "Blue Panel: the emu name now changes with left/right; the running one is marked",
   "previous": {
-    "version": "3.2.2",
-    "ipk": "https://raw.githubusercontent.com/Saadmelshepiny/NileGlass-FHD/main/releases/enigma2-plugin-skins-nileglass-fhd_3.2.2_all.ipk",
-    "sha256": "82752056a41120c28946d3491fc1550ecb74dce421f0669df59d74ac1e7b500e"
+    "version": "3.2.3",
+    "ipk": "https://raw.githubusercontent.com/Saadmelshepiny/NileGlass-FHD/main/releases/enigma2-plugin-skins-nileglass-fhd_3.2.3_all.ipk",
+    "sha256": "ceef4ca09e85be1324dfa473f2c603422d2689715aee7a9f46cd7d9920008ad8"
   }
 }

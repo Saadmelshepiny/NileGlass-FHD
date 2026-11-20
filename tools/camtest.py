@@ -168,11 +168,15 @@ class ML:
 	def __init__(self): self.list = ["OSCam", "NCam", "CCcam"]; self.i = 2
 	def getSelectedIndex(self): return self.i
 	def moveToIndex(self, i): self.i = i
-bp = {"list": ML(), "ng_emupos": Label()}
+	def getCurrent(self): return self.list[self.i]
+bp = {"list": ML(), "ng_emupos": Label(), "ng_emuname": Label(), "activecam": Label("OSCam")}
 H.emuMove(bp, 1)
 check("right after the last emu -> the first", bp["list"].i == 0 and bp["ng_emupos"].text.startswith("1 من 3"), bp["ng_emupos"].text)
 H.emuMove(bp, -1)
-check("left before the first -> the last", bp["list"].i == 2)
+check("left before the first -> the last", bp["list"].i == 2 and bp["ng_emuname"].text == "CCcam", bp["ng_emuname"].text)
+H.emuMove(bp, 1)
+check("the shown name follows, the running one is marked", bp["ng_emuname"].text == "OSCam   (الشغال)", bp["ng_emuname"].text)
+H.emuMove(bp, -1)
 bp["list"].list = ["OSCam"]; H.emuMove(bp, 1); H.emuPos(bp)
 check("one emu: nothing moves", bp["list"].i == 2 and bp["ng_emupos"].text == "إيمو واحد مثبت")
 hs = open(os.path.join(pkg.__path__[0], "screenhooks.py"), encoding="utf-8").read()

@@ -81,7 +81,7 @@ SCREEN_COMPONENTS = {
 	"NileGlassCamText": {"text", "file", "hint", "key_red", "key_green", "key_yellow", "key_blue", "Title"},
 	"TextBox": {"text", "key_red", "Title"},
 	"ServiceInfo": {"infolist", "red", "green", "yellow", "blue", "key_red", "Title"},
-	"DeliteBluePanel": {"lab1", "lab2", "lab3", "Ilab1", "Ilab2", "Ilab3", "Ilab4", "activecam", "Ecmtext", "list", "ng_emupos"} | KEYS_BUTTON,
+	"DeliteBluePanel": {"lab1", "lab2", "lab3", "Ilab1", "Ilab2", "Ilab3", "Ilab4", "activecam", "Ecmtext", "list", "ng_emupos", "ng_emuname"} | KEYS_BUTTON,
 }
 ALIASES = {
 	"SecondInfoBarSimple": "SecondInfoBar", "SlimChannelSelection": "ChannelSelection", "EPGSelection": "SingleEPG",

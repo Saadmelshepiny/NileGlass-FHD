@@ -40,16 +40,17 @@ def emuMove(screen, step):
 def emuPos(screen):
 	try:
 		lst = screen["list"]
-		if getattr(lst, "instance", None) is not None:
-			try:
-				lst.instance.setSelectionEnable(1)    # the chosen emu shows highlighted
-			except Exception:
-				pass
 		n = len(getattr(lst, "list", []) or [])
 		if n:
 			screen["ng_emupos"].setText("%d من %d   ·   يمين / شمال للتبديل" % (lst.getSelectedIndex() + 1, n) if n > 1 else "إيمو واحد مثبت")
 		else:
 			screen["ng_emupos"].setText("")
+		# the image's list does not redraw when it is moved from here, so the
+		# chosen name is shown in a label over it (OK still takes the list's own choice)
+		name = lst.getCurrent() if n else ""
+		name = name[0] if isinstance(name, tuple) else (name or "")
+		active = screen["activecam"].getText() if "activecam" in screen else ""
+		screen["ng_emuname"].setText(name + ("   (الشغال)" if name and name == active else ""))
 	except Exception as err:
 		print("[NileGlass] blue panel:", err)
 
@@ -65,6 +66,7 @@ def _addEmuSwitch(cls):
 			from Components.ActionMap import ActionMap
 			from Components.Label import Label
 			self["ng_emupos"] = Label("")
+			self["ng_emuname"] = Label("")
 			self["ng_emuActions"] = ActionMap(["DirectionActions"], {
 				"left": lambda: emuMove(self, -1),
 				"right": lambda: emuMove(self, 1),
