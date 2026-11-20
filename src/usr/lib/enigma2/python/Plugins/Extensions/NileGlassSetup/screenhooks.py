@@ -40,6 +40,11 @@ def emuMove(screen, step):
 def emuPos(screen):
 	try:
 		lst = screen["list"]
+		if getattr(lst, "instance", None) is not None:
+			try:
+				lst.instance.setSelectionEnable(1)    # the chosen emu shows highlighted
+			except Exception:
+				pass
 		n = len(getattr(lst, "list", []) or [])
 		if n:
 			screen["ng_emupos"].setText("%d من %d   ·   يمين / شمال للتبديل" % (lst.getSelectedIndex() + 1, n) if n > 1 else "إيمو واحد مثبت")
@@ -64,14 +69,9 @@ def _addEmuSwitch(cls):
 				"left": lambda: emuMove(self, -1),
 				"right": lambda: emuMove(self, 1),
 			}, -2)
+			# onShow, never onLayoutFinish: enigma2 exec()s anything there that is
+			# not a bound method, and the screen then does not open at all
 			self.onShow.append(lambda: emuPos(self))
-
-			def visible():
-				try:
-					self["list"].instance.setSelectionEnable(1)
-				except Exception:
-					pass
-			self.onLayoutFinish.append(visible)
 		except Exception as err:
 			print("[NileGlass] blue panel hook:", err)
 	cls.__init__ = __init__
