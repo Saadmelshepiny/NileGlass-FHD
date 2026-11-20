@@ -135,6 +135,12 @@ transparency = {transparency}
 font = {font}
 font_size = {font_size}
 infobar_size = {infobar_size}
+title_font = {title_font}
+list_size = {list_size}
+epg_size = {epg_size}
+desc_size = {desc_size}
+card_size = {card_size}
+season = {season}
 text_color = {text_color}
 bold_titles = {bold_titles}
 outline = {outline}
@@ -272,6 +278,14 @@ class NileGlassSetup(Setup):
 		sizes = [("80", T("Very small", "صغير جدًا")), ("90", T("Small", "صغير")), ("100", T("Normal", "عادي")), ("110", T("Large", "كبير")), ("120", T("Very large", "كبير جدًا")), ("130", T("Huge", "ضخم"))]
 		self.fontSize = NoSave(ConfigSelection(default=str(style["font_size"]) if str(style["font_size"]) in dict(sizes) else "100", choices=sizes))
 		self.infobarSize = NoSave(ConfigSelection(default=str(style.get("infobar_size", 100)) if str(style.get("infobar_size", 100)) in ("90", "100", "110", "120") else "100", choices=sizes[1:5]))
+		# fonts and sizes per part of the skin
+		self.titleFont = NoSave(ConfigSelection(default=style.get("title_font", "same") if style.get("title_font", "same") in ["same"] + [k for k, v in fontsets] else "same",
+			choices=[("same", T("Same as the text", "زي خط الكتابة"))] + list(fontsets)))
+		def area(key):
+			v = str(style.get(key, 100))
+			return NoSave(ConfigSelection(default=v if v in dict(sizes) else "100", choices=sizes))
+		self.listSize, self.epgSize, self.descSize, self.cardSize = area("list_size"), area("epg_size"), area("desc_size"), area("card_size")
+		self.season = NoSave(ConfigYesNo(default=bool(style.get("season", False))))
 		colors = [(k, (Style.TEXT_COLOR_NAMES_AR[k] if AR else k.capitalize())) for k in Style.TEXT_COLORS] if Style else [("white", "white")]
 		self.textColor = NoSave(ConfigSelection(default=style.get("text_color", "white"), choices=colors))
 		self.boldTitles = NoSave(ConfigYesNo(default=bool(style.get("bold_titles", True))))
@@ -432,6 +446,9 @@ class NileGlassSetup(Setup):
 		if Style and self["config"].getCurrent() and len(self["config"].getCurrent()) > 1 and self["config"].getCurrent()[1] is self.preset and self.preset.value in Style.PRESETS:
 			accent, transp, font, color = Style.PRESETS[self.preset.value]
 			self.accent.value, self.transparency.value, self.textColor.value = accent, str(transp), color
+			lk = getattr(Style, "PRESET_LOOKS", {}).get(self.preset.value, "classic")
+			if lk in [k for k, v in self.look.choices.choices]:
+				self.look.value = lk
 			if font in [k for k, v in self.font.choices.choices]:
 				self.font.value = font
 		Setup.changedEntry(self)
@@ -456,6 +473,12 @@ class NileGlassSetup(Setup):
 			(i + T("Background transparency", "شفافية الخلفية"), self.transparency, T("How much of the picture shows through the bars and panels.", "مدى ظهور الصورة من خلف الإنفوبار والقوائم.")),
 			(i + T("Font", "الخط"), self.font, T("Font used for all text.", "الخط المستخدم في كل النصوص.")),
 			(i + T("Text size", "حجم الخط"), self.fontSize, T("Size of all text.", "حجم كل النصوص في السكين.")),
+			(i + T("Titles font", "خط العناوين"), self.titleFont, T("Titles, channel and programme names in another font than the text - e.g. Lalezar titles over Tajawal text. More fonts: blue > Font library.", "العناوين وأسماء القنوات والبرامج بخط غير خط الكتابة، زي عناوين Lalezar مع كتابة Tajawal. خطوط أكتر: الأزرق ← مكتبة الخطوط.")),
+			(i + T("Lists text size", "حجم خط القوائم"), self.listSize, T("Menus, settings, channel list and every list. Rows get taller with bigger text.", "القوائم والإعدادات وقائمة القنوات وكل القوائم. الصفوف بتكبر مع الخط.")),
+			(i + T("EPG text size", "حجم خط دليل البرامج"), self.epgSize, T("EPG screens, programme info, films tonight.", "شاشات دليل البرامج ومعلومات البرنامج وأفلام الليلة.")),
+			(i + T("Descriptions text size", "حجم خط الوصف"), self.descSize, T("Programme descriptions and long texts everywhere.", "وصف البرامج والنصوص الطويلة في كل الشاشات.")),
+			(i + T("Cards text size", "حجم خط المربعات"), self.cardSize, T("The cards beside the menus and screens.", "المربعات اللي جنب القوائم والشاشات.")),
+			(i + T("Ramadan and Eid look", "شكل رمضان والعيد تلقائي"), self.season, T("In Ramadan the skin turns gold and warm, in the Eid days green - by the Hijri date, after a GUI restart. Your look comes back after.", "في رمضان السكين يبقى ذهبي ودافي، وفي أيام العيد أخضر - حسب التاريخ الهجري، بعد إعادة تشغيل الواجهة. شكلك بيرجع بعدها.")),
 			(i + T("Bold titles", "عناوين عريضة"), self.boldTitles, T("Titles and channel names in the bold version of the font.", "العناوين وأسماء القنوات بالخط العريض.")),
 			(i + T("Text finish", "شكل الخط (لامع / مطفي)"), self.finish, T("Glossy makes text brighter with a soft shadow, matte makes it calmer.", "اللامع أوضح وبظل خفيف، والمطفي أهدى للعين.")),
 			(i + T("Text colour", "لون النص"), self.textColor, T("Colour of the normal text everywhere.", "لون الكتابة العادية في كل الشاشات.")),
@@ -633,6 +656,12 @@ class NileGlassSetup(Setup):
 			"font": self.font.value,
 			"font_size": self.fontSize.value,
 			"infobar_size": self.infobarSize.value,
+			"title_font": self.titleFont.value,
+			"list_size": self.listSize.value,
+			"epg_size": self.epgSize.value,
+			"desc_size": self.descSize.value,
+			"card_size": self.cardSize.value,
+			"season": 1 if self.season.value else 0,
 			"text_color": self.textColor.value,
 			"bold_titles": 1 if self.boldTitles.value else 0,
 			"outline": 1 if self.outline.value else 0,
@@ -819,10 +848,66 @@ class NileGlassSetup(Setup):
 			(T("Clear posters and details", "مسح البوسترات والتفاصيل"), "clear"),
 			(T("Go back to the previous version", "الرجوع للنسخة السابقة"), "rollback"),
 			(T("Run the first-start wizard again", "تشغيل معالج البداية مرة تانية"), "wizard"),
+			(T("Font library (more fonts)", "مكتبة الخطوط (خطوط أكتر)"), "fonts"),
 			(T("Speed report (slow key presses)", "تقرير السرعة (الضغطات البطيئة)"), "perf"),
 			(T("Last crashes (who caused them)", "آخر مرات الواجهة وقعت فيها (والسبب)"), "crashes"),
 		]
 		self.session.openWithCallback(self.toolChosen, ChoiceBox, title=T("Tools", "أدوات"), list=items)
+
+	def fontLibrary(self):
+		from Components import NileGlassFonts as F
+		have = dict(F.installed())
+		items = [("%s   %s" % (name, "(متحمّل)" if k in have else "(تحميل)"), k) for k, (name, _r, _a, _b) in F.CATALOG.items()]
+		self.session.openWithCallback(self.fontChosen, ChoiceBox, title=T("Font library - free fonts, downloaded when chosen", "مكتبة الخطوط - خطوط مجانية بتتحمّل لما تختارها"), list=items)
+
+	def fontChosen(self, choice):
+		if not choice:
+			return
+		from Components import NileGlassFonts as F
+		key = choice[1]
+		if key in dict(F.installed()):
+			self.useFont(key)
+			return
+
+		def answer(yes):
+			if not yes:
+				return
+			box = self.session.open(MessageBox, T("Downloading the font ...", "جاري تحميل الخط ..."), MessageBox.TYPE_INFO, enable_input=False)
+
+			def work():
+				ok, reason = F.download(key)
+				from Components.NileGlassCore import callInUiThread
+				callInUiThread(done, ok, reason)
+
+			def done(ok, reason):
+				try:
+					box.close()
+				except Exception:
+					pass
+				if ok:
+					self.useFont(key)
+				else:
+					self.session.open(MessageBox, T("The font could not be downloaded:", "الخط ما اتحمّلش:") + "\n" + reason, MessageBox.TYPE_ERROR, timeout=8)
+			import threading
+			threading.Thread(target=work, name="NileGlass-font", daemon=True).start()
+		self.session.openWithCallback(answer, MessageBox, T("Download the font %s (free, a few hundred KB)?", "تحميل خط %s؟ (مجاني، حجمه كام مية كيلو)") % F.CATALOG[key][0], MessageBox.TYPE_YESNO)
+
+	def useFont(self, key):
+		"""a font from the library: offered for the text or for the titles"""
+		from Components import NileGlassFonts as F
+		value = "dl:" + key
+		for cfg in (self.font, self.titleFont):
+			ch = list(cfg.choices.choices)
+			if value not in [k for k, v in ch]:
+				cfg.setChoices(ch + [(value, F.CATALOG[key][0])], default=cfg.value)
+
+		def where(choice):
+			if not choice:
+				return
+			(self.font if choice[1] == "text" else self.titleFont).value = value
+			self.createSetup()
+			self.session.open(MessageBox, T("Chosen - press green to save.", "اتختار - اضغط الأخضر للحفظ."), MessageBox.TYPE_INFO, timeout=4)
+		self.session.openWithCallback(where, ChoiceBox, title=F.CATALOG[key][0], list=[(T("Use it for all text", "استخدمه لكل الكتابة"), "text"), (T("Use it for titles only", "استخدمه للعناوين بس"), "titles")])
 
 	def toolChosen(self, choice):
 		if not choice:
@@ -834,6 +919,8 @@ class NileGlassSetup(Setup):
 			checkForUpdate(self.session, quiet=False, previous=True)
 		elif action == "wizard":
 			startWizard(self.session)
+		elif action == "fonts":
+			self.fontLibrary()
 		elif action == "crashes":
 			from .crashguard import scan, save, text
 			from Screens.TextBox import TextBox
@@ -1145,6 +1232,23 @@ def sessionstart(reason, session=None, **kwargs):
 					prewarmStart()
 				except Exception as err:
 					print("[NileGlass] prewarm:", err)
+				try:
+					# Ramadan / Eid look: when the season changes the style is written again (shown after the next restart)
+					if Style:
+						st = Style.readStyle()
+						if st.get("season"):
+							now = Style.season() or "none"
+							mark = os.path.join(Style.USER_DIR, "season.txt")
+							try:
+								old = open(mark).read().strip()
+							except Exception:
+								old = ""
+							if old != now:
+								Style.apply()
+								with open(mark, "w") as f:
+									f.write(now)
+				except Exception as err:
+					print("[NileGlass] season:", err)
 				try:
 					from .crashguard import check as crashCheck
 					crashCheck(session)

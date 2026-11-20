@@ -128,6 +128,12 @@ def _copyFont(src, skin, alias, fontsDir=FONTS_DIR):
 
 def fontSet(key, skinsDir=SKINS_DIR, fontsDir=FONTS_DIR, copy=True):
 	"""Font set for a key: a built-in one, or "skin:<name>" built from that skin."""
+	if key.startswith("dl:"):         # downloaded from the font library (NileGlassFonts.py)
+		try:
+			from Components.NileGlassFonts import fontSet as dlSet
+			return dlSet(key[3:], fontsDir) or FONT_SETS["ubuntu"]
+		except Exception:
+			return FONT_SETS["ubuntu"]
 	if not key.startswith("skin:"):
 		return FONT_SETS.get(key) or FONT_SETS["ubuntu"]
 	name = key[5:]
@@ -170,6 +176,11 @@ def fontSet(key, skinsDir=SKINS_DIR, fontsDir=FONTS_DIR, copy=True):
 
 def fontChoices(skinsDir=SKINS_DIR):
 	out = list(FONT_NAMES.items())
+	try:
+		from Components.NileGlassFonts import installed
+		out += [("dl:" + k, name) for k, name in installed()]
+	except Exception:
+		pass
 	for name in otherSkinFonts(skinsDir):
 		out.append(("skin:" + name, "خط سكين %s" % name))
 	return out
@@ -181,7 +192,10 @@ DIRECTIONS = ("auto", "rtl", "ltr")
 DEFAULTS = {"accent": "blue", "transparency": "20", "font": "ubuntu", "font_size": "100", "infobar": "full",
 	"infobar_size": "100", "text_color": "white", "bold_titles": "1", "outline": "0", "direction": "auto", "translate": "1",
 	"channels": "posters", "sib": "cinema", "menu_backdrop": "1", "opaque_screens": "0", "text_finish": "normal", "ok_upcoming": "1", "lite": "0",
-	"icons": "classic", "ib_color": "graphite", "menus": "popup", "square_corners": "0", "look": "classic"}
+	"icons": "classic", "ib_color": "graphite", "menus": "popup", "square_corners": "0", "look": "classic",
+	"title_font": "same", "list_size": "100", "epg_size": "100", "desc_size": "100", "card_size": "100", "season": "0"}
+AREA_SIZES = (80, 90, 100, 110, 120, 130)
+AREA_KEYS = ("list_size", "epg_size", "desc_size", "card_size")
 TEXT_FINISHES = ("normal", "glossy", "matte")
 # infobar status icon sets (variants/icons/<name>)
 ICON_STYLES = ("classic", "glass", "badge", "line", "neon", "minimal")
@@ -194,18 +208,25 @@ IB_COLOR_NAMES_AR = {"graphite": "رمادي غامق (الأصلي)", "black": 
 	"purple": "بنفسجي", "plum": "برقوقي", "burgundy": "عنابي", "red": "أحمر قاني", "brown": "بني",
 	"gold": "ذهبي غامق", "silver": "فضي"}
 # looks: panel colours (main, deep, card) and the outline of panels / cards (None: no outline)
-LOOKS = {"classic": ("0f1722", "0b1119", "1a2535", None), "carbon": ("080d14", "060a10", "0b121b", "2c3e50")}
-LOOK_NAMES_AR = {"classic": "كلاسيك (الأصلي)", "carbon": "كربون (داكن بحدود رفيعة)"}
+LOOKS = {"classic": ("0f1722", "0b1119", "1a2535", None), "carbon": ("080d14", "060a10", "0b121b", "2c3e50"),
+	"oled": ("000000", "000000", "0c0c0e", None), "sand": ("1c1610", "14100b", "2a2118", None), "emerald": ("0b1a16", "07120f", "142a24", None),
+	"slate": ("17191d", "101215", "23272e", None), "royal": ("120f24", "0c0a19", "1e1a38", None)}
+LOOK_NAMES_AR = {"classic": "كلاسيك (الأصلي)", "carbon": "كربون (داكن بحدود رفيعة)", "oled": "أسود كامل (OLED)", "sand": "رملي دافي",
+	"emerald": "زمردي", "slate": "رمادي فحمي", "royal": "بنفسجي ملكي"}
 LAYOUT_FILES = {("channels", "simple"): "channels_simple.xml", ("sib", "classic"): "sib_classic.xml", ("infobar", "compact"): "infobar_compact.xml", ("menus", "popup"): "menus_popup.xml"}
 # ready-made looks: (accent, transparency, font, text colour)
 PRESETS = {
 	"classic": ("blue", 20, "ubuntu", "white"),
+	"oled": ("cyan", 0, "plex", "pure"),
+	"desert": ("gold", 20, "cairo", "cream"),
+	"emerald": ("green", 20, "almarai", "white"),
 	"gold": ("gold", 30, "plex", "cream"),
 	"cinema": ("red", 10, "notosans", "pure"),
 	"sport": ("green", 20, "vazir", "white"),
 	"night": ("purple", 10, "almarai", "grey"),
 }
-PRESET_NAMES_AR = {"classic": "كلاسيك أزرق", "gold": "ذهبي فاخر", "cinema": "سينما", "sport": "رياضة", "night": "ليلي هادي"}
+PRESET_LOOKS = {"oled": "oled", "desert": "sand", "emerald": "emerald", "night": "royal"}
+PRESET_NAMES_AR = {"oled": "أسود OLED", "desert": "صحراوي ذهبي", "emerald": "زمردي هادي", "classic": "كلاسيك أزرق", "gold": "ذهبي فاخر", "cinema": "سينما", "sport": "رياضة", "night": "ليلي هادي"}
 INFOBAR_LAYOUTS = ("full", "compact")
 
 
@@ -230,7 +251,7 @@ def readStyle(confFile=CONF_FILE):
 		style["transparency"] = 20
 	if style["infobar"] not in INFOBAR_LAYOUTS:
 		style["infobar"] = "full"
-	if style["font"] not in FONT_SETS and not style["font"].startswith("skin:"):
+	if style["font"] not in FONT_SETS and not style["font"].startswith(("skin:", "dl:")):
 		style["font"] = DEFAULTS["font"]
 	try:
 		style["font_size"] = max(80, min(130, int(style["font_size"])))
@@ -244,6 +265,20 @@ def readStyle(confFile=CONF_FILE):
 		style["text_color"] = "white"
 	if style["look"] not in LOOKS:
 		style["look"] = "classic"
+	for k in AREA_KEYS:
+		try:
+			style[k] = max(80, min(130, int(style[k])))
+		except (TypeError, ValueError):
+			style[k] = 100
+	if style["title_font"] != "same" and style["title_font"] not in FONT_SETS and not style["title_font"].startswith(("skin:", "dl:")):
+		style["title_font"] = "same"
+	if style["font"].startswith("dl:"):
+		try:
+			from Components.NileGlassFonts import fontSet as dlSet
+			if not dlSet(style["font"][3:]):
+				style["font"] = DEFAULTS["font"]
+		except Exception:
+			style["font"] = DEFAULTS["font"]
 	if style["menus"] not in ("popup", "full"):
 		style["menus"] = "popup"
 	if style["ib_color"] not in IB_COLORS:
@@ -258,7 +293,7 @@ def readStyle(confFile=CONF_FILE):
 		style["text_finish"] = "normal"
 	if style["icons"] not in ICON_STYLES:
 		style["icons"] = "classic"
-	for k in ("bold_titles", "outline", "translate", "menu_backdrop", "opaque_screens", "ok_upcoming", "lite", "square_corners"):
+	for k in ("bold_titles", "outline", "translate", "menu_backdrop", "opaque_screens", "ok_upcoming", "lite", "square_corners", "season"):
 		style[k] = str(style[k]).strip().lower() in ("1", "yes", "true", "on")
 	return style
 
@@ -487,6 +522,61 @@ def _outlinePanels(scr):
 	return changed
 
 
+_reEpgScreen = re.compile(r"epg|eventview|film|tonight|upcoming|similar", re.I)
+_reGFont = re.compile(r'(gFont\(\s*"[^"]+"\s*,\s*)(\d+)(\s*\))')
+_reItemH = re.compile(r'("itemHeight"\s*:\s*)(\d+)')
+DESC_CONVERTERS = ("ExtendedDescription", "FullDescription", "ShortDescription", "Description")
+LIST_NAMES = ("list", "config", "menu", "entries", "filelist", "menulist", "languages", "list_left", "list_right")
+
+
+def _areaOf(scr):
+	name = scr.get("name", "")
+	if name.startswith(("NileGlassDash_", "NG_Dash_")):
+		return "card"
+	if _reEpgScreen.search(name):
+		return "epg"
+	return None
+
+
+def _scaleAreas(scr, style):
+	"""Text sizes per part of the skin: lists, EPG, descriptions, cards (beside
+	the global size and the infobar size).  Lists grow their rows with the text."""
+	f = dict((k, style.get(k, 100) / 100.0) for k in AREA_KEYS)
+	if all(v == 1.0 for v in f.values()):
+		return False
+	changed = False
+	area = _areaOf(scr)
+	whole = f["card_size"] if area == "card" else f["epg_size"] if area == "epg" else 1.0
+	for el in scr.iter("widget"):
+		conv = " ".join("%s:%s" % (c.get("type"), (c.text or "").strip()) for c in el.findall("convert"))
+		isList = el.get("itemHeight") or el.get("name") in LIST_NAMES or "TemplatedMultiContent" in conv
+		factor = whole
+		if isList and scr.get("name") not in INFOBAR_SCREENS:
+			factor *= f["list_size"]
+		elif any(d in conv for d in DESC_CONVERTERS) or el.get("name") in ("description", "epg_description", "FullDescription", "text") or el.get("render") in ("RunningText", "VRunningText"):
+			factor *= f["desc_size"]
+		if abs(factor - 1.0) < 0.01:
+			continue
+		if el.get("font"):
+			el.set("font", _scaleFont(el.get("font"), factor))
+			changed = True
+		if isList:
+			grow = max(1.0, factor)     # rows grow with bigger text, never shrink under their pictures
+			if el.get("itemHeight"):
+				el.set("itemHeight", str(int(round(int(el.get("itemHeight")) * grow))))
+			for c in el.findall("convert"):
+				if c.get("type") == "TemplatedMultiContent" and c.text:
+					c.text = _reGFont.sub(lambda m: "%s%d%s" % (m.group(1), max(10, int(round(int(m.group(2)) * factor))), m.group(3)), c.text)
+					c.text = _reItemH.sub(lambda m: "%s%d" % (m.group(1), int(round(int(m.group(2)) * grow))), c.text)
+			changed = True
+	if whole != 1.0:
+		for el in scr.iter("eLabel"):
+			if el.get("font"):
+				el.set("font", _scaleFont(el.get("font"), whole))
+				changed = True
+	return changed
+
+
 def _transformedScreens(style, skinDir, language=None):
 	ibFactor = style.get("infobar_size", 100) / 100.0
 	outline = bool(style.get("outline"))
@@ -509,6 +599,7 @@ def _transformedScreens(style, skinDir, language=None):
 		square = lite or bool(style.get("square_corners"))
 		outlined = LOOKS[style.get("look", "classic")][3] is not None
 		changed = transformScreen(scr, ibFactor, outline, rtl, style.get("text_finish") == "glossy" and not lite)
+		changed = _scaleAreas(scr, style) or changed
 		if lite or not style.get("menu_backdrop", True):
 			changed = _dropMenuBackdrops(scr) or changed
 		if outlined:
@@ -526,6 +617,7 @@ def _transformedScreens(style, skinDir, language=None):
 	for name, scr in layouts.items():  # layout screens that skin.xml does not have
 		if name not in done:
 			transformScreen(scr, ibFactor, outline, rtl, style.get("text_finish") == "glossy")
+			_scaleAreas(scr, style)
 			if LOOKS[style.get("look", "classic")][3] is not None:
 				_outlinePanels(scr)
 			if style.get("lite") or style.get("square_corners"):
@@ -546,7 +638,46 @@ def _finish(hex6, style):
 	return hex6
 
 
+def _toHijri(y, m, d):
+	"""Gregorian -> (year, month, day), civil Islamic calendar (same as Converter/NGHijri.py)"""
+	a = int((m - 14) / 12)
+	jd = (1461 * (y + 4800 + a)) // 4 + (367 * (m - 2 - 12 * a)) // 12 - (3 * ((y + 4900 + a) // 100)) // 4 + d - 32075
+	l = jd - 1948440 + 10632
+	n = (l - 1) // 10631
+	l = l - 10631 * n + 354
+	j = ((10985 - l) // 5316) * ((50 * l) // 17719) + (l // 5670) * ((43 * l) // 15238)
+	l = l - ((30 - j) // 15) * ((17719 * j) // 50) - (j // 16) * ((15238 * j) // 43) + 29
+	month = (24 * l) // 709
+	day = l - (709 * month) // 24
+	return 30 * n + j - 30, month, day
+
+
+def season(now=None):
+	"""'ramadan' / 'eid' by the Hijri date, else None"""
+	import time as _t
+	lt = _t.localtime(now)
+	y, m, d = _toHijri(lt.tm_year, lt.tm_mon, lt.tm_mday)
+	if m == 9:
+		return "ramadan"
+	if (m == 10 and d <= 3) or (m == 12 and 10 <= d <= 13):
+		return "eid"
+	return None
+
+
+def seasonal(style, now=None):
+	"""the style with the season's look, when the season option is on"""
+	if not style.get("season"):
+		return style
+	s = season(now)
+	if s == "ramadan":
+		return dict(style, accent="gold", look="royal" if style.get("look") == "oled" else "sand")
+	if s == "eid":
+		return dict(style, accent="green", look="emerald")
+	return style
+
+
 def buildXml(style, skinDir=SKIN_DIR, language=None):
+	style = seasonal(style)
 	accent, dark, line = ACCENTS[style["accent"]]
 	t = style["transparency"]
 	bgA = _alpha(t * 0.5)        # main panels  (20% -> 10% transparent)
@@ -562,6 +693,11 @@ def buildXml(style, skinDir=SKIN_DIR, language=None):
 		cardA = bgA
 	fonts = []
 	fontSet = dict(fontSet_(style["font"]))
+	if style.get("title_font", "same") != "same":      # titles in another font than the text
+		titles = fontSet_(style["title_font"])
+		for alias in ("Medium", "ArabicBold"):
+			if alias in titles:
+				fontSet[alias] = titles[alias]
 	if not style.get("bold_titles", True):
 		fontSet["Medium"] = fontSet["Regular"]
 	for alias, (fname, rel) in fontSet.items():
@@ -649,11 +785,13 @@ def checkInstalled(userXml=USER_XML, skinDir=SKIN_DIR):
 
 def apply(confFile=CONF_FILE, skinDir=SKIN_DIR, userXml=USER_XML):
 	"""Apply the style from the config file. Returns a short report string."""
-	style = readStyle(confFile)
+	style = seasonal(readStyle(confFile))
 	copied = _copyTree(os.path.join(skinDir, "variants", "accent", style["accent"]), skinDir)
 	copied += _copyTree(os.path.join(skinDir, "variants", "glass", str(style["transparency"] or 10)), skinDir)
 	# the look's own pictures (selection bars, progress bars, infobar panels, rings); "classic" puts the rings back
 	look = os.path.join(skinDir, "variants", "look", style["look"])
+	if not os.path.isdir(look):      # looks that are only colours use the classic pictures
+		look = os.path.join(skinDir, "variants", "look", "classic")
 	copied += _copyTree(os.path.join(look, "accent", style["accent"]), skinDir)
 	copied += _copyTree(os.path.join(look, "glass", str(style["transparency"] or 10)), skinDir)
 	copied += _copyTree(os.path.join(look, "ui"), os.path.join(skinDir, "ui"))

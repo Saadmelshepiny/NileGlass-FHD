@@ -1,12 +1,12 @@
 {
-  "version": "2.9.2",
-  "ipk": "https://raw.githubusercontent.com/Saadmelshepiny/NileGlass-FHD/main/releases/enigma2-plugin-skins-nileglass-fhd_2.9.2_all.ipk",
-  "sha256": "24e84fdf984ce2044629f864d17e32ed973edc097473d7605783de86be9ad390",
-  "notes_ar": "تصليح تعليق من 2.9.1: قياس استهلاك المعالج في تقرير السرعة كان بيتعمل في الواجهة نفسها كل ربع ثانية وكان بيعلّقها لحد 3 ثواني مع الإضافات الشغالة في الخلفية. دلوقتي بيتعمل في الخلفية مرة كل ثانية والواجهة مبتقراش أي ملفات للقياس.",
-  "notes_en": "Fixes freezes from 2.9.1: the speed report's processor readings ran on the GUI thread every 250 ms and could freeze it up to 3 s with plugins busy in the background. They now run in a background thread once a second.",
+  "version": "3.0.0",
+  "ipk": "https://raw.githubusercontent.com/Saadmelshepiny/NileGlass-FHD/main/releases/enigma2-plugin-skins-nileglass-fhd_3.0.0_all.ipk",
+  "sha256": "6883cc9641558495d1e097b71d78fe36f46735dc993e52347855399a8474a856",
+  "notes_ar": "النسخة 3.0: مكتبة خطوط (15 خط عربي مجاني بيتحمّل لما تختاره)، خط مختلف للعناوين، حجم خط منفصل للقوائم والدليل والوصف والمربعات، 5 مظاهر جديدة (أسود OLED، رملي، زمردي، فحمي، بنفسجي ملكي) و3 ستايلات جاهزة جديدة، وشكل رمضان والعيد تلقائي.",
+  "notes_en": "3.0: font library (15 free Arabic fonts downloaded on demand), separate titles font, text size per part (lists, EPG, descriptions, cards), 5 new looks (OLED black, sand, emerald, slate, royal) and 3 new presets, automatic Ramadan and Eid look.",
   "previous": {
-    "version": "2.9.1",
-    "ipk": "https://raw.githubusercontent.com/Saadmelshepiny/NileGlass-FHD/main/releases/enigma2-plugin-skins-nileglass-fhd_2.9.1_all.ipk",
-    "sha256": "e33e097ac80c454280cfbd4f907eeeb46a50fb8d49881b50dcd98cc3daa006a6"
+    "version": "2.9.2",
+    "ipk": "https://raw.githubusercontent.com/Saadmelshepiny/NileGlass-FHD/main/releases/enigma2-plugin-skins-nileglass-fhd_2.9.2_all.ipk",
+    "sha256": "24e84fdf984ce2044629f864d17e32ed973edc097473d7605783de86be9ad390"
   }
 }
