@@ -200,9 +200,25 @@ def check(session, delay=20000):
 
 
 def ask(session, version, count, last):
+	"""three answers, nothing done without one: the previous version / safe mode / leave it"""
 	try:
-		from .plugin import checkForUpdate
+		from Screens.ChoiceBox import ChoiceBox
 		reason = "الواجهة وقعت %d مرات بسبب السكين من وقت ما اتحدّث لنسخة %s.\n%s\n\n" % (count, version, last.get("error", ""))
-		checkForUpdate(session, quiet=False, previous=True, reason=reason)
+		items = [("الوضع الآمن: الوضع الخفيف + الخط الافتراضي (ترجّعهم من الإعدادات)", "safe"),
+			("الرجوع للنسخة السابقة", "previous"),
+			("سيبه زي ما هو", "none")]
+
+		def chosen(choice):
+			if not choice or choice[1] == "none":
+				return
+			if choice[1] == "previous":
+				from .plugin import checkForUpdate
+				checkForUpdate(session, quiet=False, previous=True, reason=reason)
+				return
+			from .doctor import fix
+			from .startup import setConf, restartQuestion
+			done = fix("safemode", setConf)
+			restartQuestion(session, done + "\n\nإعادة تشغيل الواجهة الآن؟")
+		session.openWithCallback(chosen, ChoiceBox, title=reason.strip() + "\nتحب نعمل إيه؟", list=items)
 	except Exception as err:
 		print("[NileGlass] crash guard ask:", err)

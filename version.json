@@ -1,12 +1,12 @@
 {
-  "version": "3.0.0",
-  "ipk": "https://raw.githubusercontent.com/Saadmelshepiny/NileGlass-FHD/main/releases/enigma2-plugin-skins-nileglass-fhd_3.0.0_all.ipk",
-  "sha256": "6883cc9641558495d1e097b71d78fe36f46735dc993e52347855399a8474a856",
-  "notes_ar": "النسخة 3.0: مكتبة خطوط (15 خط عربي مجاني بيتحمّل لما تختاره)، خط مختلف للعناوين، حجم خط منفصل للقوائم والدليل والوصف والمربعات، 5 مظاهر جديدة (أسود OLED، رملي، زمردي، فحمي، بنفسجي ملكي) و3 ستايلات جاهزة جديدة، وشكل رمضان والعيد تلقائي.",
-  "notes_en": "3.0: font library (15 free Arabic fonts downloaded on demand), separate titles font, text size per part (lists, EPG, descriptions, cards), 5 new looks (OLED black, sand, emerald, slate, royal) and 3 new presets, automatic Ramadan and Eid look.",
+  "version": "3.1.0",
+  "ipk": "https://raw.githubusercontent.com/Saadmelshepiny/NileGlass-FHD/main/releases/enigma2-plugin-skins-nileglass-fhd_3.1.0_all.ipk",
+  "sha256": "b826a1b1ec2338eec2278d325f7e3229451b0d6a20f03129d96e3f59680fa841",
+  "notes_ar": "طبيب السكين: فحص الثبات والسرعة والمساحة وإصلاح بعد تأكيدك - نسخة تلقائية للإعدادات قبل كل تحديث (آخر 10) واسترجاع من قائمة - الوضع الآمن في عرض الكراش - فحص هادي بعد التحديث",
+  "notes_en": "Skin doctor (checks, fixes after you confirm), automatic settings snapshots before updates (last 10) with a restore list, safe mode in the crash offer, quiet check after updates",
   "previous": {
-    "version": "2.9.2",
-    "ipk": "https://raw.githubusercontent.com/Saadmelshepiny/NileGlass-FHD/main/releases/enigma2-plugin-skins-nileglass-fhd_2.9.2_all.ipk",
-    "sha256": "24e84fdf984ce2044629f864d17e32ed973edc097473d7605783de86be9ad390"
+    "version": "3.0.0",
+    "ipk": "https://raw.githubusercontent.com/Saadmelshepiny/NileGlass-FHD/main/releases/enigma2-plugin-skins-nileglass-fhd_3.0.0_all.ipk",
+    "sha256": "6883cc9641558495d1e097b71d78fe36f46735dc993e52347855399a8474a856"
   }
 }

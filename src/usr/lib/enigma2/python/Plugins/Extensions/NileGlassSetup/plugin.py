@@ -841,6 +841,7 @@ class NileGlassSetup(Setup):
 	# ----------------------------------------------------------------- blue: tools
 	def tools(self):
 		items = [
+			(T("Skin doctor (check and fix)", "طبيب السكين (فحص وإصلاح)"), "doctor"),
 			(T("Check for updates", "التحقق من التحديثات"), "update"),
 			(T("Download posters of the bouquets now", "تحميل بوسترات الباقات الآن"), "prefetch"),
 			(T("Backup settings", "نسخة احتياطية للإعدادات"), "backup"),
@@ -921,6 +922,8 @@ class NileGlassSetup(Setup):
 			startWizard(self.session)
 		elif action == "fonts":
 			self.fontLibrary()
+		elif action == "doctor":
+			openDoctor(self.session)
 		elif action == "crashes":
 			from .crashguard import scan, save, text
 			from Screens.TextBox import TextBox
@@ -944,19 +947,37 @@ class NileGlassSetup(Setup):
 			except Exception as err:
 				self.session.open(MessageBox, str(err), MessageBox.TYPE_ERROR)
 		elif action == "restore":
+			from .doctor import snapshots
+			items = []
 			src = findBackup()
-			if not src:
+			if src:
+				items.append((T("Your backup", "نسختك الاحتياطية") + "   " + src, src))
+			items += [(T("Automatic: ", "تلقائية: ") + txt, p) for p, txt in snapshots()]
+			if not items:
 				self.session.open(MessageBox, T("No backup found.", "لا توجد نسخة احتياطية."), MessageBox.TYPE_INFO, timeout=6)
 				return
+			self.session.openWithCallback(self.restoreChosen, ChoiceBox, title=T("Restore settings from", "استرجاع الإعدادات من"), list=items)
+		elif action == "clear":
+			self.clearCache()
+
+	def restoreChosen(self, choice):
+		if not choice:
+			return
+		src = choice[1]
+
+		def answer(yes):
+			if not yes:
+				return
 			try:
+				from .doctor import snapshot
+				snapshot("manual")
 				shutil.copyfile(src, CONF_FILE)
 				if Style:
 					Style.apply()
-				self.askRestart(T("Settings restored from:\n%s\nRestart the GUI now?", "تم استرجاع الإعدادات من:\n%s\nإعادة تشغيل الواجهة الآن؟") % src)
+				self.askRestart(T("Settings restored from:\n%s\nRestart the GUI now?", "تم استرجاع الإعدادات من:\n%s\nإعادة تشغيل الواجهة الآن؟") % os.path.basename(src))
 			except Exception as err:
 				self.session.open(MessageBox, str(err), MessageBox.TYPE_ERROR)
-		elif action == "clear":
-			self.clearCache()
+		self.session.openWithCallback(answer, MessageBox, T("Replace the current settings with this copy? (the current ones are kept as a copy first)", "نستبدل الإعدادات الحالية بالنسخة دي؟ (الحالية هتتحفظ نسخة منها الأول)"), MessageBox.TYPE_YESNO)
 
 	def clearCache(self):
 		removed = 0
@@ -969,6 +990,56 @@ class NileGlassSetup(Setup):
 						removed += len([n for n in os.listdir(sd) if n.endswith((".jpg", ".json"))])
 						shutil.rmtree(sd, ignore_errors=True)
 		self.session.open(MessageBox, T("Cleared (%d files). Restart the GUI to start fresh.", "تم المسح (%d ملف). أعد تشغيل الواجهة للبدء من جديد.") % removed, MessageBox.TYPE_INFO, timeout=6)
+
+
+# --------------------------------------------------------------------- the skin doctor
+def openDoctor(session):
+	"""checks run in the background (a few file reads); the result is a list - OK on a line with a fix asks first"""
+	from . import doctor
+	box = session.open(MessageBox, T("Checking ...", "جاري الفحص ..."), MessageBox.TYPE_INFO, enable_input=False)
+
+	def work():
+		try:
+			items = doctor.checks()
+		except Exception as err:
+			items = [(doctor.WARN, "تعذّر الفحص", str(err)[:120], None)]
+		from Components.NileGlassCore import callInUiThread
+		callInUiThread(show, items)
+
+	def show(items):
+		try:
+			box.close()
+		except Exception:
+			pass
+		bad, warn = doctor.summary(items)
+		mark = {doctor.OK: "[تمام]", doctor.WARN: "[تنبيه]", doctor.BAD: "[مشكلة]"}
+		order = {doctor.BAD: 0, doctor.WARN: 1, doctor.OK: 2}
+		rows = []
+		for st, title, detail, fid in sorted(items, key=lambda i: order[i[0]]):
+			line = "%s  %s%s" % (mark[st], title, ("  -  " + detail) if detail else "")
+			if fid:
+				line += "   ← OK: " + doctor.FIXES[fid]
+			rows.append((line, fid))
+		head = "طبيب السكين: كله تمام" if not bad and not warn else "طبيب السكين: %d مشكلة، %d تنبيه" % (bad, warn)
+		session.openWithCallback(chosen, ChoiceBox, title=head, list=rows)
+
+	def chosen(choice):
+		if not choice or not choice[1]:
+			return
+		fid = choice[1]
+
+		def answer(yes):
+			if not yes:
+				return
+			from .startup import setConf, restartQuestion
+			done = doctor.fix(fid, setConf)
+			if fid in ("restyle", "font", "safemode", "lite"):
+				restartQuestion(session, done + "\n\nإعادة تشغيل الواجهة الآن؟")
+			else:
+				session.open(MessageBox, done, MessageBox.TYPE_INFO, timeout=6)
+		session.openWithCallback(answer, MessageBox, "%s؟\n(الإعدادات الحالية بتتحفظ نسخة منها الأول)" % doctor.FIXES[fid], MessageBox.TYPE_YESNO)
+	import threading
+	threading.Thread(target=work, name="NileGlass-doctor", daemon=True).start()
 
 
 # --------------------------------------------------------------------- updates
@@ -1009,6 +1080,11 @@ def checkForUpdate(session, quiet=False, previous=False, reason=""):
 		session.openWithCallback(lambda yes: yes and startDownload(info), MessageBox, text, MessageBox.TYPE_YESNO)
 
 	def startDownload(info):
+		try:
+			from .doctor import snapshot
+			snapshot("update")
+		except Exception as err:
+			print("[NileGlass] snapshot:", err)
 		session.open(MessageBox, T("Downloading the update ...", "جارٍ تحميل التحديث ..."), MessageBox.TYPE_INFO, timeout=3)
 		updater.downloadAsync(info, downloaded)
 
@@ -1254,6 +1330,11 @@ def sessionstart(reason, session=None, **kwargs):
 					crashCheck(session)
 				except Exception as err:
 					print("[NileGlass] crash guard:", err)
+				try:
+					from .doctor import afterUpdate
+					afterUpdate(session)
+				except Exception as err:
+					print("[NileGlass] doctor:", err)
 				try:
 					from .translatehook import install as installTranslate
 					installTranslate()
