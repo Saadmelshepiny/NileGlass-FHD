@@ -1397,8 +1397,8 @@ class _CamBarDone:
 
 	def done(self, result=None):
 		if result == "readers":
-			from .readers import NileGlassReaders
-			self.session.open(NileGlassReaders)
+			from .camcenter import NileGlassCamCenter
+			self.session.open(NileGlassCamCenter)
 
 
 def openCamBar(session, **kwargs):
@@ -1416,6 +1416,15 @@ def openReaders(session, **kwargs):
 		session.open(NileGlassReaders)
 	except Exception as err:
 		print("[NileGlass] readers:", err)
+		session.open(MessageBox, str(err), MessageBox.TYPE_ERROR, timeout=8)
+
+
+def openCamCenter(session, **kwargs):
+	try:
+		from .camcenter import NileGlassCamCenter
+		session.open(NileGlassCamCenter)
+	except Exception as err:
+		print("[NileGlass] emu center:", err)
 		session.open(MessageBox, str(err), MessageBox.TYPE_ERROR, timeout=8)
 
 
@@ -1440,6 +1449,7 @@ def Plugins(**kwargs):
 		PluginDescriptor(name=T("Coming up (posters)", "البرامج القادمة (بوسترات)"), where=PluginDescriptor.WHERE_EXTENSIONSMENU, fnc=openUpcoming),
 		PluginDescriptor(name=T("Film page (now)", "صفحة الفيلم (الشغال دلوقتي)"), where=PluginDescriptor.WHERE_EXTENSIONSMENU, fnc=openFilm),
 		PluginDescriptor(name=T("Switch softcam", "تبديل الإيمو"), where=PluginDescriptor.WHERE_EXTENSIONSMENU, fnc=openCamBar),
+		PluginDescriptor(name=T("Emu center", "مركز الإيمو"), where=PluginDescriptor.WHERE_EXTENSIONSMENU, fnc=openCamCenter),
 		PluginDescriptor(name=T("Emu readers / lines", "سطور وريدرات الإيمو"), where=PluginDescriptor.WHERE_EXTENSIONSMENU, fnc=openReaders),
 		PluginDescriptor(name=T("Bitrate viewer", "معدل البت (Bitrate)"), where=PluginDescriptor.WHERE_EXTENSIONSMENU, fnc=openBitrate),
 		PluginDescriptor(where=PluginDescriptor.WHERE_SESSIONSTART, fnc=sessionstart),

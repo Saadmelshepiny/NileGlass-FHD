@@ -286,8 +286,8 @@ def findServerFile(name, cdir):
 
 
 # --------------------------------------------------- live state (webif) ---
-def readerStates(name, cdir, timeout=3):
-	"""{label: state} from the emu's own web interface; {} when not reachable."""
+def webifConf(name, cdir):
+	"""(port, user, password) of the emu's web interface from its .conf; port None when off"""
 	conf = os.path.join(cdir or "", "%s.conf" % name)
 	port, user, pwd = None, "", ""
 	try:
@@ -307,11 +307,19 @@ def readerStates(name, cdir, timeout=3):
 					elif k == "httppwd":
 						pwd = v
 	except Exception:
-		return {}
+		return None, "", ""
 	if not port or port == "0":
-		return {}
+		return None, "", ""
+	return port, user, pwd
+
+
+def webif(name, cdir, query="part=status", timeout=3):
+	"""the emu's own api (oscamapi.html / ncamapi.html) on 127.0.0.1 -> XML root, or None"""
+	port, user, pwd = webifConf(name, cdir)
+	if not port:
+		return None
 	proto = "https" if port.startswith("+") else "http"
-	url = "%s://127.0.0.1:%s/%sapi.html?part=status" % (proto, port.lstrip("+"), name)
+	url = "%s://127.0.0.1:%s/%sapi.html?%s" % (proto, port.lstrip("+"), name, query)
 	handlers = []
 	if user:
 		pm = urllib.request.HTTPPasswordMgrWithDefaultRealm()
@@ -324,9 +332,16 @@ def readerStates(name, cdir, timeout=3):
 		handlers.append(urllib.request.HTTPSHandler(context=ctx))
 	try:
 		data = urllib.request.build_opener(*handlers).open(url, timeout=timeout).read()
-		root = ET.fromstring(data)
+		return ET.fromstring(data)
 	except Exception as err:
-		print("[NileGlass] readers webif:", err)
+		print("[NileGlass] emu webif:", err)
+		return None
+
+
+def readerStates(name, cdir, timeout=3):
+	"""{label: state} from the emu's own web interface; {} when not reachable."""
+	root = webif(name, cdir, "part=status", timeout)
+	if root is None:
 		return {}
 	out, times = {}, {}
 	for c in root.iter("client"):
@@ -399,11 +414,102 @@ def mask(key, value):
 	return "****" if key in SECRET and value else value
 
 
+def splitDevice(device):
+	"""'host,port' / 'host:port' / '/dev/sci0' -> (host, port)"""
+	d = (device or "").strip()
+	if d.startswith("/") or "," not in d and ":" not in d:
+		return d, ""
+	host, _sep, rest = d.replace(":", ",", 1).partition(",")
+	return host.strip(), rest.split(",")[0].strip()
+
+
+CCCAM_CFG = ("/etc/CCcam.cfg", "/var/etc/CCcam.cfg", "/etc/tuxbox/config/CCcam.cfg", "/usr/keys/CCcam.cfg")
+
+
+def findCCcamCfg():
+	for p in CCCAM_CFG:
+		if os.path.isfile(p):
+			return p
+	return None
+
+
+def parseCCcamCfg(text):
+	"""C: host port user pass  /  N: host port user pass des-key  -> [(kind, host, port, user, pass, key)]"""
+	out, seen = [], set()
+	for line in text.splitlines():
+		line = line.split("#", 1)[0].strip()
+		m = re.match(r"^([CcNn])\s*:\s*(\S+)\s+(\d+)\s+(\S+)\s+(\S+)(?:\s+((?:[0-9A-Fa-f]{2}\s*){14}))?", line)
+		if not m:
+			continue
+		kind = m.group(1).upper()
+		key = re.sub(r"\s", "", m.group(6) or "")
+		item = (kind, m.group(2), m.group(3), m.group(4), m.group(5), key)
+		if lineKey(item) not in seen:
+			seen.add(lineKey(item))
+			out.append(item)
+	return out
+
+
+def lineKey(line):
+	return (line[1].lower(), str(line[2]), line[3])
+
+
+def existingKeys(sf):
+	keys = set()
+	for r in sf.readers:
+		host, port = splitDevice(r.get("device"))
+		keys.add((host.lower(), port, r.get("user")))
+	return keys
+
+
+def linesToFields(line, used=()):
+	kind, host, port, user, pwd, key = line
+	base = re.sub(r"[^\w\-.]", "_", host.split(".")[0]) or "line"
+	label, n = base, 2
+	while label in used:
+		label = "%s_%d" % (base, n)
+		n += 1
+	if kind == "N":
+		return [("label", label), ("protocol", "newcamd"), ("device", "%s,%s" % (host, port)), ("user", user), ("password", pwd),
+			("key", key or "0102030405060708091011121314"), ("group", "1"), ("enable", "1")]
+	return [("label", label), ("protocol", "cccam"), ("device", "%s,%s" % (host, port)), ("user", user), ("password", pwd),
+		("inactivitytimeout", "30"), ("group", "1"), ("cccversion", "2.3.2"), ("ccckeepalive", "1"), ("enable", "1")]
+
+
+def testLines(todo, timeout=4.0):
+	"""[(label, host, port)] -> [(label, ok, ms, why)] - a TCP connection to each, all at the same time"""
+	import socket
+	res = {}
+
+	def one(label, host, port):
+		t0 = time.time()
+		try:
+			s = socket.create_connection((host, int(port)), timeout=timeout)
+			s.close()
+			res[label] = (True, int((time.time() - t0) * 1000), "")
+		except socket.timeout:
+			res[label] = (False, 0, "مفيش رد")
+		except socket.gaierror:
+			res[label] = (False, 0, "اسم السيرفر غلط")
+		except ConnectionRefusedError:
+			res[label] = (False, 0, "البورت مقفول")
+		except Exception as err:
+			res[label] = (False, 0, str(err)[:40])
+	threads = [threading.Thread(target=one, args=t, daemon=True) for t in todo[:40]]
+	for t in threads:
+		t.start()
+	for t in threads:
+		t.join(timeout + 1)
+	return [(l, ) + res.get(l, (False, 0, "مفيش رد")) for l, _h, _p in todo[:40]]
+
+
 # ------------------------------------------------------------- the screen ---
 class NileGlassReaders(Screen):
-	def __init__(self, session):
+	def __init__(self, session, emu=None, path=None, start=None):
 		Screen.__init__(self, session)
 		self.skinName = "NileGlassReaders"
+		self.forced = (emu, path) if path else None
+		self.start = start
 		self.setTitle("سطور وريدرات الإيمو")
 		self["list"] = List([])
 		self["details"] = Label("")
@@ -446,7 +552,7 @@ class NileGlassReaders(Screen):
 			if not self.sf:
 				self.session.open(MessageBox, "مفيش ملف سطور مفتوح.\n%s" % (self["details"].getText() or "شغّل OScam أو NCam الأول."), MessageBox.TYPE_INFO, timeout=8)
 				return
-			if action.__name__ not in ("addMenu", "menu", "backupsMenu", "<lambda>") and self.current()[1] is None:
+			if action.__name__ not in ("addMenu", "menu", "backupsMenu", "importCCcam", "lineTest", "<lambda>") and self.current()[1] is None:
 				self.session.open(MessageBox, "اختار ريدر من القائمة الأول.", MessageBox.TYPE_INFO, timeout=5)
 				return
 			try:
@@ -473,8 +579,13 @@ class NileGlassReaders(Screen):
 
 	# ---- loading
 	def reload(self):
-		self.emu, self.cdir = runningEmu()
-		path = findServerFile(self.emu, self.cdir)
+		if self.forced:
+			self.emu, path = self.forced
+			running, cdir = runningEmu()
+			self.cdir = cdir if running == self.emu else os.path.dirname(path)
+		else:
+			self.emu, self.cdir = runningEmu()
+			path = findServerFile(self.emu, self.cdir)
 		if not path:
 			self.sf = None
 			self["file"].setText("")
@@ -490,6 +601,11 @@ class NileGlassReaders(Screen):
 		self["file"].setText("%s  ·  %s" % ((self.emu or "").upper(), path))
 		self.fill()
 		self.stateTimer.start(200, True)
+		start, self.start = self.start, None
+		if start == "import":
+			self.safe(self.importCCcam)()
+		elif start == "test":
+			self.safe(self.lineTest)()
 
 	def fetchStates(self):
 		if self.gone or not self.sf:
@@ -515,15 +631,17 @@ class NileGlassReaders(Screen):
 		idx = self["list"].getIndex() if keep else 0
 		rows = []
 		for i, r in enumerate(self.sf.readers if self.sf else []):
-			dev = r.get("device").replace(",", ":")
+			host, port = splitDevice(r.get("device"))
 			st = stateText(r, self.states)
-			rows.append((r.label, r.get("protocol"), dev, r.get("user"), st, i, stateColor(st)))
+			pwd = r.get("password")
+			rows.append((r.label, r.get("protocol"), host, r.get("user"), st, i, stateColor(st), str(i + 1), port,
+				pwd if self.showSecrets else mask("password", pwd)))
 		self["list"].setList(rows)
 		if rows:
 			self["list"].setIndex(min(idx, len(rows) - 1))
 		self["summary"].setText(summary(self.sf.readers if self.sf else [], self.states))
 		n = len(rows)
-		self["hint"].setText("%d %s   ·   INFO: إظهار الباسورد   ·   MENU: أدوات أكتر (تكرار، سطر C، تشغيل/إيقاف الكل، النسخ الاحتياطية)" % (n, "ريدر" if n == 1 else "ريدرات"))
+		self["hint"].setText("%d %s   ·   INFO: إظهار الباسورد   ·   MENU: أدوات أكتر (اختبار السطور، استيراد CCcam.cfg، تكرار، تشغيل/إيقاف الكل، النسخ الاحتياطية)" % (n, "ريدر" if n == 1 else "ريدرات"))
 		self.showDetails()
 
 	def current(self):
@@ -541,7 +659,7 @@ class NileGlassReaders(Screen):
 
 	def toggleSecrets(self):
 		self.showSecrets = not self.showSecrets
-		self.showDetails()
+		self.fill(keep=True)
 
 	# ---- the guarded write
 	def commit(self, what):
@@ -656,7 +774,8 @@ class NileGlassReaders(Screen):
 		if not self.sf or not self.guard():
 			return
 		self.session.openWithCallback(lambda c: c and c[1](), ChoiceBox, title="إضافة سطر",
-			list=[("سطر CCcam  (C: host port user pass)", self.addCLine), ("ريدر جديد (كل الحقول في شاشة واحدة)", self.addWizard)])
+			list=[("سطر CCcam  (C: host port user pass)", self.addCLine), ("ريدر جديد (كل الحقول في شاشة واحدة)", self.addWizard),
+				("استيراد السطور من CCcam.cfg", self.importCCcam)])
 
 	def addCLine(self):
 		self.keyboard("اكتب سطر C:", "C: ", self.gotCLine)
@@ -730,6 +849,8 @@ class NileGlassReaders(Screen):
 				items.append(("تعديل «%s» كسطر C" % r.label, self.editAsCLine))
 		if self.sf.readers:
 			items += [("تشغيل كل الريدرات", lambda: self.askAll("1")), ("إيقاف كل الريدرات", lambda: self.askAll("0"))]
+		items.append(("اختبار السطور (هل السيرفر بيرد؟)", self.lineTest))
+		items.append(("استيراد السطور من CCcam.cfg", self.importCCcam))
 		items.append(("النسخ الاحتياطية (استرجاع)", self.backupsMenu))
 		self.session.openWithCallback(lambda c: c and self.safe(c[1])(), ChoiceBox, title="أدوات السطور", list=items)
 
@@ -810,6 +931,75 @@ class NileGlassReaders(Screen):
 			return
 		self.fill()
 		self.session.openWithCallback(self.restartAnswer, MessageBox, "تم الاسترجاع.\nإعادة تشغيل %s دلوقتي؟" % (self.emu or "الإيمو").upper(), MessageBox.TYPE_YESNO, default=False)
+
+	# ---- CCcam.cfg -> readers (only the new lines, after you say yes)
+	def importCCcam(self):
+		if not self.guard():
+			return
+		src = findCCcamCfg()
+		if not src:
+			self.session.open(MessageBox, "مش لاقي CCcam.cfg في:\n%s" % "\n".join(CCCAM_CFG), MessageBox.TYPE_INFO, timeout=8)
+			return
+		with open(src, encoding="utf-8", errors="replace") as f:
+			lines = parseCCcamCfg(f.read())
+		have = existingKeys(self.sf)
+		new = [l for l in lines if lineKey(l) not in have]
+		if not lines:
+			self.session.open(MessageBox, "%s مفيهوش سطور C: أو N:." % src, MessageBox.TYPE_INFO, timeout=8)
+			return
+		if not new:
+			self.session.open(MessageBox, "كل السطور اللي في %s (%d) موجودة بالفعل." % (src, len(lines)), MessageBox.TYPE_INFO, timeout=8)
+			return
+		items = [("كل السطور الجديدة (%d)" % len(new), new)] + [("%s  %s:%s  %s" % (l[0], l[1], l[2], l[3]), [l]) for l in new]
+		self.session.openWithCallback(lambda c: c and self.askImport(c[1], src), ChoiceBox,
+			title="%s: %d سطر، منهم %d جديد" % (src, len(lines), len(new)), list=items)
+
+	def askImport(self, todo, src):
+		if not self.guard():
+			return
+		used = {r.label for r in self.sf.readers}
+		readers = []
+		for l in todo:
+			fields = linesToFields(l, used)
+			used.add(dict(fields)["label"])
+			readers.append(fields)
+		txt = "\n".join("%s  ←  %s:%s" % (dict(f)["label"], l[1], l[2]) for f, l in zip(readers, todo))
+		self.session.openWithCallback(lambda yes: yes and self.doImport(readers), MessageBox,
+			"إضافة %d ريدر من %s؟\n\n%s" % (len(readers), os.path.basename(src), txt), MessageBox.TYPE_YESNO, default=False)
+
+	def doImport(self, readers):
+		for fields in readers:
+			self.sf.add(fields)
+		self.commit("اتضاف %d ريدر." % len(readers))
+
+	# ---- line test: does each server answer? (a connection only, nothing is sent)
+	def lineTest(self):
+		todo = []
+		for r in self.sf.readers:
+			host, port = splitDevice(r.get("device"))
+			if port and not host.startswith("/"):
+				todo.append((r.label, host, port))
+		if not todo:
+			self.session.open(MessageBox, "مفيش سطور سيرفرات (host + port) تتختبر.", MessageBox.TYPE_INFO, timeout=6)
+			return
+		box = self.session.open(MessageBox, "جاري اختبار %d سطر ..." % len(todo), MessageBox.TYPE_INFO, enable_input=False)
+
+		def work():
+			res = testLines(todo)
+			if reactor:
+				reactor.callFromThread(done, res)
+
+		def done(res):
+			try:
+				box.close()
+			except Exception:
+				pass
+			if self.gone:
+				return
+			rows = ["%s   %s" % (("رد في %d ms" % ms) if ok else ("لأ - " + why), label) for label, ok, ms, why in res]
+			good = sum(1 for x in res if x[1])
+			self.session.open(MessageBox, "السيرفرات اللي ردت: %d من %d\n(اختبار اتصال بس، مش اختبار الاشتراك)\n\n%s" % (good, len(res), "\n".join(rows)), MessageBox.TYPE_INFO)
+		threading.Thread(target=work, name="NileGlass-linetest", daemon=True).start()
 
 	# ---- helpers
 	def keyboard(self, title, text, cb):

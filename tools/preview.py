@@ -980,19 +980,66 @@ rdd.update({"Title|@Label": "سطور وريدرات الإيمو", "file|": "OS
 	"__static__key_red": True, "__static__key_green": True, "__static__key_yellow": True, "__static__key_blue": True})
 
 
-def rdList(canvas, el):
-	x, y = xy(el.get("position")); w, h = xy(el.get("size"))
-	rows = [("server1", "cccam", "s1.example.com:12000", "ali", "متصل"), ("local_card", "internal", "/dev/sci0", "", "موقوف"),
-		("server3", "newcamd", "s3.example.com:15000", "bob", "مقطوع"), ("my", "cccam", "my.server.net:23000", "user1", "بيتصل ...")]
-	for i, r in enumerate(rows):
-		ry = y + i * 52
-		if i == 0:
-			canvas.alpha_composite(Image.new("RGBA", (w, 52), col("bgSel")), (x, ry))
-		for (cx, cw, f, c, al), t in zip(((14, 400, "Medium;30", "white", "left"), (420, 200, "Regular;26", "#f0c419", "left"), (630, 560, "Regular;26", "white", "left"), (1200, 300, "Regular;26", "#9aa3ae", "left"), (1510, 236, "Regular;26", "#3cc85a", "right")), r):
-			drawText(canvas, ET.Element("x", {"font": f, "foregroundColor": "white" if i == 0 else c, "valign": "center", "halign": al}), t, (x + cx, ry), (cw, 52))
+def tableRows(rows, cols, colours, ih=52):
+	"""draws rows of a column table (the emu screens); cols: [(x, w, align)]"""
+	def draw(canvas, el):
+		x, y = xy(el.get("position")); w, h = xy(el.get("size"))
+		for i, r in enumerate(rows):
+			ry = y + i * ih
+			if ry + ih > y + h:
+				break
+			if i == 0:
+				canvas.alpha_composite(Image.new("RGBA", (w, ih), col("bgSel")), (x, ry))
+			for (cx, cw, al), t, (f, c) in zip(cols, r, colours(r)):
+				drawText(canvas, ET.Element("x", {"font": f, "foregroundColor": "white" if i == 0 else c, "valign": "center", "halign": al}), t, (x + cx, ry), (cw, ih))
+	return draw
+
+
+def colsOf(widths):
+	out, x = [], 14
+	for w, al in widths:
+		out.append((x, w, al))
+		x += w + 8
+	return out
+
+
+STC = {"شغال": "#3cc85a", "متصل": "#3cc85a", "تمام": "#3cc85a", "موقوف": "#9aa3ae", "خطأ": "#e23b3b", "مقطوع": "#e23b3b", "الكارت مش موجود": "#e23b3b"}
+RDW = colsOf(((60, "center"), (320, "left"), (370, "left"), (110, "center"), (170, "left"), (200, "left"), (160, "left"), (240, "right")))
+rdList = tableRows([("1", "Tivusat-183E", "/dev/sci0", "", "internal", "", "", "شغال"), ("2", "emulator", "/etc/tuxbox/config/SoftCam.Key", "", "emu", "", "", "شغال"),
+	("3", "server1", "s1.example.com", "12000", "cccam", "ali", "****", "متصل"), ("4", "local_card", "/dev/sci1", "", "internal", "", "", "موقوف"),
+	("5", "server3", "s3.example.com", "15000", "newcamd", "bob", "****", "مقطوع"), ("6", "line_02", "my.server.net", "14000", "cccam", "user1", "****", "خطأ")],
+	RDW, lambda r: [("Regular;26", "#9aa3ae"), ("Medium;28", "white"), ("Regular;26", "white"), ("Regular;26", "white"), ("Regular;26", "#f0c419"),
+		("Regular;26", "#9aa3ae"), ("Regular;26", "#9aa3ae"), ("Regular;26", STC.get(r[7], "#f0c419"))])
 
 
 render("NileGlassReaders", rdd, bg, {"list": rdList})
+rdd2 = dict(common, **{"Title|@Label": "مركز الإيمو", "info|": "الشغال: OSCAM   ·   2.26.11-11989   ·   شغال 9 من 12   ·   واقع: line_02", "key_green|": "إعادة تشغيل الإيمو", "key_blue|": "تبديل الإيمو",
+	"__static__key_green": True, "__static__key_blue": True})
+CC = [("سطور وريدرات OSCAM", "تعديل، إضافة، حذف، إيقاف وتشغيل - بتأكيد ونسخة احتياطية  ·  /etc/tuxbox/config/oscam.server"), ("سطور وريدرات NCAM", "تعديل، إضافة، حذف، إيقاف وتشغيل - بتأكيد ونسخة احتياطية  ·  /etc/tuxbox/config/ncam.server"),
+	("الحالة المباشرة", "كل الريدرات والسطور والعملاء وحالتهم ووقت الـ ECM"), ("السجل المباشر", "آخر سطور سجل OSCAM، بيتحدث لوحده"), ("معلومات OSCAM", "النسخة، شغال من إمتى، الفولدرات، البورت"),
+	("ملفات الإعدادات", "عرض بس (الباسوردات مخفية)"), ("تحويل CCcam.cfg لريدرات", "السطور الجديدة بس من /etc/CCcam.cfg")]
+
+
+def ccList(canvas, el):
+	x, y = xy(el.get("position")); w, h = xy(el.get("size"))
+	for i, (a, b) in enumerate(CC):
+		ry = y + i * 104
+		if i == 0:
+			canvas.alpha_composite(Image.new("RGBA", (w, 104), col("bgSel")), (x, ry))
+		drawText(canvas, ET.Element("x", {"font": "Medium;32", "foregroundColor": "white", "valign": "center", "halign": "left"}), a, (x + 24, ry + 6), (1700, 48))
+		drawText(canvas, ET.Element("x", {"font": "Regular;24", "foregroundColor": "white" if i == 0 else "#9aa3ae", "valign": "center", "halign": "left"}), b, (x + 24, ry + 54), (1700, 36))
+
+
+render("NileGlassCamCenter", rdd2, bg, {"list": ccList})
+STW = colsOf(((360, "left"), (130, "left"), (360, "left"), (110, "center"), (200, "left"), (140, "center"), (300, "right")))
+stList = tableRows([("conax", "كارت", "", "", "internal", "", "الكارت مش موجود"), ("constant.cw", "كارت", "", "", "constcw", "", "متصل"), ("emulator", "كارت", "", "", "emu", "12 ms", "شغال"),
+	("Tivusat-183E", "كارت", "", "", "internal", "", "موقوف"), ("Line_02", "سطر", "my.server.net", "14000", "cccam", "", "خطأ"), ("server1", "سطر", "88.198.72.200", "60000", "newcamd", "182 ms", "متصل"),
+	("root", "عميل", "::1", "0", "server", "", "تمام")], STW,
+	lambda r: [("Medium;28", "white"), ("Regular;26", "#9aa3ae"), ("Regular;26", "white"), ("Regular;26", "white"), ("Regular;26", "#f0c419"), ("Regular;26", "white"), ("Regular;26", STC.get(r[6], "#f0c419"))])
+render("NileGlassCamStatus", dict(common, **{"Title|@Label": "OSCAM - الحالة المباشرة", "summary|": "شغال 3 من 6   ·   واقع: conax، Line_02   ·   عملاء: 1",
+	"hint|": "آخر تحديث 17:52:40   ·   بيتحدث كل 5 ثواني", "key_green|": "تحديث", "key_yellow|": "السطور بس", "key_blue|": "الريدرات",
+	"__static__key_green": True, "__static__key_yellow": True, "__static__key_blue": True}), bg, {"list": stList})
+
 
 
 MORE_SAMPLE = {
