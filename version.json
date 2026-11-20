@@ -1,12 +1,12 @@
 {
-  "version": "3.2.0",
-  "ipk": "https://raw.githubusercontent.com/Saadmelshepiny/NileGlass-FHD/main/releases/enigma2-plugin-skins-nileglass-fhd_3.2.0_all.ipk",
-  "sha256": "48692e86c9a9e4b4e01f075d73272d867dfd3cc01c812b1d81dc98ea6a6bd5f9",
-  "notes_ar": "مركز الإيمو: سطور OSCam و NCam في جدول (رقم، اسم، سيرفر، بورت، بروتوكول، يوزر، باسورد مخفي، حالة) - الحالة المباشرة لكل الريدرات والعملاء - السجل المباشر - معلومات الإيمو - ملفات الإعدادات (عرض بس) - تحويل CCcam.cfg لريدرات - اختبار السطور",
-  "notes_en": "Emu center: OSCam/NCam readers table, live status, live log, emu info, config files (read only), CCcam.cfg import, line test",
+  "version": "3.2.1",
+  "ipk": "https://raw.githubusercontent.com/Saadmelshepiny/NileGlass-FHD/main/releases/enigma2-plugin-skins-nileglass-fhd_3.2.1_all.ipk",
+  "sha256": "6438c75b9948e8584289f990b23a9751ef83e9748ee78f1f5e729706605c219a",
+  "notes_ar": "مركز الإيمو بقى ظاهر في قائمة الإضافات (الأخضر) وفي أدوات إعدادات السكين، مش بس في قائمة الأزرق",
+  "notes_en": "Emu center now also in the plugin browser and in the skin's Tools",
   "previous": {
-    "version": "3.1.0",
-    "ipk": "https://raw.githubusercontent.com/Saadmelshepiny/NileGlass-FHD/main/releases/enigma2-plugin-skins-nileglass-fhd_3.1.0_all.ipk",
-    "sha256": "b826a1b1ec2338eec2278d325f7e3229451b0d6a20f03129d96e3f59680fa841"
+    "version": "3.2.0",
+    "ipk": "https://raw.githubusercontent.com/Saadmelshepiny/NileGlass-FHD/main/releases/enigma2-plugin-skins-nileglass-fhd_3.2.0_all.ipk",
+    "sha256": "48692e86c9a9e4b4e01f075d73272d867dfd3cc01c812b1d81dc98ea6a6bd5f9"
   }
 }

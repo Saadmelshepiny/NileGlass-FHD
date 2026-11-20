@@ -842,6 +842,7 @@ class NileGlassSetup(Setup):
 	def tools(self):
 		items = [
 			(T("Skin doctor (check and fix)", "طبيب السكين (فحص وإصلاح)"), "doctor"),
+			(T("Emu center (OSCam / NCam)", "مركز الإيمو (OSCam / NCam)"), "emu"),
 			(T("Check for updates", "التحقق من التحديثات"), "update"),
 			(T("Download posters of the bouquets now", "تحميل بوسترات الباقات الآن"), "prefetch"),
 			(T("Backup settings", "نسخة احتياطية للإعدادات"), "backup"),
@@ -924,6 +925,8 @@ class NileGlassSetup(Setup):
 			self.fontLibrary()
 		elif action == "doctor":
 			openDoctor(self.session)
+		elif action == "emu":
+			openCamCenter(self.session)
 		elif action == "crashes":
 			from .crashguard import scan, save, text
 			from Screens.TextBox import TextBox
@@ -1449,6 +1452,7 @@ def Plugins(**kwargs):
 		PluginDescriptor(name=T("Coming up (posters)", "البرامج القادمة (بوسترات)"), where=PluginDescriptor.WHERE_EXTENSIONSMENU, fnc=openUpcoming),
 		PluginDescriptor(name=T("Film page (now)", "صفحة الفيلم (الشغال دلوقتي)"), where=PluginDescriptor.WHERE_EXTENSIONSMENU, fnc=openFilm),
 		PluginDescriptor(name=T("Switch softcam", "تبديل الإيمو"), where=PluginDescriptor.WHERE_EXTENSIONSMENU, fnc=openCamBar),
+		PluginDescriptor(name=T("Emu center", "مركز الإيمو"), description=T("OSCam / NCam: readers, live status, log, CCcam.cfg import", "OSCam و NCam: السطور، الحالة المباشرة، السجل، تحويل CCcam.cfg"), where=PluginDescriptor.WHERE_PLUGINMENU, icon="emu.png", fnc=openCamCenter),
 		PluginDescriptor(name=T("Emu center", "مركز الإيمو"), where=PluginDescriptor.WHERE_EXTENSIONSMENU, fnc=openCamCenter),
 		PluginDescriptor(name=T("Emu readers / lines", "سطور وريدرات الإيمو"), where=PluginDescriptor.WHERE_EXTENSIONSMENU, fnc=openReaders),
 		PluginDescriptor(name=T("Bitrate viewer", "معدل البت (Bitrate)"), where=PluginDescriptor.WHERE_EXTENSIONSMENU, fnc=openBitrate),
