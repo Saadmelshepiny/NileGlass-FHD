@@ -813,11 +813,11 @@ render("DeliteAddons", d, bg, {"list": rowsList(["Addons and Feeds Manager", "Op
 def bpCam(canvas, el):
 	x, y = xy(el.get("position")); w, h = xy(el.get("size"))
 	canvas.alpha_composite(Image.new("RGBA", (w, h), col("bgCard")), (x, y))
-	drawText(canvas, ET.Element("x", {"font": "Medium;34", "foregroundColor": "white", "valign": "center", "halign": "center"}), "<  OSCam-emu 11880  >", (x, y), (w, h))
+	drawText(canvas, ET.Element("x", {"font": "Medium;34", "foregroundColor": "white", "valign": "center", "halign": "center"}), "OSCam-emu 11880", (x, y), (w, h))
 
 
 d = dict(pop)
-d.update({"Title|@Label": "OpenBh Blue Panel", "lab1|": "3  CAMs Installed", "lab2|": "Press OK to start the selected cam", "lab3|": "", "activecam|": "Active: OSCam-emu 11880",
+d.update({"Title|@Label": "OpenBh Blue Panel", "lab1|": "3  CAMs Installed", "ng_emupos|": "2 من 3   ·   يمين / شمال للتبديل", "lab2|": "Press OK to start the selected cam", "lab3|": "", "activecam|": "Active: OSCam-emu 11880",
 	"Ilab1|": "Name: beIN SPORTS 1 HD", "Ilab2|": "Provider: beIN", "Ilab3|": "Aspect Ratio: 16:9", "Ilab4|": "Videosize: 1920x1080",
 	"session.CurrentService|ServiceName:Name": "beIN SPORTS 1 HD", "session.CurrentService|PliExtraInfo:TransponderInfo": "11013 H 27500 3/4  7.0W",
 	"session.CurrentService|PliExtraInfo:PIDInfo": "V 0x0100  A 0x0101  SID 0x0FA1",

@@ -161,5 +161,21 @@ pl = open(os.path.join(pkg.__path__[0], "plugin.py"), encoding="utf-8").read()
 check("cam bar MENU opens the emu center", "from .camcenter import NileGlassCamCenter" in pl and "openCamCenter" in pl)
 src = open(os.path.join(pkg.__path__[0], "camcenter.py"), encoding="utf-8").read()
 check("the center never writes an emu file", "open(" not in src.replace('open(p, errors="replace")', "").replace('open(conf, errors="replace")', "").replace('open(path, "rb")', "").replace('open(self.path, encoding="utf-8", errors="replace")', "").replace("self.session.open(", ""), [l for l in src.splitlines() if "open(" in l and "session.open" not in l])
+# ---- Blue Panel: left / right move round the installed emus
+spec = importlib.util.spec_from_file_location("ngs.screenhooks", os.path.join(pkg.__path__[0], "screenhooks.py"))
+H = importlib.util.module_from_spec(spec); spec.loader.exec_module(H)
+class ML:
+	def __init__(self): self.list = ["OSCam", "NCam", "CCcam"]; self.i = 2
+	def getSelectedIndex(self): return self.i
+	def moveToIndex(self, i): self.i = i
+bp = {"list": ML(), "ng_emupos": Label()}
+H.emuMove(bp, 1)
+check("right after the last emu -> the first", bp["list"].i == 0 and bp["ng_emupos"].text.startswith("1 من 3"), bp["ng_emupos"].text)
+H.emuMove(bp, -1)
+check("left before the first -> the last", bp["list"].i == 2)
+bp["list"].list = ["OSCam"]; H.emuMove(bp, 1); H.emuPos(bp)
+check("one emu: nothing moves", bp["list"].i == 2 and bp["ng_emupos"].text == "إيمو واحد مثبت")
+hs = open(os.path.join(pkg.__path__[0], "screenhooks.py"), encoding="utf-8").read()
+check("hook on the Blue Panel, above its own keys", "_addEmuSwitch(DeliteBluePanel)" in hs and "}, -2)" in hs)
 print("\n%d failed" % len(fails) if fails else "\nall passed")
 sys.exit(1 if fails else 0)

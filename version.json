@@ -1,12 +1,12 @@
 {
-  "version": "3.2.1",
-  "ipk": "https://raw.githubusercontent.com/Saadmelshepiny/NileGlass-FHD/main/releases/enigma2-plugin-skins-nileglass-fhd_3.2.1_all.ipk",
-  "sha256": "6438c75b9948e8584289f990b23a9751ef83e9748ee78f1f5e729706605c219a",
-  "notes_ar": "مركز الإيمو بقى ظاهر في قائمة الإضافات (الأخضر) وفي أدوات إعدادات السكين، مش بس في قائمة الأزرق",
-  "notes_en": "Emu center now also in the plugin browser and in the skin's Tools",
+  "version": "3.2.2",
+  "ipk": "https://raw.githubusercontent.com/Saadmelshepiny/NileGlass-FHD/main/releases/enigma2-plugin-skins-nileglass-fhd_3.2.2_all.ipk",
+  "sha256": "82752056a41120c28946d3491fc1550ecb74dce421f0669df59d74ac1e7b500e",
+  "notes_ar": "اللوحة الزرقاء: التبديل بين الإيموهات بيمين وشمال (بيلف من الآخر للأول) مع أسهم على الجانبين وعدّاد (2 من 3)، و OK للتشغيل زي الأول",
+  "notes_en": "Blue Panel: left/right switch between installed emus (round), arrows and a counter; OK starts it",
   "previous": {
-    "version": "3.2.0",
-    "ipk": "https://raw.githubusercontent.com/Saadmelshepiny/NileGlass-FHD/main/releases/enigma2-plugin-skins-nileglass-fhd_3.2.0_all.ipk",
-    "sha256": "48692e86c9a9e4b4e01f075d73272d867dfd3cc01c812b1d81dc98ea6a6bd5f9"
+    "version": "3.2.1",
+    "ipk": "https://raw.githubusercontent.com/Saadmelshepiny/NileGlass-FHD/main/releases/enigma2-plugin-skins-nileglass-fhd_3.2.1_all.ipk",
+    "sha256": "6438c75b9948e8584289f990b23a9751ef83e9748ee78f1f5e729706605c219a"
   }
 }

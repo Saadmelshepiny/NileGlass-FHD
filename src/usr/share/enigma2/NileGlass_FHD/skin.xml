@@ -1449,8 +1449,12 @@
 		<widget source="Title" render="Label" position="74,16" size="540,56" font="Medium;32" foregroundColor="accent" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1"/>
 		<widget source="global.CurrentTime" render="Label" position="620,16" size="156,56" font="Regular;40" foregroundColor="fg" backgroundColor="bg" transparent="1" halign="right" valign="center" noWrap="1"><convert type="ClockToText">Format:%H:%M</convert></widget>
 		<eLabel position="24,84" size="752,1" backgroundColor="line" zPosition="-8"/>
-		<widget name="lab1" position="32,98" size="736,40" font="Regular;26" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1"/>
-		<widget name="list" position="32,142" size="736,58" itemHeight="58" font="Medium;32" foregroundColor="fg" backgroundColor="bgCard" foregroundColorSelected="white" backgroundColorSelected="bgSel" scrollbarMode="showNever"/>
+		<widget name="lab1" position="32,98" size="400,40" font="Regular;26" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1"/>
+		<eLabel position="32,142" size="736,58" backgroundColor="bgCard" cornerRadius="12" zPosition="-1"/>
+		<ePixmap pixmap="NileGlass_FHD/icons/arrow_left.png" position="40,147" size="40,48" alphatest="blend" zPosition="2"/>
+		<widget name="list" position="88,142" size="624,58" itemHeight="58" font="Medium;32" foregroundColor="fg" backgroundColor="bgCard" foregroundColorSelected="white" backgroundColorSelected="bgSel" scrollbarMode="showNever"/>
+		<ePixmap pixmap="NileGlass_FHD/icons/arrow_right.png" position="720,147" size="40,48" alphatest="blend" zPosition="2"/>
+		<widget name="ng_emupos" position="420,98" size="348,40" font="Regular;24" foregroundColor="gold" backgroundColor="bg" transparent="1" halign="right" valign="center" noWrap="1"/>
 		<widget name="lab2" position="32,208" size="736,36" font="Regular;24" foregroundColor="fgDim" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1"/>
 		<widget name="lab3" position="32,246" size="736,48" font="Medium;32" foregroundColor="accent" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1"/>
 		<widget name="activecam" position="32,246" size="736,48" font="Medium;32" foregroundColor="accent" backgroundColor="bg" transparent="1" halign="left" valign="center" noWrap="1"/>
