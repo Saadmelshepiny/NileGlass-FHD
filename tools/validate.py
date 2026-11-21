@@ -78,6 +78,7 @@ SCREEN_COMPONENTS = {
 	"NileGlassCamCenter": {"list", "info", "key_red", "key_green", "key_yellow", "key_blue", "Title"},
 	"NileGlassCamStatus": {"list", "summary", "hint", "key_red", "key_green", "key_yellow", "key_blue", "Title"},
 	"NileGlassCamInfo": {"list", "hint", "Title"},
+	"NileGlassLines": {"list", "key_red", "Title"},
 	"NileGlassCamText": {"text", "file", "hint", "key_red", "key_green", "key_yellow", "key_blue", "Title"},
 	"TextBox": {"text", "key_red", "Title"},
 	"ServiceInfo": {"infolist", "red", "green", "yellow", "blue", "key_red", "Title"},
@@ -114,7 +115,7 @@ for n in screens:
 GLOBAL_SOURCES = ("session.", "global.")
 
 # Which of the key_* are StaticText (source) vs Button/Label (name) per screen
-STATIC_KEYS = {"Menu": {"key_blue"}, "Setup": {"key_red", "key_green", "key_menu"}, "NileGlassSetup": {"key_red", "key_green", "key_yellow", "key_blue", "key_menu"}, "NileGlassReaders": {"key_red", "key_green", "key_yellow", "key_blue"}, "NileGlassCamCenter": {"key_red", "key_green", "key_yellow", "key_blue"}, "NileGlassCamStatus": {"key_red", "key_green", "key_yellow", "key_blue"}, "NileGlassCamText": {"key_red", "key_green", "key_yellow", "key_blue"}, "ChoiceBox": {"key_menu"},
+STATIC_KEYS = {"Menu": {"key_blue"}, "Setup": {"key_red", "key_green", "key_menu"}, "NileGlassSetup": {"key_red", "key_green", "key_yellow", "key_blue", "key_menu"}, "NileGlassReaders": {"key_red", "key_green", "key_yellow", "key_blue"}, "NileGlassCamCenter": {"key_red", "key_green", "key_yellow", "key_blue"}, "NileGlassCamStatus": {"key_red", "key_green", "key_yellow", "key_blue"}, "NileGlassCamText": {"key_red", "key_green", "key_yellow", "key_blue"}, "NileGlassLines": {"key_red"}, "ChoiceBox": {"key_menu"},
 	"PluginBrowser": set(), "AboutOE": {"key_menu"}}
 STATIC_KEYS.update(globals().get("STATIC_KEYS_AUTO", {}))
 # screens converted by gen_converted.py: their component lists come from the source

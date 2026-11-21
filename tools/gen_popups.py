@@ -512,6 +512,13 @@ _ct = [lab("file", 80, 138, 1760, 36, "Regular;24", "gold", extra='halign="left"
 	lab("hint", 80, 906, 1760, 36, "Regular;22", "fgMute", extra='halign="center" valign="center" noWrap="1"')]
 screens.append(full("NileGlassCamText", _ct))
 
+# ---- long text one line per row (NileGlassSetup/textlines.py): reports, crash list
+_tl = ['<widget source="list" render="Listbox" position="80,150" size="1760,760" %s>' % LISTATTR +
+	'<convert type="TemplatedMultiContent">{"template": ['
+	'MultiContentEntryText(pos=(14, 0), size=(1720, 40), font=0, flags=RT_HALIGN_LEFT|RT_VALIGN_CENTER, text=0)], '
+	'"fonts": [gFont("Regular", 28)], "itemHeight": 40}</convert></widget>']
+screens.append(full("NileGlassLines", _tl))
+
 
 # ---- bitrate viewer (NileGlassSetup/cambar.py)
 _br = []

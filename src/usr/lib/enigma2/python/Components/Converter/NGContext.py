@@ -223,11 +223,19 @@ def wifiLink(iface):
 		return None
 	ssid = re.search(r"SSID:\s*(.+)", out)
 	rate = re.search(r"tx bitrate:\s*([\d.]+)\s*MBit/s", out)
+	rate = rate.group(1) if rate else ""
+	if not rate:          # no iw, or the driver does not tell it there: wireless-tools
+		iwc = command("iwconfig-" + iface, ["iwconfig", iface], ttl=5) or ""
+		m = re.search(r"Bit Rate[=:]\s*([\d.]+)\s*([MG])b/s", iwc)
+		if m:
+			rate = m.group(1) if m.group(2) == "M" else "%g" % (float(m.group(1)) * 1000)
+		if not ssid:
+			ssid = re.search(r'ESSID:"([^"]+)"', iwc)
 	if not ssid:
 		cfg = readFile("/etc/wpa_supplicant.%s.conf" % iface) or readFile("/etc/wpa_supplicant.conf")
 		m = re.search(r'ssid="([^"]+)"', cfg)
 		ssid = m
-	return (ssid.group(1).strip() if ssid else ""), (rate.group(1) if rate else "")
+	return (ssid.group(1).strip() if ssid else ""), rate
 
 
 def wifiSignal(iface):
@@ -350,7 +358,7 @@ class NGContext(Poll, Converter):
 			link = wifiLink(iface)
 			if link is None:
 				return "…"
-			return (link[0] or "مش متصل") if t == "Ssid" else (("%s Mbit/s" % link[1]) if link[1] else "")
+			return (link[0] or "مش متصل") if t == "Ssid" else (("%s Mbit/s" % link[1]) if link[1] else "—")
 		return ""
 
 	text = property(getText)

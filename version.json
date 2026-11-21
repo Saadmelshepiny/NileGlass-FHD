@@ -1,12 +1,12 @@
 {
-  "version": "3.2.4",
-  "ipk": "https://raw.githubusercontent.com/Saadmelshepiny/NileGlass-FHD/main/releases/enigma2-plugin-skins-nileglass-fhd_3.2.4_all.ipk",
-  "sha256": "d27ecbf76b9d9f387cdd2af864aebd185d2d810b14e4b2428ac284dc9a4db62b",
-  "notes_ar": "اللوحة الزرقاء: اسم الإيمو بيتغير فعلًا مع يمين وشمال (كان العدّاد بس اللي بيتغير)، والإيمو الشغال مكتوب جنبه (الشغال)",
-  "notes_en": "Blue Panel: the emu name now changes with left/right; the running one is marked",
+  "version": "3.2.5",
+  "ipk": "https://raw.githubusercontent.com/Saadmelshepiny/NileGlass-FHD/main/releases/enigma2-plugin-skins-nileglass-fhd_3.2.5_all.ipk",
+  "sha256": "20d95263032c0afb1f10d4a5d3f04c2bec51b01bbdb16b7c7fa93b2a5cc279ca",
+  "notes_ar": "تقرير السرعة وآخر الكراشات: كل سطر لوحده (الكلام مبقاش يتلخبط) - قوايم الشبكة والواي فاي ومدير الحزم وسجل القنوات: السطرين مبقوش فوق بعض - سرعة اتصال الواي فاي بتظهر - أسرع فتح لسجل القنوات وقايمة الأزرق والباقات (من غير كروت) - تقرير السرعة بيقول الواجهة كانت بتعمل إيه وقت كل وقفة",
+  "notes_en": "Report/crash list one line per row; overlapping two-line lists fixed; Wi-Fi link speed; lighter zap history/extensions/bouquets; stall report names the code",
   "previous": {
-    "version": "3.2.3",
-    "ipk": "https://raw.githubusercontent.com/Saadmelshepiny/NileGlass-FHD/main/releases/enigma2-plugin-skins-nileglass-fhd_3.2.3_all.ipk",
-    "sha256": "ceef4ca09e85be1324dfa473f2c603422d2689715aee7a9f46cd7d9920008ad8"
+    "version": "3.2.4",
+    "ipk": "https://raw.githubusercontent.com/Saadmelshepiny/NileGlass-FHD/main/releases/enigma2-plugin-skins-nileglass-fhd_3.2.4_all.ipk",
+    "sha256": "d27ecbf76b9d9f387cdd2af864aebd185d2d810b14e4b2428ac284dc9a4db62b"
   }
 }

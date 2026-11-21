@@ -91,24 +91,78 @@ def threadGroup(name):
 	return name.replace(".internet.reactor", "").replace(" ", "_")[:24] or "?"
 
 
+def codeWhere(frame, depth=40):
+	"""where the GUI thread is: the innermost frame, and the innermost one in a plugin
+	or the skin when that is further out ('SomePlugin/x.py:12<Screen.py:300').  Only
+	enigma2's main loop on the stack -> 'C++' (zapping, drawing, EPG: no Python)."""
+	inner, plugin, n = None, None, 0
+	f = frame
+	while f is not None and n < depth:
+		path = f.f_code.co_filename
+		name = path.rsplit("/", 1)[-1]
+		if "/Plugins/" in path or "/NileGlass" in path or "/Converter/NG" in path or "/Renderer/NG" in path:
+			parts = path.split("/")
+			label = "%s/%s" % (parts[-2], name) if "/Plugins/" in path else name
+			if plugin is None:
+				plugin = "%s:%d" % (label, f.f_lineno)
+				if n == 0:
+					return plugin           # the plugin's own code is the innermost
+		if inner is None:
+			inner = "%s:%d" % (name, f.f_lineno)
+			if name in ("StartEnigma.py", "mytest.py") and f.f_code.co_name in ("runMainloop", "runReactor", "<module>"):
+				return "C++"
+		f = f.f_back
+		n += 1
+	if inner is None:
+		return "C++"
+	return inner if not plugin or plugin == inner else "%s<%s" % (plugin, inner)
+
+
 class Sampler:
-	"""background thread: processor time per thread, once a second, last 10 s kept"""
-	def __init__(self):
+	"""background thread: processor time per thread once a second (last 10 s kept),
+	and while the GUI does not answer, where its code is, ten times a second"""
+	def __init__(self, lastBeat=None):
 		import collections
 		import threading
 		self.samples = collections.deque(maxlen=12)       # (monotonic time, {name: ticks})
+		self.where = collections.deque(maxlen=300)        # (monotonic time, where) - only during a stall
+		self.lastBeat = lastBeat
 		self.stop = False
 		th = threading.Thread(target=self.run, name=SAMPLER)
 		th.daemon = True
 		th.start()
 
 	def run(self):
+		import sys
+		import threading
+		main = threading.main_thread().ident
+		n = 0
 		while not self.stop:
+			if n % 10 == 0:
+				try:
+					self.samples.append((time.monotonic(), threadTicks()))
+				except Exception:
+					pass
+			n += 1
 			try:
-				self.samples.append((time.monotonic(), threadTicks()))
+				now = time.monotonic()
+				if self.lastBeat is not None and now - self.lastBeat() > (TICK + 150) / 1000.0:
+					frame = sys._current_frames().get(main)
+					self.where.append((now, codeWhere(frame)))
+					frame = None
 			except Exception:
 				pass
-			time.sleep(1.0)
+			time.sleep(0.1)
+
+	def whereIn(self, start, end):
+		"""the code the GUI was in most of the time between start and end"""
+		seen = {}
+		for t, w in list(self.where):
+			if start <= t <= end + 0.05:
+				seen[w] = seen.get(w, 0) + 1
+		if not seen:
+			return "-"
+		return max(seen.items(), key=lambda kv: kv[1])[0].replace(" ", "_")
 
 	def used(self, since):
 		"""processor time per thread from the last sample before 'since' to the newest"""
@@ -138,7 +192,7 @@ class PerfWatch:
 		self.beat = eTimer()
 		self.beat.callback.append(self.heartbeat)
 		self.last = time.monotonic()
-		self.sampler = Sampler()
+		self.sampler = Sampler(lambda: self.last)
 		self.stalls = []                   # (start, late, screen): named once the sampler has seen past them
 		self.beat.start(TICK, False)
 
@@ -161,7 +215,7 @@ class PerfWatch:
 			except Exception:
 				used = []
 			top = ",".join("%s:%d" % (n, d * 1000 // HZ) for d, n in used[:3] if d > 0)
-			write("stall %d %s %s" % (ms, screen, top or "-"))
+			write("stall %d %s %s %s" % (ms, screen, top or "-", self.sampler.whereIn(start, end)))
 
 	def key(self, key, flag):
 		if flag in (0, 2) and keyPressed is not None:
@@ -225,7 +279,7 @@ def report():
 		lines = open(LOG).read().splitlines()
 	except Exception:
 		return "مفيش حاجة بطيئة متسجلة لسه.\nاستخدم الجهاز شوية وافتح التقرير تاني."
-	keys, skins, guards, fits, blues, exts, stalls, culprits = {}, {}, [], [], [], [], {}, {}
+	keys, skins, guards, fits, blues, exts, stalls, culprits, code = {}, {}, [], [], [], [], {}, {}, {}
 	for line in lines:
 		p = line.split()
 		try:
@@ -247,6 +301,10 @@ def report():
 				s[0] += 1
 				s[1] += ms
 				s[2] = max(s[2], ms)
+				if len(p) > 5 and p[5] != "-":
+					c = code.setdefault(p[5], [0, 0])
+					c[0] += 1
+					c[1] += ms
 				first = True
 				for item in (p[4].split(",") if len(p) > 4 and p[4] != "-" else []):
 					who, _, cpu = item.rpartition(":")
@@ -288,6 +346,9 @@ def report():
 		if culprits:
 			out += ["", "مين كان شاغل المعالج وقت الوقفات (GUI = الشاشة نفسها):"]
 			out += ["   %-28s x%-4d %6d ms" % (who[:28], c[0], c[1]) for who, c in sorted(culprits.items(), key=lambda kv: (-kv[1][0], -kv[1][1]))[:8]]
+		if code:
+			out += ["", "الواجهة كانت بتعمل إيه وقت الوقفات (C++ = شغل إنيجما نفسها: تبديل قناة، رسم، دليل):"]
+			out += ["   %-44s x%-4d %6d ms" % (w[:44], c[0], c[1]) for w, c in sorted(code.items(), key=lambda kv: (-kv[1][1], -kv[1][0]))[:8]]
 	else:
 		out += ["   مفيش، الجهاز كان بيرد على طول"]
 	out += ["", "الذاكرة والشغل في الخلفية:"]

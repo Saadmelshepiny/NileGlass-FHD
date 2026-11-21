@@ -63,4 +63,22 @@ check(calls and not any(calls), "readings only in the sampler thread: %r" % call
 used = s.used(_tm.monotonic() - 1.5)
 check(used and used[0][1] == "LiveOnSatDB" and used[0][0] > used[1][0], "sampler: who used the processor %r" % used)
 pw.threadTicks = real
+
+# where the GUI code was during a stall: sampled from the sampler thread
+fake = {"t": _tm.monotonic()}
+s2 = pw.Sampler(lambda: fake["t"])
+src = "def busy():\n\timport time\n\tt = time.monotonic()\n\twhile time.monotonic() - t < 1.2:\n\t\tsum(range(2000))\n"
+ns = {}
+exec(compile(src, "/usr/lib/enigma2/python/Plugins/Extensions/SlowPlug/plugin.py", "exec"), ns)
+t0 = _tm.monotonic()
+ns["busy"]()                       # the "GUI" (main thread) is stuck here, no heartbeat
+t1 = _tm.monotonic()
+s2.stop = True
+w = s2.whereIn(t0, t1)
+check(w.startswith("SlowPlug/plugin.py:"), "stall code: the plugin and line %r" % w)
+check(s2.whereIn(t1 + 5, t1 + 6) == "-", "no samples outside a stall")
+check(pw.codeWhere(None) == "C++", "no Python on the stack -> C++")
+open(pw.LOG, "a").write("10:01:00 stall 2400 InfoBar GUI:2300 SlowPlug/plugin.py:5<Screen.py:300\n10:01:09 stall 800 InfoBar GUI:700 C++\n")
+r = pw.report()
+check("الواجهة كانت بتعمل إيه" in r and "SlowPlug/plugin.py:5<Screen.py:300" in r and "C++" in r, "report: the code during stalls")
 print("ALL OK" if ok else "SOME TESTS FAILED")

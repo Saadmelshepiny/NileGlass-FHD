@@ -19,7 +19,7 @@ from dashlib import BUILDERS, DASH_W, DASH_H, SPECIAL, SPECIAL_BUILDERS, SPECIAL
 SK = sys.argv[1]
 GAP, RIGHT = 20, 1880
 FULL_MAX, SCALED_MAX = 1150, 1310
-SKIP = re.compile(r"^(MessageBox|MessageBoxSimple|NumberZap|NumberZapPicon|NumberZapExt|Dish|InputBox|MinuteInput|Nab_DoStartCam|"
+SKIP = re.compile(r"^(HistoryZapSelector|ExtensionsList|BouquetSelector|PinInputPopup|CutListEditor|MessageBox|MessageBoxSimple|NumberZap|NumberZapPicon|NumberZapExt|Dish|InputBox|MinuteInput|Nab_DoStartCam|"
 	r"NileGlassMotor|NileGlassCamBar|NileGlassBitrate|ChannelContextMenu|MovieContextMenu|ChoiceBox|JobView|AudioSelection|"
 	r"SubtitleSelection|PiPSetup|VirtualKeyBoard|Volume|Mute|PVRState|TimeshiftState|SimpleSummary|InfoBar|SecondInfoBar|"
 	r"ChannelSelection|ChannelSelectionRadio|Menu|Setup|menu_.*|NileGlassFilm|NileGlassTonight|NileGlassUpcoming|DeliteBluePanel|"

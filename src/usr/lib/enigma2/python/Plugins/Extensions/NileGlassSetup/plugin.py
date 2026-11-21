@@ -929,14 +929,14 @@ class NileGlassSetup(Setup):
 			openCamCenter(self.session)
 		elif action == "crashes":
 			from .crashguard import scan, save, text
-			from Screens.TextBox import TextBox
+			from .textlines import NileGlassLines
 			d, new = scan()
 			save(d)
-			self.session.open(TextBox, "\n".join(["آخر مرات الواجهة وقعت فيها (من سجلات الكراش):", ""] + text(d, 12)), "آخر الكراشات")
+			self.session.open(NileGlassLines, "\n".join(["آخر مرات الواجهة وقعت فيها (من سجلات الكراش):", ""] + text(d, 12)), "آخر الكراشات")
 		elif action == "perf":
 			from .perfwatch import report
-			from Screens.TextBox import TextBox
-			self.session.open(TextBox, report(), "تقرير السرعة")
+			from .textlines import NileGlassLines
+			self.session.open(NileGlassLines, report(), "تقرير السرعة")
 		elif action == "prefetch":
 			n = posters.prefetch(collectBouquetTitles()) if posters else 0
 			self.session.open(MessageBox, T("%d programmes queued. Posters are downloaded in the background.", "تمت إضافة %d برنامج. البوسترات تُحمّل في الخلفية.") % n, MessageBox.TYPE_INFO, timeout=6)
